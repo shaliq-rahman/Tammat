@@ -1,0 +1,2444 @@
+<?php
+/**
+ * LaraClassified - Geo Classified Ads CMS
+ * Copyright (c) BedigitCom. All Rights Reserved
+ *
+ * Website: http://www.bedigit.com
+ *
+ * LICENSE
+ * -------
+ * This software is furnished under a license and may be used and copied
+ * only in accordance with the terms of such license and with the inclusion
+ * of the above copyright notice. If you Purchased from Codecanyon,
+ * Please read the full License from here - http://codecanyon.net/licenses/standard
+ */
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Http\Controllers\Post\Traits\CustomFieldTrait;
+use App\Helpers\Arr;
+use App\Helpers\Search;
+use App\Helpers\DBTool;
+use App\Models\Post;
+use App\Models\Category;
+use App\Models\HomeSection;
+use App\Models\SubAdmin1;
+use App\Models\City;
+use App\Models\User;
+use App\Models\Newsletter;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Session;
+use Torann\LaravelMetaTags\Facades\MetaTag;
+use App\Helpers\Localization\Helpers\Country as CountryLocalizationHelper;
+use App\Helpers\Localization\Country as CountryLocalization;
+
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
+
+class HomeController extends FrontController
+{
+    use CustomFieldTrait;
+    
+    /**
+     * HomeController constructor.
+     */
+    public function __construct()
+    {
+        parent::__construct();
+
+        // Check Country URL for SEO
+        $countries = CountryLocalizationHelper::transAll(CountryLocalization::getCountries());
+        view()->share('countries', $countries);
+    }
+    public function getSearch_app(Request $request){
+        $paymentJoin = '';
+        $sponsoredCondition = '';
+        $sponsoredOrder = '';
+        $productData = $request->productData;
+		$user_id = $request->user_id;
+		$category = $request->category;
+		$minprice = $request->minprice;
+		$maxprice = $request->maxprice;
+		$distance = $request->distance;
+		$country = strtoupper($request->country);
+		$language = $request->language;
+        $lang = $request->language;
+        $sortBy = $request->sortBy;
+        $sallerType = $request->sallerType;
+        $allAds = $request->allAds;
+        if($allAds=="ads with images"){
+            $allAds = "ads with images";
+        }
+        else{
+           $allAds = ''; 
+        }
+        if($sortBy=="LtoH"){
+            $order = "ASC";
+        }
+        else if($sortBy=="HtoL"){
+             $order = "DESC";
+        }
+        else{
+          $order = "";  
+        }
+        if($sallerType=="Individual"){
+            $sallerType = 'and post_type_id=1';
+        }
+        else if($sallerType=="Shop"){
+           $sallerType = 'and post_type_id=2'; 
+        }
+        else{
+         $sallerType = ""; 
+        }
+        
+        /*$sql = 'SELECT * from posts where price between '.$minprice.' and '.$maxprice.' and category_id in (select id from categories where parent_id='.$category.' and active=1) and country_code="'.$country.'" and archived!=1 ';*/
+	 if($productData == "latest"){
+           $sql = 'SELECT * FROM posts WHERE YEAR(created_at) = YEAR(CURRENT_DATE - INTERVAL 1 MONTH) AND MONTH(created_at) = MONTH(CURRENT_DATE - INTERVAL 1 MONTH) and country_code="'.$country.'" and archived!=1'; 
+        }
+        else if($productData == "all"){
+            $sql = 'SELECT * FROM posts WHERE country_code="'.$country.'" and archived!=1'; 
+        }
+        else if($productData == "popular"){
+          $sql = 'SELECT * FROM posts WHERE country_code="'.$country.'" and archived!=1 ORDER BY visits DESC';  
+        }
+        else if($productData == "susponser"){
+            $sql = 'SELECT * FROM posts WHERE premium_email!="" and country_code="'.$country.'" and archived!=1 ORDER BY visits DESC';
+        }
+        $bindings = [
+            //'countryCode' => $country,
+        ];
+		
+		//echo $sql;
+
+        //$cacheId = $country_code . '.home.getPosts.' . $type;
+        $posts = DB::select($sql);
+
+        //return $posts;
+		$i=0;
+		foreach($posts as $key => $post){
+		    
+		                        
+		                            $getcurrencycountry = \DB::table('countries')
+                                            ->join('currencies', 'currencies.code', '=', 'countries.currency_code')
+                                            ->select('currencies.*')
+                                            ->where('countries.code', '=', $post->country_code)
+                                            ->first();
+       
+		    
+		    
+            		                if ($post->price > 0)
+            		                {
+            						    $get_currency = \App\Helpers\Number::money_price_latest($post->price,$getcurrencycountry->html_entity,$getcurrencycountry->in_left,$getcurrencycountry->decimal_places,$getcurrencycountry->decimal_separator);
+            		                }
+            						else
+            						{
+            						    $get_currency = t('Free');
+            						}
+                            
+					                $post->currency = $get_currency;
+						                
+						              
+									  
+									  $getusernamedetail = \DB::table('users')->where('id', '=', $post->user_id)->first();
+                                        $post->contact_name = $getusernamedetail->username;     
+		    
+		    
+		    
+		        	                    /*$package = '';
+										if ($post->featured == 1) {
+											$package = \App\Models\Package::findTransApp($post->py_package_id,$lang);
+										}
+										
+										
+										if(!empty($post->py_package_id))
+										{
+								        $post->py_package_id = $post->py_package_id;
+								        }
+										else
+										{
+										$post->py_package_id = 'No Value';
+										}
+										
+										
+										if(!empty($package))
+										{
+								        $post->package = $package;
+								        }
+										else
+										{
+										$post->package = 'No Value';
+										}*/
+								        
+								        
+										
+										$postType = \App\Models\PostType::findTransApp($post->post_type_id, $lang);
+											//return $postType;
+										$post->postType = $postType;
+										
+										
+							
+										// Get Post's Pictures
+										$pictures = \App\Models\Picture::where('post_id', $post->id)->orderBy('position')->orderBy('id');
+										if ($pictures->count() > 0) {
+											$postImg = resize($pictures->first()->filename, 'medium');
+										} else {
+										    
+											$postImg = resize(config('larapen.core.picture.default'));
+										}
+										$post->postImg = $postImg;
+										
+										$city = \App\Models\City::find($post->city_id);
+										$post->cityy = $city;
+										
+										
+										
+										$post->created_at = \Date::parse($post->created_at)->timezone(config('timezone.id'));
+										$post->created_at = $post->created_at->ago();
+										
+										$liveCat = \App\Models\Category::findTransApp($post->category_id, $lang);
+											//return $liveCat;
+										$post->liveCat = $liveCat;
+										
+										// Check parent
+										if (empty($liveCat->parent_id)) {
+											$liveCatParentId = $liveCat->id;
+											$liveCatType = $liveCat->type;
+										} else {
+											$liveCatParentId = $liveCat->parent_id;
+											
+											$liveParentCat = \App\Models\Category::findTransApp($liveCat->parent_id, $language);
+											//echo $liveParentCat;
+											
+										if(isset($language))
+										{
+										$lang1 = $language;
+										}
+										else
+										{
+										$lang1 = 'en';
+										}	
+											$bindings = [
+            'translation_lang' => $language,
+        ];
+		
+		$sql = 'select * from categories where translation_of="'.$liveParentCat->tid.'" and translation_lang="'.$lang.'" ';
+
+        $categories = DB::select($sql);
+						//print_r($categories);
+						//echo 'id='.$liveParentCat->parent_id;		
+						//echo 'name='.$categories[0]->name;			
+											$liveParentCat->name = $categories[0]->name;			
+											
+											$post->liveParentCat = $liveParentCat;
+											
+											
+											$liveCatType = (!empty($liveParentCat)) ? $liveParentCat->type : 'classified';
+										}
+										
+										// Check translation
+										$liveCatName = $liveCat->name;
+										
+										
+										
+										
+										
+										
+											
+                                			
+										
+										//$post->paymentpre = $results;	
+										
+										
+										
+										
+										
+										
+							            $getusernamedetail = \DB::table('users')->where('id', '=', $post->user_id)->first();
+                                        $username = $getusernamedetail->username;  
+										$user_created_at = $getusernamedetail->created_at;      
+										$post->liveCatName = $liveCatName;
+										$post->username = $username;
+										//$post->user_created_at = $user_created_at;
+										
+										$post->user_created_at = \Date::parse($user_created_at)->timezone(config('timezone.id'));
+										$post->user_created_at = $post->user_created_at->ago();
+										
+										
+										
+										if (!empty($user_id))
+													{
+													$scount = \App\Models\SavedPost::where('user_id', $user_id)->where('post_id', $post->id)->count();
+													if($scount>0)
+													{
+													$post->saved = 'Yes';
+													}
+													else
+													{
+													$post->saved = 'No';
+													}
+													}
+													else
+													{
+													$post->saved = 'No'; 
+													}
+													
+										
+										$i++;
+						}
+		
+		
+		// Append the Posts 'uri' attribute
+       /* $posts = collect($posts)->map(function ($post) {
+            
+            return t($post);
+        })->toArray();
+		*/
+		
+// 		print_r($posts);
+// 		if(empty($posts[$key][''])) {
+//     //this means value does not exist or is FALSE
+// }
+		//return $posts;
+		return response()->json(['status'=>1,'message'=>'success','results'=>$posts]);
+		
+		
+    }
+	public function countries_app()
+    {
+	$countries = CountryLocalizationHelper::transAll(CountryLocalization::getCountries());
+	
+	/*$i=0;
+		foreach($countries as $country){
+		
+		$code = strtolower($country->first());
+		//$country->flag = url('images/flags/32/'.strtolower($key).'.png') . getPictureVersion();
+		$country->$country->first()->flag="https://dealnotdeal.com/images/flags/32/".$code.".png";
+		$i++;
+		}	*/
+		$results = array();
+		foreach($countries as $index=>$key) 
+		{
+		  
+		 array_push($results, $key);
+		}
+		
+		
+		
+	return response()->json(['results'=>$results]);
+	}
+	public function getCat_app(Request $request)
+    {
+		$bindings = [
+            'translation_lang' => $request->translation_lang,
+        ];
+		
+		$sql = 'SELECT * FROM categories WHERE parent_id=0 AND translation_lang="'.$request->translation_lang.'"  order by lft ';
+        $categories = DB::select(DB::raw($sql), $bindings);
+		$res = array();
+        $sArr = array();
+        $subfinal = array();
+        $mSum = 0; 
+		foreach($categories as $key => $category){
+		   	if($category->picture!="")
+    		{
+    		    $picture =  \Storage::url($category->picture) . getPictureVersion();
+    		}
+    		else
+    		{
+    		    $picture = 'https://www.dealnotdeal.com/storage/app/default/categories/fa-folder-skin-blue.png';
+    		}
+		  $productSql = 'select * from posts where category_id = "'.$category->id.'" and archived!=1';
+        $products = DB::select(DB::raw($productSql));
+        $mSum += count($products);
+		  $sql = 'select * from categories where parent_id = "'.$category->translation_of.'" and translation_lang="'.$request->translation_lang.'"  order by lft ';
+
+        $subCategories = DB::select(DB::raw($sql), $bindings);
+        foreach($subCategories as $subC){
+            $productSql = 'select * from posts where category_id = "'.$subC->id.'" and archived!=1';
+        $products = DB::select(DB::raw($productSql));
+       $mSum += count($products);
+        }
+       // print_r($subCategories);
+if($category->translation_lang==""){
+    $translation_lang = "";
+}
+else{
+    $translation_lang = $category->translation_lang;
+}
+if($category->translation_of==""){
+    $translation_of = "";
+}
+else{
+    $translation_of = $category->translation_of;
+}
+if($category->name==""){
+    $name = "";
+}
+else{
+    $name = $category->name;
+}
+if($category->description==""){
+    $description = "";
+}
+else{
+    $description = $category->description;
+}
+if($category->icon_class==""){
+    $icon_class = "";
+}
+else{
+    $icon_class = $category->icon_class;
+}
+if($category->type==""){
+    $type = "";
+}
+else{
+    $type = $category->type;
+}
+ unset($subCategories['description']);
+
+ $res[] = array(
+		       'id'=>$category->id,
+		       'translation_lang'=>$category->translation_lang,
+		       'translation_of'=>$category->translation_of,
+		       'parent_id'=>$category->parent_id,
+		       'name'=>$category->name,
+		       'slug'=>$category->slug,
+		       'description'=>$description,
+		       'picture'=>$picture,
+		       'icon_class'=>$icon_class,
+		       'lft'=>$category->lft,
+		       'rgt'=>$category->rgt,
+		       'depth'=>$category->depth,
+		       'type'=>$type,
+		       'active'=>$category->active,
+		       'totalProduct'=>$mSum,
+		       'subCat'=>$subCategories
+		       );
+	
+
+		}
+
+		return response()->json(['status'=>1,'message'=>'success','results'=>$res]);
+    }
+    public function nextSubcatProduct_app(Request $request)
+    {
+        $data = array();
+        // $categories = Category::where('translation_lang', $request->translation_lang)->where('parent_id', $request->category_id)->orderBy('lft')->get();
+		$bindings = [
+            'translation_lang' => $request->translation_lang,
+        ];
+		$sql = 'select * from categories where parent_id = "'.$request->category_id.'"  and translation_lang="'.strtolower($request->translation_lang).'"  order by lft ';
+        $categories = DB::select(DB::raw($sql), $bindings);
+		$productSql = 'select * from posts where category_id = "'.$request->category_id.'" and country_code="'.$request->countryCode.'" and archived!=1';
+        $products = DB::select(DB::raw($productSql)); 
+        //print_r($products);
+        foreach($products as $key => $value){
+            $pId = $value->id;
+            $imgSql = 'select * from pictures where post_id = "'.$pId.'"';
+            $img = DB::select(DB::raw($imgSql)); 
+            $des = $value->description;
+            $des = strip_tags($des);
+             $getcurrencycountry = \DB::table('countries')
+                                            ->join('currencies', 'currencies.code', '=', 'countries.currency_code')
+                                            ->select('currencies.*')
+                                            ->where('countries.code', '=', $value->country_code)
+                                            ->first();
+                                            //print_r($getcurrencycountry);
+            $data[] = array(
+                'id' =>  $pId,
+                'country_code' =>  $value->country_code,
+                'user_id' =>  $value->user_id,
+                'category_id' =>  $value->category_id,
+                'post_type_id' =>  $value->post_type_id,
+                'title' =>  $value->title,
+                'description' => $des,
+                'tags' =>  $value->tags,
+                'price' =>  $getcurrencycountry->font_code2000.' '.$value->price,
+                'negotiable' =>  $value->negotiable,
+                'contact_name' =>  $value->contact_name,
+                'email' =>  $value->email,
+                'phone' =>  $value->phone,
+                'address' =>  $value->address,
+                'city_id' =>  $value->city_id,
+                'city_name' =>  $value->city_name,
+                'lon' =>  $value->lon,
+                'lat' =>  $value->lat,
+                'created_at' =>  $value->created_at,
+                'picture' =>  $img
+            );
+        }
+       // print_r($product);
+		foreach($categories as $key => $category):
+    		if($category->picture!="")
+    		{
+    		    $category->picture =  \Storage::url($category->picture) . getPictureVersion();
+    		}
+    		else
+    		{
+    		    $category->picture = 'https://www.dealnotdeal.com/storage/app/default/categories/fa-folder-skin-blue.png';
+    		}
+		endforeach;
+        
+		$final = array_values($categories);
+	
+	   // if(!empty($final)){
+	   //    $product = array(); 
+	   // }
+		
+		return response()->json(['status'=>1,'message'=>'success','subCat'=>$final,'product'=>$data]);
+    }
+	public function language_app()
+    {
+	$language = LaravelLocalization::getSupportedLocales();
+	
+	$results = array();
+		foreach($language as $index=>$key) 
+		{
+		 array_push($results, $key);
+		}
+	
+	return response()->json(['results'=>$results]);
+	}
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function index()
+    {
+        $data = [];
+
+        // Get all homepage sections
+        $data['sections'] = Cache::remember('homeSections', $this->cacheExpiration, function () {
+            $sections = HomeSection::orderBy('lft')->get();
+
+            return $sections;
+        });
+
+        if ($data['sections']->count() > 0) {
+            foreach ($data['sections'] as $section) {
+                // Check if method exists
+                if (!method_exists($this, $section->method)) {
+                    continue;
+                }
+
+                // Call the method
+                try {
+                    if (isset($section->options)) {
+                        $this->{$section->method}($section->options);
+                    } else {
+                        $this->{$section->method}();
+                    }
+                } catch (\Exception $e) {
+                    flash($e->getMessage())->error();
+                    continue;
+                }
+            }
+        }
+
+        // Get SEO
+        $this->setSeo();
+
+        // Check and load Reviews plugin
+        $reviewsPlugin = load_installed_plugin('reviews');
+        view()->share('reviewsPlugin', $reviewsPlugin);
+        // echo "<pre>";
+        // print_r($data);
+        // exit;
+        return view('home.index', $data);
+    }
+
+    /**
+     * Get search form (Always in Top)
+     *
+     * @param array $options
+     */
+    protected function getSearchForm($options = [])
+    {
+        view()->share('searchFormOptions', $options);
+    }
+
+    /**
+     * Get locations & SVG map
+     *
+     * @param array $options
+     */
+    protected function getLocations($options = [])
+    {
+        // Get the default Max. Items
+        $maxItems = 14;
+        if (isset($options['max_items'])) {
+            $maxItems = (int)$options['max_items'];
+        }
+
+        // Get the Default Cache delay expiration
+        $cacheExpiration = $this->getCacheExpirationTime($options);
+
+        // Modal - States Collection
+        $cacheId = config('country.code') . '.home.getLocations.modalAdmins';
+        $modalAdmins = Cache::remember($cacheId, $cacheExpiration, function () {
+            $modalAdmins = SubAdmin1::currentCountry()->orderBy('name')->get(['code', 'name'])->keyBy('code');
+
+            return $modalAdmins;
+        });
+        view()->share('modalAdmins', $modalAdmins);
+
+        // Get cities
+        $cacheId = config('country.code') . 'home.getLocations.cities';
+        $cities = Cache::remember($cacheId, $cacheExpiration, function () use ($maxItems) {
+            $cities = City::currentCountry()->take($maxItems)->orderBy('population', 'DESC')->orderBy('name')->get();
+
+            return $cities;
+        });
+        $cities = collect($cities)->push(Arr::toObject([
+            'id' => 999999999,
+            'name' => t('More cities') . ' &raquo;',
+            'subadmin1_code' => 0,
+        ]));
+
+        // Get cities number of columns
+        $nbCol = 4;
+        if (file_exists(config('larapen.core.maps.path') . strtolower(config('country.code')) . '.svg')) {
+            if (isset($options['show_map']) and $options['show_map'] == '1') {
+                $nbCol = 3;
+            }
+        }
+
+        // Chunk
+        $cols = round($cities->count() / $nbCol, 0); // PHP_ROUND_HALF_EVEN
+        $cols = ($cols > 0) ? $cols : 1; // Fix array_chunk with 0
+        $cities = $cities->chunk($cols);
+
+        view()->share('cities', $cities);
+        view()->share('citiesOptions', $options);
+    }
+	
+	
+	protected function getLocations_app()
+    {
+			$cities = City::currentCountry()->orderBy('population', 'DESC')->orderBy('name')->get();
+			return response()->json(['results'=>$cities]);
+    }
+
+    /**
+     * Get sponsored posts
+     *
+     * @param array $options
+     */
+    protected function getSponsoredPosts($options = [])
+    {
+        // Get the default Max. Items
+        $maxItems = 20;
+        if (isset($options['max_items'])) {
+            $maxItems = (int)$options['max_items'];
+        }
+
+        // Get the default orderBy value
+        $orderBy = 'random';
+        if (isset($options['order_by'])) {
+            $orderBy = $options['order_by'];
+        }
+
+        // Get the default Cache delay expiration
+        $cacheExpiration = $this->getCacheExpirationTime($options);
+
+        $sponsored = null;
+
+        // Get featured posts
+        $posts = $this->getPosts($maxItems, 'sponsored', $cacheExpiration);
+
+        if (!empty($posts)) {
+            if ($orderBy == 'random') {
+                $posts = Arr::shuffle($posts);
+            }
+            $attr = ['countryCode' => config('country.icode')];
+            $sponsored = [
+                'title' => t('Home - Sponsored Ads'),
+                'link' => lurl(trans('routes.v-search', $attr), $attr),
+                'posts' => $posts,
+            ];
+            $sponsored = Arr::toObject($sponsored);
+        }
+
+        view()->share('featured', $sponsored);
+        view()->share('featuredOptions', $options);
+    }
+	
+	protected function getSponsoredPosts_app(Request $request)
+    {
+        // Get the default Max. Items
+        $maxItems = 20;
+        
+
+        // Get the default orderBy value
+        $orderBy = 'random';
+
+        $sponsored = null;
+		$lang = $request->lang;
+        // Get featured posts
+        $posts = $this->getPosts1($request->user_id,$request->country_code,$lang, $maxItems, 'sponsored');
+
+        if (!empty($posts)) {
+            if ($orderBy == 'random') {
+                $posts = Arr::shuffle($posts);
+            }
+        }
+		$final = array_values($posts);
+        return response()->json(['results'=>$final]);
+    }
+
+    /**
+     * Get latest posts
+     *
+     * @param array $options
+     */
+    protected function getLatestPosts($options = [])
+    {
+        // Get the default Max. Items
+        $maxItems = 12;
+        if (isset($options['max_items'])) {
+            $maxItems = (int)$options['max_items'];
+        }
+
+        // Get the default orderBy value
+        $orderBy = 'date';
+        if (isset($options['order_by'])) {
+            $orderBy = $options['order_by'];
+        }
+
+        // Get the Default Cache delay expiration
+        $cacheExpiration = $this->getCacheExpirationTime($options);
+
+        // Get latest posts
+        $posts = $this->getPosts($maxItems, 'latest', $cacheExpiration);
+        
+        $posts_popular = $this->getPostsPopular($maxItems, 'latest', $cacheExpiration);
+        
+        
+
+        if (!empty($posts)) {
+            if ($orderBy == 'random') {
+                $posts = Arr::shuffle($posts);
+            }
+        }
+
+        view()->share('posts', $posts);
+        view()->share('posts_popular', $posts_popular);
+        view()->share('latestOptions', $options);
+    }
+
+	protected function getLatestPosts_app(Request $request)
+    {
+        // Get the default Max. Items
+        $maxItems = 12;
+        
+
+        // Get the default orderBy value
+        $orderBy = 'date';
+        
+
+        $country_code = $request->country_code;
+		$lang = $request->lang;
+
+
+		$local = ($request->hasHeader('X-localization')) ? $request->header('X-localization') : 'ar';
+
+		// set laravel localization
+		app()->setLocale($local);
+
+
+        // Get latest posts
+        $posts = $this->getPosts1($request->user_id,$country_code, $lang, $maxItems, 'latest');
+
+        if (!empty($posts)) {
+            if ($orderBy == 'random') {
+                $posts = Arr::shuffle($posts);
+            }
+        }
+		return response()->json(['results'=>$posts]);
+         
+    }
+    
+    
+    
+    
+	
+	protected function getAllPosts_app(Request $request)
+    {
+        // Get the default Max. Items
+        $maxItems = 1000;
+        
+
+        // Get the default orderBy value
+        $orderBy = 'date';
+        
+
+        $country_code = $request->country_code;
+		$lang = $request->lang;
+        // Get latest posts
+        $posts = $this->getPosts1($request->user_id,$country_code,$lang, $maxItems, 'latest');
+
+		
+
+
+        if (!empty($posts)) {
+            if ($orderBy == 'random') {
+                $posts = Arr::shuffle($posts);
+            }
+        }
+		return response()->json(['results'=>$posts]);
+         
+    }
+
+
+    /**
+     * Get list of categories
+     *
+     * @param array $options
+     */
+
+    protected function getPopularPosts($options = [])
+    {
+        // Get the default Max. Items
+        $maxItems = 12;
+        if (isset($options['max_items'])) {
+            $maxItems = (int)$options['max_items'];
+        }
+
+        // Get the default orderBy value
+        $visits = 'visits';
+        if (isset($options['visits'])) {
+            $visits = $options['visits'];
+        }
+
+        // Get the Default Cache delay expiration
+        $cacheExpiration = $this->getCacheExpirationTime($options);
+
+        // Get latest posts
+        $postsPopular = $this->getPosts($maxItems, 'latest', $cacheExpiration);
+
+        if (!empty($postsPopular)) {
+            if ($visits > 10) {
+                $postsPopular = Arr::shuffle($postsPopular);
+            }
+        }
+         /*echo "<pre>";
+        print_r($postsPopular);
+         exit;*/
+        view()->share('postsPopular', $postsPopular);
+        view()->share('latestOptions', $options);
+    }
+	
+	
+	protected function getPopularPosts_post(Request $request)
+    {
+        
+        
+        // Get the default Max. Items
+        $maxItems = 12;
+        // Get the default orderBy value
+        $visits = 'visits';
+        $options = [];
+        $options['visits'] = $visits;
+		$options['max_items'] = $maxItems;
+
+		$cacheExpiration = $this->getCacheExpirationTime($options);
+        // Get latest posts
+        $postsPopular = $this->getPosts1_popular($request->user_id,$request->country_code,$request->lang, $maxItems, 'latest',$cacheExpiration);
+        
+  
+
+        /*if (!empty($postsPopular)) {
+            if ($visits > 10) {
+                $postsPopular = Arr::shuffle($postsPopular);
+            }
+        }*/
+		
+		
+// 		foreach($postsPopular as $key => $post):
+// 		if($post->visits < 25) {
+// 		unset($postsPopular[$key]);
+// 		} 
+// 		endforeach;
+
+        // echo "<pre>";
+        // print_r($postsPopular);
+        // exit;
+        
+        
+        
+        
+		$final = array_values($postsPopular);
+        return response()->json(['results'=>$final]);
+    }
+    
+    /* Home API start*/
+    protected function home_app(Request $request)
+    {
+        // Get the default Max. Items
+        $maxItems = 1000;
+        // Get the default orderBy value
+        $orderBy = 'date';
+        $country_code = $request->country_code;
+		$lang = $request->lang;
+		$sponsored = null;
+        // Get latest posts
+        $all = $this->getPosts1($request->user_id,$country_code,$lang, $maxItems, 'latest');
+        if (!empty($all)) {
+            if ($orderBy == 'random') {
+                $all = Arr::shuffle($all);
+            }
+        }
+      
+		return response()->json(['status'=>1,'message'=>'success','All'=>$all]);
+         
+    }
+    /* Home API end*/
+  
+     /* Home API start*/
+    protected function homeBackup_app(Request $request)
+    {
+        // Get the default Max. Items
+        $maxItems = 1000;
+        // Get the default orderBy value
+        $orderBy = 'date';
+        $country_code = $request->country_code;
+		$lang = $request->lang;
+		$sponsored = null;
+// 		$sql = 'select * from categories where translation_of="'.$liveParentCat->tid.'" and translation_lang="'.$lang.'" ';
+
+//         $categories = DB::select($sql);
+        // Get latest posts
+       $all = $this->getPosts1($request->user_id,$country_code,$lang, $maxItems, 'latest');
+        if (!empty($all)) {
+            if ($orderBy == 'random') {
+                $all = Arr::shuffle($all);
+            }
+        }
+         //print_r($all);
+
+        //die();
+        // = (array) $all;
+
+        //print_r($all['customFields']);
+         // Get latest posts
+         $maxItems = 16;
+        $latest = $this->getPosts1($request->user_id,$country_code, $lang, $maxItems, 'latest');
+		if (!empty($latest)) {
+            if ($orderBy == 'random') {
+                $latest = Arr::shuffle($latest);
+            }
+        }
+        // Get sponsor
+        $maxItems = 16;
+        $posts = $this->getPosts1($request->user_id,$request->country_code,$lang, $maxItems, 'sponsored');
+
+        if (!empty($posts)) {
+            if ($orderBy == 'random') {
+                $posts = Arr::shuffle($posts);
+            }
+        }
+		$sponsored = array_values($posts);
+		//popular
+		 // Get the default Max. Items
+        $maxItems = 12;
+        // Get the default orderBy value
+        $visits = 'visits';
+        $options = [];
+        $options['visits'] = $visits;
+		$options['max_items'] = $maxItems;
+
+		$cacheExpiration = $this->getCacheExpirationTime($options);
+        // Get Popular posts
+        $postsPopular = $this->getPosts1_popular($request->user_id,$request->country_code,$request->lang, $maxItems, 'latest',$cacheExpiration);
+		$popular = array_values($postsPopular);
+// 		$json  = json_encode($all);
+//         $all = json_decode($json, true);
+//         foreach($all as $key => $value){
+//             $object = $value['customFields'];
+//             $json  = json_encode($object);
+// $array = json_decode($json, true);
+// print_r($array);
+//         }
+		return response()->json(['status'=>1,'message'=>'success','All'=>$all,'Latest'=>$latest,'sponsored'=>$sponsored,'popular'=>$popular]);
+         
+    }
+    /* Home API end*/  
+
+    /**
+     * Get list of categories
+     *
+     * @param array $options
+     */
+    protected function getCategories($options = [])
+    {
+        // Get the default Max. Items
+        $maxItems = 12;
+        if (isset($options['max_items'])) {
+            $maxItems = (int)$options['max_items'];
+        }
+
+        // Get the Default Cache delay expiration
+        $cacheExpiration = $this->getCacheExpirationTime($options);
+
+        $cacheId = 'categories.parents.' . config('app.locale') . '.take.' . $maxItems;
+
+        if (isset($options['type_of_display']) && in_array($options['type_of_display'], ['cc_normal_list', 'cc_normal_list_s'])) {
+
+            $categories = Cache::remember($cacheId, $cacheExpiration, function () {
+                $categories = Category::trans()->orderBy('lft')->get();
+
+                return $categories;
+            });
+            $categories = collect($categories)->keyBy('translation_of');
+            $categories = $subCategories = $categories->groupBy('parent_id');
+
+            if ($categories->has(0)) {
+                $cols = round($categories->get(0)->count() / 4, 0, PHP_ROUND_HALF_EVEN);
+                $cols = ($cols > 0) ? $cols : 1;
+                $categories = $categories->get(0)->chunk($cols);
+                $subCategories = $subCategories->forget(0);
+            } else {
+                $categories = collect([]);
+                $subCategories = collect([]);
+            }
+
+            $categories = $categories->take($maxItems);
+
+            view()->share('categories', $categories);
+            view()->share('subCategories', $subCategories);
+
+        } else {
+
+            $categories = Cache::remember($cacheId, $cacheExpiration, function () use ($maxItems) {
+                $categories = Category::trans()->where('parent_id', 0)->take($maxItems)->orderBy('lft')->get();
+
+                return $categories;
+            });
+
+            if (isset($options['type_of_display']) && $options['type_of_display'] == 'c_picture_icon') {
+                $categories = collect($categories)->keyBy('id');
+            } else {
+                $cols = round($categories->count() / 3, 0); // PHP_ROUND_HALF_EVEN
+                $cols = ($cols > 0) ? $cols : 1; // Fix array_chunk with 0
+                $categories = $categories->chunk($cols);
+            }
+
+            view()->share('categories', $categories);
+
+        }
+
+        view()->share('categoriesOptions', $options);
+    }
+	
+	
+	protected function getCategories_app(Request $request)
+    {
+        //$categories = Category::trans()->where('parent_id', 0)->orderBy('lft')->get();
+		
+		$bindings = [
+            'translation_lang' => $request->translation_lang,
+        ];
+		
+		$sql = 'select * from categories where parent_id="0" and translation_lang="'.$request->translation_lang.'" order by lft ';
+
+        $categories = DB::select(DB::raw($sql), $bindings);
+		
+		
+		
+		
+		//print_r($categories1);
+		
+		foreach($categories as $key => $category):
+		if($category->picture!="")
+		{
+	        	$category->picture =  \Storage::url($category->picture) . getPictureVersion();
+		}
+		else
+		{
+	        	$category->picture = 'https://www.dealnotdeal.com/storage/app/default/categories/fa-folder-skin-blue.png';
+		}
+		$bindings1 = [
+            'translation_lang' => 'en',
+        ];
+		
+		//$sql1 = 'select * from categories where id="'.$category->translation_of.'" and translation_lang="en" order by lft ';
+		
+		
+		$categories1 = DB::select('select * from categories where id = :id', ['id' => $category->translation_of]);
+
+        //$categories1 = DB::select(DB::raw($sql1), $bindings1);
+		
+		$category->slug = $categories1[0]->slug;	
+		
+		endforeach;
+        // echo "<pre>";
+        // print_r($postsPopular);
+        // exit;
+		$final = array_values($categories);
+        return response()->json(['results'=>$final]);
+    }
+    
+    
+    	
+	public function getSubcategory_app(Request $request)
+    {
+        
+        
+        // $categories = Category::where('translation_lang', $request->translation_lang)->where('parent_id', $request->category_id)->orderBy('lft')->get();
+		
+		$bindings = [
+            'translation_lang' => $request->translation_lang,
+        ];
+		
+		$sql = 'select * from categories where parent_id = "'.$request->category_id.'"  and translation_lang="'.strtolower($request->translation_lang).'" order by lft ';
+
+        $categories = DB::select(DB::raw($sql), $bindings);
+		
+		
+		
+
+		foreach($categories as $key => $category):
+    		if($category->picture!="")
+    		{
+    		    $category->picture =  \Storage::url($category->picture) . getPictureVersion();
+    		}
+    		else
+    		{
+    		    $category->picture = 'https://www.dealnotdeal.com/storage/app/default/categories/fa-folder-skin-blue.png';
+    		}
+		endforeach;
+        
+		$final = array_values($categories);
+		
+		return response()->json(['results'=>$final]);
+    }
+    
+    
+    
+    
+    
+    
+
+    /**
+     * Get mini stats data
+     */
+    protected function getStats()
+    {
+        // Count posts
+        $countPosts = Post::currentCountry()->unarchived()->count();
+
+        // Count cities
+        $countCities = City::currentCountry()->count();
+
+        // Count users
+        $countUsers = User::count();
+
+        // Share vars
+        view()->share('countPosts', $countPosts);
+        view()->share('countCities', $countCities);
+        view()->share('countUsers', $countUsers);
+    }
+
+    /**
+     * Set SEO information
+     */
+    protected function setSeo()
+    {
+        $title = getMetaTag('title', 'home');
+        $description = getMetaTag('description', 'home');
+        $keywords = getMetaTag('keywords', 'home');
+
+        // Meta Tags
+        MetaTag::set('title', $title);
+        MetaTag::set('description', strip_tags($description));
+        MetaTag::set('keywords', $keywords);
+
+        // Open Graph
+        $this->og->title($title)->description($description);
+        view()->share('og', $this->og);
+    }
+
+    /**
+     * @param int $limit
+     * @param string $type (latest OR sponsored)
+     * @param int $cacheExpiration
+     * @return mixed
+     */
+    private function getPosts($limit = 20, $type = 'latest', $cacheExpiration = 0)
+    {
+        $paymentJoin = '';
+        $sponsoredCondition = '';
+        $sponsoredOrder = '';
+        if ($type == 'sponsored') {
+            $paymentJoin .= 'INNER JOIN ' . DBTool::table('payments') . ' as py ON py.post_id=a.id AND py.active=1' . "\n";
+            $paymentJoin .= 'INNER JOIN ' . DBTool::table('packages') . ' as p ON p.id=py.package_id' . "\n";
+            $sponsoredCondition = ' AND a.featured = 1';
+            $sponsoredOrder = 'p.lft DESC, ';
+        } else {
+            // $paymentJoin .= 'LEFT JOIN ' . DBTool::table('payments') . ' as py ON py.post_id=a.id AND py.active=1' . "\n";
+            $paymentJoin .= 'LEFT JOIN (SELECT MAX(id) max_id, post_id FROM ' . DBTool::table('payments') . ' WHERE active=1 GROUP BY post_id) mpy ON mpy.post_id = a.id AND a.featured=1' . "\n";
+            $paymentJoin .= 'LEFT JOIN ' . DBTool::table('payments') . ' as py ON py.id=mpy.max_id' . "\n";
+            $paymentJoin .= 'LEFT JOIN ' . DBTool::table('packages') . ' as p ON p.id=py.package_id' . "\n";
+        }
+        $reviewedCondition = '';
+        if (config('settings.single.posts_review_activation')) {
+            $reviewedCondition = ' AND a.reviewed = 1';
+        }
+        $sql = 'SELECT DISTINCT a.*, py.package_id as py_package_id' . '
+                FROM ' . DBTool::table('posts') . ' as a
+                INNER JOIN ' . DBTool::table('categories') . ' as c ON c.id=a.category_id AND c.active=1
+                ' . $paymentJoin . '
+                WHERE a.country_code = :countryCode
+                	AND (a.verified_email=1 AND a.verified_phone=1)
+                	AND a.archived!=1 ' . $reviewedCondition . $sponsoredCondition . '
+                GROUP BY a.id 
+                ORDER BY ' . $sponsoredOrder . 'a.created_at DESC
+                LIMIT 0,' . (int)$limit;
+        $bindings = [
+            'countryCode' => config('country.code'),
+        ];
+
+        $cacheId = config('country.code') . '.home.getPosts.' . $type;
+        $posts = Cache::remember($cacheId, $cacheExpiration, function () use ($sql, $bindings) {
+            $posts = DB::select(DB::raw($sql), $bindings);
+
+            return $posts;
+        });
+
+        // Append the Posts 'uri' attribute
+        $posts = collect($posts)->map(function ($post) {
+            $post->title = mb_ucfirst($post->title);
+            $post->uri = trans('routes.v-post', ['slug' => slugify($post->title), 'id' => $post->id]);
+
+            return $post;
+        })->toArray();
+ 
+        return $posts;
+    }
+	
+	
+	private function getPostsPopular($limit = 20, $type = 'latest', $cacheExpiration = 0)
+    {
+        $paymentJoin = '';
+        $sponsoredCondition = '';
+        $sponsoredOrder = '';
+        if ($type == 'sponsored') {
+            $paymentJoin .= 'INNER JOIN ' . DBTool::table('payments') . ' as py ON py.post_id=a.id AND py.active=1' . "\n";
+            $paymentJoin .= 'INNER JOIN ' . DBTool::table('packages') . ' as p ON p.id=py.package_id' . "\n";
+            $sponsoredCondition = ' AND a.featured = 1';
+            $sponsoredOrder = 'p.lft DESC, ';
+        } else {
+            // $paymentJoin .= 'LEFT JOIN ' . DBTool::table('payments') . ' as py ON py.post_id=a.id AND py.active=1' . "\n";
+            $paymentJoin .= 'LEFT JOIN (SELECT MAX(id) max_id, post_id FROM ' . DBTool::table('payments') . ' WHERE active=1 GROUP BY post_id) mpy ON mpy.post_id = a.id AND a.featured=1' . "\n";
+            $paymentJoin .= 'LEFT JOIN ' . DBTool::table('payments') . ' as py ON py.id=mpy.max_id' . "\n";
+            $paymentJoin .= 'LEFT JOIN ' . DBTool::table('packages') . ' as p ON p.id=py.package_id' . "\n";
+        }
+        $reviewedCondition = '';
+        if (config('settings.single.posts_review_activation')) {
+            $reviewedCondition = ' AND a.reviewed = 1';
+        }
+        $sql = 'SELECT DISTINCT a.*, py.package_id as py_package_id' . '
+                FROM ' . DBTool::table('posts') . ' as a
+                INNER JOIN ' . DBTool::table('categories') . ' as c ON c.id=a.category_id AND c.active=1
+                ' . $paymentJoin . '
+                WHERE a.country_code = :countryCode
+                	AND (a.verified_email=1 AND a.verified_phone=1)
+                	AND a.visits > 25 AND  a.archived!=1 ' . $reviewedCondition . $sponsoredCondition . '
+                GROUP BY a.id 
+                ORDER BY a.visits DESC, a.created_at DESC
+                LIMIT 0,' . (int)$limit;
+        $bindings = [
+            'countryCode' => config('country.code'),
+        ];
+
+        $cacheId = config('country.code') . '.home.getPosts.' . $type;
+        $posts = Cache::remember($cacheId, $cacheExpiration, function () use ($sql, $bindings) {
+            $posts = DB::select(DB::raw($sql), $bindings);
+
+            return $posts;
+        });
+
+        // Append the Posts 'uri' attribute
+        $posts = collect($posts)->map(function ($post) {
+            $post->title = mb_ucfirst($post->title);
+            $post->uri = trans('routes.v-post', ['slug' => slugify($post->title), 'id' => $post->id]);
+
+            return $post;
+        })->toArray();
+
+        return $posts;
+    }
+	
+	
+	
+	
+	private function getPosts1_popular($user_id,$country_code,$lang, $limit = 20, $type = 'latest', $cacheExpiration = 0)
+    {
+        $paymentJoin = '';
+        $sponsoredCondition = '';
+        $sponsoredOrder = '';
+        if ($type == 'sponsored') {
+            $paymentJoin .= 'INNER JOIN ' . DBTool::table('payments') . ' as py ON py.post_id=a.id AND py.active=1' . "\n";
+            $paymentJoin .= 'INNER JOIN ' . DBTool::table('packages') . ' as p ON p.id=py.package_id' . "\n";
+            $sponsoredCondition = ' AND a.featured = 1';
+            $sponsoredOrder = 'p.lft DESC, ';
+        } else {
+            // $paymentJoin .= 'LEFT JOIN ' . DBTool::table('payments') . ' as py ON py.post_id=a.id AND py.active=1' . "\n";
+            $paymentJoin .= 'LEFT JOIN (SELECT MAX(id) max_id, post_id FROM ' . DBTool::table('payments') . ' WHERE active=1 GROUP BY post_id) mpy ON mpy.post_id = a.id AND a.featured=1' . "\n";
+            $paymentJoin .= 'LEFT JOIN ' . DBTool::table('payments') . ' as py ON py.id=mpy.max_id' . "\n";
+            $paymentJoin .= 'LEFT JOIN ' . DBTool::table('packages') . ' as p ON p.id=py.package_id' . "\n";
+        }
+        $reviewedCondition = '';
+        if (config('settings.single.posts_review_activation')) {
+            $reviewedCondition = ' AND a.reviewed = 1';
+        }
+        $sql = 'SELECT DISTINCT a.*, py.package_id as py_package_id' . '
+                FROM ' . DBTool::table('posts') . ' as a
+                INNER JOIN ' . DBTool::table('categories') . ' as c ON c.id=a.category_id AND c.active=1
+                ' . $paymentJoin . '
+                WHERE a.country_code = :countryCode
+                	AND (a.verified_email=1 AND a.verified_phone=1)
+                	AND a.visits > 25 AND a.archived!=1 ' . $reviewedCondition . $sponsoredCondition . '
+                	  GROUP BY a.id 
+                ORDER BY a.visits DESC, a.created_at DESC
+                LIMIT 0,' . (int)$limit;
+                
+        $bindings = [
+            'countryCode' => $country_code,
+        ];
+
+        $cacheId = $country_code . '.home.getPosts.' . $type;
+        $posts = DB::select(DB::raw($sql), $bindings);
+
+        //return $posts;
+		
+		
+		
+		
+		
+		$i=0;
+		foreach($posts as $key => $post){
+		    
+		    
+		                        
+        $getcurrencycountry = \DB::table('countries')
+                        ->join('currencies', 'currencies.code', '=', 'countries.currency_code')
+                        ->select('currencies.*')
+                        ->where('countries.code', '=', $post->country_code)
+                        ->first();
+       
+		    
+		    
+            		                if ($post->price > 0)
+            		                {
+            						    $get_currency = \App\Helpers\Number::money_price_latest($post->price,$getcurrencycountry->html_entity,$getcurrencycountry->in_left,$getcurrencycountry->decimal_places,$getcurrencycountry->decimal_separator);
+            		                }
+            						else
+            						{
+            						    $get_currency = t('Free');
+            						}
+                            
+						                $post->currency = $get_currency;
+								    
+														
+														
+		                                
+	                                	$package = '';
+										if ($post->featured == 1) {
+											$package = \App\Models\Package::findTransApp($post->py_package_id,$lang);
+										}
+								        //$post->package = $package;
+		                                   
+										   
+										if(!empty($post->py_package_id))
+										{
+								        $post->py_package_id = $post->py_package_id;
+								        }
+										else
+										{
+										$post->py_package_id = 'No Value';
+										}
+										   
+										    
+										if(!empty($package))
+										{
+								        $post->package = $package;
+								        }
+										else
+										{
+										$post->package = 'No Value';
+										}	
+										
+											
+											
+																					
+											
+										
+										$postType = \App\Models\PostType::findTransApp($post->post_type_id,$lang);
+											//return $postType;
+										$post->postType = $postType;
+										
+										
+										
+										$getusernamedetail = \DB::table('users')->where('id', '=', $post->user_id)->first();
+                                        $post->contact_name = $getusernamedetail->username;  
+										
+							
+							
+							
+										// Get Post's Pictures
+										$pictures = \App\Models\Picture::where('post_id', $post->id)->orderBy('position')->orderBy('id');
+										if ($pictures->count() > 0) {
+											$postImg = resize($pictures->first()->filename, 'medium');
+										} else {
+											$postImg = resize(config('larapen.core.picture.default'));
+										}
+										$post->postImg = $postImg;
+										
+										$city = \App\Models\City::find($post->city_id);
+										$post->cityy = $city;
+										
+										
+										
+										$post->created_at = \Date::parse($post->created_at)->timezone(config('timezone.id'));
+										$post->created_at = $post->created_at->ago();
+										
+										$liveCat = \App\Models\Category::findTrans($post->category_id);
+											//return $liveCat;
+										$post->liveCat = $liveCat;
+										
+										// Check parent
+										if (empty($liveCat->parent_id)) {
+											$liveCatParentId = $liveCat->id;
+											$liveCatType = $liveCat->type;
+										} else {
+											$liveCatParentId = $liveCat->parent_id;
+											
+											$liveParentCat = \App\Models\Category::findTrans($liveCat->parent_id);
+											
+											
+											
+											if(isset($lang))
+										{
+										$lang1 = $lang;
+										}
+										else
+										{
+										$lang1 = 'en';
+										}	
+											$bindings = [
+            'translation_lang' => $lang,
+        ];
+		
+		$sql = 'select * from categories where translation_of="'.$liveParentCat->tid.'" and translation_lang="'.$lang.'" ';
+
+        $categories = DB::select($sql);
+						//print_r($categories);
+						//echo 'id='.$liveParentCat->parent_id;		
+						//echo 'name='.$categories[0]->name;			
+											$liveParentCat->name = $categories[0]->name;			
+											
+											$post->liveParentCat = $liveParentCat;
+											
+											
+											
+											
+											//$post->liveParentCat = $liveParentCat;
+											$liveCatType = (!empty($liveParentCat)) ? $liveParentCat->type : 'classified';
+										}
+										
+										// Check translation
+										$liveCatName = $liveCat->name;
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+											
+                                		$catNestedIds = (object)[
+                                            'parentId' => $liveCatParentId,
+                                            'id' => $post->category_id,
+                                        ];
+                                
+                                        $customFields = $this->getPostFieldsValues_app($catNestedIds, $post->id);
+                                						
+										
+										$results = array();
+										foreach($customFields as $field)
+										{
+										
+										
+										
+										
+										if (in_array($field->type, ['checkbox_multiple'])) 
+										{
+										$dvals = $field->default;
+										$results1 = array();
+										foreach($dvals as $index=>$key) 
+										{
+										 array_push($results1, $key);
+										}
+										
+																				
+										$field->default = $results1;										
+										}
+										
+										
+										/*if (in_array($field->type, ['radio', 'select'])) {
+											if (is_numeric($field->default)) {
+												$option = \App\Models\FieldOption::findTrans($field->default);
+												if (!empty($option)) {
+													$field->default = $option->value;
+												}
+											}
+										}
+										if (in_array($field->type, ['checkbox'])) {
+											$field->default = ($field->default == 1) ? t('Yes') : t('No');
+										}
+										
+										
+										if ($field->type == 'file')
+										{
+										}
+										else
+										{
+										if (!is_array($field->default))
+										{
+										//array_push($results, $valueItem->value);
+										
+										}
+										else
+										{
+										
+										if (count($field->default) > 0)
+										{
+										foreach($field->default as $valueItem)
+										{
+										array_push($results,$valueItem->value);
+										}
+										}
+										else
+										{
+										
+										}
+										}
+										}*/
+										}
+										
+										$post->customFields = $customFields;	
+										
+										
+										
+										
+							            $getusernamedetail = \DB::table('users')->where('id', '=', $post->user_id)->first();
+                                        $username = $getusernamedetail->username;  
+										$user_created_at = $getusernamedetail->created_at;       
+										$post->liveCatName = $liveCatName;
+										$post->username = $username;
+										
+										$post->user_created_at = \Date::parse($user_created_at)->timezone(config('timezone.id'));
+										$post->user_created_at = $post->user_created_at->ago();
+										
+										
+													if (!empty($user_id))
+													{
+													$scount = \App\Models\SavedPost::where('user_id', $user_id)->where('post_id', $post->id)->count();
+													if($scount>0)
+													{
+													$post->saved = 'Yes';
+													}
+													else
+													{
+													$post->saved = 'No';
+													}
+													}
+													else
+													{
+													$post->saved = 'No'; 
+													}
+										
+										
+										
+										$i++;
+								}
+		
+		
+		return $posts;
+		
+		
+		
+		
+    }
+
+	
+	
+	
+	private function getPosts1($user_id,$country_code, $lang, $limit = 20, $type = 'latest', $cacheExpiration = 0)
+    {
+		//echo 'trans='.t('hour');
+        $paymentJoin = '';
+        $sponsoredCondition = '';
+        $sponsoredOrder = '';
+        if ($type == 'sponsored') {
+            $paymentJoin .= 'INNER JOIN ' . DBTool::table('payments') . ' as py ON py.post_id=a.id AND py.active=1' . "\n";
+            $paymentJoin .= 'INNER JOIN ' . DBTool::table('packages') . ' as p ON p.id=py.package_id' . "\n";
+            $sponsoredCondition = ' AND a.featured = 1';
+            $sponsoredOrder = 'p.lft DESC, ';
+        } else {
+            // $paymentJoin .= 'LEFT JOIN ' . DBTool::table('payments') . ' as py ON py.post_id=a.id AND py.active=1' . "\n";
+            $paymentJoin .= 'LEFT JOIN (SELECT MAX(id) max_id, post_id FROM ' . DBTool::table('payments') . ' WHERE active=1 GROUP BY post_id) mpy ON mpy.post_id = a.id AND a.featured=1' . "\n";
+            $paymentJoin .= 'LEFT JOIN ' . DBTool::table('payments') . ' as py ON py.id=mpy.max_id' . "\n";
+            $paymentJoin .= 'LEFT JOIN ' . DBTool::table('packages') . ' as p ON p.id=py.package_id' . "\n";
+        }
+        $reviewedCondition = '';
+        if (config('settings.single.posts_review_activation')) {
+            $reviewedCondition = ' AND a.reviewed = 1';
+        }
+        $sql = 'SELECT DISTINCT a.*, py.package_id as py_package_id' . '
+                FROM ' . DBTool::table('posts') . ' as a
+                INNER JOIN ' . DBTool::table('categories') . ' as c ON c.id=a.category_id AND c.active=1
+                ' . $paymentJoin . '
+                WHERE a.country_code = :countryCode
+                	AND (a.verified_email=1 AND a.verified_phone=1)
+                	AND a.archived!=1 ' . $reviewedCondition . $sponsoredCondition . '
+                GROUP BY a.id 
+                ORDER BY ' . $sponsoredOrder . 'a.created_at DESC
+                LIMIT 0,' . (int)$limit;
+        $bindings = [
+            'countryCode' => $country_code,
+        ];
+
+        $cacheId = $country_code . '.home.getPosts.' . $type;
+        $posts = DB::select(DB::raw($sql), $bindings);
+
+        //return $posts;
+		
+		
+		
+		
+		
+		$i=0;
+		foreach($posts as $key => $post){
+		    
+		                        
+		                            $getcurrencycountry = \DB::table('countries')
+                                            ->join('currencies', 'currencies.code', '=', 'countries.currency_code')
+                                            ->select('currencies.*')
+                                            ->where('countries.code', '=', $post->country_code)
+                                            ->first();
+       
+		    
+		    
+            		                if ($post->price > 0)
+            		                {
+            						    $get_currency = \App\Helpers\Number::money_price_latest($post->price,$getcurrencycountry->html_entity,$getcurrencycountry->in_left,$getcurrencycountry->decimal_places,$getcurrencycountry->decimal_separator);
+            		                }
+            						else
+            						{
+            						    $get_currency = t('Free');
+            						}
+                            
+					                $post->currency = $get_currency;
+						                
+						              
+									  
+									  $getusernamedetail = \DB::table('users')->where('id', '=', $post->user_id)->first();
+                                        $post->contact_name = $getusernamedetail->username;     
+		    
+		    
+		    
+		        	                    $package = '';
+										if ($post->featured == 1) {
+											$package = \App\Models\Package::findTransApp($post->py_package_id,$lang);
+										}
+										
+										
+										if(!empty($post->py_package_id))
+										{
+								        $post->py_package_id = $post->py_package_id;
+								        }
+										else
+										{
+										$post->py_package_id = 'No Value';
+										}
+										
+										
+										if(!empty($package))
+										{
+								        $post->package = $package;
+								        }
+										else
+										{
+										$post->package = 'No Value';
+										}
+								        
+								        
+										
+										$postType = \App\Models\PostType::findTransApp($post->post_type_id, $lang);
+											//return $postType;
+										$post->postType = $postType;
+										
+										
+							
+										// Get Post's Pictures
+										$pictures = \App\Models\Picture::where('post_id', $post->id)->orderBy('position')->orderBy('id');
+										if ($pictures->count() > 0) {
+											$postImg = resize($pictures->first()->filename, 'medium');
+										} else {
+											$postImg = resize(config('larapen.core.picture.default'));
+										}
+										$post->postImg = $postImg;
+										
+										$city = \App\Models\City::find($post->city_id);
+										$post->cityy = $city;
+										
+										
+										
+										$post->created_at = \Date::parse($post->created_at)->timezone(config('timezone.id'));
+										$post->created_at = $post->created_at->ago();
+										
+										$liveCat = \App\Models\Category::findTransApp($post->category_id, $lang);
+											//return $liveCat;
+										$post->liveCat = $liveCat;
+										
+										// Check parent
+										if (empty($liveCat->parent_id)) {
+											$liveCatParentId = $liveCat->id;
+											$liveCatType = $liveCat->type;
+										} else {
+											$liveCatParentId = $liveCat->parent_id;
+											
+											$liveParentCat = \App\Models\Category::findTransApp($liveCat->parent_id, $lang);
+											//echo $liveParentCat;
+											
+										if(isset($lang))
+										{
+										$lang1 = $lang;
+										}
+										else
+										{
+										$lang1 = 'en';
+										}	
+											$bindings = [
+            'translation_lang' => $lang,
+        ];
+		
+		$sql = 'select * from categories where translation_of="'.$liveParentCat->tid.'" and translation_lang="'.$lang.'" ';
+
+        $categories = DB::select($sql);
+						//print_r($categories);
+						//echo 'id='.$liveParentCat->parent_id;		
+						//echo 'name='.$categories[0]->name;			
+											$liveParentCat->name = $categories[0]->name;			
+											
+											$post->liveParentCat = $liveParentCat;
+											
+											
+											$liveCatType = (!empty($liveParentCat)) ? $liveParentCat->type : 'classified';
+										}
+										
+										// Check translation
+										$liveCatName = $liveCat->name;
+										
+										
+										
+										
+										
+										
+											
+                                		$catNestedIds = (object)[
+                                            'parentId' => $liveCatParentId,
+                                            'id' => $post->category_id,
+                                        ];
+                                
+                                        $customFields = $this->getPostFieldsValues_app($catNestedIds, $post->id);
+                                						
+										
+										$results = array();
+										foreach($customFields as $field)
+										{
+										
+										
+										
+										
+								// 		if (in_array($field->type, ['checkbox_multiple'])) 
+								// 		{
+								// 		$dvals = $field->default;
+								// 		$results1 = array();
+								// 		foreach($dvals as $index=>$key) 
+								// 		{
+								// 		 array_push($results1, $key);
+								// 		}
+										
+																				
+								// 		$field->default = $results1;										
+								// 		}
+										
+										
+										/*if (in_array($field->type, ['radio', 'select'])) {
+											if (is_numeric($field->default)) {
+												$option = \App\Models\FieldOption::findTrans($field->default);
+												if (!empty($option)) {
+													$field->default = $option->value;
+												}
+											}
+										}
+										if (in_array($field->type, ['checkbox'])) {
+											$field->default = ($field->default == 1) ? t('Yes') : t('No');
+										}
+										
+										
+										if ($field->type == 'file')
+										{
+										}
+										else
+										{
+										if (!is_array($field->default))
+										{
+										//array_push($results, $valueItem->value);
+										
+										}
+										else
+										{
+										
+										if (count($field->default) > 0)
+										{
+										foreach($field->default as $valueItem)
+										{
+										array_push($results,$valueItem->value);
+										}
+										}
+										else
+										{
+										
+										}
+										}
+										}*/
+										}
+										
+										$post->customFields = $customFields;				
+										
+										//$post->paymentpre = $results;	
+										
+										
+										
+										
+										
+										
+							            $getusernamedetail = \DB::table('users')->where('id', '=', $post->user_id)->first();
+                                        $username = $getusernamedetail->username;  
+										$user_created_at = $getusernamedetail->created_at;      
+										$post->liveCatName = $liveCatName;
+										$post->username = $username;
+										//$post->user_created_at = $user_created_at;
+										
+										$post->user_created_at = \Date::parse($user_created_at)->timezone(config('timezone.id'));
+										$post->user_created_at = $post->user_created_at->ago();
+										
+										
+										
+										if (!empty($user_id))
+													{
+													$scount = \App\Models\SavedPost::where('user_id', $user_id)->where('post_id', $post->id)->count();
+													if($scount>0)
+													{
+													$post->saved = 'Yes';
+													}
+													else
+													{
+													$post->saved = 'No';
+													}
+													}
+													else
+													{
+													$post->saved = 'No'; 
+													}
+										
+										
+										
+										
+										
+										
+										$i++;
+						}
+		
+		
+		// Append the Posts 'uri' attribute
+       /* $posts = collect($posts)->map(function ($post) {
+            
+            return t($post);
+        })->toArray();
+		*/
+		
+		
+		return $posts;
+		
+		
+		
+		
+    }
+	
+	
+	
+	
+	public function customsearch_app(Request $request)
+    {
+		//echo 'trans='.t('hour');
+        $paymentJoin = '';
+        $sponsoredCondition = '';
+        $sponsoredOrder = '';
+		$user_id = $request->user_id;
+		$category = $request->category;
+		$minprice = $request->minprice;
+		$maxprice = $request->maxprice;
+		$distance = $request->distance;
+		$country = strtoupper($request->country);
+		$language = $request->language;
+        $lang = $request->language;
+        $sortBy = $request->sortBy;
+        $sallerType = $request->sallerType;
+        $allAds = $request->allAds;
+        $condition = $request->condition;
+        $paymentPreference = $request->paymentPreference;
+        $deliveryCost = $request->deliveryCost;
+        $subCatId = $request->subCatId;
+        
+        if(!empty($condition) && !empty($paymentPreference) && !empty($deliveryCost)){
+            $field_values = 'post_values.option_id IN ('.$condition.','.$paymentPreference.','.$deliveryCost.') and';
+        }
+        else{
+           $field_values ='';
+        }
+        if(!empty($subCatId)){
+           $catId = 'category_id='.$subCatId.' and'; 
+        }
+        else{
+           $catId = ''; 
+        }
+        if($allAds=="ads with images"){
+            $allAds = "ads with images";
+        }
+        else{
+           $allAds = ''; 
+        }
+        if($sortBy=="LtoH"){
+            $order = "ASC";
+        }
+        else if($sortBy=="HtoL"){
+             $order = "DESC";
+        }
+        else{
+          $order = "";  
+        }
+        if($sallerType=="Individual"){
+            $sallerType = 'posts.post_type_id=1 and';
+        }
+        else if($sallerType=="Shop"){
+           $sallerType = 'posts.post_type_id=2 and'; 
+        }
+        else{
+         $sallerType = ""; 
+        }
+        if(!empty($minprice) && !empty($maxprice)){
+            $price_query = 'posts.price between '.$minprice.' and '.$maxprice.' and';
+        }
+        else{
+           $price_query = ''; 
+        }
+        
+       //echo $sql = 'SELECT
+// posts.id as postId,posts.country_code,posts.user_id,posts.category_id,posts.post_type_id,posts.title,posts.description,posts.tags,posts.price,posts.negotiable,posts.contact_name,posts.email,posts.phone,posts.phone_hidden,posts.address,posts.city_id,posts.city_name,posts.lon,posts.lat,posts.ip_addr,posts.visits,posts.email_token,posts.phone_token,posts.tmp_token,posts.verified_email,posts.verified_phone,posts.reviewed,posts.featured,posts.archived,posts.fb_profile,posts.partner,posts.premium_email,posts.premium_phone,posts.created_at,posts.updated_at,posts.deleted_at,pictures.id as pictureId,pictures.post_id,pictures.filename,pictures.position,pictures.active,pictures.created_at,pictures.updated_at,post_values.id as postvalueId,post_values.post_id,post_values.field_id,post_values.option_id,post_values.value,post_types.id as postTypeId,post_types.name FROM posts
+// INNER JOIN pictures ON posts.id = pictures.post_id
+// INNER JOIN post_values ON  posts.id = post_values.post_id
+// INNER JOIN post_types ON posts.post_type_id = post_types.id
+// WHERE '.$field_values.' '.$price_query.' '.$sallerType.' and posts.country_code="'.$country.'" and posts.archived!=1  ORDER BY posts.price '.$order.'';
+      $sql = 'SELECT
+posts.id as postId,posts.country_code,posts.user_id,posts.category_id,posts.post_type_id,posts.title,posts.description,posts.tags,posts.price,posts.negotiable,posts.contact_name,posts.email,posts.phone,posts.phone_hidden,posts.address,posts.city_id,posts.city_name,posts.lon,posts.lat,posts.ip_addr,posts.visits,posts.email_token,posts.phone_token,posts.tmp_token,posts.verified_email,posts.verified_phone,posts.reviewed,posts.featured,posts.archived,posts.fb_profile,posts.partner,posts.premium_email,posts.premium_phone,posts.created_at,posts.updated_at,posts.deleted_at,pictures.id as pictureId,pictures.post_id,pictures.filename,pictures.position,pictures.active,pictures.created_at,pictures.updated_at,post_values.id as postvalueId,post_values.post_id,post_values.field_id,post_values.option_id,post_values.value,post_types.id as postTypeId,post_types.name FROM posts
+INNER JOIN pictures ON posts.id = pictures.post_id
+INNER JOIN post_values ON  posts.id = post_values.post_id
+INNER JOIN post_types ON posts.post_type_id = post_types.id
+WHERE '.$catId.' '.$field_values.' '.$price_query.' '.$sallerType.' posts.country_code="'.$country.'" and posts.archived!=1  ORDER BY posts.price '.$order.'';
+       //$sql = 'SELECT * from posts where '.$price_query.' '.$sallerType.' country_code="'.$country.'" and archived!=1 '.$sallerType.' ORDER BY price '.$order.''; 
+        /*$sql = 'SELECT * from posts where price between '.$minprice.' and '.$maxprice.' and category_id in (select id from categories where parent_id='.$category.' and active=1) and country_code="'.$country.'" and archived!=1 ';*/
+// 		if(!empty($minprice) && !empty($maxprice))
+// 		{
+		   
+// 		    $price_query = 'price between '.$minprice.' and '.$maxprice.' and';
+// 		    $sql = 'SELECT * from posts where price between '.$minprice.' and '.$maxprice.' and country_code="'.$country.'" and archived!=1 '.$sallerType.' ORDER BY price '.$order.'';
+
+// 		    }
+// 		else if(!empty($minprice))
+// 		{
+		    
+// 		    $price_query = 'price>='.$minprice.' and';
+// 		$sql = 'SELECT * from posts where price>='.$minprice.' and country_code="'.$country.'" and archived!=1 '.$sallerType.' ORDER BY price '.$order.'';
+// 		}
+// 		else if(!empty($maxprice))
+// 		{
+		  
+// 		    $price_query = 'price>='.$maxprice.' and';
+// 		$sql = 'SELECT * from posts where price <= '.$maxprice.' and country_code="'.$country.'" and archived!=1 '.$sallerType.' ORDER BY price '.$order.'';
+// 		}
+// 		else if(!empty($allAds)){
+		    
+// 		    $sql = 'SELECT posts.*, pictures.* FROM posts LEFT JOIN pictures ON posts.id = pictures.post_id WHERE pictures.post_id = posts.id';
+// 		}
+// 		else if(!empty($condition)){
+		    
+// 		    $sql = 'SELECT posts.*, post_values.* FROM posts LEFT JOIN post_values ON posts.id = post_values.post_id WHERE post_values.post_id = posts.id '.$price_query.' AND option_id="'.$condition.'"';
+// 		}
+// 		else if(!empty($deliveryCost)){
+		    
+// 		    $sql = 'SELECT posts.*, post_values.* FROM posts LEFT JOIN post_values ON posts.id = post_values.post_id WHERE post_values.post_id = posts.id '.$price_query.' AND option_id="'.$deliveryCost.'"';
+// 		}
+// 		else if(!empty($paymentPreference)){
+		    
+// 		    $sql = 'SELECT posts.*, post_values.* FROM posts LEFT JOIN post_values ON posts.id = post_values.post_id WHERE post_values.post_id = posts.id '.$price_query.' AND option_id="'.$paymentPreference.'"';
+// 		}
+// 		else
+// 		{
+// 		$sql = 'SELECT * from posts where country_code="'.$country.'" and archived!=1 ';
+// 		}
+        $bindings = [
+            //'countryCode' => $country,
+        ];
+		
+
+        //$cacheId = $country_code . '.home.getPosts.' . $type;
+    // $posts = array();
+//$array = DB::table('demotable')->select('*')->get();
+        $posts = DB::select($sql);
+        
+        //$posts = array_values(array_unique($posts));;
+//echo count($posts);
+      // print_r($posts);
+       
+		$ids = array_column($posts, 'postId');
+		$ids = array_unique($ids);
+		
+		$posts = array_filter($posts, function ($key, $value) use ($ids) {
+    return in_array($value, array_keys($ids));
+}, ARRAY_FILTER_USE_BOTH);
+
+		$i=0;
+		//$post = array();
+		foreach($posts as $key => $post){
+		   
+		                        
+		                            $getcurrencycountry = \DB::table('countries')
+                                            ->join('currencies', 'currencies.code', '=', 'countries.currency_code')
+                                            ->select('currencies.*')
+                                            ->where('countries.code', '=', $post->country_code)
+                                            ->first();
+       
+		    
+		    
+            		                if ($post->price > 0)
+            		                {
+            						    $get_currency = \App\Helpers\Number::money_price_latest($post->price,$getcurrencycountry->html_entity,$getcurrencycountry->in_left,$getcurrencycountry->decimal_places,$getcurrencycountry->decimal_separator);
+            		                }
+            						else
+            						{
+            						    $get_currency = t('Free');
+            						}
+                            
+					                $post->currency = $get_currency;
+						                
+						              
+									  
+									  $getusernamedetail = \DB::table('users')->where('id', '=', $post->user_id)->first();
+                                        $post->contact_name = $getusernamedetail->username;     
+		    
+		    
+		    
+		        	                    /*$package = '';
+										if ($post->featured == 1) {
+											$package = \App\Models\Package::findTransApp($post->py_package_id,$lang);
+										}
+										
+										
+										if(!empty($post->py_package_id))
+										{
+								        $post->py_package_id = $post->py_package_id;
+								        }
+										else
+										{
+										$post->py_package_id = 'No Value';
+										}
+										
+										
+										if(!empty($package))
+										{
+								        $post->package = $package;
+								        }
+										else
+										{
+										$post->package = 'No Value';
+										}*/
+								        
+								        
+										
+										$postType = \App\Models\PostType::findTransApp($post->post_type_id, $lang);
+											//return $postType;
+										$post->postType = $postType;
+										
+										
+							
+										// Get Post's Pictures
+										$pictures = \App\Models\Picture::where('post_id', $post->postId)->orderBy('position')->orderBy('id');
+										if ($pictures->count() > 0) {
+											$postImg = resize($pictures->first()->filename, 'medium');
+										} else {
+										    
+											$postImg = resize(config('larapen.core.picture.default'));
+										}
+										$post->postImg = $postImg;
+										
+										$city = \App\Models\City::find($post->city_id);
+										$post->cityy = $city;
+										
+										
+										
+										$post->created_at = \Date::parse($post->created_at)->timezone(config('timezone.id'));
+										$post->created_at = $post->created_at->ago();
+										
+										$liveCat = \App\Models\Category::findTransApp($post->category_id, $lang);
+											//return $liveCat;
+										$post->liveCat = $liveCat;
+										
+										// Check parent
+										if (empty($liveCat->parent_id)) {
+											$liveCatParentId = $liveCat->id;
+											$liveCatType = $liveCat->type;
+										} else {
+											$liveCatParentId = $liveCat->parent_id;
+											
+											$liveParentCat = \App\Models\Category::findTransApp($liveCat->parent_id, $language);
+											//echo $liveParentCat;
+											
+										if(isset($language))
+										{
+										$lang1 = $language;
+										}
+										else
+										{
+										$lang1 = 'en';
+										}	
+											$bindings = [
+            'translation_lang' => $language,
+        ];
+		
+		$sql = 'select * from categories where translation_of="'.$liveParentCat->tid.'" and translation_lang="'.$lang.'" ';
+
+        $categories = DB::select($sql);
+						//print_r($categories);
+						//echo 'id='.$liveParentCat->parent_id;		
+						//echo 'name='.$categories[0]->name;			
+											$liveParentCat->name = $categories[0]->name;			
+											
+											$post->liveParentCat = $liveParentCat;
+											
+											
+											$liveCatType = (!empty($liveParentCat)) ? $liveParentCat->type : 'classified';
+										}
+										
+										// Check translation
+										$liveCatName = $liveCat->name;
+										
+										
+										
+										
+										
+										
+											
+                                			
+										
+										//$post->paymentpre = $results;	
+										
+										
+										
+										
+										
+										
+							            $getusernamedetail = \DB::table('users')->where('id', '=', $post->user_id)->first();
+                                        $username = $getusernamedetail->username;  
+										$user_created_at = $getusernamedetail->created_at;      
+										$post->liveCatName = $liveCatName;
+										$post->username = $username;
+										//$post->user_created_at = $user_created_at;
+										
+										$post->user_created_at = \Date::parse($user_created_at)->timezone(config('timezone.id'));
+										$post->user_created_at = $post->user_created_at->ago();
+										
+										
+										
+										if (!empty($user_id))
+													{
+													$scount = \App\Models\SavedPost::where('user_id', $user_id)->where('post_id', $post->postId)->count();
+													if($scount>0)
+													{
+													$post->saved = 'Yes';
+													}
+													else
+													{
+													$post->saved = 'No';
+													}
+													}
+													else
+													{
+													$post->saved = 'No'; 
+													}
+													
+										
+										$i++;
+						}
+		
+		
+		// Append the Posts 'uri' attribute
+      //$posts = collect($posts)->map(function ($post) {
+            
+         //   return t($post);
+         //})->toArray();
+		
+		
+
+// 		if(empty($posts[$key][''])) {
+//     //this means value does not exist or is FALSE
+// }
+//print_r($posts);
+ //$postArray = json_decode(json_encode($posts),true);
+		//return $posts;
+
+		return response()->json(['status'=>1,'message'=>'success','results'=>array_values($posts)]);
+		
+		
+		
+    
+	
+	}
+
+    /**
+     * @param array $options
+     * @return int
+     */
+    private function getCacheExpirationTime($options = [])
+    {
+        // Get the default Cache Expiration Time
+        $cacheExpiration = 0;
+        if (isset($options['cache_expiration'])) {
+            $cacheExpiration = (int)$options['cache_expiration'];
+        }
+		//print_r($cacheExpiration);
+        return $cacheExpiration;
+    }
+
+    public function saveNewsLetterEmail(Request $request)
+    {
+        $newsletteremail = $request->newsLetterVal;
+
+        if (!empty($newsletteremail)) {
+            $newsletter = new Newsletter();
+            $newsdata = Newsletter::where('news_letter_email', $newsletteremail)->first();
+            if (empty($newsdata)) {
+                $newsletter->news_letter_email = $newsletteremail;
+                $newsletter->save();
+                $arr = array('msg' => "Successfully Registered.");
+            } else {
+                $arr = array('msg' => "You have already registered for Newsletter");
+            }
+
+        } else {
+            $arr = array('msg' => "Please Enter Email");
+        }
+
+        return \Response::json($arr);
+    }
+
+    public function setCurrency($currency)
+    {
+        if ($currency) {
+            Session::put('currency', $currency);
+            $arr = array('status' => 'success', 'msg' => "Currency set successfully.", 'result' => array());
+        } else {
+            $arr = array('status' => 'success', 'msg' => "Currency set successfully.", 'result' => array());
+        }
+        return \Response::json($arr);
+    }
+    
+    
+    
+    public function getPostImage(Request $request)
+    {
+        if(!empty($request->post_id))
+        {
+            $getimage = DB::table('pictures')
+                   ->select('filename')
+                   ->where('post_id',$request->post_id)
+                   ->where('position',1)
+                   ->first();
+                   
+                   
+            if(!empty($getimage->filename))
+		    {
+		        	$postImg = resize($getimage->filename, 'medium');
+		    }
+		    else
+		    {
+	        	$postImg = resize(config('larapen.core.picture.default'));
+		    }
+		    
+		    $arr['success'] = 1; 
+		    $arr['image'] = $postImg;
+		    
+      
+        }
+        else
+        {
+            $arr['success'] = 0; 
+		    $arr['message'] = 'Parameter Missing !';
+        }
+        
+       return \Response::json($arr); 
+        
+        
+    }
+    
+    
+    
+    public function getLocationSearch(Request $request)
+    {   
+            if(!empty($request->search))
+            {
+                header("Cache-Control: private, max-age=86400");
+                header("Expires: ".gmdate('r', time()+86400));
+                $query = $request->search;
+                $countrycode= $request->countrycode;
+                $apikey = 'AIzaSyD3HKnsvpSAYaoQQ-wIeqDBTjb69hJ-vMw';
+                
+                
+                
+                // $url = 'https://maps.googleapis.com/maps/api/place/autocomplete/json?key='.$apikey.'&types=geocode&sensor=true&radius=12000&components=country:'.$countrycode.'&input='.urlencode($query);
+                
+                $url = 'https://maps.googleapis.com/maps/api/place/autocomplete/json?key='.$apikey.'&libraries=places&types=(cities)&components=country:'.$countrycode.'&input='.urlencode($query);
+                
+                
+                
+                
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, $url);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                $data1 = curl_exec($ch);
+                curl_close($ch);
+                $details = json_decode($data1, true);
+                header("Content-Type: application/json");
+                $arr = array();
+                foreach($details['predictions'] as $key=>$row) {
+                    $arr[] = $row['description'];
+                }
+                $json['status'] = 'success';
+                $json['msg'] = 'Location found!';
+                $json['result'] = $arr;
+                
+            }
+            else
+            {
+                $json['status'] = 'error';
+                $json['msg'] = 'Parameter missing!';
+                $json['result'] = array();
+            }
+            echo json_encode($json);    
+    }
+    
+    
+    
+    
+    
+    
+    
+    function similarads()
+	{
+		$maxItems = 20;
+       
+
+        // Get the default orderBy value
+        $orderBy = 'random';
+        
+$options = array();
+        // Get the default Cache delay expiration
+        $cacheExpiration = $this->getCacheExpirationTime($options);
+
+        $sponsored = null;
+		// Get featured posts
+        $posts = $this->getPosts($maxItems, 'sponsored', $cacheExpiration);
+
+        if (!empty($posts)) {
+            if ($orderBy == 'random') {
+                $posts = Arr::shuffle($posts);
+            }
+            $attr = ['countryCode' => config('country.icode')];
+            $sponsored = [
+                'title' => t('Home - Sponsored Ads'),
+                'link' => lurl(trans('routes.v-search', $attr), $attr),
+                'posts' => $posts,
+            ];
+            $sponsored = Arr::toObject($sponsored);
+        }
+		$featured = $sponsored;
+		
+		if (isset($featured) and !empty($featured) and !empty($featured->posts))
+		{
+		foreach($featured->posts as $key => $post):
+								if (empty($countries) or !$countries->has($post->country_code)) continue;
+			
+								// Picture setting
+								$pictures = \App\Models\Picture::where('post_id', $post->id)->orderBy('position')->orderBy('id');
+								if ($pictures->count() > 0) {
+									$postImg = resize($pictures->first()->filename, 'medium');
+								} else {
+									$postImg = resize(config('larapen.core.picture.default'));
+								}
+			
+								// Category
+								$cacheId = 'category.' . $post->category_id . '.' . config('app.locale');
+								$liveCat = \Illuminate\Support\Facades\Cache::remember($cacheId, $cacheExpiration, function () use ($post) {
+									$liveCat = \App\Models\Category::find($post->category_id);
+									return $liveCat;
+								});
+			
+								// Check parent
+								if (empty($liveCat->parent_id)) {
+									$liveCatType = $liveCat->type;
+								} else {
+									$cacheId = 'category.' . $liveCat->parent_id . '.' . config('app.locale');
+									$liveParentCat = \Illuminate\Support\Facades\Cache::remember($cacheId, $cacheExpiration, function () use ($liveCat) {
+										$liveParentCat = \App\Models\Category::find($liveCat->parent_id);
+										return $liveParentCat;
+									});
+									$liveCatType = (!empty($liveParentCat)) ? $liveParentCat->type : 'classified';
+								}
+								
+								endforeach;
+
+	}
+	return response()->json(['results'=>$sponsored]);
+	
+	}
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+}

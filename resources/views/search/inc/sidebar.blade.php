@@ -1,0 +1,1080 @@
+<!-- this (.mobile-filter-sidebar) part will be position fixed in mobile version -->
+<?php
+    $fullUrl = url(\Illuminate\Support\Facades\Request::getRequestUri());
+    $tmpExplode = explode('?', $fullUrl);
+    $fullUrlNoParams = current($tmpExplode);
+   
+?>
+
+<style>
+      
+
+.panel-default>.panel-heading {
+  color: #333;
+  background-color: transparent;
+  padding: 0;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.panel-default>.panel-heading a {
+  display: block;
+  padding: 5px 0px;
+  padding-bottom:0px;
+}
+
+.panel-default>.panel-heading a:after {
+  content: "";
+  position: relative;
+  top: 1px;
+  display: inline-block;
+  font-family: 'Glyphicons Halflings';
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  float: right;
+  transition: transform .25s linear;
+  -webkit-transition: -webkit-transform .25s linear;
+}
+
+.panel-default>.panel-heading a[aria-expanded="true"] {
+  background-color: transparent;
+}
+
+.panel-default>.panel-heading a[aria-expanded="true"]:after {
+  content: "\2212";
+  -webkit-transform: rotate(180deg);
+  transform: rotate(180deg);
+}
+
+.panel-default>.panel-heading a[aria-expanded="false"]:after {
+  content: "\002b";
+  -webkit-transform: rotate(90deg);
+  transform: rotate(90deg);
+}
+
+.accordion-option {
+  width: 100%;
+  float: left;
+  clear: both;
+  margin: 15px 0;
+}
+
+.accordion-option .title {
+  font-size: 20px;
+  font-weight: bold;
+  float: left;
+  padding: 0;
+  margin: 0;
+}
+
+.accordion-option .toggle-accordion {
+  float: right;
+  font-size: 16px;
+  color: #6a6c6f;
+}
+
+.accordion-option .toggle-accordion:before {
+  content: "Expand All";
+}
+
+.accordion-option .toggle-accordion.active:before {
+  content: "Collapse All";
+}
+.panel {
+    background-color: transparent!important;
+    box-shadow: none;
+    border: transparent;
+}
+.panel-group{
+    margin-bottom:0px;
+}
+.skin-blue a:focus, .skin-blue a:hover {
+    color: #4682b4;
+}
+.panel-default>.panel-heading a[aria-expanded="false"]:after{
+    margin-top:5px;
+}
+    </style>
+<div class="col-sm-3 page-sidebar mobile-filter-sidebar" style="padding-bottom: 20px;">
+	<aside>
+		<div class="inner-box enable-long-words">
+			
+			
+            
+            
+            
+            <!-- Date -->
+            <div class="list-filter" style="display:none;">
+                <h5 class="list-title"><strong><a href="#"> {{ t('Date Posted') }} </a></strong></h5>
+                <div class="filter-date filter-content">
+                    <ul>
+                        @if (isset($dates) and !empty($dates))
+                            @foreach($dates as $key => $value)
+                                <li>
+                                    <input type="radio" name="postedDate" value="{{ $key }}" id="postedDate_{{ $key }}" {{ (Request::get('postedDate')==$key) ? 'checked="checked"' : '' }}>
+                                    <label for="postedDate_{{ $key }}">{{ $value }}</label>
+                                </li>
+                            @endforeach
+                        @endif
+                        <input type="hidden" id="postedQueryString" value="{{ httpBuildQuery(Request::except(['postedDate'])) }}">
+                    </ul>
+                </div>
+            </div>
+            
+                @if (isset($cat))
+                  <?php $style = 'style="display: none;"'; ?>
+                @endif
+               <!-- Category -->
+			<div id="catsList" class="categories-list list-filter" <?php echo (isset($style)) ? $style : ''; ?>>
+				<h5 class="list-title">
+                    <strong><a href="#">{{ t('All Categories') }}</a></strong>
+                </h5>
+                
+                
+               
+				<ul class="list-unstyled">
+				    
+                
+                
+                    @if ($cats->groupBy('parent_id')->has(0))
+					@foreach ($cats->groupBy('parent_id')->get(0) as $iCat)
+					
+						<li>
+							<?php $attr = ['countryCode' => config('country.icode'), 'catSlug' => $iCat->slug]; ?>
+							@if ((isset($uriPathCatSlug) and $uriPathCatSlug == $iCat->slug) or (Request::input('c') == $iCat->tid))
+								<strong>
+								   
+									<a href="{{ lurl(trans('routes.v-search-cat', $attr), $attr) }}" title="{{ $iCat->name }}">
+								
+										<span class="title">{{ $iCat->name }}</span>
+										<span class="count">&nbsp;{{ $countCatPosts->get($iCat->tid)->total or 0 }}</span>
+									</a>
+								</strong>
+							@else
+						
+								<a href="{{ lurl(trans('routes.v-search-cat', $attr), $attr) }}" title="{{ $iCat->name }}">
+									<span class="title">{{ $iCat->name }}</span>
+									<!--<span class="count">&nbsp;{{ $countCatPosts->get($iCat->tid)->total or 0 }}</span>-->
+								</a>
+							@endif
+						</li>
+					@endforeach
+                    @endif
+				</ul>
+			</div>
+            
+            
+            
+            @if (isset($cat))
+    
+        		<?php $parentId = ($cat->parent_id == 0) ? $cat->tid : $cat->parent_id; ?>
+                <!-- SubCategory -->
+				<div id="subCatsList" class="categories-list list-filter">
+					<h5 class="list-title">
+                        <strong><a href="#"><i class="fa fa-angle-left"></i> {{ t('Others Categories') }}</a></strong>
+                    </h5>
+                   
+					<ul class="list-unstyled">
+					     @if ($cats->groupBy('parent_id')->has($parentId))
+								@foreach ($cats->groupBy('parent_id')->get($parentId) as $iSubCat)
+								
+                                    @continue(!$cats->has($iSubCat->parent_id))
+                                    @if ($cats->groupBy('parent_id')->has($iSubCat->translation_of) )
+                                        @php($total = 0)
+                    					@foreach ($cats->groupBy('parent_id')->get($iSubCat->translation_of) as $iSubCat2)
+                        					
+                        					@if(isset($countSubCatPosts->get($iSubCat2->tid)->total))
+                        					    @php($total +=  $countSubCatPosts->get($iSubCat2->tid)->total )
+                        				    @endif
+                        				    
+                    					@endforeach
+                    
+                    		    <?php $sai[]= "$total,"; ?>
+                    			<?php $average = collect($sai)->sum();  ?>
+                    				@endif
+                    				@endforeach
+                    		
+                    				
+                    	@endif
+						<li >
+                            @if ($cats->has($parentId))
+								<?php $attr = ['countryCode' => config('country.icode'), 'catSlug' => $cats->get($parentId)->slug]; ?>
+							
+								<a href="{{ lurl(trans('routes.v-search-cat', $attr), $attr) }}" title="{{ $cats->get($parentId)->name }}">
+								 
+									<span class="title"><strong>{{ $cats->get($parentId)->name }}</strong>
+							
+									{{-- </span><span class="count">&nbsp;({{$average or 0}}) </span> --}}
+								</a>
+                            @endif
+                            
+                
+           
+							<ul class="list-unstyled">
+							    <!--long-list-->
+							   
+                                @if ($cats->groupBy('parent_id')->has($parentId))
+								@foreach ($cats->groupBy('parent_id')->get($parentId) as $iSubCat)
+								
+                                    @continue(!$cats->has($iSubCat->parent_id))
+                                    @if ($cats->groupBy('parent_id')->has($iSubCat->translation_of) )
+                                        @php($total = 0)
+                    					@foreach ($cats->groupBy('parent_id')->get($iSubCat->translation_of) as $iSubCat2)
+                        					
+                        					@if(isset($countSubCatPosts->get($iSubCat2->tid)->total))
+                        					    @php($total +=  $countSubCatPosts->get($iSubCat2->tid)->total )
+                        				    @endif
+                    					@endforeach
+                    				@endif
+                                    <!-----disha (Collapse)------>
+                                  
+                                    <li style="clear: both;"><div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+<div class="panel panel-default">
+<div class="panel-heading" role="tab" id="headingOne">
+<h4 class="panel-title">
+   
+<!--<a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse{{$iSubCat->slug}}" class="collapsed" aria-expanded="false" aria-controls="collapseOne" style="width:22%;float:right;">-->
+<?php $attr = [
+											'countryCode' => config('country.icode'),
+											'catSlug'     => $cats->get($iSubCat->parent_id)->slug,
+											'subCatSlug'  => $iSubCat->slug
+										]; ?>
+										@if ((isset($uriPathSubCatSlug) and $uriPathSubCatSlug == $iSubCat->slug) or (Request::input('sc') == $iSubCat->tid))
+										
+											<strong>
+											   
+												<!--<a href="{{ lurl(trans('routes.v-search-subCat', $attr), $attr) }}" title="{{ $iSubCat->name }}" style="width:85%;">-->
+												
+													{{ str_limit($iSubCat->name, 100) }}
+													<span class="count">({{ $countSubCatPosts->get($iSubCat->tid)->total or 0 }}) </span>
+											
+											</strong>
+										@else
+										  
+									<?php $actual_link = "http://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
+$slug=explode("/",$actual_link);
+if($slug[3]=='category'){
+if($slug[4]==$iSubCat->slug){
+?>	
+										<!--	<a href="{{ lurl(trans('routes.v-search-subCat', $attr), $attr) }}" title="{{ $iSubCat->name }}" style="width:85%;">-->
+									<a  data-toggle="collapse" data-parent="#accordion" href="#collapse{{$iSubCat->slug}}"  aria-expanded="true" aria-controls="collapseOne" title="{{ $iSubCat->name }}" style="width:85%;">	 
+											<?php } else {?>
+											<a  data-toggle="collapse" data-parent="#accordion" href="#collapse{{$iSubCat->slug}}" class="collapsed" aria-expanded="false" aria-controls="collapseOne" title="{{ $iSubCat->name }}" style="width:85%;">	 
+											<?php }
+											} else {
+											   
+											if($slug[5]==$iSubCat->slug){?>
+											<a  data-toggle="collapse" data-parent="#accordion" href="#collapse{{$iSubCat->slug}}"  aria-expanded="true" aria-controls="collapseOne" title="{{ $iSubCat->name }}" style="width:85%;">	 
+												<?php } else {?>
+													<?php $attr = ['countryCode' => config('country.icode'), 'catSlug' => $iSubCat->slug]; ?>
+											<a  data-toggle="mcollapse" data-parent="#accordion" href="{{ lurl(trans('routes.v-search-cat', $attr), $attr) }}" class="collapsed" aria-expanded="false" aria-controls="collapseOne" title="{{ $iSubCat->name }}" style="width:85%;">	 
+											<?php }
+											}?>
+									<?php  $supersubcatname = \DB::table('categories')
+                        ->where('parent_id', '=', $iSubCat->id)
+                        ->where('translation_lang', '=', $iSubCat->translation_lang)
+                        ->first(); ?>		
+						<?php 
+						for($i=0;$i<1;$i++){
+						if($supersubcatname!=""){
+					?>	
+											{{ str_limit($iSubCat->name, 100) }}
+										<?php } else {?>
+										<a href="{{ lurl(trans('routes.v-search-subCat', $attr), $attr) }}" title="{{ $iSubCat->name }}">
+										{{ str_limit($iSubCat->name, 100) }}
+										<span class="count"> ({{$total or 0}}) </span>
+										</a>
+										<?php }
+										} ?>
+                                                
+											</a> {{-- revferv --}}
+											</a> {{-- revferv --}}
+										@endif
+<!--</a> 754-->
+</h4>
+</div>
+<?php $actual_link = "http://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
+$slug=explode("/",$actual_link);
+if($slug[3]=='category'){
+if($slug[4]==$iSubCat->slug){
+?>
+
+<div id="collapse{{$iSubCat->slug}}" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne" aria-expanded="true">
+<div class="panel-body">
+ @if ($cats->groupBy('parent_id')->has($iSubCat->id) and config('country.icode')=="en" )
+								@foreach ($cats->groupBy('parent_id')->get($iSubCat->id) as $iSubCat2)
+                                    
+                                 
+                                    
+                                    <ul class="list-unstyled">
+									<li>
+										<?php $attr = [
+											'countryCode' => config('country.icode'),
+											'catSlug'     => $cats->get($iSubCat2->parent_id)->slug,
+											'subCatSlug'  => $iSubCat2->slug
+										]; ?>
+										@if ((isset($uriPathSubCatSlug) and $uriPathSubCatSlug == $iSubCat2->slug) or (Request::input('sc') == $iSubCat2->tid))
+									
+											<strong>
+											   
+												
+												<a href="{{ lurl(trans('routes.v-search-subCat', $attr), $attr) }}" title="{{ $iSubCat2->name }}">
+											 
+													{{ str_limit($iSubCat2->name, 100) }}
+													<span class="count">({{ $countSubCatPosts->get($iSubCat2->tid)->total or 0 }}) </span>
+												</a>
+											</strong>
+										@else
+											<a href="{{ lurl(trans('routes.v-search-subCat', $attr), $attr) }}" title="{{ $iSubCat2->name }}">
+											   
+												{{ str_limit($iSubCat2->name, 100) }}
+                                                <span class="count">({{ $countSubCatPosts->get($iSubCat2->tid)->total or 0 }}) </span>
+											</a>
+										@endif
+										
+										
+									
+										    	
+										
+										
+										
+									</li>
+									
+									</ul>
+									
+								
+									
+								@endforeach
+                                @endif
+                                
+         
+									
+							    @if ($cats->groupBy('parent_id')->has($iSubCat->translation_of) )
+								@foreach ($cats->groupBy('parent_id')->get($iSubCat->translation_of) as $iSubCat2)
+                                           
+                                    <ul class="list-unstyled">
+									<li>
+									    <div class="panel-group" id="accordion3" role="tablist" aria-multiselectable="true">
+<div class="panel panel-default">
+<div class="panel-heading" role="tab" id="headingthree">
+<h4 class="panel-title">	
+										<?php $attr = [
+											'countryCode' => config('country.icode'),
+											'catSlug'     => $cats->get($iSubCat2->parent_id)->slug,
+											'subCatSlug'  => $iSubCat2->slug
+										]; ?>
+										@if ((isset($uriPathSubCatSlug) and $uriPathSubCatSlug == $iSubCat2->slug) or (Request::input('sc') == $iSubCat2->tid))
+										
+											<strong>
+											   	<a data-toggle="collapse" data-parent="#accordion3" href="#collapse{{$iSubCat2->slug}}" class="collapsed" aria-expanded="false" aria-controls="collapseOne" title="Accessories" >	 
+												
+												<a href="{{ lurl(trans('routes.v-search-subCat', $attr), $attr) }}" title="{{ $iSubCat2->name }}" style="width:85%;">
+											   
+													{{ str_limit($iSubCat2->name, 100) }}
+													
+													<span class="count">({{ $countSubCatPosts->get($iSubCat2->id)->total or 0 }}) </span>
+												</a>
+											</strong>
+										@else
+										
+									<?php  $supersubcatname = \DB::table('categories')
+                        ->where('parent_id', '=', $iSubCat2->id)
+                        ->where('translation_lang', '=', $iSubCat2->translation_lang)
+                        ->first(); ?>		
+						<?php 
+						for($i=0;$i<1;$i++){
+						if($supersubcatname!=""){
+					?>		
+										<a data-toggle="collapse" data-parent="#accordion3" href="#collapse{{$iSubCat2->slug}}" class="collapsed" aria-expanded="false" aria-controls="collapseOne" title="Accessories" >	
+									
+									
+												{{ str_limit($iSubCat2->name, 100) }}
+												
+                                                <span class="count">({{ $countSubCatPosts->get($iSubCat2->tid)->total or 0 }})</span>
+											</a>
+											<?php } else {?>
+											<a data-toggle="collapse" data-parent="#accordion3" href="#collapse{{$iSubCat2->slug}}" class="collapsed" aria-expanded="false" aria-controls="collapseOne" title="Accessories" ></a>	
+										<a href="{{ lurl(trans('routes.v-search-subCat', $attr), $attr) }}" title="{{ $iSubCat2->name }}" style="width:85%;">
+									
+												{{ str_limit($iSubCat2->name, 100) }}
+												
+                                                <span class="count">({{ $countSubCatPosts->get($iSubCat2->tid)->total or 0 }}) </span>
+											</a>
+											<?php } 
+											}?>
+										@endif
+								</div>
+										<?php  $supersubcat = \DB::table('categories')
+                        ->where('parent_id', '=', $iSubCat2->id)
+                        ->where('translation_lang', '=', $iSubCat2->translation_lang)
+                        ->get(); ?>
+									<div id="collapse{{$iSubCat2->slug}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingthree" >
+<div class="panel-body">
+    <ul class="list-unstyled">
+						<?php for($i=0;$i<sizeof($supersubcat);$i++){?>			
+                           <li><a href="https://www.dealnotdeal.com/category/{{$iSubCat2->slug}}/<?php print_r($supersubcat[$i]->slug); ?>" title="Watches">
+																			
+						<?php print_r($supersubcat[$i]->name);?></a></li>
+                        <?php } ?>
+                        </ul>
+                        </div>
+                        </div>	
+									
+										    	
+										
+							</div>
+							</div>
+										
+									</li>
+									
+									</ul>
+								@endforeach
+                                @endif
+                                
+                          
+</div>
+</div>
+<?php } else { ?>
+
+<div id="collapse{{$iSubCat->slug}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingthree" >
+<div class="panel-body">
+ @if ($cats->groupBy('parent_id')->has($iSubCat->id) and config('country.icode')=="en" )
+								@foreach ($cats->groupBy('parent_id')->get($iSubCat->id) as $iSubCat2)
+                                    
+                                    
+                                    <ul class="list-unstyled">
+									<li>
+										<?php $attr = [
+											'countryCode' => config('country.icode'),
+											'catSlug'     => $cats->get($iSubCat2->parent_id)->slug,
+											'subCatSlug'  => $iSubCat2->slug
+										]; ?>
+										@if ((isset($uriPathSubCatSlug) and $uriPathSubCatSlug == $iSubCat2->slug) or (Request::input('sc') == $iSubCat2->tid))
+									
+											<strong>
+											    
+												<a href="{{ lurl(trans('routes.v-search-subCat', $attr), $attr) }}" title="{{ $iSubCat2->name }}">
+											  
+													{{ str_limit($iSubCat2->name, 100) }}
+													<span class="count">({{ $countSubCatPosts->get($iSubCat2->tid)->total or 0 }}) </span>
+												</a>
+											</strong>
+										@else
+										
+										        
+											<a href="{{ lurl(trans('routes.v-search-subCat', $attr), $attr) }}" title="{{ $iSubCat2->name }}">
+											   
+												{{ str_limit($iSubCat2->name, 100) }}
+                                                <span class="count">({{ $countSubCatPosts->get($iSubCat2->tid)->total or 0 }}) </span>
+											</a>
+										@endif
+										
+										
+									
+										    	
+										
+										
+										
+									</li>
+									
+									</ul>
+									
+								
+									
+								@endforeach
+                                @endif
+                                
+         
+									
+							    @if ($cats->groupBy('parent_id')->has($iSubCat->translation_of) )
+								@foreach ($cats->groupBy('parent_id')->get($iSubCat->translation_of) as $iSubCat2)
+                       
+                                    <ul class="list-unstyled">
+									<li>
+									    <div class="panel-group" id="accordion2" role="tablist" aria-multiselectable="true">
+<div class="panel panel-default">
+<div class="panel-heading" role="tab" id="headingtwo">
+<h4 class="panel-title">	
+										<?php $attr = [
+											'countryCode' => config('country.icode'),
+											'catSlug'     => $cats->get($iSubCat2->parent_id)->slug,
+											'subCatSlug'  => $iSubCat2->slug
+										]; ?>
+										@if ((isset($uriPathSubCatSlug) and $uriPathSubCatSlug == $iSubCat2->slug) or (Request::input('sc') == $iSubCat2->tid))
+										
+											<strong>
+											   
+												<a href="{{ lurl(trans('routes.v-search-subCat', $attr), $attr) }}" title="{{ $iSubCat2->name }}">
+											  
+													
+													<span class="count">({{ $countSubCatPosts->get($iSubCat2->id)->total or 0 }}) </span>
+												</a>
+											</strong>
+										@else
+									<?php  $supersubcatname = \DB::table('categories')
+                        ->where('parent_id', '=', $iSubCat2->id)
+                        ->where('translation_lang', '=', $iSubCat2->translation_lang)
+                        ->first(); ?>		
+						<?php 
+						for($i=0;$i<1;$i++){
+						if($supersubcatname!=""){
+					?>	
+						<a data-toggle="collapse" data-parent="#accordion2" href="#collapse{{$iSubCat2->slug}}" class="collapsed" aria-expanded="false" aria-controls="collapseOne" title="Accessories" >	
+												{{ str_limit($iSubCat2->name, 100) }}
+												<span class="count">({{ $countSubCatPosts->get($iSubCat2->tid)->total or 0 }}) </span>
+												
+                                              
+											</a>
+							<?php } else {?>
+							<a data-toggle="collapse" data-parent="#accordion2" href="#collapse{{$iSubCat2->slug}}" class="collapsed" aria-expanded="false" aria-controls="collapseOne" title="Accessories" >	 </a>
+									 
+											<a href="{{ lurl(trans('routes.v-search-subCat', $attr), $attr) }}" title="{{ $iSubCat2->name }}" style="width:85%;">
+												{{ str_limit($iSubCat2->name, 100) }}
+												<span class="count">({{ $countSubCatPosts->get($iSubCat2->tid)->total or 0 }}) </span>
+												
+                                              
+											</a>
+							<?php }
+							} ?>
+							<?php  $supersubcat = \DB::table('categories')
+                        ->where('parent_id', '=', $iSubCat2->id)
+                        ->where('translation_lang', '=', $iSubCat2->translation_lang)
+                        ->get(); ?>			
+                      <div id="collapse{{$iSubCat2->slug}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne" >
+<div class="panel-body">
+    <ul class="list-unstyled">
+						<?php for($i=0;$i<sizeof($supersubcat);$i++){?>			
+                           <li><a href="https://www.dealnotdeal.com/category/{{$iSubCat2->slug}}/<?php print_r($supersubcat[$i]->slug); ?>" title="Watches">
+																			
+						<?php print_r($supersubcat[$i]->name);?></a></li>
+                        <?php } ?>
+                        </ul>
+                        </div>
+                        </div>
+										@endif
+										
+										
+									
+						</div>
+						</div>
+										
+										
+										
+									</li>
+									
+									</ul>
+								@endforeach
+                                @endif
+                                
+                          
+</div>
+</div>
+<?php }
+} else { 
+if($slug[5]==$iSubCat->slug){ ?>
+<div id="collapse{{$iSubCat->slug}}" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne" aria-expanded="true">
+<div class="panel-body">
+ @if ($cats->groupBy('parent_id')->has($iSubCat->id) and config('country.icode')=="en" )
+								@foreach ($cats->groupBy('parent_id')->get($iSubCat->id) as $iSubCat2)
+                                    
+                          
+                                    
+                                    <ul class="list-unstyled">
+									<li>
+										<?php $attr = [
+											'countryCode' => config('country.icode'),
+											'catSlug'     => $cats->get($iSubCat2->parent_id)->slug,
+											'subCatSlug'  => $iSubCat2->slug
+										]; ?>
+										@if ((isset($uriPathSubCatSlug) and $uriPathSubCatSlug == $iSubCat2->slug) or (Request::input('sc') == $iSubCat2->tid))
+									
+											<strong>
+											   
+												<a href="{{ lurl(trans('routes.v-search-subCat', $attr), $attr) }}" title="{{ $iSubCat2->name }}">
+											
+													{{ str_limit($iSubCat2->name, 100) }}
+													<span class="count">({{ $countSubCatPosts->get($iSubCat2->tid)->total or 0 }})</span>
+												</a>
+											</strong>
+										@else
+										
+										        
+											<a href="{{ lurl(trans('routes.v-search-subCat', $attr), $attr) }}" title="{{ $iSubCat2->name }}">
+											    
+												{{ str_limit($iSubCat2->name, 100) }}
+                                                <span class="count">({{ $countSubCatPosts->get($iSubCat2->tid)->total or 0 }})</span>
+											</a>
+										@endif
+										
+										
+									
+										    	
+										
+										
+										
+									</li>
+									
+									</ul>
+									
+								
+									
+								@endforeach
+                                @endif
+                                
+         
+									
+							    @if ($cats->groupBy('parent_id')->has($iSubCat->translation_of) )
+								@foreach ($cats->groupBy('parent_id')->get($iSubCat->translation_of) as $iSubCat2)
+                                    
+                                    <ul class="list-unstyled">
+									<li>
+									    <div class="panel-group" id="accordion5" role="tablist" aria-multiselectable="true">
+<div class="panel panel-default">
+<div class="panel-heading" role="tab" id="headingfive">
+<h4 class="panel-title">	
+										<?php $attr = [
+											'countryCode' => config('country.icode'),
+											'catSlug'     => $cats->get($iSubCat2->parent_id)->slug,
+											'subCatSlug'  => $iSubCat2->slug
+										]; ?>
+										@if ((isset($uriPathSubCatSlug) and $uriPathSubCatSlug == $iSubCat2->slug) or (Request::input('sc') == $iSubCat2->tid))
+										
+											<strong>
+											    
+											<a data-toggle="collapse" data-parent="#accordion4" href="#collapse{{$iSubCat2->slug}}" class="collapsed" aria-expanded="false" aria-controls="collapseOne" title="Accessories" >	 
+										</a>	
+												<a href="{{ lurl(trans('routes.v-search-subCat', $attr), $attr) }}" title="{{ $iSubCat2->name }}" style="width:85%;">
+											  
+													{{ str_limit($iSubCat2->name, 100) }}
+													
+													<span class="count">({{ $countSubCatPosts->get($iSubCat2->id)->total or 0 }}) </span>
+												</a>
+											</strong>
+										<?php  $supersubcat = \DB::table('categories')
+                        ->where('parent_id', '=', $iSubCat2->tid)
+                        ->where('translation_lang', '=', $iSubCat2->translation_lang)
+                        ->get(); ?>
+                     
+                      <div id="collapse{{$iSubCat2->slug}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingfive" >
+<div class="panel-body">
+    <ul class="list-unstyled">
+						<?php for($i=0;$i<sizeof($supersubcat);$i++){?>	
+					<?php $actual_link = "http://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
+$slug=explode("/",$actual_link);
+
+?>	
+                           <li><a href="https://www.dealnotdeal.com/<?php print_r($slug[3]);?>/category/{{$iSubCat2->slug}}/<?php print_r($supersubcat[$i]->slug); ?>" title="Watches">
+																			
+						<?php print_r($supersubcat[$i]->name);?></a></li>
+                        <?php } ?>
+                        </ul>
+                        </div>
+                        </div>			
+											
+										@else
+										<a data-toggle="collapse" data-parent="#accordion5" href="#collapse{{$iSubCat2->slug}}" class="collapsed" aria-expanded="false" aria-controls="collapseOne" title="Accessories" >	 
+										</a>	
+										<a href="{{ lurl(trans('routes.v-search-subCat', $attr), $attr) }}" title="{{ $iSubCat2->name }}" style="width:85%;">
+									
+												{{ str_limit($iSubCat2->name, 100) }}
+												
+                                                <span class="count">({{ $countSubCatPosts->get($iSubCat2->tid)->total or 0 }}) </span>
+											</a>
+											
+									<?php  $supersubcat = \DB::table('categories')
+                        ->where('parent_id', '=', $iSubCat2->tid)
+                        ->where('translation_lang', '=', $iSubCat2->translation_lang)
+                        ->get(); ?>
+                     
+                      <div id="collapse{{$iSubCat2->slug}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingfive" >
+<div class="panel-body">
+    <ul class="list-unstyled">
+						<?php for($i=0;$i<sizeof($supersubcat);$i++){?>	
+					<?php $actual_link = "http://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
+$slug=explode("/",$actual_link);
+
+?>	
+                           <li><a href="https://www.dealnotdeal.com/<?php print_r($slug[3]);?>/category/{{$iSubCat2->slug}}/<?php print_r($supersubcat[$i]->slug); ?>" title="Watches">
+																			
+						<?php print_r($supersubcat[$i]->name);?></a></li>
+                        <?php } ?>
+                        </ul>
+                        </div>
+                        </div>		
+											
+											
+										@endif
+										</div>
+										</div>
+									</li>
+									
+									</ul>
+								@endforeach
+                                @endif
+                                
+                          
+</div>
+</div>
+<?php } else {?>
+<div id="collapse{{$iSubCat->slug}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne" >
+<div class="panel-body">
+ @if ($cats->groupBy('parent_id')->has($iSubCat->id) and config('country.icode')=="en" )
+								@foreach ($cats->groupBy('parent_id')->get($iSubCat->id) as $iSubCat2)
+                                    
+                                 
+                                    
+                                    <ul class="list-unstyled">
+									<li>
+										<?php $attr = [
+											'countryCode' => config('country.icode'),
+											'catSlug'     => $cats->get($iSubCat2->parent_id)->slug,
+											'subCatSlug'  => $iSubCat2->slug
+										]; ?>
+										@if ((isset($uriPathSubCatSlug) and $uriPathSubCatSlug == $iSubCat2->slug) or (Request::input('sc') == $iSubCat2->tid))
+									
+											<strong>
+											    
+											
+												<a href="{{ lurl(trans('routes.v-search-subCat', $attr), $attr) }}" title="{{ $iSubCat2->name }}">
+												  
+													{{ str_limit($iSubCat2->name, 100) }}
+													<span class="count">({{ $countSubCatPosts->get($iSubCat2->tid)->total or 0 }}) </span>
+												</a>
+											</strong>
+										@else
+										
+										        
+											<a href="{{ lurl(trans('routes.v-search-subCat', $attr), $attr) }}" title="{{ $iSubCat2->name }}">
+											   
+												{{ str_limit($iSubCat2->name, 100) }}
+                                                <span class="count">({{ $countSubCatPosts->get($iSubCat2->tid)->total or 0 }}) </span>
+											</a>
+										@endif
+									</li>
+									
+									</ul>
+								@endforeach
+                                @endif
+                                
+         
+									
+							    @if ($cats->groupBy('parent_id')->has($iSubCat->translation_of) )
+								@foreach ($cats->groupBy('parent_id')->get($iSubCat->translation_of) as $iSubCat2)
+                                    
+                                    <ul class="list-unstyled">
+									<li>
+									    <div class="panel-group" id="accordion4" role="tablist" aria-multiselectable="true">
+<div class="panel panel-default">
+<div class="panel-heading" role="tab" id="headingfour">
+<h4 class="panel-title">	
+										<?php $attr = [
+											'countryCode' => config('country.icode'),
+											'catSlug'     => $cats->get($iSubCat2->parent_id)->slug,
+											'subCatSlug'  => $iSubCat2->slug
+										]; ?>
+										@if ((isset($uriPathSubCatSlug) and $uriPathSubCatSlug == $iSubCat2->slug) or (Request::input('sc') == $iSubCat2->tid))
+										
+											<strong>
+											   
+												<a href="{{ lurl(trans('routes.v-search-subCat', $attr), $attr) }}" title="{{ $iSubCat2->name }}">
+											    
+													{{ str_limit($iSubCat2->name, 100) }}
+													
+													<span class="count">({{ $countSubCatPosts->get($iSubCat2->id)->total or 0 }}) </span>
+												</a>
+											</strong>
+										@else
+										
+										<a data-toggle="collapse" data-parent="#accordion4" href="#collapse{{$iSubCat2->slug}}" class="collapsed" aria-expanded="false" aria-controls="collapseOne" title="Accessories" >	 
+										</a>	
+										
+										<a href="{{ lurl(trans('routes.v-search-subCat', $attr), $attr) }}" title="{{ $iSubCat2->name }}" style="width:85%;">
+									
+												{{ str_limit($iSubCat2->name, 100) }}
+												
+                                                <span class="count">({{ $countSubCatPosts->get($iSubCat2->tid)->total or 0 }}) </span>
+											</a>
+											
+											<?php  $supersubcat = \DB::table('categories')
+                        ->where('parent_id', '=', $iSubCat2->tid)
+                        ->where('translation_lang', '=', $iSubCat2->translation_lang)
+                        ->get(); ?>
+                     
+                      <div id="collapse{{$iSubCat2->slug}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne" >
+<div class="panel-body">
+    <ul class="list-unstyled">
+						<?php for($i=0;$i<sizeof($supersubcat);$i++){?>	
+					<?php $actual_link = "http://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
+$slug=explode("/",$actual_link);
+
+?>	
+                           <li><a href="https://www.dealnotdeal.com/<?php print_r($slug[3]);?>/category/{{$iSubCat2->slug}}/<?php print_r($supersubcat[$i]->slug); ?>" title="Watches">
+																			
+						<?php print_r($supersubcat[$i]->name);?></a></li>
+                        <?php } ?>
+                        </ul>
+                        </div>
+                        </div>
+									
+										
+										
+									
+								
+											
+											
+											
+										@endif
+										
+										
+								</div>
+						</div>
+										
+										    	
+										
+										
+										
+									</li>
+									
+									</ul>
+								@endforeach
+                                @endif
+                                
+                          
+</div>
+</div>
+<?php }
+}?>
+</div></div></li>
+								
+								@endforeach
+                                @endif
+							</ul>
+						</li>
+					</ul>
+				</div>
+             
+            
+                @if (!in_array($cat->type, ['non-salable']))
+                <!-- Price -->
+                <div class="locations-list list-filter">
+                    <h5 class="list-title"><strong><a href="#">{{ (!in_array($cat->type, ['job-offer', 'job-search'])) ? t('Price range') : t('Salary range') }}</a></strong></h5>
+                    <form role="form" class="form-inline" action="{{ $fullUrlNoParams }}" method="GET">
+						{!! csrf_field() !!}
+                        @foreach(Request::except(['minPrice', 'maxPrice', '_token']) as $key => $value)
+                            @if (is_array($value))
+                                @foreach($value as $k => $v)
+									@if (is_array($v))
+										@foreach($v as $ik => $iv)
+											@continue(is_array($iv))
+											<input type="hidden" name="{{ $key.'['.$k.']['.$ik.']' }}" value="{{ $iv }}">
+										@endforeach
+									@else
+                                    	<input type="hidden" name="{{ $key.'['.$k.']' }}" value="{{ $v }}">
+									@endif
+                                @endforeach
+                            @else
+                                <input type="hidden" name="{{ $key }}" value="{{ $value }}">
+                            @endif
+                        @endforeach
+                        <div class="form-group col-sm-4 no-padding">
+                            <input type="text" placeholder="0" id="minPrice" name="minPrice" class="form-control" value="{{ Request::get('minPrice') }}">
+                        </div>
+                        <div style="margin-top: 10px;" class="form-group col-sm-1 no-padding text-center hidden-xs to-size-arabic"> - </div>
+                        <div  class="form-group col-sm-4 no-padding">
+                            <input type="text" placeholder="" id="maxPrice" name="maxPrice" class="form-control" value="{{ Request::get('maxPrice') }}">
+                        </div>
+                        <div class="form-group col-sm-3 no-padding">
+                            <button class="btn btn-default pull-right btn-block-xs" type="submit">{{ t('GO') }}</button>
+                        </div>
+                    </form>
+                    <div style="clear:both"></div>
+                </div>
+                @endif
+				
+		
+				<?php $style = 'style="display: none;"'; ?>
+			@else
+			
+			
+			<div class="locations-list list-filter">
+                    <h5 class="list-title"><strong><a href="#">{{ t('Price range') }}</a></strong></h5>
+                    <form role="form" class="form-inline" action="{{ $fullUrlNoParams }}" method="GET">
+						<input name="_token" value="{{ csrf_token() }}" type="hidden">
+                       <div class="form-group col-sm-4 no-padding">
+                            <input placeholder="0" id="minPrice" name="minPrice" class="form-control" value="{{ Request::get('minPrice') }}" type="text">
+                        </div>
+                        <div style="margin-top: 10px;" class="form-group col-sm-1 no-padding text-center hidden-xs to-size-arabic"> - </div>
+                        <div class="form-group col-sm-4 no-padding">
+                            <input placeholder="" id="maxPrice" name="maxPrice" class="form-control" value="{{ Request::get('maxPrice') }}" type="text">
+                        </div>
+                        <div class="form-group col-sm-3 no-padding">
+                            <button class="btn btn-default pull-right btn-block-xs" type="submit">{{ t('GO') }}</button>
+                        </div>
+                    </form>
+                    <div style="clear:both"></div>
+                </div>
+                
+			@endif
+			
+        
+         
+            
+            
+            
+            @include('search.inc.fields')
+            
+             <div class="locations-list list-filter">
+                    <h5 class="list-title"><strong><a href="#">{{t('Distance within')}}</a></strong></h5>
+                            	<select id="orderBySideBar" class="selecter" data-style="btn-select" >
+								    <?php
+								    $distance_array = array("10", "50", "100", "250", "500","1000","2000");
+								    ?>
+									@if (isset($isCitySearch) and $isCitySearch and \App\Helpers\DBTool::checkIfMySQLFunctionExists(config('larapen.core.distanceCalculationFormula')))
+										@for($iDist = 0; $iDist <= config('settings.listing.search_distance_max', 500); $iDist += config('settings.listing.search_distance_interval', 50))
+										<?php
+										if (in_array($iDist, $distance_array))
+										{
+										?>
+											<option{{ (Request::get('distance', config('settings.listing.search_distance_default', 10))==$iDist) ? ' selected="selected"' : '' }}
+													value="{!! qsurl($fullUrlNoParams, array_merge(Request::except('distance'), ['distance' => $iDist])) !!}">
+												{{ t('Around :distance :unit', ['distance' => $iDist, 'unit' => unitOfLength()]) }}
+											</option>
+										<?php 
+										}
+										?>	
+										@endfor
+										<option{{ (Request::get('distance', config('settings.listing.search_distance_default', 10))==$iDist) ? ' selected="selected"' : '' }}
+											value="{!! qsurl($fullUrlNoParams, array_merge(Request::except('distance'), ['distance' => 50000])) !!}">
+											{{ t('All Ads') }}
+										</option>
+									@else
+										@for($iDist = 0; $iDist <= config('settings.listing.search_distance_max', 500); $iDist += config('settings.listing.search_distance_interval', 50))
+										<?php
+										if (in_array($iDist, $distance_array))
+										{
+										?>
+											<option{{ (Request::get('distance', config('settings.listing.search_distance_default', 10))==$iDist) ? ' selected="selected"' : '' }}
+													value="{!! qsurl($fullUrlNoParams, array_merge(Request::except('distance'), ['distance' => $iDist])) !!}">
+												{{ t('Around :distance :unit', ['distance' => $iDist, 'unit' => unitOfLength()]) }}
+											</option>
+									<?php
+									    }
+									?>
+									
+										@endfor
+										<option{{ (Request::get('distance', config('settings.listing.search_distance_default', 10))==$iDist) ? ' selected="selected"' : '' }}
+											value="{!! qsurl($fullUrlNoParams, array_merge(Request::except('distance'), ['distance' => 50000])) !!}">
+											{{ t('All Ads') }}
+										</option>
+									@endif
+								</select>
+								
+                    <div style="clear:both"></div>
+                </div>
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            <!-- City -->
+			<div class="locations-list list-filter" style="display:none;">
+				<h5 class="list-title"><strong><a href="#">{{ t('Locations') }}</a></strong></h5>
+				<ul class="browse-list list-unstyled long-list">
+                    @if (isset($cities) and $cities->count() > 0)
+						@foreach ($cities as $city)
+							<?php
+								$attr = ['countryCode' => config('country.icode')];
+								$fullUrlLocation = lurl(trans('routes.v-search', $attr), $attr);
+								$locationParams = [
+									'l'  => $city->id,
+									'r'  => '',
+									'c'  => (isset($cat)) ? $cat->tid : '',
+									'sc' => (isset($subCat)) ? $subCat->tid : '',
+								];
+							?>
+							<li>
+								@if ((isset($uriPathCityId) and $uriPathCityId == $city->id) or (Request::input('l')==$city->id))
+									<strong>
+										<a href="{!! qsurl($fullUrlLocation, array_merge(Request::except(array_keys($locationParams)), $locationParams)) !!}" title="{{ $city->name }}">
+											{{ $city->name }}
+										</a>
+									</strong>
+								@else
+									<a href="{!! qsurl($fullUrlLocation, array_merge(Request::except(array_keys($locationParams)), $locationParams)) !!}" title="{{ $city->name }}">
+										{{ $city->name }}
+									</a>
+								@endif
+							</li>
+						@endforeach
+                    @endif
+				</ul>
+			</div>
+
+			<div style="clear:both"></div>
+		</div>
+	</aside>
+
+</div>
+
+<script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js'></script>
+<script id="rendered-js">
+      $(document).ready(function () {
+
+  $(".toggle-accordion").on("click", function () {
+    var accordionId = $(this).attr("accordion-id"),
+    numPanelOpen = $(accordionId + ' .collapse.in').length;
+//alert(numPanelOpen);
+    $(this).toggleClass("active");
+
+    if (numPanelOpen == 0) {
+      openAllPanels(accordionId);
+    } else {
+      closeAllPanels(accordionId);
+    }
+  });
+
+  openAllPanels = function (aId) {
+    console.log("setAllPanelOpen");
+    $(aId + ' .panel-collapse:not(".in")').collapse('show');
+  };
+  closeAllPanels = function (aId) {
+    console.log("setAllPanelclose");
+    $(aId + ' .panel-collapse.in').collapse('hide');
+  };
+
+});
+      //# sourceURL=pen.js
+    </script>
+@section('after_scripts')
+    @parent
+    <script>
+        var baseUrl = '{{ $fullUrlNoParams }}';
+        
+        $(document).ready(function ()
+        {
+            $('input[type=radio][name=postedDate]').click(function() {
+                var postedQueryString = $('#postedQueryString').val();
+				
+                if (postedQueryString != '') {
+                    postedQueryString = postedQueryString + '&';
+                }
+                postedQueryString = postedQueryString + 'postedDate=' + $(this).val();
+                
+                var searchUrl = baseUrl + '?' + postedQueryString;
+				redirect(searchUrl);
+            });
+        });
+    </script>
+@endsection
+

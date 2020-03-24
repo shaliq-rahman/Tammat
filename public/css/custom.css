@@ -1,0 +1,647 @@
+/*
+ * LaraClassified - Geo Classified Ads CMS
+ * Copyright (c) BedigitCom. All Rights Reserved
+ *
+ * Website: http://www.bedigit.com
+ *
+ * LICENSE
+ * -------
+ * This software is furnished under a license and may be used and copied
+ * only in accordance with the terms of such license and with the inclusion
+ * of the above copyright notice. If you Purchased from Codecanyon,
+ * Please read the full License from here - http://codecanyon.net/licenses/standard
+ */
+
+/* Your custom CSS here... */
+.tabs-center > li, .nav-pills > li { 
+    float:none;
+    display:inline-block;
+}
+
+.tabs-center {
+    text-align:center;
+}
+
+.offer-display 
+{
+	margin-bottom: 20px;
+    height: 236px;
+    background-color: #ccc;
+    width: 400px;
+    /*border-radius: 30px;*/
+    /*padding: 15px;*/
+    /*display: block;
+  	text-indent: -9999px;*/
+    background : url(../images/makeoffer02.svg);
+}
+
+.offer-display h2,h1
+{
+	/*padding-top: 50px;*/
+}
+
+.offer-display-img
+{
+	padding-top: 50px;
+}
+.add-items 
+{
+	margin-bottom: 20px;
+    height: 50px;
+    background-color: #ccc;
+    width: 400px;
+    border-radius: 5px;
+    padding: 5px;
+}
+.add-items p
+{
+	padding: 5px;
+}
+.offer-display p 
+{
+	text-align: center;
+}
+.offer-display a 
+{
+	text-align: center;
+}
+.offer-decision a
+{
+    text-align: center;
+    padding-left: 150px;
+}
+
+.btn-vertical-slider{ margin-left:35px; cursor:pointer;}
+a {  cursor:pointer;}
+.carousel.vertical .carousel-inner .item {
+  -webkit-transition: 0.6s ease-in-out top;
+     -moz-transition: 0.6s ease-in-out top;
+      -ms-transition: 0.6s ease-in-out top;
+       -o-transition: 0.6s ease-in-out top;
+          transition: 0.6s ease-in-out top;
+}
+
+ .carousel.vertical .active {
+  top: 0;
+}
+
+ .carousel.vertical .next {
+  top: 100%;
+}
+
+ .carousel.vertical .prev {
+  top: -100%;
+}
+
+ .carousel.vertical .next.left,
+.carousel.vertical .prev.right {
+  top: 0;
+}
+
+ .carousel.vertical .active.left {
+  top: -100%;
+}
+
+ .carousel.vertical .active.right {
+  top: 100%;
+}
+
+ .carousel.vertical .item {
+    left: 0;
+}
+/*.modal-dialog */
+/*{*/
+/*    width: 50% !important;*/
+/*}*/
+
+.pricetag-offer {
+    background: #4682b4;
+    border-radius: 3px 0 0 3px;
+    color: #fff;
+    font-size: 20px;
+    min-width: 100px;
+    padding: 5px 15px;
+    position: absolute;
+    right: -25px;
+    text-align: center;
+    top: 130px;
+    z-index: 100;
+}
+.pricetag-offer:before {
+    content: '';
+    position: absolute;
+    height: 0;
+    width: 0;
+    top: 100%;
+    right: 0;
+    border-top: 10px solid #007286;
+    border-right: 10px solid transparent;
+}
+
+.brefcase-row
+{
+    padding-left: 10px; 
+    padding-right: 10px;
+}
+.brefcase-row h1 
+{
+    padding-top: 5px !important;
+    margin-bottom: -20px !important;
+}
+.buyer-face
+{
+    background-image: url(../images/buyer.svg);
+    min-height: 50px;
+    background-position: center;
+    background-repeat: no-repeat;
+    margin-bottom: 5px;
+    margin-top: 5px;
+}
+.seller-face
+{
+    background-image: url(../images/seller.svg);
+    min-height: 50px;
+    background-position: center;
+    background-repeat: no-repeat;
+    margin-bottom: 5px;
+    margin-top: 5px;
+}
+.brefcase-grip 
+{
+    background-image: url(../images/makeoffer.svg);
+    min-height: 40px;
+    background-position: center;
+    background-repeat: no-repeat;
+    margin-top: 20px;
+}
+.brefcase-grip.pull-right
+{
+  margin-right: -90px;
+}
+.brefcase-grip.pull-left
+{ 
+  margin-left: -90px;
+}
+.brefcase
+{
+    /*min-height: 250px; */
+  min-height: 315px; 
+  border-radius: 15px;
+  padding: 15px;
+  border: 1px solid;
+}
+.brefcase.buyer
+{
+  background: #905b0b; 
+}
+.brefcase.seller
+{
+  background: #fde326; 
+}
+.brefcase img
+{
+    height: 45px;
+    width: 60px;
+}
+
+.close {
+    margin-right: 15px;
+}
+
+.thumbnail {
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.offer-price
+{
+    /*padding-left: 25px;*/
+}
+.offer-price-button 
+{
+    /*padding-top: 25px;*/
+}
+.send-button
+{
+    /*margin-left: -200px;
+    padding-right: 400px;*/
+}
+.cash-heading label
+{
+    font-size: 20px;
+    text-align: center;
+    margin-left: 10px;
+}
+.offer-arrow
+{
+    background-image: url(../images/arrow2.png);
+    min-height: 155px;
+    background-position: center;
+    background-repeat: no-repeat;
+    
+}
+.offer-arrow button
+{
+  margin-top: 100px;
+}
+.offer-arrow a
+{
+  margin-top: 100px;
+}
+.picture-container-up
+{
+    border-right: 1px solid;
+    /*border-bottom: 1px solid;*/
+    min-height: 140px;
+    border-color: #ffffff;
+}
+.picture-container-up-last
+{
+    /*border-right: 1px solid;*/
+   /* border-bottom: 1px solid;*/
+    min-height: 139px;
+    border-color: #ffffff;
+}
+.picture-container-down
+{
+    border-right: 1px solid;
+    border-top: 1px solid;
+    min-height: 125px;
+    border-color: #ffffff;
+    padding-top: 10px;
+}
+.picture-container-down-last
+{
+    /*border-right: 1px solid;*/
+    border-top: 1px solid;
+    min-height: 125px;
+    border-color: #ffffff;
+    padding-top: 10px;
+}
+
+
+
+  /* carousel */
+.media-carousel 
+{
+  margin-bottom: 0;
+  padding: 0 30px 0px 28px;
+  margin-top: 10px;
+}
+/* Previous button  */
+.media-carousel .carousel-control.left 
+{
+  left: -12px;
+  background-image: none;
+  background: none repeat scroll 0 0 #222222;
+  border: 4px solid #FFFFFF;
+  border-radius: 23px 23px 23px 23px;
+  height: 40px;
+  width : 40px;
+  margin-top: 10px
+}
+/* Next button  */
+.media-carousel .carousel-control.right 
+{
+  right: -12px !important;
+  background-image: none;
+  background: none repeat scroll 0 0 #222222;
+  border: 4px solid #FFFFFF;
+  border-radius: 23px 23px 23px 23px;
+  height: 40px;
+  width : 40px;
+  margin-top: 10px
+}
+/* Changes the position of the indicators */
+.media-carousel .carousel-indicators 
+{
+  right: 50%;
+  top: auto;
+  bottom: 0px;
+  margin-right: -19px;
+}
+/* Changes the colour of the indicators */
+.media-carousel .carousel-indicators li 
+{
+  background: #c0c0c0;
+}
+.media-carousel .carousel-indicators .active 
+{
+  background: #333333;
+}
+.media-carousel img
+{
+  /* width: 85px;
+  height: 55px; */
+  max-width: 100% !important;
+}
+.product-name p
+{
+  text-align: center;
+  /* margin-top: -15px;
+  margin-left: -10px; */
+  margin: 0 auto;
+  margin: -12px 14px auto;
+}
+.product-name-data
+{
+    white-space: nowrap; 
+    width: 85px; 
+    overflow: hidden;
+    text-overflow:ellipsis; 
+}
+.item .thumbnail
+{
+  width: 85px;
+  height: 65px;
+}
+#container1 .product-name p
+{
+  color: #ffffff;
+}
+#container2 .product-name p
+{
+  color: #ffffff;
+}
+#container5 .product-name p
+{
+  color: #ffffff;
+}
+.button-send-offer
+{
+  margin-left: 30px;
+}
+.offer-price
+{
+  margin-right: -24%;
+}
+
+.cash-heading
+{
+
+    background-image: url(../images/notes.svg);
+    min-height: 50px;
+    background-position: center;
+    background-repeat: no-repeat;
+
+}
+.remove-product 
+{
+    background-color: #ed1c24;
+    border-radius: 50px;
+    padding-left: 5px;
+    padding-right: 5px;
+    color: white;
+}
+:lang(ar) > .offer-price
+{
+  margin-right: 0px;
+  margin-left: -28%;
+}
+:lang(ar) > .offer-price-left
+{
+  left:13%;
+}
+:lang(ar) > .offer-price-seller-left
+{
+  left:3%;
+}
+
+
+:lang(ar) > .picture-container-up
+{
+  border-left: 1px solid;
+  border-right: none;
+  border-color: #ffffff;
+}
+:lang(ar) > .picture-container-down
+{
+  border-left: 1px solid;
+  border-right: none;
+  border-color: #ffffff;
+}
+:lang(ar) > .media-carousel .carousel-control.right
+{
+  right: 93% !important;
+  background-image: none;
+  background: none repeat scroll 0 0 #222222;
+  border: 4px solid #FFFFFF;
+  border-radius: 23px 23px 23px 23px;
+  height: 40px;
+  width: 40px;
+  margin-top: 10px;
+}
+:lang(ar) > .media-carousel .carousel-control.left {
+    left: -12px;
+    background-image: none;
+    background: none repeat scroll 0 0 #222222;
+    border: 4px solid #FFFFFF;
+    border-radius: 23px 23px 23px 23px;
+    height: 40px;
+    width: 40px;
+    margin-top: 10px;
+    right: -10px;
+}
+:lang(ar) > .buyer-face {
+    transform: scaleX(-1);
+}
+:lang(ar) > .seller-face {
+    transform: scaleX(-1);
+}
+
+:lang(ar) > .brefcase-grip.pull-right
+{
+  margin-left: -90px;
+}
+:lang(ar) > .brefcase-grip.pull-left
+{ 
+  margin-right: -90px;
+}
+
+:lang(ar) > .offer-arrow
+{
+    background-image: url(../images/arrowarrabic.png);
+    min-height: 155px;
+    background-position: center;
+    background-repeat: no-repeat;
+    
+    /*background-image: url(../images/arrows-arabic.svg);*/
+    /*min-height: 550px;*/
+    /*background-position: center;*/
+    /*background-repeat: no-repeat;*/
+}
+.deal-icon
+{
+  background-image: url(../images/deal.png);
+  min-height: 89px;
+  background-position: center;
+  background-repeat: no-repeat;
+  /*margin-bottom: -20px;*/
+  /*margin-top: 50px;*/
+}
+
+.not-deal-icon
+{
+  background-image: url(../images/notdeal.png);
+  min-height: 89px;
+  background-position: center;
+  background-repeat: no-repeat;
+  /*margin-bottom: -20px;*/
+  /*margin-top: -44px;*/
+}
+@media only screen and (max-width: 768px) {
+.offer-arrow
+{
+    background-image: url(../images/arrow2.png);
+    min-height: 155px;
+    background-position: center;
+    background-repeat: no-repeat;
+    
+    /*background-image: url(../images/arrows-2.svg);*/
+    /*min-height: 1650px;*/
+    /*background-position: center;*/
+    /*background-repeat: no-repeat;*/
+}
+
+  .pull-right
+{
+  /*margin-top: -750px; */
+}
+.button-send-offer-div-mobile button
+{
+  padding-right: 110px;
+  padding-left: 110px;
+  text-align: center;
+  margin-left: 10px; 
+}
+.button-send-offer
+{
+  padding-right: 50px;
+  padding-left: 50px;
+}
+.picture-container-up
+{
+    /*margin-left: 30px;
+    margin-right: 30px;*/
+    /*border-color: transparent !important;*/
+}
+.picture-container-up-last
+{
+    min-height: 139px;
+    border-color: transparent !important
+}
+.picture-container-down
+{
+    min-height: 125px;
+    /*border-color: transparent !important*/
+}
+.picture-container-down-last
+{
+    min-height: 125px;
+    border-color: transparent !important
+}
+.product-model-button button 
+{
+  padding-right: 100px;
+  padding-left: 100px;
+  text-align: center;
+  margin-top: 20px; 
+}
+
+.cash-heading label
+{
+  padding-left: 50px !important;
+}
+}
+@media only screen and (max-width: 768px) {
+  .thumbnail
+  {
+
+  }
+  .brefcase img
+  {
+      height: 50px !important;
+      width: 50px !important;
+  }
+
+}
+@media only screen and (max-width: 320px) {
+  .thumbnail
+  {
+    margin-right: 10px !important;
+    margin-left: 10px !important;
+  }
+  /*.brefcase.buyer{
+    margin-top: 25%;
+  }*/
+}
+@media only screen and (max-width: 768px) {
+ .not-deal-icon{
+     margin-top: 25px !important;
+ }
+ .Send-New-Offer-css{
+     margin-top: 25px !important;
+ }
+ 
+  .send-offer-css{
+    margin: 0 auto !important;
+    margin-top: 25px !important;
+  }
+  .pull-right{
+    /*margin-top: -55px;*/
+  }
+  .picture-container-up{
+    border-bottom: 1px solid #000;
+  }
+  .brefcase.buyer{
+    margin-top: 25%;
+  }
+  .brefcase-grip.pull-left{
+    margin-left: -50%;
+  }
+  .brefcase-grip{
+    width: 50%;
+    /* min-height: 25px; */ 
+  }
+  
+  .brefcase-grip-top{
+    position: relative;
+    /*right: 50px;
+     top: 10px; */
+  }
+  .brefcase-grip.pull-right{
+    margin-right: 0;
+  }
+  .offer-div{
+    margin-top: 30px !important;
+  }
+  .bottom-username{
+    position: absolute;
+    right: 50px;
+  }
+}
+/*@media only screen and (max-width: 320px){
+  .brefcase.buyer{
+    margin-top: 20%;
+  }
+}*/
+
+@media only screen and (max-width: 450px){
+  .brefcase.buyer{
+    margin-top: 18%;
+  }
+}
+@media only screen and (max-width: 400px) {
+  .brefcase.buyer{
+    margin-top: 20%;
+  }
+}
+@media only screen and (max-width: 350px){
+  .brefcase.buyer{
+    margin-top: 25%;
+  }
+}
+
+#register-page{
+  margin-top: 90px;
+}
