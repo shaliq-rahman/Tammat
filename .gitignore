@@ -10,3 +10,45 @@ Homestead.json
 Homestead.yaml
 npm-debug.log
 yarn-error.log
+
+# Backup & temp files
+*.bak
+*.zip
+*BK
+*_old.php
+error_log
+temp.php
+upl.php
+script.php
+dnd.php
+file.txt
+
+# Backup controllers with dates or version numbers
+*_[0-9]*-[0-9]*-[0-9]*.php
+*[0-9][0-9][0-9][0-9].php
+*Controller_[0-9]*.php
+*appController_[0-9]*.php
+
+# Temp/junk directories
+/awrqo/
+/storage12/
+/iostemp/
+/dndApi/
+/function_api/
+/public_html/
+
+# Bootstrap generated cache
+/bootstrap/cache/packages.php
+/bootstrap/cache/services.php
+
+# Storage uploads & logs (server-specific)
+/storage/app/public/
+/storage/app/pic/
+/storage/logs/
+/storage/framework/cache/
+/storage/framework/views/
+/storage/1.jpg
+/public/storage_old/
+
+# Bootstrap "Currently" version txt files
+/public/assets/bootstrap/Currently*

@@ -34,7 +34,9 @@ class PostReviewed extends Mailable
     public function __construct(Post $post)
     {
         $this->post = $post;
-
+		$fromname = 'Tammat';
+        $from_email = 'admin@tmmat.com'; 
+		$this->from($from_email, $fromname);
         $this->to($post->email, $post->contact_name);
         $this->subject(trans('mail.post_reviewed_title', ['title' => str_limit($post->title, 50)]));
     }

@@ -1,15 +1,58 @@
+#Temp block for crawlers/bots
+BrowserMatchNoCase "ClaudeBot" bad_bot
+BrowserMatchNoCase "bytespider" bad_bot
+BrowserMatchNoCase "bingbot" bad_bot
+BrowserMatchNoCase "SemrushBot" bad_bot
+BrowserMatchNoCase "DotBot" bad_bot
+BrowserMatchNoCase "meta-externalagent" bad_bot
+BrowserMatchNoCase "Applebot" bad_bot
+BrowserMatchNoCase "Dart" bad_bot
+BrowserMatchNoCase "GPTBot" bad_bot
+BrowserMatchNoCase "PetalBot" bad_bot
+BrowserMatchNoCase "MJ12bot" bad_bot
+BrowserMatchNoCase "OAI-SearchBot" bad_bot
+BrowserMatchNoCase "Amazonbot" bad_bot
+BrowserMatchNoCase "YandexBot" bad_bot
+BrowserMatchNoCase "Barkrowler" bad_bot
+BrowserMatchNoCase "BLEXBot" bad_bot
+BrowserMatchNoCase "Scrapy" bad_bot
+BrowserMatchNoCase "proximic" bad_bot
+BrowserMatchNoCase "serpstatbot" bad_bot
+BrowserMatchNoCase "Pinterestbot" bad_bot
+BrowserMatchNoCase "OAI-SearchBot" bad_bot
+BrowserMatchNoCase "PerplexityBot" bad_bot
+BrowserMatchNoCase "webprosbot" bad_bot
+BrowserMatchNoCase "EzoicBot-IntegrationCheck" bad_bot
+BrowserMatchNoCase "AliyunSecBot" bad_bot
+BrowserMatchNoCase "GeedoProductSearch" bad_bot
+BrowserMatchNoCase "NetcraftSurveyAgent" bad_bot
+BrowserMatchNoCase "DuckDuckBot" bad_bot
+BrowserMatchNoCase "SeekportBot" bad_bot
+BrowserMatchNoCase "SnapchatAds" bad_bot
+BrowserMatchNoCase "Sogou web spider" bad_bot
+Order Deny,Allow
+Deny from env=bad_bot
+#end of temp block for crawlers/bots
+
+#start of Alibaba-cloud block
+Deny from 47.79.0.0/21
+Deny from 47.82.0.0/19
+Deny from 47.242.0.0/16
+Deny from 47.254.64.0/18
+#end of Alibaba-cloud block
+
 php_flag log_errors On
-php_value error_log /home/dealnotd/public_html/error_log
+php_value error_log /home/dealnotd/tmmat.com/error_log
 
 RewriteEngine On
 RewriteCond %{HTTPS} off [OR]
-RewriteCond %{HTTP_HOST} !^www\.dealnotdeal\.com$ [NC] 
-RewriteRule ^(.*)$ https://www.dealnotdeal.com/$1 [L,R=301]
+RewriteCond %{HTTP_HOST} !^www\.tmmat\.com$ [NC] 
+RewriteRule ^(.*)$ https://www.tmmat.com/$1 [L,R=301]
 
 
 #RewriteEngine on
-#RewriteCond %{HTTP_HOST} ^dealnotdeal.com [NC]
-#RewriteRule ^(.*)$ https://www.dealnotdeal.com/$1 [L,R=301,NC]
+#RewriteCond %{HTTP_HOST} ^tmmat.com [NC]
+#RewriteRule ^(.*)$ https://www.tmmat.com/$1 [L,R=301,NC]
 
 
 # <IfModule mod_rewrite.c>
@@ -35,10 +78,10 @@ RewriteRule ^(.*)$ https://www.dealnotdeal.com/$1 [L,R=301]
     
     RewriteCond %{HTTPS} off [OR]
     RewriteCond %{HTTP_HOST} !^www\. [OR]
-    RewriteCond %{HTTP_HOST} ^dealnotdeal\.com [NC]
-    RewriteRule ^ https://www.dealnotdeal.com%{REQUEST_URI} [R=301,L,NE]
+    RewriteCond %{HTTP_HOST} ^tmmat\.com [NC]
+    RewriteRule ^ https://www.tmmat.com%{REQUEST_URI} [R=301,L,NE]
     RewriteCond %{THE_REQUEST} ^[A-Z]+\ /index\.php(/[^\ ]*)?\ HTTP/ 
-    RewriteRule ^index\.php(/(.*))?$ dealnotdeal.com/$2 [R=301,L]
+    RewriteRule ^index\.php(/(.*))?$ tmmat.com/$2 [R=301,L]
     
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d

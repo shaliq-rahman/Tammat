@@ -338,7 +338,8 @@ window.onclick = function(event) {
                             "sortDescending": "{{ trans('admin::messages.aria.sortDescending') }}"
                         }
                     },
-					responsive: true,
+					responsive: false,
+                    "scrollX": true,
 
                     @if ($xPanel->ajax_table)
                     "processing": true,

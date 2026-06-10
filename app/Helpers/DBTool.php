@@ -105,7 +105,12 @@ class DBTool
 	 */
 	public static function getLaravelDatabaseConfig()
 	{
-		return realpath(__DIR__ . '/../../config/database.php');
+		$path = realpath(__DIR__ . '/../../config/database.php');
+		if (file_exists($path)) {
+			return include $path;
+		}
+
+		return [];
 	}
 	
 	/**
@@ -117,8 +122,9 @@ class DBTool
 	public static function rawTable($name)
 	{
 		$config = DBTool::getLaravelDatabaseConfig();
-		$defaultDatabase = $config['connections'][$config['default']];
-		$databasePrefix = $defaultDatabase['prefix'];
+		$default = (isset($config['default'])) ? $config['default'] : 'mysql';
+		$defaultDatabase = (isset($config['connections'][$default])) ? $config['connections'][$default] : [];
+		$databasePrefix = (isset($defaultDatabase['prefix'])) ? $defaultDatabase['prefix'] : '';
 		
 		return $databasePrefix . $name;
 	}

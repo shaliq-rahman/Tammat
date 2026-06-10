@@ -116,6 +116,10 @@ class DetailsController extends FrontController
             $slug = $parameters['slug'];
         }
 
+
+//if(empty($post)){ $post = Post::where('id', $postId)->first();}
+
+//dd($post);
         // GET POST'S DETAILS
         if (auth()->check()) {
 
@@ -207,11 +211,17 @@ class DetailsController extends FrontController
                 ->first();
         }
         
-if($post->postType==""){
-    $post->postType=2;
+		
+			 
+	if(!empty($post->postType)){$posttype=$post->postType;}else{$posttype="";}	
+	if(!empty($post->category)){$postcategory=$post->category;}else{$postcategory="";}	
+	if(!empty($post->city)){$postcity=$post->city;}else{$postcity="";}	
+	 
+if($posttype==""){
+    $posttype=2;
 }
         // Post not found
-        if (empty($post) || empty($post->category) || empty($post->postType) || empty($post->city)) {
+        if (empty($post) || empty($postcategory) || empty($posttype) || empty($postcity)) {
             
             abort(404, t('Post not found'));
         }
@@ -259,7 +269,8 @@ $sql = Category::trans()->where('id', $post->category->tid)->orderBy('lft')->get
 
         // Get Category nested IDs
         $catNestedIds = (object)[
-            'parentId' => '4188',
+           //'parentId' => '4188',
+		    'parentId' => $post->category->parent_id,
             'id' => $post->category->tid,
         ];
 
@@ -281,7 +292,7 @@ $sql = Category::trans()->where('id', $post->category->tid)->orderBy('lft')->get
             }
         }
         view()->share('commentsAreDisabledByUser', $commentsAreDisabledByUser);
-
+//abdelhyreda
         // Increment Post visits counter
         Event::fire(new PostWasVisited($post));
 
@@ -466,8 +477,8 @@ $sql = Category::trans()->where('id', $post->category->tid)->orderBy('lft')->get
             $message->{$key} = $value;
         }
 
-        // $message->post_id = $post->id;
-        // $message->from_user_id = $request->from_user_id;
+         $message->post_id = $post->id;
+         $message->from_user_id = $request->from_user_id;
         $message->to_user_id = $post->user_id;
         $message->to_name = $post->contact_name;
         $message->to_email = $post->email;

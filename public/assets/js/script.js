@@ -468,6 +468,8 @@ function isBlankValue(str) {
  * Check New Messages
  */
 function checkNewMessages() {
+	
+	 
 	var oldValue = $('.dropdown-toggle .count-conversations-with-new-messages').html();
 	if (typeof oldValue === 'undefined') {
 		return false;
@@ -476,7 +478,8 @@ function checkNewMessages() {
 	/* Make ajax call */
 	$.ajax({
 		method: 'POST',
-		url: siteUrl + '/ajax/messages/check',
+		 
+		url: 'https://www.tmmat.com/ajax/messages/check',
 		data: {
 			'languageCode': languageCode,
 			'oldValue': oldValue,

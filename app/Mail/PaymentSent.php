@@ -37,7 +37,9 @@ class PaymentSent extends Mailable
     {
         $this->payment = $payment;
         $this->post = $post;
-
+		$fromname = 'Tammat';
+        $from_email = 'admin@tmmat.com'; 
+		$this->from($from_email, $fromname);
         $this->to($post->email, $post->contact_name);
         $this->subject(trans('mail.payment_sent_title'));
     }

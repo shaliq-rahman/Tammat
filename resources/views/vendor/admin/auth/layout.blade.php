@@ -45,7 +45,7 @@
     
     <div class="login-logo">
         <a href="{{ url('/') }}">
-            <img src="{{ \Storage::url(config('settings.app.logo')) . getPictureVersion() }}" style="width:200px; height:auto;">
+            <img src="{{ \Storage::url(config('settings.app.logo')) . getPictureVersion() }}" style="width:100px; height:auto;">
         </a>
     </div>
     <!-- /.login-logo -->

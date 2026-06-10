@@ -37,7 +37,9 @@ class PostWilBeDeleted extends Mailable
     {
         $this->post = $post;
         $this->days = $days;
-        
+        $fromname = 'Tammat';
+        $from_email = 'admin@tmmat.com'; 
+		$this->from($from_email, $fromname);
         $this->to($post->email, $post->contact_name);
         $this->subject(trans('mail.post_will_be_deleted_title', [
             'title' => $post->title,

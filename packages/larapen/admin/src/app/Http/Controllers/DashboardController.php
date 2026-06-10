@@ -35,8 +35,9 @@ class DashboardController extends PanelController
 		
 		// Get the Mini Stats data
 		// Count Ads
-		$countActivatedPosts = Post::verified()->count();
-		$countUnactivatedPosts = Post::unverified()->count();
+		$countActivatedPosts = Post::verified()->where('is_rejected',0)->count();
+		$countUnactivatedPosts = Post::unverified()->where('is_rejected',0)->count();
+		$countRejectedPosts = Post::where('is_rejected',1)->count();
 		
 		// Count Users
 		$countActivatedUsers = User::where('is_admin', 0)->verified()->count();
@@ -50,6 +51,7 @@ class DashboardController extends PanelController
 		
 		view()->share('countActivatedPosts', $countActivatedPosts);
 		view()->share('countUnactivatedPosts', $countUnactivatedPosts);
+		view()->share('countRejectedPosts', $countRejectedPosts);
 		view()->share('countActivatedUsers', $countActivatedUsers);
 		view()->share('countUnactivatedUsers', $countUnactivatedUsers);
 		view()->share('countUsers', $countUsers);
@@ -98,7 +100,7 @@ class DashboardController extends PanelController
 			$stats['posts'][$i]['y'] = mb_ucfirst($dateObj->formatLocalized('%b %d'));
 			$stats['posts'][$i]['activated'] = $countActivatedPosts;
 			$stats['posts'][$i]['unactivated'] = $countUnactivatedPosts;
-			
+
 			// Users Stats
 			$countActivatedUsers = User::where('is_admin', 0)
 				->verified()

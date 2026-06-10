@@ -28,13 +28,13 @@
         </span>
     </a>
     
-    <a href="{{url('admin/category_banner')}}" class="btn btn-primary ladda-button" data-style="zoom-in">
+    <a href="{{url('admin/category_banner')}}" class="btn btn-primary ladda-button" data-style="zoom-in" style="display:none">
 		<span class="ladda-label">
              Category Banner
         </span>
     </a>
     
-    <a href="{{url('admin/side_bar_post_banner')}}" class="btn btn-primary ladda-button" data-style="zoom-in">
+    <a href="{{url('admin/side_bar_post_banner')}}" class="btn btn-primary ladda-button" data-style="zoom-in" style="display:none">
 		<span class="ladda-label">
              Side Bar Category Banner
         </span>
@@ -50,6 +50,7 @@
         <th>S#</th>
         <th>Banner Type</th>
         <th>Country Code</th>
+        <th>Link</th>
         <th>Created Date</th>
         <th>Updated Date</th>
         <th>Action</th>
@@ -65,6 +66,7 @@
         <td>{{$i}}</td>
         <td>{{$nlData->banner_type}}</td>
         <td>{{$nlData->country_code}}</td>
+        <td><a href="{{$nlData->link}}" target="_blank">Go</a></td>
         <td><?=date('d-m-Y h:i A', strtotime($nlData->created_date));?></td>
         <td><?=date('d-m-Y h:i A', strtotime($nlData->updated_date));?></td>
         <td>

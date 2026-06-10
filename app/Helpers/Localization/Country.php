@@ -182,7 +182,12 @@ class Country
 		
 		
 		// REDIRECT... If Country not found
-		if (!$this->isAvailableCountry($this->country->get('code'))) {
+		if($this->country->get('code')){
+		$cntry_code=$this->country->get('code');
+		}else{
+			$cntry_code='KW';
+		}
+		if (!$this->isAvailableCountry($cntry_code)) {
 			// Redirect to country selection page
 			headerLocation($this->defaultPage);
 			exit();

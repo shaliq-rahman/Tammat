@@ -55,7 +55,7 @@ class Advertising extends BaseModel
      *
      * @var array
      */
-    protected $fillable = ['provider_name', 'tracking_code_large', 'tracking_code_medium', 'tracking_code_small', 'active'];
+    protected $fillable = ['provider_name', 'tracking_code_large', 'tracking_code_medium', 'tracking_code_small', 'link','active'];
     
     /**
      * The attributes that should be hidden for arrays

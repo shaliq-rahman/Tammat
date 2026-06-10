@@ -25,7 +25,8 @@ class ReportRequest extends Request
 	public function rules()
 	{
 		$rules = [
-			'report_type_id'       => 'required|not_in:0',
+			//'report_type_id'       => 'required|not_in:0',
+			'report_type_id'       => 'required',
 			'email'                => 'required|email|max:100',
 			'message'              => 'required|mb_between:20,1000',
 			'post_id'              => 'required|numeric',

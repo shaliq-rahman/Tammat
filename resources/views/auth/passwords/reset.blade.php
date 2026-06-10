@@ -74,8 +74,9 @@
 									<label for="password_confirmation" class="control-label">{{ t('Password Confirmation') }}:</label>
 									<input type="password" name="password_confirmation" placeholder="" class="form-control email">
 								</div>
-							
-								@if (config('settings.security.recaptcha_activation'))
+								
+@if (config('settings.security.recaptcha_activation'))
+
 									<!-- g-recaptcha-response -->
 									<div class="form-group required <?php echo (isset($errors) and $errors->has('g-recaptcha-response')) ? 'has-error' : ''; ?>">
 										<div class="no-label">

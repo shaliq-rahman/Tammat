@@ -24,6 +24,7 @@ class PostNotification extends Mailable
     use Queueable, SerializesModels;
 
     public $post;
+    public $user;
 
     /**
      * PostNotification constructor.
@@ -33,9 +34,18 @@ class PostNotification extends Mailable
     public function __construct($post, $adminUser)
     {
         $this->post = $post;
-
-        $this->to($adminUser->email, $adminUser->name);
-        $this->subject(trans('mail.post_notification_title'));
+        $this->user = $adminUser;
+        $fromname = 'Tammat'; 
+        $from_email = 'admin@tmmat.com'; 
+		$this->from($from_email, $fromname);
+        //$this->to($adminUser->email, $adminUser->name);
+        $this->to('admin@tmmat.com', $adminUser->name);
+        if($this->user->is_admin == 1){
+            $this->subject(trans('mail.post_notification_title'));
+        }else{
+            $this->subject(trans('mail.user_post_notification_title'));
+        }
+        
     }
 
     /**
@@ -45,6 +55,12 @@ class PostNotification extends Mailable
      */
     public function build()
     {
-        return $this->view('emails.post.notification');
+        $post = $this->post;
+        $user = $this->user;
+        if($this->user->is_admin == 1){
+            return $this->view('emails.post.notification');
+        }else{
+            return $this->view('emails.post.user_notification',compact('post','user'));
+        }
     }
 }

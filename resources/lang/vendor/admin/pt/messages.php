@@ -689,6 +689,7 @@ return [
     'Facebook Page URL' => 'Facebook Page URL',
     'Twitter URL' => 'Twitter URL',
     'Google+ URL' => 'Google+ URL',
+    'Instagram URL' => 'Instagram URL',
     'LinkedIn URL' => 'LinkedIn URL',
     'Pinterest URL' => 'Pinterest URL',
     'Show Powered by Info' => 'Show Powered by Info',

@@ -18,6 +18,7 @@ use App\Http\Controllers\Traits\LocalizationTrait;
 use App\Http\Controllers\Traits\RobotsTxtTrait;
 use App\Http\Controllers\Traits\SettingsTrait;
 use Illuminate\Support\Facades\Session;
+use Request;
 
 class FrontController extends Controller
 {
@@ -35,16 +36,21 @@ class FrontController extends Controller
             Session::put('currency', 'USD');
         }
 
-		// From Laravel 5.3.4+
+
+ 
+    // From Laravel 5.3.4+
 		$this->middleware(function ($request, $next)
 		{
 		    
-			$this->loadLocalizationData();
-			$this->checkDotEnvEntries();
-			$this->applyFrontSettings();
+			  $this->loadLocalizationData();
+			 $this->checkDotEnvEntries();
+			 $this->applyFrontSettings();
 			$this->checkRobotsTxtFile();
 			
 			return $next($request);
 		});
+ 
+
+		
 	}
 }

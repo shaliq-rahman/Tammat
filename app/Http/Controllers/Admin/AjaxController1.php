@@ -204,7 +204,7 @@ class AjaxController1 extends Controller
 		    if($item->{$field} == '1')
 		    {
 		        $from_email = 'admin@dealnotdeal.com';
-		        $fromname = 'Deal Not Deal';
+		        $fromname = 'Tammat';
 		        $postvalue = Post::find($primaryKey);
 		        $uservalue = User::find($postvalue->user_id);
 		        $data['post'] = $postvalue;

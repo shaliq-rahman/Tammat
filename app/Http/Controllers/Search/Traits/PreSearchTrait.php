@@ -21,7 +21,7 @@ use App\Models\City;
 use Illuminate\Support\Facades\Request;
 use App\Models\SubAdmin1;
 use App\Models\SubAdmin2;
-
+use db;
 trait PreSearchTrait
 {
 	/**
@@ -31,6 +31,46 @@ trait PreSearchTrait
 	 * @param null $subCatId
 	 * @return null
 	 */
+	 
+	  public function getCityfast($location)
+	{
+		
+		
+	if (empty($cityId) && empty($location)) {
+			return null;
+		}
+		
+		// Search by administrative division name with magic word "area:" - Example: "area:New York"
+		if (!empty($location)) {
+			$location = preg_replace('/\s+\:/', ':', $location);
+			if (str_contains($location, t('area:'))) {
+				$adminName = last(explode(t('area:'), $location));
+				$adminName = trim($adminName);
+				
+				$fullUrl = url(Request::getRequestUri());
+				$fullUrlNoParams = head(explode('?', $fullUrl));
+				$url = qsurl($fullUrlNoParams, array_merge(request()->except(['l', 'location']), ['d' => config('country.code'), 'r' => $adminName]));
+				
+				headerLocation($url);
+			}
+		}
+		
+		
+		$cityName = rawurldecode($location);
+		
+		
+						 $country_code = strtoupper(config('country.code'));	
+						$this->city = City::currentCountry()->where('name', 'LIKE', '%'.$cityName.'%')->first();
+					
+	 
+		view()->share('city', $this->city);
+		
+		return $this->city;
+	
+		
+		
+		}
+		
 	public function getCategory($catId, $subCatId = null)
 	{
 		if (empty($catId)) {
@@ -65,6 +105,8 @@ trait PreSearchTrait
 	 * @param null $location
 	 * @return array|null|\stdClass
 	 */
+	
+	 
 	public function getCity($cityId = null, $location = null)
 	{
 		if (empty($cityId) && empty($location)) {
@@ -106,11 +148,17 @@ trait PreSearchTrait
 					$this->city = City::currentCountry()->where('name', 'LIKE', '%' . $cityName)->first();
 					if (empty($this->city)) {
 						$this->city = City::currentCountry()->where('name', 'LIKE', '%' . $cityName . '%')->first();
+					if (empty($this->city)) {
+						 $country_code = strtoupper(config('country.code'));	
+						$this->city= DB::select("select * from `cities` where `country_code` = '".$country_code."' and `name` LIKE '". $cityName ."' and `active` = 1 limit 1");
 					}
+					}
+					
 				}
 			}
 		}
-		
+		 
+	  //dd($this->city);
 		// City not found
 		if (empty($this->city)) {
 			$this->city = Arr::toObject([
@@ -122,7 +170,7 @@ trait PreSearchTrait
 				'subadmin2_code' => '',
 			]);
 		}
-		
+		//dd($this->city);
 		view()->share('city', $this->city);
 		
 		return $this->city;
@@ -133,6 +181,11 @@ trait PreSearchTrait
 		$cityObj = explode(',',$city);
 	    if(!empty($cityObj)){
 			$this->city = City::where('name', 'LIKE', $cityObj[0])->first();
+			 $country_code = strtoupper(config('country.code'));
+			if(!empty($this->city)){
+				$this->city= DB::select("select * from `cities` where `country_code` = '".$country_code."' and `name` LIKE '". $city ."' and `active` = 1 limit 1");
+				}
+				dd($this->city);
 			view()->share('city', $this->city);
 			return $this->city;
 		}

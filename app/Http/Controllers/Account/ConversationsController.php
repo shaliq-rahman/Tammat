@@ -17,6 +17,7 @@ namespace App\Http\Controllers\Account;
 
 use App\Http\Requests\ReplyMessageRequest;
 use App\Models\User;
+use App\Models\Post;
 use App\Models\Message;
 use App\Notifications\ReplySent;
 use Torann\LaravelMetaTags\Facades\MetaTag;
@@ -115,8 +116,9 @@ class ConversationsController extends AccountBaseController
 	{
 		// Get Conversation
 		$conversation = Message::findOrFail($conversationId);
-		
+		//dd($conversation);
 		// Get Recipient Data
+		
 		if ($conversation->from_user_id != auth()->user()->id) {
 			$toUserId = $conversation->from_user_id;
 			$toName = $conversation->from_name;
@@ -144,23 +146,24 @@ class ConversationsController extends AccountBaseController
 			$message->{$key} = $value;
 		}
 		
-		$message->post_id = $conversation->post->id;
+		$posts=Post::find($conversation->post_id);
+		$message->post_id = $conversation->post_id;
 		$message->parent_id = $conversation->id;
 		$message->from_user_id = auth()->user()->id;
-		$message->from_name = auth()->user()->name;
+		$message->from_name = auth()->user()->username;
 		$message->from_email = auth()->user()->email;
 		$message->from_phone = auth()->user()->phone;
 		$message->to_user_id = $toUserId;
 		$message->to_name = $toName;
 		$message->to_email = $toEmail;
 		$message->to_phone = $toPhone;
-		$message->subject = 'RE: ' . $conversation->subject;
+		$message->subject = 'RE: ' . $conversation->subject; 
 		
-		$attr = ['slug' => slugify($conversation->post->title), 'id' => $conversation->post->id];
+		$attr = ['slug' => slugify($posts->title), 'id' => $posts->id];
 		$message->message = $request->input('message')
 			. '<br><br>'
 			. t('Related to the ad')
-			. ': <a href="' . lurl($conversation->post->uri, $attr) . '">' . t('Click here to see') . '</a>';
+			. ': <a href="' . lurl($posts->uri, $attr) . '">' . t('Click here to see') . '</a>';
 		
 		// Save
 		$message->save();

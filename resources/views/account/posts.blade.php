@@ -15,7 +15,7 @@
 
 @section('content')
 	@include('common.spacer')
-	<div class="main-container"> 
+	<div class="main-container" style="margin-top: 50px;"> 
 		<div class="container">
 			<div class="row">
 
@@ -36,18 +36,30 @@
 
 				<div class="col-sm-9 page-content">
 					<div class="inner-box">
-						@if ($pagePath=='my-posts')
-							<h2 class="title-2"><i class="icon-docs"></i> {{ t('My Ads') }} </h2>
+					
+                    
+                    
+                    
+                    
+                      <div  style="background-color: #ff5555 ; border-radius: 40px;margin:7px;padding:12px 0px 0px 14px;">
+                      
+                    	@if ($pagePath=='my-posts')
+							<h2 class="title-2" style="color: #fff"><i class="icon-docs"></i> {{ t('All ads') }} </h2>
+						@elseif ($pagePath=='approved')
+							<h2 class="title-2" style="color: #fff"><i class="icon-thumbs-up"></i> {{ t('Activated ads') }} </h2>
 						@elseif ($pagePath=='archived')
-							<h2 class="title-2"><i class="icon-folder-close"></i> {{ t('Archived ads') }} </h2>
+							<h2 class="title-2" style="color: #fff"><i class="icon-folder-close"></i> {{ t('Archived ads') }} </h2>
 						@elseif ($pagePath=='favourite')
-							<h2 class="title-2"><i class="icon-heart-1"></i> {{ t('Favourite ads') }} </h2>
+							<h2 class="title-2" style="color: #fff"><i class="icon-heart-1"></i> {{ t('Favourite ads') }} </h2>
 						@elseif ($pagePath=='pending-approval')
-							<h2 class="title-2"><i class="icon-hourglass"></i> {{ t('Pending approval') }} </h2>
+							<h2 class="title-2" style="color: #fff"><i class="icon-hourglass"></i> {{ t('Pending approval') }} </h2>
 						@else
-							<h2 class="title-2"><i class="icon-docs"></i> {{ t('Posts') }} </h2>
+							<h2 class="title-2" style="color: #fff"><i class="icon-thumbs-down"></i> {{ t('Rejected ads') }} </h2>
 						@endif
-
+                        
+                         </div>
+                        
+						
 						<div class="table-responsive">
 								<form name="listForm" method="GET" action="">
 									<div class="table-search col-xs-12">
@@ -59,7 +71,7 @@
 												<div style="display:none" class="autocompletesearch"></div>
 											</div>
 											<label class="col-sm-2 control-label text-right">
-												<button class="btn btn-sm btn-default" type="submit"><i class="fa fa-search"></i> {{ t('Search') }}</button> </label>
+												<button class="newbtn btn btn-sm btn-default" type="submit"><i class="fa fa-search"></i> {{ t('Search') }}</button> </label>
 										</div>
 									</div>
 								</form>
@@ -69,7 +81,7 @@
 									<label for="checkAll">
 										<input type="checkbox" id="checkAll">
 										{{ t('Select') }}: {{ t('All') }}  
-										<button type="submit" class="btn btn-sm btn-default delete-action">
+										<button type="submit" class="newbtn btn btn-sm btn-default delete-action">
 											<i class="fa fa-trash"></i> {{ t('Delete') }}
 										</button>
 									</label>
@@ -88,9 +100,10 @@
 									<thead>
 									<tr>
 										<th data-type="numeric" data-sort-initial="true">{{ t('Select') }}</th> 
-										<th>{{ t('Photo') }}</th>
+										<th>{{ t('Photos') }}</th>
 										<th data-sort-ignore="true">{{ t('Ads Details') }}</th>
 										<th data-type="numeric">{{ t('Price') }}</th>
+									@if ($pagePath=='my-posts')	<th>{{ t('Type') }}</th>@endif
 										<th>{{ t('Option') }}</th>
 									</tr>
 									</thead>
@@ -156,7 +169,7 @@
 													<strong>
                                                         <a href="{{ $postUrl }}" title="{{ $post->title }}">{{ str_limit($post->title, 40) }}</a>
                                                     </strong>
-													@if (in_array($pagePath, ['my-posts', 'archived', 'pending-approval']))
+													@if (in_array($pagePath, ['my-posts','approved' ,'archived', 'pending-approval','rejected']))
 														@if (isset($post->latestPayment) and !empty($post->latestPayment))
 															@if (isset($post->latestPayment->package) and !empty($post->latestPayment->package))
 																<?php
@@ -178,16 +191,20 @@
 													<strong><i class="icon-clock" title="{{ t('Posted On') }}"></i></strong>&nbsp;
 													{{ $post->created_at->formatLocalized(config('settings.app.default_datetime_format')) }}
 												</p>
-												<p>
+												
+                                                @if ($pagePath =='favourite')
+                                                <p>
 													<strong><i class="icon-eye" title="{{ t('Visitors') }}"></i></strong> {{ $post->visits or 0 }}
 													<strong><i class="fa fa-map-marker" title="{{ t('Located In') }}"></i></strong> {{ !empty($post->city) ? $post->city->name : '-' }}
 													@if (file_exists(public_path($countryFlagPath)))
 														<img src="{{ url($countryFlagPath) }}" data-toggle="tooltip" title="{{ $post->country_code }}">
 													@endif
 												</p>
+                                                @endif
+                                                
 											</div>
 										</td>
-										<td style="width:16%" class="price-td">
+										<td style="width:23%" class="price-td">
 											<div>
 												<strong>
 											    	{!! \App\Helpers\Number::money_price_latest($post->price,$getcurrencycountry->html_entity,$getcurrencycountry->in_left,$getcurrencycountry->decimal_places,$getcurrencycountry->decimal_separator) !!}
@@ -195,53 +212,100 @@
 												</strong>
 											</div>
 										</td>
+                                       @if ($pagePath=='my-posts')
+										<td>
+										    @if($post->reviewed == 1 && $post->archived == 0)
+										        {{ __('global.Approved') }}
+										    @elseif($post->archived == 1)
+										        {{ __('global.Archived') }}
+										    @elseif($post->is_rejected == 1)
+										        {{ __('global.Rejected') }}
+										    @else
+										        {{ __('global.Pending') }}
+										    @endif
+                                         </td>
+                                         @endif
 										<td style="width:10%" class="action-td">
 											<div>
 												@if ($post->user_id==$user->id and $post->archived==0)
 													<p>
-                                                        <a  style="width: 80px;" class="btn btn-primary btn-sm" href="{{ lurl('posts/' . $post->id . '/edit') }}">
+                                                        <a  style="width: 80px;" class="newbtn btn btn-warning btn-sm" href="{{ lurl('posts/' . $post->id . '/edit') }}">
                                                             <i class="fa fa-edit"></i> {{ t('Edit') }}
                                                         </a>
                                                     </p>
                                                 	@if ($pagePath=='pending-approval')
                                                         <p>
-                                                            <a  class="btn btn-danger btn-sm delete-action" href="{{ lurl('account/'.$pagePath.'/'.$post->id.'/deletepost') }}">
+                                                            <a  class="newbtn btn btn-danger btn-sm delete-action" href="{{ lurl('account/'.$pagePath.'/'.$post->id.'/deletepost') }}">
                                                                 <i class="fa fa-trash"></i> {{ t('Delete') }}
                                                             </a>
                                                         </p>
                                                     @else
                                                     <p>
-                                                        <a  class="btn btn-danger btn-sm delete-action" href="{{ lurl('account/'.$pagePath.'/'.$post->id.'/delete') }}">
+                                                        <a  class="newbtn btn btn-danger btn-sm delete-action" href="{{ lurl('account/'.$pagePath.'/'.$post->id.'/deletepost') }}">
                                                             <i class="fa fa-trash"></i> {{ t('Delete') }}
                                                         </a>
                                                     </p>
                                                     @endif
 												@endif
+
+												@if ($post->archived==0 && $pagePath !='favourite' && $pagePath !='rejected')
+													 
+                                                     
+                                                      @if($post->is_rejected == 1)
+                                                      @else
+                                                          <p>
+                                                        
+                                                            <a class="newbtn btn btn-success btn-sm"                                                             
+                                                            href="{{ lurl('account/'.$pagePath.'/'.$post->id.'/archivepost') }}">
+                                                             <i class="fa fa-compress"></i> {{ t('Archived') }} </a>
+    
+                                                          </p>
+                                                     @endif
+
+												@endif
+                                                
+                                                
+                                                
+
 												@if (isVerifiedPost($post) and $post->archived==0)
 													<!--<p>
-														<a class="btn btn-info btn-sm"> <i class="fa fa-mail-forward"></i> {{ t('Share') }} </a>
+														<a class="newbtn btn btn-info btn-sm"> <i class="fa fa-mail-forward"></i> {{ t('Share') }} </a>
 													</p>-->
+													
+												 
+
+
 												@endif
 												
 												@if ($pagePath=='favourite')
 												   <p>
-                                                        <a  class="btn btn-danger btn-sm delete-action" href="{{ lurl('account/'.$pagePath.'/'.$post->id.'/deletepostfavourite') }}">
-                                                            <i class="fa fa-trash"></i> {{ t('Delete') }}
+                                                        <a  class="newbtn btn btn-danger btn-sm delete-action" href="{{ lurl('account/'.$pagePath.'/'.$post->id.'/deletepostfavourite') }}">
+                                                            <i class="fa fa-trash"></i> <!--{{ t('Remove favorite') }}-->{{ t('Delete') }}
                                                         </a>
                                                     </p>
 												@endif
 												@if ($post->user_id==$user->id and $post->archived==1)
+												
+												@if ($pagePath=='archived' || ($post->user_id==$user->id and $post->archived==1))
 													<p>
-                                                        <a  class="btn btn-info btn-sm" href="{{ lurl('account/'.$pagePath.'/'.$post->id.'/repost') }}">
+                                                        <a  class="newbtn btn btn-info btn-sm" href="{{ lurl('account/'.$pagePath.'/'.$post->id.'/repost') }}">
                                                             <i class="fa fa-recycle"></i> {{ t('Repost') }}
                                                         </a>
                                                     </p>
+												@endif
+
                                                     <p>
-                                                        <a  class="btn btn-danger btn-sm delete-action" href="{{ lurl('account/'.$pagePath.'/'.$post->id.'/deletepost') }}">
-                                                            <i class="fa fa-trash"></i> {{ t('Delete') }}
+                                                        <a  class="newbtn btn btn-danger btn-sm delete-action" href="{{ lurl('account/'.$pagePath.'/'.$post->id.'/deletepost') }}">
+                                                            <i class="fa fa-trash"></i> {{ t('Delete') }} {{ t('post') }}
+                                                        </a>
+                                                    </p>
+													<p>
+                                                        <a  style="width: 80px;" class="newbtn btn btn-warning btn-sm" href="{{ lurl('posts/' . $post->id . '/edit') }}">
+                                                            <i class="fa fa-edit"></i> {{ t('Edit') }}
                                                         </a>
                                                     </p>
 												@endif
+
 												
 											</div>
 										</td>

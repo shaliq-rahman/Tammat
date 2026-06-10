@@ -18,8 +18,8 @@ if (isset($city) and !empty($city)) {
     $qAdmin = Input::get('r');
 }
 ?>
-<div class="container">
-	<div class="search-row-wrapper">
+<div class="container" style="padding-top:50px;">
+	<div class="search-row-wrapper" >
 		<div class="container">
 			<?php $attr = ['countryCode' => config('country.icode')]; ?>
 			<form id="seach" name="search" action="{{ lurl(trans('routes.v-search', $attr), $attr) }}" method="GET">
@@ -61,7 +61,7 @@ if (isset($city) and !empty($city)) {
             }
 
         </script>
-        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD3HKnsvpSAYaoQQ-wIeqDBTjb69hJ-vMw&libraries=places&callback=initialize"
+        <script src="https://maps.googleapis.com/maps/api/js?key={{ config('services.GoogleMaps.key') }}&libraries=places&callback=initialize"
          async defer></script>
 				
 
@@ -70,7 +70,7 @@ if (isset($city) and !empty($city)) {
 
 				<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
 					<button class="btn btn-block btn-primary">
-						<i class="fa fa-search"></i> <strong>{{ t('Find') }}</strong>
+						<i class="fa fa-search"></i> <strong style="color:white">{{ t('Find') }}</strong>
 					</button>
 				</div>
 				{!! csrf_field() !!}

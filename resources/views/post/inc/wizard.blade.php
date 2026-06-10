@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-lg-12">
             <section>
-                <div class="wizard">
+                <div class="wizard" style="margin-top: 47px;">
                     
                     <ul class="nav nav-wizard">
                         @if (getSegment(2) == 'create')

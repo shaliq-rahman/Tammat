@@ -18,6 +18,7 @@ namespace App\Mail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Mail\Mailables\Envelope;
 
 class EmailVerification extends Mailable
 {
@@ -34,13 +35,18 @@ class EmailVerification extends Mailable
 	 */
 	public function __construct($entity, $entityRef)
 	{
+
+		$fromname = 'Tammat';
+        $from_email = 'admin@tmmat.com'; 
+		$this->from($from_email, $fromname);
 		$this->entity = $entity;
-		$this->entityRef = $entityRef;
-		
+		$this->entityRef = $entityRef;		
 		$this->to($entity->email, $entity->{$entityRef['name']});
 		$this->subject(trans('mail.email_verification_title', ['appName' => config('app.name')]));
 	}
 	
+ 
+
 	/**
 	 * Build the message.
 	 *

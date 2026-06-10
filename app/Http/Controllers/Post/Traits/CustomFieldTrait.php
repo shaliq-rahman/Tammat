@@ -24,6 +24,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\App;
 use DB;
 trait CustomFieldTrait
 {
@@ -37,12 +38,14 @@ trait CustomFieldTrait
 	 * @param null $postId
 	 * @return string
 	 */
+    public static $languageCodeForTranslation;
+
     public function getCategoryFieldsBuffer($catNestedIds, $languageCode, $errors = null, $oldInput = null, $postId = null)
     {
         $html = '';
         
         $fields = CategoryField::getFields($catNestedIds, $postId, $languageCode);
-        
+        //dd($fields);
         if (count($fields) > 0) {
             $view = View::make('post.inc.fields', [
                 'fields'       => $fields,
@@ -60,7 +63,14 @@ trait CustomFieldTrait
     public function getCategoryFieldsBufferApp($catNestedIds, $languageCode, $errors = null, $oldInput = null, $postId = null)
     {
         $html = '';
-        
+       // $x[]=$languageCode;
+       // print_r($languageCode);
+
+        self::$languageCodeForTranslation = $languageCode;		
+        //Session::put('locale', $languageCode);
+        App::setLocale($languageCode);
+
+
         $fields = CategoryField::getFields_app($catNestedIds, $postId, $languageCode);
         if (count($fields) > 0) {
             $view = View::make('post.inc.fields', [
@@ -84,6 +94,8 @@ trait CustomFieldTrait
      */
     public function createPostFieldsValues(Post $post, Request $request)
     {
+		
+		
         $postValues = [];
         
         if (empty($post)) {
@@ -114,13 +126,17 @@ trait CustomFieldTrait
 		];
   
 		// Get Category's Fields details
-        $fields = CategoryField::getFields($catNestedIds);
+        $fields = CategoryField::getFields($catNestedIds,$request->input('category_id'));
+		//dd($fields);
+		
+		
+		
         if ($fields->count() > 0) {
             foreach ($fields as $field) {
                 if ($field->type == 'file') {
                     if ($request->hasFile('cf.' . $field->tid)) {
                         // Get file's destination path
-                        $destinationPath = 'files/' . strtolower($post->country_code) . '/' . $post->id;
+                        $destinationPath = 'storage/files/' . strtolower($post->country_code) . '/' . $post->id;
                         
                         // Get the file
                         $file = $request->file('cf.' . $field->tid);
@@ -212,6 +228,41 @@ trait CustomFieldTrait
     }
     
     
+	
+	public function ShowCustomFields_only($catNestedIds, $postId)
+    {
+        // Get the Post's Custom Fields by its Parent Category
+        $customFields = CategoryField::ShowFields_only($catNestedIds, $postId);
+        
+        // Get the Post's Custom Fields that have a value
+        $postValue = [];
+        if ($customFields->count() > 0) {
+            foreach ($customFields as $key => $field) {
+                
+                if (!empty($field->default)) {
+				/*print_r($field->default);
+				if(is_object($field->default))
+				{
+				echo 'a';
+				}
+				else
+				{
+				echo 'b';
+				}*/
+				
+				
+                    $postValue[$key] = $field;
+                }
+            }
+        }
+        
+        return collect($postValue);
+    }
+    
+    
+	
+	
+	
     public function getPostFieldsValues_app($catNestedIds, $postId)
     {
         // Get the Post's Custom Fields by its Parent Category
@@ -243,4 +294,10 @@ trait CustomFieldTrait
     }
     
     
+	
+	
+	
+	
+	
+	
 }

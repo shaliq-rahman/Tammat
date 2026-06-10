@@ -203,16 +203,42 @@ class AjaxController extends Controller
 		if ($table == 'posts' && $field == 'reviewed') {
 		    if($item->{$field} == '1')
 		    {
-		        $from_email = 'admin@dealnotdeal.com';
-		        $fromname = 'Deal Not Deal';
+		        $from_email = 'admin@tmmat.com';
+		        $fromname = 'Tammat';
 		        $postvalue = Post::find($primaryKey);
+		        $postvalue->is_rejected = 0;
+		        $postvalue->update();
 		        $uservalue = User::find($postvalue->user_id);
 		        $data['post'] = $postvalue;
+		        $data['user'] = $uservalue;
 		        $toemail = $uservalue->email;
 	            \Mail::send('emails.post.reviewed', $data, function($message) use ($from_email, $fromname, $toemail)
                 {
                     $message->to($toemail);
-                    $message->subject('Your Post Approved');
+                    $message->subject('Your Post is Published');
+                    $message->from($from_email, $fromname);
+                    $message->replyTo($from_email, $fromname);        
+                    
+                });    
+		    }
+		}
+		
+		if ($table == 'posts' && $field == 'is_rejected') {
+		    if($item->{$field} == '1')
+		    {
+		        $from_email = 'admin@tmmat.com';
+		        $fromname = 'Tammat';
+		        $postvalue = Post::find($primaryKey);
+		        $postvalue->reviewed = 0;
+		        $postvalue->update();
+		        $uservalue = User::find($postvalue->user_id);
+		        $data['post'] = $postvalue;
+		        $data['user'] = $uservalue;
+		        $toemail = $uservalue->email;
+	            \Mail::send('emails.post.rejected', $data, function($message) use ($from_email, $fromname, $toemail)
+                {
+                    $message->to($toemail);
+                    $message->subject('Your Post is Rejected');
                     $message->from($from_email, $fromname);
                     $message->replyTo($from_email, $fromname);        
                     

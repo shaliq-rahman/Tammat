@@ -58,6 +58,52 @@ trait PaymentTrait
         return redirect($this->uri['previousUrl'] . '?error=paymentMethodNotFound')->withInput();
     }
     
+	
+	
+	
+	 /**
+     * Send Payment
+     *
+     * @param Request $request
+     * @param Post $post
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function sendPaymentNew(Request $request,$post)
+    {
+        // Set URLs
+		$this->uri['previousUrl'] = config('app.locale') . '/account/recharge_points?point_id=#entryId';
+        $this->uri['previousUrl'] = str_replace(['#entryToken', '#entryId'], [$post->id], $this->uri['previousUrl']);
+
+        // Get Payment Method
+        $paymentMethod = PaymentMethod::find($request->input('payment_method_id'));
+
+        if (!empty($paymentMethod)) {
+            // Load Payment Plugin
+            $plugin = load_installed_plugin(strtolower($paymentMethod->name));
+
+            // Payment using the selected Payment Method
+            if (!empty($plugin)) {
+                // Send the Payment
+                try {
+                     return call_user_func($plugin->class . '::sendPaymentNewApi', $request, $post);
+                    //return  response()->json(call_user_func($plugin->class . '::sendPaymentNew', $request, $post));
+                } catch (\Exception $e) {
+                    flash($e->getMessage())->error();
+                     return redirect($this->uri['previousUrl'] . '?error=pluginLoading')->withInput();
+                    // return  response()->json($this->uri['previousUrl'] . '?error=pluginLoading');
+                }
+            }
+        }
+        
+         return redirect($this->uri['previousUrl'] . '?error=paymentMethodNotFound')->withInput();
+        // return  response()->json($this->uri['previousUrl'] . '?error=paymentMethodNotFound');
+
+        
+
+    }
+
+    
+
     
     /**
      * Send Payment
@@ -177,7 +223,7 @@ trait PaymentTrait
         if($deviceType=='mobile')
         {
            
-            return redirect('https://www.dealnotdeal.com/');
+            return redirect('https://www.tmmat.com/');
         }
         else{
             if (empty($params)) {

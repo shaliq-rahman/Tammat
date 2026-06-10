@@ -20,7 +20,7 @@ if (auth()->check()) {
 <script src="http://code.jquery.com/ui/1.8.21/jquery-ui.min.js"></script> -->
 <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script> -->
 
-<div class="main-container">
+<div class="main-container" style="margin-top: 85px;">
 	<div class="container">
 		<div class="row">
 			<div class="col-md-12 page-content">
@@ -45,11 +45,12 @@ if (!empty($picture->filename)) {
 								<div class="col-md-5 col-lg-5 col-sm-5 col-xs-12 nopadding">
 									<div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
 										<div class="col-md-6 col-lg-6 col-sm-6 col-xs-4 pull-left username-position">
-											<h1 style="color: #3c80af !important;" class="buyername-header" >{{ $buyer->username }}</h1>
+											<h1 class="buyername-header" >{{ $buyer->username }}</h1>
 										</div>
 									</div>
 									<div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
-										<div class="col-md-6 col-lg-6 col-sm-4 col-xs-4 buyer-face pull-left">
+										<div class="col-md-6 col-lg-6 col-sm-4 col-xs-4 pull-left"  align="center">>
+                                        <i class="icon-user fa" style="font-size: 50px;"></i>
 										</div>
 										<div class="col-md-6 col-lg-6 col-sm-6 col-xs-12 brefcase-grip brefcase-grip-top pull-left">
 										</div>
@@ -183,11 +184,12 @@ if (!empty($picture->filename)) {
 								<div class="col-md-5 col-lg-5 col-sm-5 col-xs-12 nopadding">
 									<div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
 										<div class="col-md-6 col-lg-6 col-sm-6 col-xs-4 pull-right  sellername-position ">
-											<h1 style="color: #3c80af !important;" class="sellername-header" >{{$seller->username}}</h1>
+											<h1 class="sellername-header" >{{$seller->username}}</h1>
 										</div>
 									</div>
 									<div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
-										<div class="col-md-6 col-lg-6 col-sm-4 col-xs-4 seller-face pull-right">
+										<div class="col-md-6 col-lg-6 col-sm-4 col-xs-4 pull-right" align="center">
+                                         <i class="icon-user fa" style="font-size: 50px;"></i>
 										</div>
 										<div class="col-md-6 col-lg-6 col-sm-6 col-xs-12 brefcase-grip brefcase-grip-bottom pull-right">
 										</div>

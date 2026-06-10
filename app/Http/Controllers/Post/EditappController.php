@@ -109,6 +109,8 @@ class EditappController extends FrontController
     public function postForm($postId, PostRequest $request)
     {
         
+		// return response()->json(['results'=>"We have not received your payment. Payment cancelled.".$request->input('city_name')]);
+		// dd($request->input());
         $getlocation = $this->getlocationcity($request->input('city_name'));
         
          $lat = !empty($getlocation['lat'])?$getlocation['lat']:0;
@@ -151,15 +153,16 @@ class EditappController extends FrontController
       updated_at = "'.date('Y-m-d H:i:s').'" 
       where id = "'.$request->input('city_id').'" ');
       
-        $checkpaymentpayaccount = \DB::table('payments')->where('post_id', '=', $postId)->where('active', '=', 1)->count();
-      
+        $checkpaymentpayaccount = \DB::table('payments')->where('post_id', '=', $postId)->where('active', '=', 1)->count();      
         if($checkpaymentpayaccount == '0')
         {
             \DB::table('posts')->where('id', $postId)->update(['reviewed' => 0]);
         }    
-
-        
-        return $this->postUpdateForm_app($postId, $request);
+        //dd($request);
+        //remove it from archive
+         \DB::table('posts')->where('id', $postId)->update(['archived' => 0]);
+		 \DB::table('posts')->where('id', $postId)->update(['is_rejected' => 0]);
+        return $this->postUpdateForm_app($postId, $request); 
     }
     
     

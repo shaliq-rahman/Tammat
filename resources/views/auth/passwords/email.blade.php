@@ -99,7 +99,9 @@
 										<input id="login" name="login" type="text" placeholder="{{ getLoginLabel() }}" class="form-control" value="{{ old('login') }}">
 									</div>
 								</div>
-								
+							 
+                           <?php /*
+								  
 								@if (config('settings.security.recaptcha_activation'))
 									<!-- g-recaptcha-response -->
 									<div class="form-group required <?php echo (isset($errors) and $errors->has('g-recaptcha-response')) ? 'has-error' : ''; ?>">
@@ -109,6 +111,8 @@
 									</div>
 								@endif
 								
+
+								*/?>
 								<!-- Submit -->
 								<div class="form-group">
 									<button id="pwdBtn" type="submit" class="btn btn-primary btn-lg btn-block">{{ t('Submit') }}</button>

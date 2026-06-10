@@ -94,7 +94,7 @@ class Payment extends BaseModel
 	
     public function getPostTitleHtml()
     {
-    	$out = '#' . $this->postid;
+    	$out = '#' . $this->post_id;
         if ($this->post_latest) {
         	$postUrl = url(config('app.locale') . '/' . $this->post_latest->uri);
 			$out .= ' | ';
@@ -109,42 +109,31 @@ class Payment extends BaseModel
      public function getC()
     {
      
-	   $postss = DB::table('posts')->where('id', $this->postid)->first();
-        
-       
-    
-    $user_id = optional($postss)->user_id;
-    $userss = DB::table('users')->where('id', $user_id)->first();
-
+	//$postss = DB::table('posts')->where('id', $this->post_id)->first();        
+   // $user_id = optional($postss)->user_id;
+    $userss = DB::table('users')->where('id', $this->user_id)->first();
     $user_name = optional($userss)->country_code;
-        
-        return $user_name ;
+    return $user_name ;
     }
     
     
      
      public function getUsername()
     {
-    //	$out = '#' . $this->post_id;
-       
-	   $postss = DB::table('posts')->where('id', $this->postid)->first();
         
-      // $posts['user_id'];
-     
-        
-        
-   ////      $user = DB::table('users')->where('id', $posts->user_id)
+       //$out = '#' . $this->post_id;
+       $postss = DB::table('posts')->where('id', $this->post_id)->first();        
+        // $posts['user_id'];
+       ////$user = DB::table('users')->where('id', $posts->user_id)
 	   //     ->first();
 	   
 	   //$u = $posts->user_id;
         
-       // $array = get_object_vars($posts);
-       
-       
-   //    $post = Post::where('id' , $this->post_id)->first();
+       // $array = get_object_vars($posts);  
+       //    $post = Post::where('id' , $this->post_id)->first();
    
-   $user_id = optional($postss)->user_id;
-    $userss = DB::table('users')->where('id', $user_id)->first();
+    $user_id = optional($postss)->user_id;
+    $userss = DB::table('users')->where('id', $this->user_id)->first();
 
     $user_name = optional($userss)->username;
         

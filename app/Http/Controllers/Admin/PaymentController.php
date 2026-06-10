@@ -34,14 +34,16 @@ class PaymentController extends PanelController
 		$this->xPanel->with(['post_latest', 'package', 'paymentMethod']);
 		$this->xPanel->setRoute(config('larapen.admin.route_prefix', 'admin') . '/payments');
 		$this->xPanel->setEntityNameStrings(trans('admin::messages.payment'), trans('admin::messages.payments'));
-		$this->xPanel->denyAccess(['create', 'update', 'delete']);
-		$this->xPanel->removeAllButtons(); // Remove also: 'create' & 'reorder' buttons
+		$this->xPanel->denyAccess(['create', 'update']);
+// 		$this->xPanel->removeAllButtons(); // Remove also: 'create' & 'reorder' buttons
 		/*
 		$this->xPanel->removeButton('update');
 		$this->xPanel->removeButton('delete');
 		$this->xPanel->removeButton('preview');
 		$this->xPanel->removeButton('revisions');
 		*/
+		$this->xPanel->addButtonFromModelFunction('top', 'bulk_delete_btn', 'bulkDeleteBtn', 'end');
+
 		if (!request()->input('order')) {
 			$this->xPanel->orderBy('created_at', 'DESC');
 		}
@@ -71,13 +73,13 @@ class PaymentController extends PanelController
 		});
 		// -----------------------
 		$this->xPanel->addFilter([
-			'name'  => 'postid',
+			'name'  => 'post_id',
 			'type'  => 'text',
 			'label' => trans('admin::messages.Ad') . ' (ID)',
 		],
 		false,
 		function ($value) {
-			$this->xPanel->addClause('where', 'postid', '=', $value);
+			$this->xPanel->addClause('where', 'post_id', '=', $value);
 		});
 		// -----------------------
 		$this->xPanel->addFilter([
@@ -123,6 +125,22 @@ class PaymentController extends PanelController
 		|--------------------------------------------------------------------------
 		*/
 		// COLUMNS
+		
+		// COLUMNS
+
+		$this->xPanel->addColumn([
+
+			'name'  => 'id_name',
+
+			'label' => '',
+
+			'type'  => 'checkbox',
+
+			// 'orderable' => true,
+
+		]);
+		
+		
 		$this->xPanel->addColumn([
 			'name'  => 'id',
 			'label' => "ID",
@@ -159,7 +177,7 @@ class PaymentController extends PanelController
 		
 		
 		$this->xPanel->addColumn([
-			'name'          => 'postid',
+			'name'          => 'post_id',
 			'label'         => trans("admin::messages.Ad"),
 			'type'          => 'model_function',
 			'function_name' => 'getPostTitleHtml',
@@ -194,12 +212,16 @@ class PaymentController extends PanelController
 			'function_name' => 'getActiveHtml',
 		]);
 		
+		/*
+		//committed by abdelhay 14-2-2024
+		
 		$this->xPanel->addColumn([
 			'name'          => 'previewed',
 			'label'         => trans("admin::messages.Reviewed"),
 			'type'          => 'model_function',
 			'function_name' => 'getReviewedHtml',
 		]);
+		*/
 		
 		// FIELDS
 	}

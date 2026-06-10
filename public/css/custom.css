@@ -115,7 +115,7 @@ a {  cursor:pointer;}
 /*}*/
 
 .pricetag-offer {
-    background: #4682b4;
+    background: #ff5555;
     border-radius: 3px 0 0 3px;
     color: #fff;
     font-size: 20px;
@@ -192,11 +192,11 @@ a {  cursor:pointer;}
 }
 .brefcase.buyer
 {
-  background: #905b0b; 
+  background: #ff55551f; 
 }
 .brefcase.seller
 {
-  background: #fde326; 
+  background: #ff55551f; 
 }
 .brefcase img
 {

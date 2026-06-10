@@ -448,7 +448,7 @@ class MakeanoffersController extends AccountBaseController
 
 	public function store( Request $request)
 	{
-	    
+	    //dd($request);
 		$postId = $request->input('post-id');
 		$offerId = $request->input('makeanoffer-id');
 		// $offerPriceSeller = $request->input('offer_price_seller');

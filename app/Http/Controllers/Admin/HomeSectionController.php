@@ -278,10 +278,10 @@ class HomeSectionController extends PanelController
 							'fake'              => true,
 							'store_in'          => 'options',
 							'attributes'        => [
-								'placeholder' => t('Sell and buy near you', [], 'global', $language->abbr),
+							'placeholder' => t('If you can’t sell or buy … exchange in entertaining way!', [], 'global', $language->abbr),
 							],
 							'wrapperAttributes' => [
-								'class' => 'form-group col-md-6',
+								'class' => 'form-group col-md-4',
 							],
 						];
 						$this->xPanel->addField(${'titleField' . $language->abbr});
@@ -292,13 +292,27 @@ class HomeSectionController extends PanelController
 							'fake'              => true,
 							'store_in'          => 'options',
 							'attributes'        => [
-								'placeholder' => t('Simple, fast and efficient', [], 'global', $language->abbr),
+							'placeholder' => t('Help your community by giving away', [], 'global', $language->abbr),
 							],
 							'wrapperAttributes' => [
-								'class' => 'form-group col-md-6',
+								'class' => 'form-group col-md-4',
 							],
 						];
 						$this->xPanel->addField(${'subTitleField' . $language->abbr});
+						
+						${'underTitleField' . $language->abbr} = [
+							'name'              => 'under_title_' . $language->abbr,
+							'label'             => trans("admin::messages.Under Title") . ' (' . $language->name . ')',
+							'fake'              => true,
+							'store_in'          => 'options',
+							'attributes'        => [
+								'placeholder' => t('Less waste, less stocking & money saving', [], 'global', $language->abbr),
+							],
+							'wrapperAttributes' => [
+								'class' => 'form-group col-md-4',
+							],
+						];
+						$this->xPanel->addField(${'underTitleField' . $language->abbr});
 					}
 				}
 				

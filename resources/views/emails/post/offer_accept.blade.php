@@ -25,7 +25,8 @@
                     <br />
                     <br />
                     Kind Regards,
-                    The Deal Not Deal Team                
+                    
+                    Tammat Team                
                         
                     
                      

@@ -42,7 +42,7 @@ class Category extends BaseModel
 	 * @var string
 	 */
 	// protected $primaryKey = 'id';
-	protected $appends = ['tid'];
+	protected $appends = ['tid','child_count'];
 	
 	/**
 	 * Indicates if the model should be timestamped.
@@ -412,4 +412,12 @@ class Category extends BaseModel
 			$this->attributes['active'] = $value;
 		}
 	}
+	
+  	public function getChildCountAttribute()
+  	{
+          return Category::where('parent_id',$this->attributes['id'])->count();
+	
+  	}
+	
+	
 }

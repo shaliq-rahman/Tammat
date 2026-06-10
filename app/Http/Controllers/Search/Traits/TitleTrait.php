@@ -18,6 +18,7 @@ namespace App\Http\Controllers\Search\Traits;
 use App\Helpers\DBTool;
 use Illuminate\Support\Facades\Request;
 use App\Helpers\Search;
+use DB;
 
 trait TitleTrait
 {
@@ -111,9 +112,18 @@ trait TitleTrait
 		// Init.
 		$attr = ['countryCode' => config('country.icode')];
 		$htmlTitle .= '<a href="' . lurl(trans('routes.v-search', $attr), $attr) . '" class="current">';
-		$htmlTitle .= '<span>' . t('All ads') . '</span>';
+		$htmlTitle .= '<span>' . t('Ads') . '</span>';
 		$htmlTitle .= '</a>';
-		
+		if(!empty($this->city->name)){
+		$searchUrl = qsurl($fullUrlNoParams, request()->except(['l', 'r', 'location']));
+		 $htmlTitle .= ' ' . t('within') . ' '; 
+						$htmlTitle .= '<a rel="nofollow" class="jobs-s-tag" href="' . $searchUrl . '">';
+						$htmlTitle .= t(':distance :unit around :city', [
+							'distance' => (Search::$distance) > 49999 ? 'All Ads' : Search::$distance,
+							'unit'     => (Search::$distance) > 49999 ? '' : unitOfLength(config('country.code')),
+							'city'     => $this->city->name]);
+						$htmlTitle .= '</a>';
+		}
 		// Location
 		if ((isset($this->isCitySearch) && $this->isCitySearch) || (isset($this->isAdminSearch) && $this->isAdminSearch)) {
 			if (request()->filled('l') || request()->filled('r')) {
@@ -135,7 +145,7 @@ trait TitleTrait
 			} else {
 				// City
 				if (isset($this->city) && !empty($this->city)) {
-					if (DBTool::checkIfMySQLFunctionExists(config('larapen.core.distanceCalculationFormula'))) {
+					 /*if (DBTool::checkIfMySQLFunctionExists(config('larapen.core.distanceCalculationFormula'))) {
 						$htmlTitle .= ' ' . t('within') . ' ';
 						$htmlTitle .= '<a rel="nofollow" class="jobs-s-tag" href="' . $searchUrl . '">';
 						$htmlTitle .= t(':distance :unit around :city', [
@@ -148,7 +158,7 @@ trait TitleTrait
 						$htmlTitle .= '<a rel="nofollow" class="jobs-s-tag" href="' . $searchUrl . '">';
 						$htmlTitle .= $this->city->name;
 						$htmlTitle .= '</a>';
-					}
+					}*/
 				}
 			}
 		}
@@ -233,26 +243,37 @@ trait TitleTrait
 	public function getBreadcrumb()
 	{
 		$bcTab = [];
-		
+		//dd($this->city);
 		// City
-		if (isset($this->city) && !empty($this->city)) {
-			$title = t('in :distance :unit around :city', [
+		  	if(empty($this->city)){				   
+				    $getdetail = \DB::table('countries')->select('capital')->where('code','=', config('country.icode'))->first();
+					$capital = !empty($getdetail->capital)?$getdetail->capital:'';
+					//$this->city=$capital;
+					$cityname=$capital;
+					$cityid=$capital;
+					}else{
+				    $cityname=$this->city->name;
+					$cityid=$this->city->id;
+					}
+					
+		if (isset($cityname) && !empty($cityname)) {
+			/* no need for now $title = t('in :distance :unit around :city', [
 				'distance' => Search::$distance,
 				'unit'     => unitOfLength(config('country.code')),
-				'city'     => $this->city->name,
+				'city'     => $cityname,
 			]);
-			
+			 
 			$attr = [
 				'countryCode' => config('country.icode'),
-				'city'        => slugify($this->city->name),
-				'id'          => $this->city->id,
+				'city'        => slugify($cityname),
+				'id'          => $cityname,
 			];
 			$bcTab[] = [
-				'name'     => (isset($this->cat) ? t('All ads') . ' ' . $title : $this->city->name),
+				'name'     => (isset($this->cat) ? t('All ads') . ' ' . $title : $cityname),
 				'url'      => lurl(trans('routes.v-search-city', $attr), $attr),
 				'position' => (isset($this->cat) ? 5 : 3),
 				'location' => true,
-			];
+			];*/
 		}
 		
 		// Admin

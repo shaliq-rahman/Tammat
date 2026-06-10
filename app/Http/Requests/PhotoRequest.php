@@ -31,7 +31,7 @@ class PhotoRequest extends Request
 			$files = $this->file('pictures');
 			foreach ($files as $key => $file) {
 				if (!empty($file)) {
-					$rules['pictures.' . $key] = 'required|image|mimes:' . getUploadFileTypes('image') . '|max:' . (int)config('settings.upload.max_file_size', 1000);
+					$rules['pictures.' . $key] = 'required|image|mimes:' . getUploadFileTypes('image') . '|max:' . (int)config('settings.upload.max_file_size', 5000);
 				}
 			}
 		}
@@ -57,7 +57,7 @@ class PhotoRequest extends Request
 				]);
 				$messages['pictures.' . $key . '.max'] = t('The picture #:key may not be greater than :max.', [
 					'key' => $key,
-					'max' => fileSizeFormat((int)config('settings.upload.max_file_size', 1000)),
+					'max' => fileSizeFormat((int)config('settings.upload.max_file_size', 5000)),
 				]);
 			}
 		}

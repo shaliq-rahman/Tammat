@@ -39,7 +39,7 @@ $(document).ready(function() {
 	}
 	
 	/* On load */
-	$('#subCatBloc').hide();
+	//$('#subCatBloc').hide();
 	var catObj = getSubCategories(siteUrl, languageCode, category, subCategory);
 	applyCategoryTypeActions(categoryType, packageIsEnabled);
 	getCustomFieldsByCategory(siteUrl, languageCode, category, subCategory);
@@ -92,6 +92,7 @@ function getSubCategories(siteUrl, languageCode, catId, selectedSubCatId) {
 	var countSubCats = 0;
 	
 	/* Make ajax call */
+	//alert("yyyyyyyyyyy");
 	$.ajax({
 		method: 'POST',
 		url: siteUrl + '/ajax/category/sub-categories',
@@ -120,7 +121,7 @@ function getSubCategories(siteUrl, languageCode, catId, selectedSubCatId) {
 		
 		/* Bind data into Select list */
 		if (obj.countSubCats == 1) {
-			$('#subCatBloc').hide();
+			//$('#subCatBloc').hide();
 			$('#categoryId').empty().append('<option value="' + obj.subCats[0].tid + '">' + obj.subCats[0].name + '</option>').val(obj.subCats[0].tid).trigger('change');
 		} else {
 			$('#subCatBloc').show();

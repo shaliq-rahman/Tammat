@@ -1,3 +1,43 @@
+#Temp block for crawlers/bots
+BrowserMatchNoCase "ClaudeBot" bad_bot
+BrowserMatchNoCase "bytespider" bad_bot
+BrowserMatchNoCase "bingbot" bad_bot
+BrowserMatchNoCase "SemrushBot" bad_bot
+BrowserMatchNoCase "DotBot" bad_bot
+BrowserMatchNoCase "meta-externalagent" bad_bot
+BrowserMatchNoCase "Applebot" bad_bot
+BrowserMatchNoCase "Dart" bad_bot
+BrowserMatchNoCase "GPTBot" bad_bot
+BrowserMatchNoCase "PetalBot" bad_bot
+BrowserMatchNoCase "MJ12bot" bad_bot
+BrowserMatchNoCase "OAI-SearchBot" bad_bot
+BrowserMatchNoCase "Amazonbot" bad_bot
+BrowserMatchNoCase "YandexBot" bad_bot
+BrowserMatchNoCase "Barkrowler" bad_bot
+BrowserMatchNoCase "BLEXBot" bad_bot
+BrowserMatchNoCase "Scrapy" bad_bot
+BrowserMatchNoCase "proximic" bad_bot
+BrowserMatchNoCase "serpstatbot" bad_bot
+BrowserMatchNoCase "Pinterestbot" bad_bot
+BrowserMatchNoCase "OAI-SearchBot" bad_bot
+BrowserMatchNoCase "PerplexityBot" bad_bot
+BrowserMatchNoCase "webprosbot" bad_bot
+BrowserMatchNoCase "EzoicBot-IntegrationCheck" bad_bot
+BrowserMatchNoCase "AliyunSecBot" bad_bot
+BrowserMatchNoCase "GeedoProductSearch" bad_bot
+BrowserMatchNoCase "NetcraftSurveyAgent" bad_bot
+BrowserMatchNoCase "DuckDuckBot" bad_bot
+BrowserMatchNoCase "SeekportBot" bad_bot
+Order Deny,Allow
+Deny from env=bad_bot
+#end of temp block for crawlers/bots
+
+#start of Alibaba-cloud block
+Deny from 47.79.0.0/21
+Deny from 47.82.0.0/19
+Deny from 47.242.0.0/16
+#end of Alibaba-cloud block
+
 # ==================================================================================
 # LaraClassified - Geo Classified Ads CMS
 # Copyright (c) BedigitCom. All Rights Reserved

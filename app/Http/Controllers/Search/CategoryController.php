@@ -16,14 +16,19 @@
 namespace App\Http\Controllers\Search;
 
 use App\Helpers\Search;
+use App\Models\City;
 use App\Helpers\Search_app;
 use App\Models\Category;
 use App\Models\CategoryField;
 use Torann\LaravelMetaTags\Facades\MetaTag;
+use App\Http\Controllers\Search\Traits\PreSearchTrait;
 use Illuminate\Http\Request;
 use DB;
 class CategoryController extends BaseController
 {
+	
+	use PreSearchTrait;
+	
 	public $isCatSearch = true;
 
     protected $cat = null;
@@ -37,7 +42,7 @@ class CategoryController extends BaseController
      */
     public function index($countryCode, $catSlug, $subCatSlug = null)
     {
-        
+     //   print_r($_GET);
         // Check multi-countries site parameters
         if (!config('settings.seo.multi_countries_urls')) {
             $subCatSlug = $catSlug;
@@ -62,6 +67,8 @@ class CategoryController extends BaseController
 			'id'       => $this->cat->tid,
 		];
 
+
+        $lat = 0;$lng=0;
         // Check if this is SubCategory Request
         if (!empty($subCatSlug))
         {
@@ -87,8 +94,132 @@ class CategoryController extends BaseController
 		$customFields = CategoryField::getFields($catNestedIds);
 		view()->share('customFields', $customFields);
 
-        // Search
-        $search = new Search();
+       
+	   
+	   
+	   
+	 
+	   
+	    // Search abdelhay
+		 if(empty($_GET['distance'])){$_GET['distance']=300;}
+		 $distance=$_GET['distance'];
+		 if(!empty($_GET['location'])){
+		 
+					   
+					   
+					   
+			   $city_query = \DB::table('posts')
+
+	            ->select('lat','lon')
+				 
+				 ->where('city_name', 'like', '%'.$_GET['location'].'%')
+
+                ->first();
+				
+        
+           $lat = !empty($city_query->lat)?$city_query->lat:0;
+		   $lng = !empty($city_query->lon)?$city_query->lon:0;
+	 
+	 if($lat == 0 && $lng == 0){
+ 
+		  $city_query = \DB::table('cities')
+
+	            ->select('latitude','longitude','id')
+				 
+				 ->where('name', 'like', '%'.$_GET['location'].'%')
+
+                ->first();
+				
+        
+           $lat = !empty($city_query->latitude)?$city_query->latitude:0;
+		   $lng = !empty($city_query->longitude)?$city_query->longitude:0;
+		if(!empty($city_query->id)){
+		    $locationid = $city_query->id;
+		}
+	 
+	 
+	 }
+	 
+		
+		
+		
+		}else{
+			
+					   
+				    $getdetail = \DB::table('countries')
+
+           ->select('latitude','longitude','capital')
+
+           ->where('code','=', config('country.icode'))
+
+           ->first();
+
+	    
+
+	     $capital = !empty($getdetail->capital)?$getdetail->capital:'';
+	     $locationid = !empty($getdetail->id)?$getdetail->id:'';
+        
+		 
+		  $lat = !empty($getdetail->latitude)?$getdetail->latitude:0;
+		  $lng = !empty($getdetail->longitude)?$getdetail->longitude:0;
+		  $_GET['location']=$capital;
+			}
+		
+		
+	//	echo $_GET['location']."xxx";
+	 $city = $this->getCityfast($_GET['location']);
+	 if(empty($distance)){$distance=300;}
+		   
+//echo "wwww".$city;
+ 
+if($distance ==10){$Latitudinal_Degrees = 0.090909091;$Longitudinal_Degrees = 0.117647059;}
+if($distance ==15){$Latitudinal_Degrees = 0.1764705882;$Longitudinal_Degrees = 0.1363636364;}
+elseif($distance ==75){$Latitudinal_Degrees = 0.681818182;$Longitudinal_Degrees = 0.882352941;} 
+elseif($distance ==150){$Latitudinal_Degrees = 1.363636364;$Longitudinal_Degrees = 1.764705882;} 
+elseif($distance ==300){$Latitudinal_Degrees = 3.52941176;$Longitudinal_Degrees = 2.72727273;} 
+elseif($distance ==500){$Latitudinal_Degrees = 4.545454545;$Longitudinal_Degrees = 5.882352941;} 
+elseif($distance ==750){$Latitudinal_Degrees = 8.8235294118;$Longitudinal_Degrees = 6.8181818182;} 
+elseif($distance ==1000){$Latitudinal_Degrees = 9.090909091;$Longitudinal_Degrees = 11.76470588;} 
+elseif($distance ==50000){$Latitudinal_Degrees = 454.54545455;$Longitudinal_Degrees = 588.235294;} 
+ 
+$Max_Latitudinal =  (float)$lat  +  (float)$Latitudinal_Degrees;
+$Min_Latitudinal =  (float)$lat  -  (float)$Latitudinal_Degrees;
+$Max_Longitudinal = (float)$lng + (float)$Longitudinal_Degrees;
+$Min_Longitudinal = (float)$lng - (float)$Longitudinal_Degrees;
+
+     			$Min_Latitudinal=str_replace(",",".",$Min_Latitudinal);
+				$Max_Latitudinal=str_replace(",",".",$Max_Latitudinal);
+				$Min_Longitudinal=str_replace(",",".",$Min_Longitudinal);
+				$Max_Longitudinal=str_replace(",",".",$Max_Longitudinal);
+				
+				 $cities_query = DB::select('select distinct `city_name` from `posts` where `lat` between '.$Min_Latitudinal.' and '.$Max_Latitudinal.' and `lon` between '.$Min_Longitudinal.' and '.$Max_Longitudinal.'');
+				 
+				
+			$cities=array();	
+			$cities[]=request()->get('location');
+		 	//print_r($cities_query);
+		if(!empty($cities_query)){
+			foreach($cities_query as $city_nm){
+				$cities[]=$city_nm->city_name;
+				
+				}
+			
+			}	   
+			   
+		//print_r($cities);
+		  //dd($cities);
+		$preSearch = [
+            'distance'  => (isset($distance) && !empty($distance)) ? $distance : 50000,
+			'city'  => (isset($city) && !empty($city)) ? $city : null,
+			'cities' => (isset($cities) && !empty($cities)) ? $cities : array(),			
+			
+		];
+
+        //print_r($_SESSION);
+		
+		$search = new Search($preSearch);
+		
+     //   $search = new Search();
         if (isset($this->subCat) && !empty($this->subCat)) {
             $data = $search->setCategory($this->cat->tid, $this->subCat->tid)->setRequestFilters()->fetch();
            
@@ -98,9 +229,10 @@ class CategoryController extends BaseController
 	
 
         // Get Titles
-        $bcTab = $this->getBreadcrumb();
-        $htmlTitle = $this->getHtmlTitle();
-        view()->share('bcTab', $bcTab);
+         $bcTab = $this->getBreadcrumb();
+         $htmlTitle = $this->getHtmlTitle();
+       
+	     view()->share('bcTab', $bcTab);
         view()->share('htmlTitle', $htmlTitle);
 
         // SEO
@@ -135,6 +267,69 @@ class CategoryController extends BaseController
         }
         return view('search.serp', $data);
     }
+	
+		  public function getCityfast($location)
+	{
+		
+		
+	if (empty($cityId) && empty($location)) {
+			return null;
+		}
+		
+		// Search by administrative division name with magic word "area:" - Example: "area:New York"
+		if (!empty($location)) {
+			$location = preg_replace('/\s+\:/', ':', $location);
+			if (str_contains($location, t('area:'))) {
+				$adminName = last(explode(t('area:'), $location));
+				$adminName = trim($adminName);
+				
+				$fullUrl = url(Request::getRequestUri());
+				$fullUrlNoParams = head(explode('?', $fullUrl));
+				$url = qsurl($fullUrlNoParams, array_merge(request()->except(['l', 'location']), ['d' => config('country.code'), 'r' => $adminName]));
+				
+				headerLocation($url);
+			}
+		}
+		
+		
+		$cityName = rawurldecode($location);
+		
+		
+						 $country_code = strtoupper(config('country.code'));	
+						$this->city = City::currentCountry()->where('name', 'LIKE', '%'.$cityName.'%')->first();
+					
+	 
+		view()->share('city', $this->city);
+		
+		return $this->city;
+	
+		
+		
+		}
+	
+  public function getlocationcity($string)
+	{
+	    $string = str_replace(" ", "+", urlencode($string));
+        $details_url = "https://maps.googleapis.com/maps/api/geocode/json?address=".$string."&key=AIzaSyD3HKnsvpSAYaoQQ-wIeqDBTjb69hJ-vMw";
+    
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $details_url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        $response = json_decode(curl_exec($ch), true);
+    
+        if ($response['status'] != 'OK') {
+            return null;
+        }
+    
+        $geometry = $response['results'][0]['geometry'];
+     
+        $array = array(
+            'lat' => $geometry['location']['lat'],
+            'lng' => $geometry['location']['lng'],
+        );
+    
+        return $array;
+	}
 	
 	
 	

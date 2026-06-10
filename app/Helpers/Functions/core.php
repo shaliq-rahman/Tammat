@@ -111,8 +111,8 @@ function maxUploadSize()
 function maxApplyFileUploadSize()
 {
     $size = maxUploadSize();
-    if ($size >= 5) {
-        return 5;
+    if ($size >= 5000) {
+        return 5000;
     }
 
     return $size;
@@ -818,17 +818,19 @@ function hex2rgba($color, $opacity = false)
  * @param string $encoding
  * @return string
  */
-function mb_ucfirst($string, $encoding = 'utf-8')
-{
-    if (empty($string) || !is_string($string)) {
-        return null;
+if (!function_exists('mb_ucfirst')) {
+    function mb_ucfirst($string, $encoding = 'utf-8')
+    {
+        if (empty($string) || !is_string($string)) {
+            return null;
+        }
+
+        $strLen = mb_strlen($string, $encoding);
+        $firstChar = mb_substr($string, 0, 1, $encoding);
+        $then = mb_substr($string, 1, $strLen - 1, $encoding);
+
+        return mb_strtoupper($firstChar, $encoding) . $then;
     }
-
-    $strLen = mb_strlen($string, $encoding);
-    $firstChar = mb_substr($string, 0, 1, $encoding);
-    $then = mb_substr($string, 1, $strLen - 1, $encoding);
-
-    return mb_strtoupper($firstChar, $encoding) . $then;
 }
 
 /**
@@ -1573,10 +1575,11 @@ function getTokenLabel()
 
 function getTokenMessage()
 {
-    if (isEnabledField('email') && isEnabledField('phone')) {
-        $loginLabel = t('Enter the code you received by SMS or Email in the field below');
+    if (isEnabledField('email') && isEnabledField('phone_number')) {
+        // comment by abdelhy to show only mobile sms massage if both exsist $loginLabel = t('Enter the code you received by SMS or Email in the field below');
+		 $loginLabel = t('Enter the code you received by SMS in the field below');
     } else {
-        if (isEnabledField('phone')) {
+        if (isEnabledField('phone_number')) {
             $loginLabel = t('Enter the code you received by SMS in the field below');
         } else {
             $loginLabel = t('Enter the code you received by Email in the field below');

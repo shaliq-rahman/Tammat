@@ -37,7 +37,7 @@
     line-height: 46px;
 }
 #stepWizard ul.nav-wizard li a {
-    color: #428bca;
+    color: #ff5555;
     padding: 0;
 }
 #stepWizard ul.nav-wizard li a:hover {
@@ -66,21 +66,21 @@
     right: -15px;
 }
 #stepWizard ul.nav-wizard li.active {
-    color: #3a87ad;
-    background: #dedede;
+    color: white;
+    background: #ff5555;
 }
 #stepWizard ul.nav-wizard li.active:after {
-    border-left: 16px solid #dedede;
+    border-left: 16px solid #ff5555;
 }
 #stepWizard ul.nav-wizard li.active a,
 #stepWizard ul.nav-wizard li.active a:active,
 #stepWizard ul.nav-wizard li.active a:visited,
 #stepWizard ul.nav-wizard li.active a:focus {
-    color: #989898;
-    background: #dedede;
+    color: white;
+    background: #ff5555;
 }
 #stepWizard ul.nav-wizard .active ~ li {
-    color: #999999;
+    color: #ff5555;
     background: #f9f9f9;
 }
 #stepWizard ul.nav-wizard .active ~ li:after {
@@ -90,7 +90,7 @@
 #stepWizard ul.nav-wizard .active ~ li a:active,
 #stepWizard ul.nav-wizard .active ~ li a:visited,
 #stepWizard ul.nav-wizard .active ~ li a:focus {
-    color: #999999;
+    color: #ff5555;
     background: #f9f9f9;
 }
 #stepWizard ul.nav-wizard.nav-wizard-backnav li:hover {
@@ -108,7 +108,7 @@
     background: #f6fbfd;
 }
 #stepWizard ul.nav-wizard.nav-wizard-backnav .active ~ li {
-    color: #999999;
+    color: #ff5555;
     background: #ededed;
 }
 #stepWizard ul.nav-wizard.nav-wizard-backnav .active ~ li:after {
@@ -118,6 +118,6 @@
 #stepWizard ul.nav-wizard.nav-wizard-backnav .active ~ li a:active,
 #stepWizard ul.nav-wizard.nav-wizard-backnav .active ~ li a:visited,
 #stepWizard ul.nav-wizard.nav-wizard-backnav .active ~ li a:focus {
-    color: #999999;
+    color: #ff5555;
     background: #ededed;
 }

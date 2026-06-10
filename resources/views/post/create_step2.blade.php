@@ -27,9 +27,20 @@
 
 				<div class="col-md-12 page-content">
 					<div class="inner-box category-content">
-						<h2 class="title-2"><strong> <i class="icon-docs"></i> 
-						{{ t('Select Sub Category in') }} {{$catt->name}}
-						</strong></h2>
+						
+                        
+                       
+                        
+                         <div class="col-lg-12 box-title no-border" style="background-color: #ff5555 ; border-radius: 40px;margin:7px">
+                        
+                        <h2  style="color: #fff"><i class="icon-docs"></i> 
+						{{ t('Select Subcategory in') }} {{$catt->name}}
+                        <br />
+                    </div>
+                    
+                    
+                        
+                        
 						<div class="row">
 							<div class="col-sm-12">
 							    
@@ -47,34 +58,16 @@
 								
 								
 				<?php
-				
-				
-					if(config('app.locale')=='en'){
-		     $cattsss = DB::table('categories')->where('parent_id', $cat->id)
-	        
-	        ->where('translation_lang', config('app.locale'))
-	        
-	        ->get();
-	        
-	             $size = count($cattsss);
-	             
-					}
+				if(config('app.locale')=='en'){
+		        $cattsss = DB::table('categories')->where('parent_id', $cat->id)->where('translation_lang', config('app.locale'))->get();	        
+	            $size = count($cattsss);
+	             	}
 					else
 					{
-					    
-					    
-					         $cat_org = DB::table('categories')->where('id', $cat->translation_of)
-	                                   
-	                                    ->first();
-					    
-					    
-					     $cattsss = DB::table('categories')->where('parent_id', $cat_org->id)
-	        
-	        ->where('translation_lang', config('app.locale'))
-	        
-	        ->get();
-	        
-	             $size = count($cattsss);
+						 $cat_org = DB::table('categories')->where('id', $cat->translation_of)->first();
+						 $cattsss = DB::table('categories')->where('parent_id', $cat_org->id)
+						 ->where('translation_lang', config('app.locale'))->get();
+		  	 $size = count($cattsss);
 					    
 					}
            
@@ -102,8 +95,9 @@
 								@else
 								<a href="/{{config('app.locale')}}/posts/create_step3/{{$cat->id}}">
 								@endif
-								
-								
+								@if(!empty($cat->picture))
+								<img src="{{ \Storage::url($cat->picture) . getPictureVersion() }}" class="img-responsive" alt="img">
+								@endif
 									<h6> {{ $cat->name }} </h6>
 								</a>
 							</div>
@@ -164,7 +158,7 @@
 	        
                 google.maps.event.addDomListener(window, 'load', initialize);
         </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD3HKnsvpSAYaoQQ-wIeqDBTjb69hJ-vMw&libraries=places&callback=initialize"
+    <script src="https://maps.googleapis.com/maps/api/js?key={{ config('services.GoogleMaps.key') }}&libraries=places&callback=initialize"
          async defer></script>
          
 
@@ -278,7 +272,7 @@
 		var lang = {
 			'select': {
 				'category': "{{ t('Select a category') }}",
-				'subCategory': "{{ t('Select a sub-category') }}",
+				'subCategory': "{{ t('Select a subcategory') }}",
 				'country': "{{ t('Select a country') }}",
 				'admin': "{{ t('Select a location') }}",
 				'city': "{{ t('Select a city') }}"

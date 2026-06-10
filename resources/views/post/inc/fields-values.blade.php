@@ -1,3 +1,4 @@
+<?php //print_r($customFields);?>
 @if (isset($customFields) and $customFields->count() > 0)
 <div id="customFields">
 	<h4><i class="icon-doc-text"></i> {{ t('Additional Details') }}</h4>

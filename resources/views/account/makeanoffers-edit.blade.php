@@ -30,7 +30,7 @@
 	?>
 	@extends('layouts.master')
 	@section('content')
-	<div class="main-container">
+	<div class="main-container" style="margin-top: 85px;">
 		<div class="container">
 			<div class="row">
 				<div class="col-md-12 page-content">
@@ -130,11 +130,13 @@
 													</div>
 													<div class="col-md-12 col-lg-12 col-sm-12" style="padding-left:0px;">
 														<div class="input-group offer-price offer-price-left">
-															{{-- @if(auth()->user()->id != $makeanoffer->buyer_id)
-																<input id="offer_price_buyer" name="offer_price_buyer" type="text" placeholder="Offer Price" maxlength="60" class="form-control offer-price" value="{{ $makeanoffer->offer_price }}" disabled>
-																@else --}}
-																<input disabled id="offer_price_buyer" name="offer_price_buyer" type="text" placeholder="Offer Price" maxlength="60" class="form-control offer-price" value="{{ $makeanoffer->offer_price }}">
-																{{-- @endif --}}
+															 
+																<input   id="offer_price_buyer" name="offer_price_buyer" type="text" placeholder="Offer Price" maxlength="60" class="form-control offer-price" value="{{ $makeanoffer->offer_price }}"   
+                                                                @if(($makeanoffer->counter_offer == '0') ||($makeanoffer->close_offer == 1)) 
+                                                                  disabled
+                                                                 @endif
+                                                                >
+																 
 																<span class="input-group-addon">
 																	{!! substr(\App\Helpers\Number::money(''), 0 , -1) !!}
 																</span>
@@ -551,11 +553,16 @@
 																								</div>
 																								<div class="col-md-12 col-lg-12 col-sm-12" style="padding:0px;">
 																									<div class="input-group offer-price offer-price-seller-left">
-																										{{-- @if(auth()->user()->id != $makeanoffer->seller_id)
-																											<input id="offer_price_seller" name="offer_price_seller" type="text" placeholder="Offer Price" maxlength="60" class="form-control offer-price" value="{{$makeanoffer->original_price}}" disabled>
-																											@else --}}
-																											<input id="offer_price_seller" name="offer_price_seller" type="text" placeholder="Offer Price" maxlength="60" class="form-control offer-price" value="{{ $makeanoffer->original_price }}">
-																											{{-- @endif --}}
+																										 
+																											<input id="offer_price_seller" name="offer_price_seller" type="text" placeholder="Offer Price" maxlength="60" class="form-control offer-price" value="{{ $makeanoffer->original_price }}"  
+                                                                                                            @if(($makeanoffer->counter_offer == '0') ||($makeanoffer->close_offer == 1)) 
+                                                                                                            disabled
+                                                                                                            @endif
+                                                                                                           
+                                                                                                            
+                                                                                                            
+                                                                                                               >
+																										 
 																											<span class="input-group-addon">
 																												{!! substr(\App\Helpers\Number::money(''), 0 , -1) !!}
 																											</span>

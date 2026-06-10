@@ -20,7 +20,7 @@
             @endif
             
         
-        <a href="http://www.dealnotdeal.com/admin/download-newsletter" id='newsletter_list_download' class="btn btn-primary ladda-button" data-style="zoom-in" style='float: right;margin-bottom: 20px;'>
+        <a href="http://www.tmmat.com/admin/download-newsletter" id='newsletter_list_download' class="btn btn-primary ladda-button" data-style="zoom-in" style='float: right;margin-bottom: 20px;'>
 		<span class="ladda-label">
             <i class="fa fa-download"></i> Download (csv/xls)
         </span>

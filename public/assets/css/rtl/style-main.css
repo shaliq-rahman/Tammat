@@ -285,7 +285,7 @@ a:hover, a:focus {
 }
 
 .f-category img {
-	height: 60px;
+	height: 85px;
 }
 
 .content-box {
@@ -1239,7 +1239,7 @@ ul.tagit input[type="text"] {
 }
 .tags a.primary {
 	color: #FFF;
-	background-color: #428BCA;
+	background-color: #ff5555;
 	border-color: #357EBD
 }
 .tags a.success {
@@ -1294,7 +1294,7 @@ ul.tagit input[type="text"] {
 	background-color: #333;
 }
 .wide-intro .intro-title, .wide-intro p {
-	color: #FFF;
+
 }
 .wide-intro .intro-title {
 	font-family: Open Sans Condensed, Helvetica Neue, sans-serif;

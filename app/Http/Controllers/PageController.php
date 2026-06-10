@@ -94,6 +94,33 @@ class PageController extends FrontController
 
         return view('pages.contact');
     }
+        /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function termsConditionsApp()
+    {
+        // Meta Tags
+      // $xxxxxx=MetaTag::set('title', getMetaTag('title', 'terms & conditions'));
+      // echo "dddddd". MetaTag::set('description', strip_tags(getMetaTag('description', 'terms & conditions')));
+      //  echo "ffffffffffff".MetaTag::set('keywords', getMetaTag('keywords', 'terms & conditions'));
+        $xxxxxx="xxxxxxxxxxxxxxx";
+        return response()->json([
+            'success' => 0,
+            'message'=>'Parameter Missing',
+            ]);    
+       // return response()->json(['results'=>$xxxxxx]); 
+     
+    }
+    public function termsConditions()
+    {
+        // Meta Tags
+        MetaTag::set('title', getMetaTag('title', 'terms & conditions'));
+        MetaTag::set('description', strip_tags(getMetaTag('description', 'terms & conditions')));
+        MetaTag::set('keywords', getMetaTag('keywords', 'terms & conditions'));
+
+        return view('pages.terms_conditions');
+    }
+    
 //  public function maptest()
 //     {
 //         // Get the Country's largest city for Google Maps
@@ -120,7 +147,7 @@ class PageController extends FrontController
         $contactForm['country_name'] = config('country.name');
         $contactForm = Arr::toObject($contactForm);
         
-        $email = "admin@dealnotdeal.com";
+        $email = "admin@tmmat.com";
 
         
         // Send Contact Email
@@ -177,13 +204,13 @@ class PageController extends FrontController
     {
         $contactForm = $request->all();
         $contactForm = Arr::toObject($contactForm);
-        $email = "admin@dealnotdeal.com";
+        $email = "admin@tmmat.com";
         
         if ($email) 
         {
             $recipient = [
                 'email' => $email,
-                'name' => 'Deal Not Deal',
+                'name' => 'Tammat',
             ];
             $recipient = Arr::toObject($recipient);
             Mail::send(new FormSent($contactForm, $recipient));
@@ -254,6 +281,14 @@ class PageController extends FrontController
         if(!empty($request->language_code) && !empty($request->slug)) 
         {
             
+
+  $a = $request->slug;
+  if($a=='terms-conditions'){ $request->language_code='en'; } 
+    
+
+
+
+
         
             $getPageList = Page::where('translation_lang', '=', strtolower($request->language_code))->where('slug', '=', $request->slug)->first();
             if(!empty($getPageList))

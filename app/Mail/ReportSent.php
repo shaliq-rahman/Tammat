@@ -38,7 +38,9 @@ class ReportSent extends Mailable
 	{
 		$this->post = $post;
 		$this->report = $report;
-		
+		$fromname = 'Tammat';
+        $from_email = 'admin@tmmat.com'; 
+		$this->from($from_email, $fromname);
 		$this->to($recipient->email, $recipient->name);
 		$this->replyTo($this->report->email, $this->report->email);
 		$this->subject(trans('mail.post_report_sent_title', [

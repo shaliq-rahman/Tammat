@@ -19,11 +19,16 @@ use App\Models\Picture;
 use App\Models\Post;
 use App\Http\Controllers\FrontController;
 use App\Models\SavedPost;
+use App\Models\Package;
+use App\Models\Payment;
+use App\Models\Currency;
+use App\Models\SavedUser;
 use App\Models\SavedSearch;
 use App\Models\Scopes\VerifiedScope;
 use App\Models\Scopes\ReviewedScope;
 use Illuminate\Http\Request;
 use Larapen\TextToImage\Facades\TextToImage;
+use DB;
 
 class PostController extends FrontController
 {
@@ -35,10 +40,135 @@ class PostController extends FrontController
         parent::__construct();
     }
     
-    /**
-     * @param Request $request
+    
+	 
+	/**
+	 * GetPackages
+	 * @param Request $request
      * @return \Illuminate\Http\JsonResponse
-     */
+	 *  
+	 */
+	public function GetPackages(Request $request)
+	{
+		
+		if(!empty($request->user_id)){
+		 $info_user = DB::table('users')
+              ->where('id', $request->user_id)
+			 // ->where('id', '1277')
+			->first();
+			$no_points=$info_user->no_points;
+		}else{
+			$no_points=0;
+			 
+			}
+			
+	 $packages = Package::where('translation_lang',$request->translation_lang)->where('currency_code',$request->currency)->orderBy('lft')->get();
+        
+        
+       
+            $CurrencyObj = Currency::where('code',$request->currency)->first();
+            foreach ($packages as $p){
+                $p->price = $p->price;
+                // $p->price = getCurrencyAmount(Session::get('currency'),$p->price);
+                $p->currency = $CurrencyObj;
+            }
+       
+       
+        
+		//$packages->count();
+		
+		
+		 return response()->json(['CurrentUserPoints'=>$no_points,'packages'=>$packages]);
+			
+	}
+	
+	
+	
+	
+	 
+	/**
+	 * AccountDetails
+	 * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+	 *  
+	 */
+	public function AccountDetails(Request $request)
+	{
+		
+	 
+		 $result = DB::table('users')->where('id', $request->user_id)->first();
+             
+			$info_user=array(); 
+			$info_user['name']=$result->name;
+			$info_user['email']=$result->email;
+			$info_user['phone']=$result->phone;
+			$info_user['city']=$result->city;
+			$info_user['address']=$result->address;
+		    $info_user['profile_image']='https://www.tmmat.com/ProfilePictures/'.$result->profile_image; 
+			$info_user['user_type']=$result->user_type_id; 
+		 return response()->json(['info_user'=>$info_user]);
+			
+	}
+	
+	
+	 
+	/**
+	 * GetMenuCounts
+	 * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+	 *  
+	 */
+	public function GetMenuCounts(Request $request)
+	{
+		//count number of points
+		if(!empty($request->user_id)){
+		 $info_user = DB::table('users')
+              ->where('id', $request->user_id)			 
+			  ->first();
+			$no_points=$info_user->no_points;
+		    }else{$no_points=0;}
+		
+		//count unread recieved offers
+		$unread_recieved_offers_count = DB::table('makeanoffers')->where('seller_id',$request->user_id)->where('is_read','>',0)->count();
+		
+		//count unread messages	
+		$unread_messages_count = DB::table('messages')->where('to_user_id',$request->user_id)->where('is_read','>',0)->count();
+		
+		//count all notifications messages	
+		$unread_notifications_count = $unread_recieved_offers_count+$unread_messages_count;
+         
+		
+		 return response()->json(['CurrentUserPoints'=>$no_points,'unread_recieved_offers_count'=>$unread_recieved_offers_count,'unread_messages_count'=>$unread_messages_count,'unread_notifications_count'=>$unread_notifications_count]);
+			
+	}
+	
+	
+	public function GetUserPackagesHistory(Request $request)
+	{
+		 $info_Packages = DB::table('payments')
+		 ->leftjoin('packages','packages.id','=','payments.package_id')
+		 ->select('packages.name','packages.price','packages.currency_code','packages.description','packages.no_points','payments.created_at as created_date')
+		 ->where('packages.translation_lang',$request->translation_lang)
+		 ->where('user_id', $request->user_id)
+		 ->where('payments.active','>',0)
+		 ->orderby('payments.created_at','desc')
+		 ->get();
+		
+		 $info_user = DB::table('users')
+              ->where('id', $request->user_id)
+			 // ->where('id', '1277')
+			->first();
+			
+	 
+        
+		
+		
+		 return response()->json(['CurrentUserPoints'=>$info_user->no_points,'packages'=>$info_Packages]);
+			
+	}
+	
+	
+	
     public function savePost(Request $request)
     {
         $postId = $request->input('postId');
@@ -70,6 +200,43 @@ class PostController extends FrontController
         
         return response()->json($result, 200, [], JSON_UNESCAPED_UNICODE);
     }
+	
+	
+	  /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function saveFavUser(Request $request)
+    {
+        $FavUserId = $request->input('FavUserId');
+        $user_id = $request->input('user_id');
+        
+        $status = 0;
+        if ($user_id) {
+            $savedPost = SavedUser::where('user_id', $user_id)->where('fav_user_id', $FavUserId);
+            if ($savedPost->count() > 0) {
+                // Delete SavedPost
+                $savedPost->delete();
+            } else {
+                // Store SavedPost
+                $savedPostInfo = [
+                    'user_id' => $user_id,
+                    'fav_user_id' => $FavUserId,
+                ];
+                $savedPost = new SavedUser($savedPostInfo);
+                $savedPost->save();
+                $status = 1;
+            }
+        }
+        
+        $result = [            
+            'FavUserId'   => $FavUserId,
+            'status'   => $status,          
+        ];
+        
+        return response()->json($result, 200, [], JSON_UNESCAPED_UNICODE);
+    }
+	
 	
 	
 	public function savePost_app(Request $request)

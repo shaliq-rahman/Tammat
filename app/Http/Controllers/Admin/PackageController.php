@@ -60,9 +60,24 @@ class PackageController extends PanelController
 			'name'  => 'price',
 			'label' => trans("admin::messages.Price"),
 		]);
+
 		$this->xPanel->addColumn([
 			'name'  => 'currency_code',
 			'label' => trans("admin::messages.Currency"),
+		]);
+		$this->xPanel->addColumn([
+			'name'  => 'no_photos',
+			'label' => trans("admin::messages.no_photos"),
+		]);
+		
+		$this->xPanel->addColumn([
+			'name'  => 'no_points',
+			'label' => trans("admin::messages.no_points"),
+		]);
+		
+		$this->xPanel->addColumn([
+			'name'  => 'duration',
+			'label' => trans("admin::messages.Duration"),
 		]);
 		$this->xPanel->addColumn([
 			'name'          => 'active',
@@ -133,6 +148,28 @@ class PackageController extends PanelController
 			'entity'            => 'currency',
 			'attribute'         => 'code',
 			'type'              => 'select2',
+			'wrapperAttributes' => [
+				'class' => 'form-group col-md-6',
+			],
+		]);
+		$this->xPanel->addField([
+			'name'              => 'no_photos',
+			'label'             => trans("admin::messages.no_photos"),
+			'type'              => 'number',
+			'attributes'        => [
+				'placeholder' => trans("admin::messages.no_photos"),
+			],
+			'wrapperAttributes' => [
+				'class' => 'form-group col-md-6',
+			],
+		]);
+		$this->xPanel->addField([
+			'name'              => 'no_points',
+			'label'             => trans("admin::messages.no_points"),
+			'type'              => 'number',
+			'attributes'        => [
+				'placeholder' => trans("admin::messages.no_points"),
+			],
 			'wrapperAttributes' => [
 				'class' => 'form-group col-md-6',
 			],

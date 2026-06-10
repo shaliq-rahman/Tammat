@@ -151,7 +151,7 @@ trait SettingsTrait
 		
 		// Get all Countries
 		$countries = CountryLocalizationHelper::transAll(CountryLocalization::getCountries());
-		$cols = round($countries->count() / 4, 0, PHP_ROUND_HALF_EVEN);
+		$cols = round($countries->count() / 6, 0, PHP_ROUND_HALF_EVEN);
 		$cols = ($cols > 0) ? $cols : 1; // Fix array_chunk with 0
 		view()->share('countryCols', $countries->chunk($cols)->all());
 		

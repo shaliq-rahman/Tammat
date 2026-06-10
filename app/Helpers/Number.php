@@ -187,7 +187,7 @@ class Number
 			}
 		} else {
 			if (config('currency.in_left') == 1) {
-				$number = config('currency.symbol') . $number;
+				$number = config('currency.symbol').' '.$number;
 			} else {
 				$number = $number . ' ' . config('currency.symbol');
 			}

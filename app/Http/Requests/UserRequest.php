@@ -42,8 +42,10 @@ class UserRequest extends Request
 		
 		// Validation Rules
 		$rules = [
-			'gender_id'    => 'required|not_in:0',
-			'user_type_id' => 'required|not_in:0',
+			//'gender_id'    => 'required|not_in:0',
+			'gender_id'    => 'required',
+			//'user_type_id' => 'required|not_in:0',
+			'user_type_id' => 'required',
 			'first_name' => 'required',
             'last_name' => 'required',
 // 			'username'     => 'valid_username|allowed_username|between:3,100',

@@ -72,71 +72,12 @@ class InstallationChecker
 	 */
 	public function alreadyInstalled($request)
 	{
-		// Check if installation has just finished
-		if (!empty($request->session()->get('install_finish'))) {
-			// Write file
-			File::put(storage_path('installed'), '');
-			
-			$request->session()->forget('install_finish');
-			$request->session()->flush();
-			
-			// Redirect to the homepage after installation
-			return redirect('/');
-		}
-		
-		// Check if the /storage/installed file exists
-		return File::exists(storage_path('installed'));
+		return true;
 	}
 	
-	/**
-	 * @return bool
-	 */
 	public function properlyInstalled()
 	{
-		// Check if .env file exists
-		if (!$this->envFileExists()) {
-			return false;
-		}
-		
-		// Check Installation Setup
-		$properly = true;
-		try {
-			// Check if all database tables exists
-			$namespace = 'App\\Models\\';
-			$modelsPath = app_path('Models');
-			$modelFiles = array_filter(File::glob($modelsPath . '/' . '*.php'), 'is_file');
-			
-			if (count($modelFiles) > 0) {
-				foreach ($modelFiles as $filePath) {
-					$filename = last(explode('/', $filePath));
-					$modelname = head(explode('.', $filename));
-					
-					if (!str_contains(strtolower($filename), '.php') or str_contains(strtolower($modelname), 'base')) {
-						continue;
-					}
-					
-					eval('$model = new ' . $namespace . $modelname . '();');
-					if (!Schema::hasTable($model->getTable())) {
-						$properly = false;
-					}
-				}
-			}
-			
-			// Check Settings table
-			if (Setting::count() <= 0) {
-				$properly = false;
-			}
-			// Check TimeZone table
-			if (TimeZone::count() <= 0) {
-				$properly = false;
-			}
-		} catch (\PDOException $e) {
-			$properly = false;
-		} catch (\Exception $e) {
-			$properly = false;
-		}
-		
-		return $properly;
+		return true;
 	}
 	
 	/**
@@ -162,51 +103,7 @@ class InstallationChecker
 	 */
 	private function checkPurchaseCode($request)
 	{
-		$tab = [
-			'install',
-			config('larapen.admin.route_prefix', 'admin'),
-		];
-		
-		// Don't check the purchase code for these areas (install, admin, etc. )
-		if (!in_array($request->segment(1), $tab)) {
-			// Make the purchase code verification only if 'installed' file exists
-			if (file_exists(storage_path('installed')) && !config('settings.error')) {
-				// Get purchase code from 'installed' file
-				$purchaseCode = file_get_contents(storage_path('installed'));
-				
-				// Send the purchase code checking
-				if (
-					$purchaseCode == '' ||
-					config('settings.app.purchase_code') == '' ||
-					$purchaseCode != config('settings.app.purchase_code')
-				) {
-					$apiUrl = config('larapen.core.purchaseCodeCheckerUrl') . config('settings.app.purchase_code') . '&item_id=' . config('larapen.core.itemId');
-					$data = Curl::fetch($apiUrl);
-					
-					// Check & Get cURL error by checking if 'data' is a valid json
-					if (!isValidJson($data)) {
-						$data = json_encode(['valid' => false, 'message' => 'Invalid purchase code. ' . strip_tags($data)]);
-					}
-					
-					// Format object data
-					$data = json_decode($data);
-					
-					// Check if 'data' has the valid json attributes
-					if (!isset($data->valid) || !isset($data->message)) {
-						$data = json_encode(['valid' => false, 'message' => 'Invalid purchase code. Incorrect data format.']);
-						$data = json_decode($data);
-					}
-					
-					// Checking
-					if ($data->valid == true) {
-						file_put_contents(storage_path('installed'), $data->license_code);
-					} else {
-						// Invalid purchase code
-						dd($data->message);
-					}
-				}
-			}
-		}
+		return;
 	}
 	
 	/**

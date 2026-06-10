@@ -40,7 +40,9 @@ class SellerContacted extends Mailable
         $this->post = $post;
         $this->msg = $msg;
         
-        
+        $fromname = 'Tammat';
+        $from_email = 'admin@tmmat.com'; 
+		$this->from($from_email, $fromname);
         $this->to($post->email, $post->contact_name);
         if(!empty($msg->from_email))
         {

@@ -19,6 +19,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use App\Models\Post;
+use App\Models\User;
 
 class PostActivated extends Mailable
 {
@@ -34,7 +35,9 @@ class PostActivated extends Mailable
     public function __construct(Post $post)
     {
         $this->post = $post;
-
+		$fromname = 'Tammat';
+        $from_email = 'admin@tmmat.com'; 
+		$this->from($from_email, $fromname);
         $this->to($post->email, $post->contact_name);
         $this->subject(trans('mail.post_activated_title', ['title' => str_limit($post->title, 50)]));
     }
@@ -46,6 +49,8 @@ class PostActivated extends Mailable
      */
     public function build()
     {
-        return $this->view('emails.post.activated');
+        $post = $this->post;
+        $user = User::where('email',$post->email)->first();
+        return $this->view('emails.post.user_activated',compact('post','user'));
     }
 }

@@ -165,11 +165,21 @@ class Field extends BaseModel
     
     public function options()
     {
-        return $this->hasMany(FieldOption::class, 'field_id', 'translation_of')->where('translation_lang', config('app.locale'))
+        return $this->hasMany(FieldOption::class, 'field_id', 'translation_of')
+         ->where('translation_lang', config('app.locale'))
+			->orderBy('lft', 'ASC')
+			->orderBy('value', 'ASC');
+    }
+	
+	 public function NewOptions()
+    {
+        return $this->hasMany(FieldOption::class, 'field_id', 'translation_of')
 			->orderBy('lft', 'ASC')
 			->orderBy('value', 'ASC');
     }
     
+
+   
     /*
     |--------------------------------------------------------------------------
     | SCOPES

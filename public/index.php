@@ -1,4 +1,5 @@
 <?php
+error_reporting(E_ALL & ~E_DEPRECATED & ~E_USER_DEPRECATED);
 /**
  * LaraClassified - Geo Classified Ads Software
  * Copyright (c) BedigitCom. All Rights Reserved

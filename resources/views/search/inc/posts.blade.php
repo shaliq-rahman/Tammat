@@ -2,16 +2,27 @@
 if (!isset($cacheExpiration)) {
     $cacheExpiration = (int)config('settings.other.cache_expiration');
 }
+
+
 ?>
+
+
 @if (isset($paginator) and $paginator->getCollection()->count() > 0)
 	<?php
 		if (!isset($cats)) {
 			$cats = collect([]);
 		}
 
+
+//dd($paginator);
+
 		foreach($paginator->getCollection() as $key => $post):
-		if (empty($countries) or !$countries->has($post->country_code)) continue;
+		
+		
+		 if (empty($countries) or !$countries->has($post->country_code)) continue;
 	
+	
+		
 		// Get Pack Info
         $package = null;
         if ($post->featured==1) {
@@ -29,6 +40,10 @@ if (!isset($cacheExpiration)) {
 			return $postType;
 		});
 		if (empty($postType)) continue;
+		
+		
+		
+		
   
 		// Get Post's Pictures
 		$pictures = \App\Models\Picture::where('post_id', $post->id)->orderBy('position')->orderBy('id');
@@ -39,12 +54,14 @@ if (!isset($cacheExpiration)) {
 		}
   
 		// Get the Post's City
-		$cacheId = config('country.code') . '.city.' . $post->city_id;
+		/*$cacheId = config('country.code') . '.city.' . $post->city_id;
     	$city = \Illuminate\Support\Facades\Cache::remember($cacheId, $cacheExpiration, function () use ($post) {
             $city = \App\Models\City::find($post->city_id);
 			return $city;
 		});
-		if (empty($city)) continue;
+		if (empty($city)) continue;*/
+		
+	//	 print_r($post);
 	
 		// Convert the created_at date to Carbon object
 		$post->created_at = \Date::parse($post->created_at)->timezone(config('timezone.id'));
@@ -94,7 +111,7 @@ if (!isset($cacheExpiration)) {
                             ->first();
            
         
-        
+       
         
         
 	?>
@@ -126,10 +143,10 @@ if (!isset($cacheExpiration)) {
 				<h5 class="add-title">
 					<?php $attr = ['slug' => slugify($post->title), 'id' => $post->id]; ?>
 					@if(isset($_GET['cat']))
-					<a href="{{ lurl($post->uri, $attr) }}?cat={{$_GET['cat']}}">{{ str_limit($post->title, 70) }} </a>
+					    <a style="color:#ff5555" href="{{ lurl($post->uri, $attr) }}?cat={{$_GET['cat']}}">{{ str_limit($post->title, 70) }} </a>
 					@else
-						<a href="{{ lurl($post->uri, $attr) }}">{{ str_limit($post->title, 70) }} </a>
-						@endif
+						<a style="color:#ff5555" href="{{ lurl($post->uri, $attr) }}">{{ str_limit($post->title, 70) }} </a>
+					@endif
 				</h5>
 				
 				<span class="info-row">
@@ -156,7 +173,7 @@ if (!isset($cacheExpiration)) {
 					@endif --}}
 					 <div style="margin-left: 0px;"  class="item-location">
 					     <img src="{{ url('images/blank.gif') . getPictureVersion() }}" style="margin-right: 2px;" class="flag flag-<?=strtolower($post->country_code)?>" >
-						<a href="{!! qsurl(config('app.locale').'/'.trans('routes.v-search', ['countryCode' => config('country.icode')]), array_merge(Request::except(['l', 'location']), ['l'=>$post->city_id])) !!}" class="info-link">{{ $city->name }}</a> {{ (isset($post->distance)) ? '- ' . round(lengthPrecision($post->distance), 2) . unitOfLength() : '' }}
+						<a href="{!! qsurl(config('app.locale').'/'.trans('routes.v-search', ['countryCode' => config('country.icode')]), array_merge(Request::except(['l', 'location']), ['l'=>$post->city_id])) !!}" class="info-link" style="color:#201c1c;">{{ $post->city_name }}</a> {{ (isset($post->distance)) ? '- ' . round(lengthPrecision($post->distance), 2) . unitOfLength() : '' }}
 					  </div>
 				</span>
 			</div>
@@ -175,7 +192,7 @@ if (!isset($cacheExpiration)) {
 					@if ($post->price > 0)
 						{!! \App\Helpers\Number::money_price_latest($post->price,$getcurrencycountry->html_entity,$getcurrencycountry->in_left,$getcurrencycountry->decimal_places,$getcurrencycountry->decimal_separator) !!}
 					@else
-						--
+                    {{t('Free')}}
 					@endif
 				@else
 						{!! \App\Helpers\Number::money_price_latest($post->price,$getcurrencycountry->html_entity,$getcurrencycountry->in_left,$getcurrencycountry->decimal_places,$getcurrencycountry->decimal_separator) !!}

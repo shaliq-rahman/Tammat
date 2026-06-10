@@ -105,7 +105,7 @@ class Picture extends BaseModel
 			$postUrl = url(config('app.locale') . '/' . $this->post->uri);
 			return '<a href="' . $postUrl . '" target="_blank">' . $this->post->title . '</a>';
 		} else {
-			return 'no-link';
+			return 'no-link This Post is deleted';
 		}
 	}
 	

@@ -87,7 +87,6 @@ class User extends BaseUser
         'username',
         'password',
         'remember_token',
-        'is_admin',
 		'can_be_impersonate',
         'disable_comments',
         'receive_newsletter',
@@ -250,14 +249,10 @@ class User extends BaseUser
       {
       
            if($this->user_type_id==1)
-           $out = 'Shop';
+           $out = 'individual';
            
            if($this->user_type_id==2)
            $out = 'Shop';
-           
-           
-           if($this->user_type_id==3)
-           $out = 'Individual';
            
       }
            

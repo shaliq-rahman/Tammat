@@ -58,16 +58,15 @@ class UserController extends BaseController
      */
     public function profile($countryCode, $username = null)
     {
+		
+		 
         // Check multi-countries site parameters
         if (!config('settings.seo.multi_countries_urls')) {
             $username = $countryCode;
         }
-
         view()->share('isUserSearch', $this->isUserSearch);
-
         // Get User
-        $this->sUser = User::where('username', $username)->firstOrFail();
-
+        $this->sUser = User::where('username', $username)->firstOrFail(); 
         return $this->searchByUserId($this->sUser->id, $this->sUser->username);
     }
     
@@ -81,10 +80,11 @@ class UserController extends BaseController
         // Search
         $search = new Search();
         $data = $search->setUser($userId)->setRequestFilters()->fetch();
-
+        $this->sUser = User::where('username', $username)->firstOrFail();
         // Get Titles
         $bcTab = $this->getBreadcrumb();
         $htmlTitle = $this->getHtmlTitle();
+		view()->share('user', $this->sUser);
         view()->share('bcTab', $bcTab);
         view()->share('htmlTitle', $htmlTitle);
 
@@ -97,6 +97,6 @@ class UserController extends BaseController
 		view()->share('uriPathUserId', $userId);
 		view()->share('uriPathUsername', $username);
 
-        return view('search.serp', $data);
+        return view('search.serp_new', $data);
     }
 }
