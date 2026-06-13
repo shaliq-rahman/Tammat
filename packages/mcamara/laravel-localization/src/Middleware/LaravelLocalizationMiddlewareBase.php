@@ -20,6 +20,11 @@ class LaravelLocalizationMiddlewareBase
      */
     protected function shouldIgnore($request)
     {
+        // Skip static asset requests (css, js, images, fonts, etc.)
+        if (preg_match('/\.(css|js|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot|map|webp|pdf)(\?.*)?$/', $request->getPathInfo())) {
+            return true;
+        }
+
         foreach ($this->except as $except) {
             if ($except !== '/') {
                 $except = trim($except, '/');
