@@ -15,55 +15,48 @@
 
 namespace App\Http\Controllers\Account;
 
+use Illuminate\Database\Eloquent\Model;
+
+
 use App\Helpers\Arr;
 use App\Helpers\Search;
-
 use App\Http\Controllers\Search\Traits\PreSearchTrait;
 use App\Models\Post;
 use App\Models\Category;
 use App\Models\SavedPost;
 use App\Models\SavedSearch;
 use App\Models\Message;
-
-use App\Models\Picture;
-
 use App\Models\Scopes\ReviewedScope;
 use App\Mail\PostDeleted;
 use App\Models\Scopes\VerifiedScope;
-//use Carbon\Carbon;
-//use Illuminate\Http\Request as HttpRequest;
+use Carbon\Carbon;
+use App\Http\Controllers\FrontController;
 use Illuminate\Support\Facades\Mail;
-//use Illuminate\Support\Facades\Request;
+
 use Torann\LaravelMetaTags\Facades\MetaTag;
-
 use Illuminate\Http\Request;
-use App\Http\Controllers\Post\Traits\CustomFieldTrait;
 
+
+use App\Models\Payment;
+use App\Models\Makeanoffer;
 use App\Helpers\Localization\Helpers\Country as CountryLocalizationHelper;
 use App\Helpers\Localization\Country as CountryLocalization;
-
-use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
-use App\Models\HomeSection;
-use App\Models\SubAdmin1;
-use App\Helpers\DBTool;
-use App\Models\City;
-use App\Models\User;
-use App\Models\Newsletter;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\DB;
-
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Session;
-
-#use Illuminate\Support\Carbon;
-use Carbon\Carbon;
-//use DB;
+use DB;
 
 
-class PostsappController extends AccountappBaseController
+
+class PostsAPPController extends FrontController
 {
     use PreSearchTrait;
-
+ public $countries;
+    public $myPosts;
+    public $archivedPosts;
+    public $favouritePosts;
+    public $pendingPosts;
+    public $conversations;
+    public $transactions;
+    public $makeanoffers;
+	public $apiPlugin;
     private $perPage = 12;
 
     public function __construct()
@@ -73,32 +66,32 @@ class PostsappController extends AccountappBaseController
         $this->perPage = (is_numeric(config('settings.listing.items_per_page'))) ? config('settings.listing.items_per_page') : $this->perPage;
     }
 
+
+
+
+	
+
+
+
+
     /**
      * @param $pagePath
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|\Illuminate\View\View
      */
     public function getPage($pagePath, Request $request)
     {
-	if(!empty($request->lang))
-	{
-	$lang = $request->lang;
-	}
-	else
-	{
-	$lang = 'en';
-	}
         switch ($pagePath) {
             case 'my-posts':
-                return $this->getMyPosts($request->userid,$lang);
+                return $this->getMyPosts($request);
                 break;
             case 'archived':
-                return $this->getArchivedPosts($request->userid,$lang);
+                return $this->getArchivedPosts($pagePath);
                 break;
             case 'favourite':
-                return $this->getFavouritePosts($request->userid,$lang);
+                return $this->getFavouritePosts();
                 break;
             case 'pending-approval':
-                return $this->getPendingApprovalPosts($request->userid,$lang);
+                return $this->getPendingApprovalPosts();
                 break;
             default:
                 abort(404);
@@ -108,149 +101,20 @@ class PostsappController extends AccountappBaseController
     /**
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function getMyPosts($userid,$lang)
+    public function getMyPosts(Request $request)
     {
-		$myPosts = Post::where('user_id', $userid)
-             ->verified()
-			 ->unarchived()
-			 ->reviewed()
-			 //->select('*',\DB::raw('(SELECT CONCAT("https://www.dealnotdeal.com/storage/", pictures.filename) as filename  FROM pictures WHERE pictures.post_id = posts.id AND pictures.position = 1 ) AS image'))  
+        $myPosts = Post::currentCountry()
+            ->where('user_id', $request->user_id)
+            ->verified()
+			->unarchived()
+			->reviewed()
             ->with(['pictures', 'city', 'latestPayment' => function ($builder) { $builder->with(['package']); }])
             ->orderByDesc('id');
-        
-		$count = $myPosts->count();
-		$posts = $myPosts->get();
-		
-		if($count>0)
-		{
-		$i=0;
-		foreach($posts as $key => $post){
-		$post->fetchdate = date('d F Y h:i',strtotime($post->created_at));
-		
-		$res = $this->getimage($post->id);
-		$post->image = $res['image'];
-		$post->picture = $res['picture'];
-		
-		$getcurrencycountry = \DB::table('countries')
-                        ->join('currencies', 'currencies.code', '=', 'countries.currency_code')
-                        ->select('currencies.*')
-                        ->where('countries.code', '=', strtoupper($post->country_code))
-                        ->first();
-						
-		if ($post->price > 0)
-            		                {
-            						    $get_currency = \App\Helpers\Number::money_price_latest($post->price,$getcurrencycountry->html_entity,$getcurrencycountry->in_left,$getcurrencycountry->decimal_places,$getcurrencycountry->decimal_separator);
-            		                }
-            						else
-            						{
-            						    $get_currency = t('Free');
-            						}
-									
-									$getusernamedetail = \DB::table('users')->where('id', '=', $post->user_id)->first();
-                                        $username = $getusernamedetail->username;  
-										$user_created_at = $getusernamedetail->created_at;       
-										//$post->liveCatName = $liveCatName;
-										$post->user_created_at = \Date::parse($user_created_at)->timezone(config('timezone.id'));
-										$post->user_created_at = $post->user_created_at->ago();
-										
-										
-										$post->username = $username;
-                            
-						                $post->currency = $get_currency;
-		
-		
-		
-										
-		
-		$liveCat = \App\Models\Category::findTransApp($post->category_id, $lang);
-											//return $liveCat;
-										$post->liveCat = $liveCat;
-										
-										// Check parent
-										if (empty($liveCat->parent_id)) {
-											$liveCatParentId = $liveCat->id;
-											$liveCatType = $liveCat->type;
-										} else {
-											$liveCatParentId = $liveCat->parent_id;
-											
-											$liveParentCat = \App\Models\Category::findTransApp($liveCat->parent_id, $lang);
-											//echo $liveParentCat;
-											
-										if(isset($lang))
-										{
-										$lang1 = $lang;
-										}
-										else
-										{
-										$lang1 = 'en';
-										}	
-											$bindings = [
-            'translation_lang' => $lang,
-        ];
-		
-		$sql = 'select * from categories where translation_of="'.$liveParentCat->tid.'" and translation_lang="'.$lang.'" ';
-
-        $categories = DB::select($sql);
-						//print_r($categories);
-						//echo 'id='.$liveParentCat->parent_id;		
-						//echo 'name='.$categories[0]->name;			
-											$liveParentCat->name = $categories[0]->name;			
-											
-											$post->liveParentCat = $liveParentCat;
-											
-											
-											$liveCatType = (!empty($liveParentCat)) ? $liveParentCat->type : 'classified';
-										}
-										
-										// Check translation
-										$liveCatName = $liveCat->name;
-		
-		$post->liveCatName = $liveCatName;
-		
-		
-		$qrypack = DB::select("select * from payments where post_id='".$post->id."' and active='1' ");
-		if(!empty($qrypack))
-		{
-		$qrypack1 = DB::select("select * from packages where id='".$qrypack[0]->package_id."' and active='1' ");
-		$post->py_package_id = $qrypack[0]->package_id;
-		$post->package = $qrypack1;
-		}
-		else
-		{
-		$post->py_package_id = 'No Value';
-		$post->package = 'No Value';
-		} 
-		
-		
-		$postType = \App\Models\PostType::findTransApp($post->post_type_id,$lang);
-											//return $postType;
-		$post->postType = $postType;
-		
-		
-		
-		if (!empty($userid))
-													{
-													$scount = \App\Models\SavedPost::where('user_id', $userid)->where('post_id', $post->id)->count();
-													if($scount>0)
-													{
-													$post->saved = 'Yes';
-													}
-													else
-													{
-													$post->saved = 'No';
-													}
-													}
-													else
-													{
-													$post->saved = 'No'; 
-													}
-		
-		
-		
-		$i++;
-		}
-		}
-		return response()->json(['results'=>$posts,'numrecords'=>$count]);
+        //view()->share('countMyPosts', $this->myPosts->count());
+		//print_r($myPosts);
+		$data = $myPosts->get();
+		return response()->json(['results'=>$data]);
+       
     }
 
     /**
@@ -258,454 +122,66 @@ class PostsappController extends AccountappBaseController
      * @param null $postId
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|\Illuminate\View\View
      */
-    public function getArchivedPosts($userid,$lang)
+    public function getArchivedPosts($pagePath, $postId = null)
     {
-        $archivedPosts = Post::where('user_id', $userid)
-            ->archived()
-        	///->select('*',\DB::raw('(SELECT CONCAT("https://www.dealnotdeal.com/storage/", pictures.filename) as filename  FROM pictures WHERE pictures.post_id = posts.id AND pictures.position = 1 ) AS image'))  
-            ->with(['pictures', 'city', 'latestPayment' => function ($builder) { $builder->with(['package']); }])
-            ->orderByDesc('id');
-		$count = $archivedPosts->count();
-		$posts = $archivedPosts->get();
-		
-		
-		if($count>0)
-		{
-		$i=0;
-		foreach($posts as $key => $post){
-		$post->fetchdate = date('d F Y h:i',strtotime($post->created_at));
-		
-		$res = $this->getimage($post->id);
-		$post->image = $res['image'];
-		$post->picture = $res['picture'];
-		
-		
-		$getcurrencycountry = \DB::table('countries')
-                        ->join('currencies', 'currencies.code', '=', 'countries.currency_code')
-                        ->select('currencies.*')
-                        ->where('countries.code', '=', $post->country_code)
-                        ->first();
-						
-		if ($post->price > 0)
-            		                {
-            						    $get_currency = \App\Helpers\Number::money_price_latest($post->price,$getcurrencycountry->html_entity,$getcurrencycountry->in_left,$getcurrencycountry->decimal_places,$getcurrencycountry->decimal_separator);
-            		                }
-            						else
-            						{
-            						    $get_currency = t('Free');
-            						}
-									
-									$getusernamedetail = \DB::table('users')->where('id', '=', $post->user_id)->first();
-                                        $username = $getusernamedetail->username;  
-										$user_created_at = $getusernamedetail->created_at;       
-										//$post->liveCatName = $liveCatName;
-										$post->username = $username;
-										
-                            			$post->user_created_at = \Date::parse($user_created_at)->timezone(config('timezone.id'));
-										$post->user_created_at = $post->user_created_at->ago();
-							
-						                $post->currency = $get_currency;
-										
-										
-										
-		
-		
-		$qrypack = DB::select("select * from payments where post_id='".$post->id."' and active='1' ");
-		if(!empty($qrypack))
-		{
-		$qrypack1 = DB::select("select * from packages where id='".$qrypack[0]->package_id."' and active='1' ");
-		$post->py_package_id = $qrypack[0]->package_id;
-		$post->package = $qrypack1;
-		}
-		else
-		{
-		$post->py_package_id = 'No Value';
-		$post->package = 'No Value';
-		} 
-								
-								
-			$postType = \App\Models\PostType::findTransApp($post->post_type_id,$lang);
-											//return $postType;
-		$post->postType = $postType;					
-								$liveCat = \App\Models\Category::findTransApp($post->category_id, $lang);
-											//return $liveCat;
-										$post->liveCat = $liveCat;
-										
-										// Check parent
-										if (empty($liveCat->parent_id)) {
-											$liveCatParentId = $liveCat->id;
-											$liveCatType = $liveCat->type;
-										} else {
-											$liveCatParentId = $liveCat->parent_id;
-											
-											$liveParentCat = \App\Models\Category::findTransApp($liveCat->parent_id, $lang);
-											//echo $liveParentCat;
-											
-										if(isset($lang))
-										{
-										$lang1 = $lang;
-										}
-										else
-										{
-										$lang1 = 'en';
-										}	
-											$bindings = [
-            'translation_lang' => $lang,
-        ];
-		
-		$sql = 'select * from categories where translation_of="'.$liveParentCat->tid.'" and translation_lang="'.$lang.'" ';
+        // If repost
+        if (str_contains(url()->current(), $pagePath . '/' . $postId . '/repost')) {
+            $res = false;
+            if (is_numeric($postId) and $postId > 0) {
+                $res = Post::find($postId)->update([
+                    'archived'   => 0,
+                    'created_at' => Carbon::now(),
+                ]);
+            }
+            if (!$res) {
+                flash(t("The repost has done successfully."))->success();
+            } else {
+                flash(t("The repost has failed. Please try again."))->error();
+            }
 
-        $categories = DB::select($sql);
-						//print_r($categories);
-						//echo 'id='.$liveParentCat->parent_id;		
-						//echo 'name='.$categories[0]->name;			
-											$liveParentCat->name = $categories[0]->name;			
-											
-											$post->liveParentCat = $liveParentCat;
-											
-											
-											$liveCatType = (!empty($liveParentCat)) ? $liveParentCat->type : 'classified';
-										}
-										
-										// Check translation
-										$liveCatName = $liveCat->name;
-		
-		$post->liveCatName = $liveCatName;
-				
-		if (!empty($userid))
-													{
-													$scount = \App\Models\SavedPost::where('user_id', $userid)->where('post_id', $post->id)->count();
-													if($scount>0)
-													{
-													$post->saved = 'Yes';
-													}
-													else
-													{
-													$post->saved = 'No';
-													}
-													}
-													else
-													{
-													$post->saved = 'No'; 
-													}								
-										
-		$i++;
-		}
-		}
-		
-		
-		//echo $archivedPosts->toSql();
-		return response()->json(['results'=>$posts,'numrecords'=>$count]);
+            return redirect(config('app.locale') . '/account/' . $pagePath);
+        }
+
+        $data = [];
+        $data['posts'] = $this->archivedPosts->paginate($this->perPage);
+
+        // Meta Tags
+        MetaTag::set('title', t('My archived ads'));
+        MetaTag::set('description', t('My archived ads on :app_name', ['app_name' => config('settings.app.name')]));
+
+        view()->share('pagePath', $pagePath);
+
+        return view('account.posts', $data);
     }
 
     /**
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function getFavouritePosts($userid,$lang)
+    public function getFavouritePosts()
     {
-		$favouritePosts = SavedPost::whereHas('post', function($query) {
-               /*$query->currentCountry();*/
-            })
-            ->where('user_id', $userid)
-        	//->select('*',\DB::raw('(SELECT CONCAT("https://www.dealnotdeal.com/storage/", pictures.filename) as filename  FROM pictures WHERE pictures.post_id = saved_posts.post_id AND pictures.position = 1 ) AS image'))  
-            //->with(['post.pictures', 'post.city'])
-            ->orderByDesc('id');			
-			//echo $favouritePosts;
-        
-		$count = $favouritePosts->count();
-		$posts = $favouritePosts->get();
-		
-		if($count>0)
-		{
-		$i=0;
-		foreach($posts as $key => $post){
-		$post->fetchdate = date('d F Y h:i',strtotime($post->post->created_at));
-		
-		$res = $this->getimage($post->post->id);
-		$post->image = $res['image'];
-		$post->picture = $res['picture'];
-		
-		$getcurrencycountry = \DB::table('countries')
-                        ->join('currencies', 'currencies.code', '=', 'countries.currency_code')
-                        ->select('currencies.*')
-                        ->where('countries.code', '=', $post->country_code)
-                        ->first();
-						
-		if ($post->price > 0)
-            		                {
-            						    $get_currency = \App\Helpers\Number::money_price_latest($post->price,$getcurrencycountry->html_entity,$getcurrencycountry->in_left,$getcurrencycountry->decimal_places,$getcurrencycountry->decimal_separator);
-            		                }
-            						else
-            						{
-            						    $get_currency = t('Free');
-            						}
-									
-									$getusernamedetail = \DB::table('users')->where('id', '=', $post->user_id)->first();
-                                        $username = $getusernamedetail->username;  
-										$user_created_at = $getusernamedetail->created_at;       
-										//$post->liveCatName = $liveCatName;
-										
-										
-										$post->username = $username;
-                            			
-										$post->user_created_at = \Date::parse($user_created_at)->timezone(config('timezone.id'));
-										$post->user_created_at = $post->user_created_at->ago();
-										
-						                $post->currency = $get_currency;
-										
-										
-		
-		
-		$qrypack = DB::select("select * from payments where post_id='".$post->id."' and active='1' ");
-		if(!empty($qrypack))
-		{
-		$qrypack1 = DB::select("select * from packages where id='".$qrypack[0]->package_id."' and active='1' ");
-		$post->py_package_id = $qrypack[0]->package_id;
-		$post->package = $qrypack1;
-		}
-		else
-		{
-		$post->py_package_id = 'No Value';
-		$post->package = 'No Value';
-		} 
-			
-			
-			$postType = \App\Models\PostType::findTransApp($post->post->post_type_id,$lang);
-											//return $postType;
-		$post->post->postType = $postType;							
-					$liveCat = \App\Models\Category::findTransApp($post->post->category_id, $lang);
-											//return $liveCat;
-										$post->liveCat = $liveCat;
-										
-										// Check parent
-										if (empty($liveCat->post->parent_id)) {
-											$liveCatParentId = $liveCat->id;
-											$liveCatType = $liveCat->type;
-										} else {
-											$liveCatParentId = $liveCat->post->parent_id;
-											
-											$liveParentCat = \App\Models\Category::findTransApp($liveCat->post->parent_id, $lang);
-											//echo $liveParentCat;
-											
-										if(isset($lang))
-										{
-										$lang1 = $lang;
-										}
-										else
-										{
-										$lang1 = 'en';
-										}	
-											$bindings = [
-            'translation_lang' => $lang,
-        ];
-		
-		$sql = 'select * from categories where translation_of="'.$liveParentCat->tid.'" and translation_lang="'.$lang.'" ';
+        $data = [];
+        $data['posts'] = $this->favouritePosts->paginate($this->perPage);
 
-        $categories = DB::select($sql);
-						//print_r($categories);
-						//echo 'id='.$liveParentCat->parent_id;		
-						//echo 'name='.$categories[0]->name;			
-											$liveParentCat->name = $categories[0]->name;			
-											
-											$post->liveParentCat = $liveParentCat;
-											
-											
-											$liveCatType = (!empty($liveParentCat)) ? $liveParentCat->type : 'classified';
-										}
-										
-										// Check translation
-										$liveCatName = $liveCat->name;
-		
-		$post->liveCatName = $liveCatName;
-		if (!empty($userid))
-													{
-													$scount = \App\Models\SavedPost::where('user_id', $userid)->where('post_id', $post->id)->count();
-													if($scount>0)
-													{
-													$post->saved = 'Yes';
-													}
-													else
-													{
-													$post->saved = 'No';
-													}
-													}
-													else
-													{
-													$post->saved = 'No'; 
-													}					
-		
-		
-		$i++;
-		}
-		}
-		
-		return response()->json(['results'=>$posts,'numrecords'=>$count]);	
-	}
+        // Meta Tags
+        MetaTag::set('title', t('My favourite ads'));
+        MetaTag::set('description', t('My favourite ads on :app_name', ['app_name' => config('settings.app.name')]));
 
-
-
-
-	public function getimage($postid)
-	{
-		$qryimg = Picture::where(['post_id'=>$postid,'position'=>1]);
-		
-		if($qryimg->count()>0)
-		{
-		$pics = $qryimg->get();
-		$image = "https://www.dealnotdeal.com/storage/".$pics[0]->filename;
-		$picture = $qryimg->get();
-		}
-		else
-		{
-		$picture = array();
-		$image = '';
-		}
-		return array('picture' => $picture, 'image' => $image);
-	}
-
-
-
+        return view('account.posts', $data);
+    }
 
     /**
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function getPendingApprovalPosts($userid,$lang)
+    public function getPendingApprovalPosts()
     {
-		$pendingPosts = Post::withoutGlobalScopes([VerifiedScope::class, ReviewedScope::class])
-            ->where('user_id', $userid)
-            ->unverified()
-            //->select('*',\DB::raw('(SELECT CONCAT("https://www.dealnotdeal.com/storage/", pictures.filename) as filename  FROM pictures WHERE pictures.post_id = posts.id AND pictures.position = 1 ) AS image'))  
-            ->with(['pictures', 'city', 'latestPayment' => function ($builder) { $builder->with(['package']); }])
-            ->orderByDesc('id');
-        
-		$count = $pendingPosts->count();
-		$posts = $pendingPosts->get();
-		
-		
-		if($count>0)
-		{
-		$i=0;
-		foreach($posts as $key => $post){
-		$post->fetchdate = date('d F Y h:i',strtotime($post->created_at));
-		
-		$res = $this->getimage($post->id);
-		$post->image = $res['image'];
-		$post->picture = $res['picture'];
-		
-		
-		$getcurrencycountry = \DB::table('countries')
-                        ->join('currencies', 'currencies.code', '=', 'countries.currency_code')
-                        ->select('currencies.*')
-                        ->where('countries.code', '=', $post->country_code)
-                        ->first();
-						
-		if ($post->price > 0)
-            		                {
-            						    $get_currency = \App\Helpers\Number::money_price_latest($post->price,$getcurrencycountry->html_entity,$getcurrencycountry->in_left,$getcurrencycountry->decimal_places,$getcurrencycountry->decimal_separator);
-            		                }
-            						else
-            						{
-            						    $get_currency = t('Free');
-            						}
-									
-									$getusernamedetail = \DB::table('users')->where('id', '=', $post->user_id)->first();
-                                        $username = $getusernamedetail->username;  
-										$user_created_at = $getusernamedetail->created_at;       
-										//$post->liveCatName = $liveCatName;
-										$post->username = $username;
-                            			
-										$post->user_created_at = \Date::parse($user_created_at)->timezone(config('timezone.id'));
-										$post->user_created_at = $post->user_created_at->ago();
-											
-						                $post->currency = $get_currency;
-										
-										
-										
-		
-		
-		$qrypack = DB::select("select * from payments where post_id='".$post->id."' and active='1' ");
-		if(!empty($qrypack))
-		{
-		$qrypack1 = DB::select("select * from packages where id='".$qrypack[0]->package_id."' and active='1' ");
-		$post->py_package_id = $qrypack[0]->package_id;
-		$post->package = $qrypack1;
-		}
-		else
-		{
-		$post->py_package_id = 'No Value';
-		$post->package = 'No Value';
-		} 
-			$postType = \App\Models\PostType::findTransApp($post->post_type_id,$lang);
-											//return $postType;
-		$post->postType = $postType;		
-					
-					$liveCat = \App\Models\Category::findTransApp($post->category_id, $lang);
-											//return $liveCat;
-										$post->liveCat = $liveCat;
-										
-										// Check parent
-										if (empty($liveCat->parent_id)) {
-											$liveCatParentId = $liveCat->id;
-											$liveCatType = $liveCat->type;
-										} else {
-											$liveCatParentId = $liveCat->parent_id;
-											
-											$liveParentCat = \App\Models\Category::findTransApp($liveCat->parent_id, $lang);
-											//echo $liveParentCat;
-											
-										if(isset($lang))
-										{
-										$lang1 = $lang;
-										}
-										else
-										{
-										$lang1 = 'en';
-										}	
-											$bindings = [
-            'translation_lang' => $lang,
-        ];
-		
-		$sql = 'select * from categories where translation_of="'.$liveParentCat->tid.'" and translation_lang="'.$lang.'" ';
+        $data = [];
+        $data['posts'] = $this->pendingPosts->paginate($this->perPage);
 
-        $categories = DB::select($sql);
-						//print_r($categories);
-						//echo 'id='.$liveParentCat->parent_id;		
-						//echo 'name='.$categories[0]->name;			
-											$liveParentCat->name = $categories[0]->name;			
-											
-											$post->liveParentCat = $liveParentCat;
-											
-											
-											$liveCatType = (!empty($liveParentCat)) ? $liveParentCat->type : 'classified';
-										}
-										
-										// Check translation
-										$liveCatName = $liveCat->name;
-		
-		$post->liveCatName = $liveCatName;
-		
-		if (!empty($userid))
-													{
-													$scount = \App\Models\SavedPost::where('user_id', $userid)->where('post_id', $post->id)->count();
-													if($scount>0)
-													{
-													$post->saved = 'Yes';
-													}
-													else
-													{
-													$post->saved = 'No';
-													}
-													}
-													else
-													{
-													$post->saved = 'No'; 
-													}					
-		
-		$i++;
-		}
-		}
-		
-		return response()->json(['results'=>$posts,'numrecords'=>$count]);
+        // Meta Tags
+        MetaTag::set('title', t('My pending approval ads'));
+        MetaTag::set('description', t('My pending approval ads on :app_name', ['app_name' => config('settings.app.name')]));
+
+        return view('account.posts', $data);
     }
 
     /**
@@ -764,30 +240,14 @@ class PostsappController extends AccountappBaseController
         return view('account.saved-search', $data);
     }
 	
-	
-	
-	public function repost($pagePath, $postId = null)
-    {
-            $res = false;
-            if (is_numeric($postId) and $postId > 0) {
-                $res = Post::find($postId)->update([
-                    'archived'   => 0,
-                    'created_at' => Carbon::now(),
-                ]);
-            }
-            if (!$res) {
-				return response()->json(['results'=>"The repost has done successfully."]);
-            } else {
-				return response()->json(['results'=>"The repost has failed. Please try again."]);
-            } 
-    }
-	
-	
 	/**
 	 * @param $pagePath
 	 * @param null $id
 	 * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
 	 */
+	 
+	 
+	 
 	 
     public function destroy($pagePath, $id = null)
     {
@@ -840,8 +300,16 @@ class PostsappController extends AccountappBaseController
         // if ($nb == 0) {
             // flash(t("No deletion is done. Please try again."))->error();
         // } else {
+            $count = count($ids);
+            if ($count > 1) {
+                $message = t("x :entities has been deleted successfully.", ['entities' => t('ads'), 'count' => $count]);
+            } else {
+                $message = t("1 :entity has been deleted successfully.", ['entity' => t('ad')]);
+            }
+            flash($message)->success();
         // }
-		return response()->json(['results'=>'No deletion is done. Please try again.']);
+
+        return redirect(config('app.locale') . '/account/' . $pagePath);
     }
     
     
@@ -863,62 +331,8 @@ class PostsappController extends AccountappBaseController
 
         // Delete
         $nb = 0;
-        if ($pagePath == 'saved-search') {
-            $nb = SavedSearch::destroy($ids);
-        } else {
-            foreach ($ids as $item) {
-                $post = Post::withoutGlobalScopes([VerifiedScope::class, ReviewedScope::class])->find($item);
-                if (!empty($post)) {
-                    $tmpPost = Arr::toObject($post->toArray());
-
-                    // Delete Entry
-                    $nb = $post->delete();
-
-                    // Send an Email confirmation
-					if (!empty($tmpPost->email)) {
-						try {
-							Mail::send(new PostDeleted($tmpPost));
-						} catch (\Exception $e) {
-							flash($e->getMessage())->error();
-						}
-					}
-                }
-            }
-        }
-
-        // Confirmation
-        if ($nb == 0) {
-			return response()->json(['results'=>'No deletion is done. Please try again.']);
-        } else {
-            $count = count($ids);
-            return response()->json(['results'=>'entities has been deleted successfully']);
-        }
-
-        
-    }
-    
-    
-    
-    
-    
-     public function destroyfavpost($pagePath, $id = null, Request $request)
-    {
-        // Get Entries ID
-        $ids = [];
-        if (request()->filled('entries')) {
-            $ids = request()->input('entries');
-        } else {
-            if (!is_numeric($id) && $id <= 0) {
-                $ids = [];
-            } else {
-                $ids[] = $id;
-            }
-        }
-
-        // Delete
-        $nb = 0;
         if ($pagePath == 'favourite') {
-            $savedPosts = SavedPost::where('user_id', $request->userid)->whereIn('post_id', $ids);
+            $savedPosts = SavedPost::where('user_id', auth()->user()->id)->whereIn('post_id', $ids);
             if ($savedPosts->count() > 0) {
                 $nb = $savedPosts->delete();
             }
@@ -947,14 +361,25 @@ class PostsappController extends AccountappBaseController
 
         // Confirmation
         if ($nb == 0) {
-			return response()->json(['results'=>'No deletion is done. Please try again.']);
+            flash(t("No deletion is done. Please try again."))->error();
         } else {
             $count = count($ids);
-            return response()->json(['results'=>'entities has been deleted successfully']);
+            if ($count > 1) {
+                $message = t("x :entities has been deleted successfully.", ['entities' => t('ads'), 'count' => $count]);
+            } else {
+                $message = t("1 :entity has been deleted successfully.", ['entity' => t('ad')]);
+            }
+            flash($message)->success();
         }
 
-        
+        return redirect(config('app.locale') . '/account/' . $pagePath);
     }
+    
+    
+    
+    
+    
+    
     
     
     
