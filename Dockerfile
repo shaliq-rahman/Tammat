@@ -21,13 +21,14 @@ ENV COMPOSER_ALLOW_SUPERUSER=1
 
 WORKDIR /app
 
-# Copy composer files first for layer caching
+# Copy everything needed for composer install
 COPY composer.json composer.lock ./
+COPY packages/ ./packages/
 
 # Install PHP dependencies
 RUN composer install --no-dev --optimize-autoloader --no-scripts --no-interaction --ignore-platform-reqs
 
-# Copy application
+# Copy rest of application
 COPY . .
 
 RUN composer dump-autoload --optimize --no-scripts
