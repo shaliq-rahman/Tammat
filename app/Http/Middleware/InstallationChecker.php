@@ -114,16 +114,21 @@ class InstallationChecker
 	private function updateIsAvailable()
 	{
 		$updateIsAvailable = false;
-		
+
 		// Get eventual new version value & the current (installed) version value
 		$lastVersionInt = strToInt(config('app.version'));
 		$currentVersionInt = strToInt(getCurrentVersion());
-		
+
+		// Fall back to env() if DotenvEditor returns nothing (e.g. on Railway)
+		if ($currentVersionInt === 0) {
+			$currentVersionInt = strToInt(env('APP_VERSION', config('app.version')));
+		}
+
 		// Check the update
 		if ($lastVersionInt > $currentVersionInt) {
 			$updateIsAvailable = true;
 		}
-		
+
 		return $updateIsAvailable;
 	}
 }
