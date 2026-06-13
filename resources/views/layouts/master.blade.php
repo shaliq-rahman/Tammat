@@ -145,7 +145,7 @@ read the full License from here - http://codecanyon.net/licenses/standard --}}
 
 	</script>
 
-	<script src="{{ url('assets/js/pace.min.js') }}"></script>
+	<script src="{{ url('assets/js/pace.min.js') }}" defer></script>
 
 	<link rel="stylesheet" href="{{url('css/font-awesome.css')}}">
 
