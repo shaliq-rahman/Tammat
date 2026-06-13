@@ -83,13 +83,13 @@ class DBTool
 		
 		// Database Parameters
 		$database['driver'] = 'mysql';
-		$database['host'] = env('DB_HOST', 'localhost');
-		$database['port'] = (int)env('DB_PORT', 3306);
-		$database['socket'] = env('DB_SOCKET', '');
-		$database['username'] = env('DB_USERNAME');
-		$database['password'] = env('DB_PASSWORD');
-		$database['database'] = env('DB_DATABASE');
-		$database['charset'] = env('DB_CHARSET', 'utf8');
+		$database['host'] = config('database.connections.mysql.host', env('DB_HOST', 'localhost'));
+		$database['port'] = (int)config('database.connections.mysql.port', env('DB_PORT', 3306));
+		$database['socket'] = config('database.connections.mysql.unix_socket', env('DB_SOCKET', ''));
+		$database['username'] = config('database.connections.mysql.username', env('DB_USERNAME'));
+		$database['password'] = config('database.connections.mysql.password', env('DB_PASSWORD'));
+		$database['database'] = config('database.connections.mysql.database', env('DB_DATABASE'));
+		$database['charset'] = config('database.connections.mysql.charset', env('DB_CHARSET', 'utf8'));
 		$database['options'] = [
 			\PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_OBJ,
 			\PDO::ATTR_ERRMODE            => \PDO::ERRMODE_EXCEPTION,
