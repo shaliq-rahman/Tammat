@@ -245,7 +245,7 @@ if (
                                                                 <a  style="display: inline;" class="app-icon" target="_blank"
 																 href="{{ config('settings.social_link.google_plus_url') }}">
 
-                                                                <img class="share-icon-size" src="https://tmmat.com/images/instagram.png">
+                                                                <img class="share-icon-size" src="{{ url('images/instagram.png') }}">
 
                                                                 </a>
 
@@ -255,7 +255,7 @@ if (
 
                                                                 <a  style="display: inline;" class="app-icon" target="_blank" href="{{ config('settings.social_link.facebook_page_url') }}">
 															 
-                                                                    <img  class="share-icon-size" src="https://tmmat.com/images/facebook.png">
+                                                                    <img  class="share-icon-size" src="{{ url('images/facebook.png') }}">
 
                                                                 </a>
 

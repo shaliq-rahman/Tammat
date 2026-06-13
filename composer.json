@@ -74,7 +74,8 @@
 		],
 		"classmap": [
 			"database/seeds",
-			"database/factories"
+			"database/factories",
+			"packages/mcamara/laravel-localization/src/Traits"
 		],
 		"psr-4": {
 			"App\\": "app/",
@@ -112,7 +113,11 @@
 	"config": {
 		"preferred-install": "dist",
 		"sort-packages": true,
-		"optimize-autoloader": true
+		"optimize-autoloader": true,
+		"allow-plugins": {
+			"kylekatarnls/update-helper": true,
+			"composer/package-versions-deprecated": true
+		}
 	},
 	"minimum-stability": "dev",
 	"prefer-stable": true
