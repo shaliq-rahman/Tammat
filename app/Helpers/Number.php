@@ -211,8 +211,8 @@ class Number
 		}
 		
 		$separators = [];
-		$separators['thousand'] = (starts_with($locale, 'fr')) ? ' ' : ',';
-		$separators['decimal'] = (starts_with($locale, 'fr')) ? ',' : '.';
+		$separators['thousand'] = (str_starts_with($locale, 'fr')) ? ' ' : ',';
+		$separators['decimal'] = (str_starts_with($locale, 'fr')) ? ',' : '.';
 		
 		return $separators;
 	}

@@ -41,7 +41,7 @@
 							<a href="{{ lurl($post->uri, $attr) }}" class="tooltipHere" title="" data-placement="top"
 								data-toggle="tooltip"
 								data-original-title="{!! $post->title !!}">
-								{!! str_limit($post->title, 45) !!}
+								{!! \Illuminate\Support\Str::limit($post->title, 45) !!}
 							</a>
 						</h2>
 						<form class="form-horizontal" id="postForm" method="POST" action="{{ url((config('app.locale')!='en'?config('app.locale'):'en').'/account/makeanoffers/storeeditoffer')}}" enctype="multipart/form-data">

@@ -335,7 +335,7 @@ class HomeController extends FrontController
         ];
 		
 		$sql = 'SELECT * FROM categories WHERE parent_id=0 AND translation_lang="'.$request->translation_lang.'"  order by lft ';
-        $categories = DB::select(DB::raw($sql), $bindings);
+        $categories = DB::select($sql, $bindings);
 		$res = array();
         $sArr = array();
         $subfinal = array();
@@ -350,14 +350,14 @@ class HomeController extends FrontController
     		    $picture = 'https://www.dealnotdeal.com/storage/app/default/categories/fa-folder-skin-blue.png';
     		}
 		  $productSql = 'select * from posts where category_id = "'.$category->id.'" and archived!=1';
-        $products = DB::select(DB::raw($productSql));
+        $products = DB::select($productSql);
         $mSum += count($products);
 		  $sql = 'select * from categories where parent_id = "'.$category->translation_of.'" and translation_lang="'.$request->translation_lang.'"  order by lft ';
 
-        $subCategories = DB::select(DB::raw($sql), $bindings);
+        $subCategories = DB::select($sql, $bindings);
         foreach($subCategories as $subC){
             $productSql = 'select * from posts where category_id = "'.$subC->id.'" and archived!=1';
-        $products = DB::select(DB::raw($productSql));
+        $products = DB::select($productSql);
        $mSum += count($products);
         }
        // print_r($subCategories);
@@ -431,14 +431,14 @@ else{
             'translation_lang' => $request->translation_lang,
         ];
 		$sql = 'select * from categories where parent_id = "'.$request->category_id.'"  and translation_lang="'.strtolower($request->translation_lang).'"  order by lft ';
-        $categories = DB::select(DB::raw($sql), $bindings);
+        $categories = DB::select($sql, $bindings);
 		$productSql = 'select * from posts where category_id = "'.$request->category_id.'" and country_code="'.$request->countryCode.'" and archived!=1';
-        $products = DB::select(DB::raw($productSql)); 
+        $products = DB::select($productSql); 
         //print_r($products);
         foreach($products as $key => $value){
             $pId = $value->id;
             $imgSql = 'select * from pictures where post_id = "'.$pId.'"';
-            $img = DB::select(DB::raw($imgSql)); 
+            $img = DB::select($imgSql); 
             $des = $value->description;
             $des = strip_tags($des);
              $getcurrencycountry = \DB::table('countries')
@@ -1043,7 +1043,7 @@ else{
 		
 		$sql = 'select * from categories where parent_id="0" and translation_lang="'.$request->translation_lang.'" order by lft ';
 
-        $categories = DB::select(DB::raw($sql), $bindings);
+        $categories = DB::select($sql, $bindings);
 		
 		
 		
@@ -1068,7 +1068,7 @@ else{
 		
 		$categories1 = DB::select('select * from categories where id = :id', ['id' => $category->translation_of]);
 
-        //$categories1 = DB::select(DB::raw($sql1), $bindings1);
+        //$categories1 = DB::select($sql1, $bindings1);
 		
 		$category->slug = $categories1[0]->slug;	
 		
@@ -1094,7 +1094,7 @@ else{
 		
 		$sql = 'select * from categories where parent_id = "'.$request->category_id.'"  and translation_lang="'.strtolower($request->translation_lang).'" order by lft ';
 
-        $categories = DB::select(DB::raw($sql), $bindings);
+        $categories = DB::select($sql, $bindings);
 		
 		
 		
@@ -1202,7 +1202,7 @@ else{
 
         $cacheId = config('country.code') . '.home.getPosts.' . $type;
         $posts = Cache::remember($cacheId, $cacheExpiration, function () use ($sql, $bindings) {
-            $posts = DB::select(DB::raw($sql), $bindings);
+            $posts = DB::select($sql, $bindings);
 
             return $posts;
         });
@@ -1255,7 +1255,7 @@ else{
 
         $cacheId = config('country.code') . '.home.getPosts.' . $type;
         $posts = Cache::remember($cacheId, $cacheExpiration, function () use ($sql, $bindings) {
-            $posts = DB::select(DB::raw($sql), $bindings);
+            $posts = DB::select($sql, $bindings);
 
             return $posts;
         });
@@ -1310,7 +1310,7 @@ else{
         ];
 
         $cacheId = $country_code . '.home.getPosts.' . $type;
-        $posts = DB::select(DB::raw($sql), $bindings);
+        $posts = DB::select($sql, $bindings);
 
         //return $posts;
 		
@@ -1616,7 +1616,7 @@ else{
         ];
 
         $cacheId = $country_code . '.home.getPosts.' . $type;
-        $posts = DB::select(DB::raw($sql), $bindings);
+        $posts = DB::select($sql, $bindings);
 
         //return $posts;
 		

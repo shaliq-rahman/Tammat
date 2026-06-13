@@ -23,7 +23,7 @@ use Larapen\Admin\app\Http\Controllers\PanelController;
 use App\Models\Gender;
 use App\Models\User;
 use App\Models\Newsletter;
-use Illuminate\Support\Facades\Input;
+
 use App\Http\Requests\Admin\UserRequest as StoreRequest;
 use App\Http\Requests\Admin\UserRequest as UpdateRequest;
 
@@ -546,10 +546,10 @@ class UserController extends PanelController
         }
 
         // Check (Encrypt or Skip) the Password
-        if (Input::filled('password')) {
-            Input::merge(['password' => Hash::make(Input::get('password'))]);
+        if (request()->filled('password')) {
+            request()->merge(['password' => Hash::make(request()->input('password'))]);
         } else {
-            Input::replace(Input::except(['password']));
+            request()->replace(request()->except(['password']));
         }
     }
 

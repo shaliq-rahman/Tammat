@@ -15,7 +15,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\Support\Facades\Input;
+
 use Larapen\Admin\app\Http\Controllers\PanelController;
 use Larapen\Admin\app\Http\Requests\Request as StoreRequest;
 use Larapen\Admin\app\Http\Requests\Request as UpdateRequest;
@@ -104,7 +104,7 @@ class PictureController extends PanelController
 		$this->xPanel->addField([
 			'name'  => 'post_id',
 			'type'  => 'hidden',
-			'value' => Input::get('post_id'),
+			'value' => request()->input('post_id'),
 		], 'create');
 		$this->xPanel->addField([
 			'name'   => 'filename',

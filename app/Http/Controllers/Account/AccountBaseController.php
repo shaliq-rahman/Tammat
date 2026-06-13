@@ -31,6 +31,7 @@ use DB;
 
 abstract class AccountBaseController extends FrontController
 {
+    protected $perPage = 10;
     public $countries;
     public $myPosts;
     public $archivedPosts;

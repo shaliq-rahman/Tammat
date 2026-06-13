@@ -95,7 +95,7 @@ class Language extends BaseModel
 	 *
 	 * @return array
 	 */
-	public function sluggable()
+	public function sluggable(): array
 	{
 		return [
 			'app_name' => [

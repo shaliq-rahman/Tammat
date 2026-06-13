@@ -378,16 +378,16 @@ class HomeSection extends BaseModel
 					if (str_contains($value[$attribute_name], $params['default'])) {
 						$value[$attribute_name] = null;
 					} else {
-						if (!starts_with($value[$attribute_name], $destination_path)) {
-							$value[$attribute_name] = $destination_path . last(explode($destination_path, $value[$attribute_name]));
+						if (!str_starts_with($value[$attribute_name], $destination_path)) {
+							$value[$attribute_name] = $destination_path . array_slice(explode($destination_path, $value[$attribute_name]), -1)[0];
 						}
 					}
 				} else {
 					if ($value[$attribute_name] == url('/')) {
 						$value[$attribute_name] = null;
 					} else {
-						if (!starts_with($value[$attribute_name], $destination_path)) {
-							$value[$attribute_name] = $destination_path . last(explode($destination_path, $value[$attribute_name]));
+						if (!str_starts_with($value[$attribute_name], $destination_path)) {
+							$value[$attribute_name] = $destination_path . array_slice(explode($destination_path, $value[$attribute_name]), -1)[0];
 						}
 					}
 				}

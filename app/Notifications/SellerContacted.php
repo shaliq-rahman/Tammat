@@ -83,7 +83,7 @@ class SellerContacted extends Notification implements ShouldQueue
         return trans('sms.post_seller_contacted_content', [
             'appName'  => config('app.name'),
             'postId'   => $this->message->post_id,
-            'message'  => str_limit(strip_tags($this->message->message), 50),
+            'message'  => \Illuminate\Support\Str::limit(strip_tags($this->message->message), 50),
         ]);
     }
 }

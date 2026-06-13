@@ -185,7 +185,7 @@
 
 																<a  target="_blank" href="{{ lurl('/').'/'.slugify($makeanoffer->title).'/'.$makeanoffer->post_id }}"><img style="<?=!empty($rejected)?'opacity: 0.4;':''?>" class="thumbnail img-responsive" src="{{ $postImg }}" alt="img"></a>
 																<strong>
-																	<a target="_blank" href="{{ lurl('/').'/'.slugify($makeanoffer->title).'/'.$makeanoffer->post_id }}" title="{{ $makeanoffer->title }}">{{ str_limit($makeanoffer->title, 40) }}</a>
+																	<a target="_blank" href="{{ lurl('/').'/'.slugify($makeanoffer->title).'/'.$makeanoffer->post_id }}" title="{{ $makeanoffer->title }}">{{ \Illuminate\Support\Str::limit($makeanoffer->title, 40) }}</a>
 																</strong>
 																<p>	
 																	

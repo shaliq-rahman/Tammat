@@ -18,7 +18,7 @@ namespace App\Observer;
 use App\Helpers\Lang\LangManager;
 use App\Models\Language;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Input;
+
 use Prologue\Alerts\Facades\Alert;
 
 class LanguageObserver

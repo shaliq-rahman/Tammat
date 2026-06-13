@@ -28,7 +28,7 @@ use App\Models\Language;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
-use Jackiedo\DotenvEditor\Facades\DotenvEditor;
+use App\Facades\DotenvEditor;
 
 class UpgradeController extends Controller
 {

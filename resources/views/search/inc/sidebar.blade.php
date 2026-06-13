@@ -235,7 +235,7 @@ $fullUrlNoParams = current($tmpExplode);
                                            <a data-toggle="collapse" data-parent="#accordion2" href="#collapse{{$iCat->slug}}"  class="panel-collapse collapsed"  aria-expanded="false" aria-controls="collapseOne" title="Accessories" ></a>
  
 											<a href="{{ lurl(trans('routes.v-search-subCat', $attr), $attr) }}{{$tail}}" title="{{ $iCat->name }}" style="width:85%;">
-												{{ str_limit($iCat->name, 100) }}
+												{{ \Illuminate\Support\Str::limit($iCat->name, 100) }}
                                                 <span class="count">({{ $postsCount or 0 }}) </span>
                                             </a> 
                                         <!---srart code---> 
@@ -371,7 +371,7 @@ $fullUrlNoParams = current($tmpExplode);
 
 
 
-												<span style="color: whitesmoke">**</span>{{ str_limit($supersubcat[$i]->name, 100) }}
+												<span style="color: whitesmoke">**</span>{{ \Illuminate\Support\Str::limit($supersubcat[$i]->name, 100) }}
 
 
 
@@ -559,7 +559,7 @@ $superid_ext=$supersubcat_2[$x]->translation_of;
 
 											<a href="{{ lurl(trans('routes.v-search-subCat', $attr), $attr) }}/<?php print_r($supersubcat_2[$x]->slug); ?>{{$tail}}" title="{{ $supersubcat_2[$x]->name }}" style="width:85%;">
 
-                                                <span style="color: whitesmoke">***</span>{{ str_limit($supersubcat_2[$x]->name, 100) }}
+                                                <span style="color: whitesmoke">***</span>{{ \Illuminate\Support\Str::limit($supersubcat_2[$x]->name, 100) }}
 
                                             <span class="count">({{ $postsCount or 0 }}) </span>
 
@@ -763,7 +763,7 @@ $superid_ext=$supersubcat_3[$w]->translation_of;
 
 
 
-                                           <span style="color: whitesmoke">****</span>{{ str_limit($supersubcat_3[$w]->name, 100) }}
+                                           <span style="color: whitesmoke">****</span>{{ \Illuminate\Support\Str::limit($supersubcat_3[$w]->name, 100) }}
 
 
 
@@ -1783,7 +1783,7 @@ $superid_ext=$supersubcat_4[$z]->translation_of;
 
 												<!--<a href="{{ lurl(trans('routes.v-search-subCat', $attr), $attr) }}" title="{{ $iSubCat->name }}" style="width:85%;">-->
 
-													7*{{ str_limit($iSubCat->name, 100) }}
+													7*{{ \Illuminate\Support\Str::limit($iSubCat->name, 100) }}
 
 													<span class="count">({{ $countSubCatPosts->get($iSubCat->tid)->total or 0 }}) </span>
 
@@ -2043,7 +2043,7 @@ if($slug[4]==$iSubCat->slug){
 
 
 
-											{{ str_limit($iSubCat->name, 100) }}
+											{{ \Illuminate\Support\Str::limit($iSubCat->name, 100) }}
 
 
 
@@ -2065,7 +2065,7 @@ if($slug[4]==$iSubCat->slug){
 
                                       <?php /*?>  <a href="https://www.tmmat.com/category/<?php print_r($iSubCat->slug); ?>" title="{{ $iSubCat->name }}" style="width:85%"> <?php */?>
 
-										8*{{ str_limit($iSubCat->name, 100) }}
+										8*{{ \Illuminate\Support\Str::limit($iSubCat->name, 100) }}
 
 
 
@@ -2221,7 +2221,7 @@ if($slug[4]==$iSubCat->slug){
 
 
 
-													9*{{ str_limit($iSubCat2->name, 100) }}wwwwww
+													9*{{ \Illuminate\Support\Str::limit($iSubCat2->name, 100) }}wwwwww
 
 
 
@@ -2245,7 +2245,7 @@ if($slug[4]==$iSubCat->slug){
 
 
 
-												10*{{ str_limit($iSubCat2->name, 100) }}rrrrrr
+												10*{{ \Illuminate\Support\Str::limit($iSubCat2->name, 100) }}rrrrrr
 
 
 
@@ -2349,7 +2349,7 @@ if($slug[4]==$iSubCat->slug){
 
 
 
-													11*{{ str_limit($iSubCat2->name, 100) }}
+													11*{{ \Illuminate\Support\Str::limit($iSubCat2->name, 100) }}
 
 
 
@@ -2405,7 +2405,7 @@ if($slug[4]==$iSubCat->slug){
 
 
 
-												12*{{ str_limit($iSubCat2->name, 100) }}
+												12*{{ \Illuminate\Support\Str::limit($iSubCat2->name, 100) }}
 
 
 
@@ -2429,7 +2429,7 @@ if($slug[4]==$iSubCat->slug){
 
 
 
-												13*{{ str_limit($iSubCat2->name, 100) }}
+												13*{{ \Illuminate\Support\Str::limit($iSubCat2->name, 100) }}
 
 
 
@@ -2609,7 +2609,7 @@ if($slug[4]==$iSubCat->slug){
 
 
 
-													14*{{ str_limit($iSubCat2->name, 100) }}
+													14*{{ \Illuminate\Support\Str::limit($iSubCat2->name, 100) }}
 
 
 
@@ -2633,7 +2633,7 @@ if($slug[4]==$iSubCat->slug){
 
 
 
-												15*{{ str_limit($iSubCat2->name, 100) }}
+												15*{{ \Illuminate\Support\Str::limit($iSubCat2->name, 100) }}
 
 
 
@@ -2783,7 +2783,7 @@ if($slug[4]==$iSubCat->slug){
 
 
 
-											16*{{ str_limit($iSubCat2->name, 100) }}
+											16*{{ \Illuminate\Support\Str::limit($iSubCat2->name, 100) }}
 
 
 
@@ -2807,7 +2807,7 @@ if($slug[4]==$iSubCat->slug){
 
 
 
-											   17*{{ str_limit($iSubCat2->name, 100) }}
+											   17*{{ \Illuminate\Support\Str::limit($iSubCat2->name, 100) }}
 
 
 
@@ -2987,7 +2987,7 @@ if($slug[5]==$iSubCat->slug){ ?>
 
 
 
-    													18*{{ str_limit($iSubCat2->name, 100) }}
+    													18*{{ \Illuminate\Support\Str::limit($iSubCat2->name, 100) }}
 
 
 
@@ -3011,7 +3011,7 @@ if($slug[5]==$iSubCat->slug){ ?>
 
 
 
-    												19*{{ str_limit($iSubCat2->name, 100) }}
+    												19*{{ \Illuminate\Support\Str::limit($iSubCat2->name, 100) }}
 
 
 
@@ -3109,7 +3109,7 @@ if($slug[5]==$iSubCat->slug){ ?>
 
 
 
-													20*{{ str_limit($iSubCat2->name, 100) }}<!-- we need this 0000002222-->
+													20*{{ \Illuminate\Support\Str::limit($iSubCat2->name, 100) }}<!-- we need this 0000002222-->
 
 
 
@@ -3395,7 +3395,7 @@ $superid_ext=$iSubCat2->translation_of;
 
 									 
 
-											18*	{{ str_limit($supersubcat[$i]->name, 100) }}
+											18*	{{ \Illuminate\Support\Str::limit($supersubcat[$i]->name, 100) }}
 
 
 
@@ -3773,7 +3773,7 @@ $superid_ext=$iSubCat2->translation_of;
 
 
 
-            											19*	{{ str_limit($iSubCat2->name, 100) }}<!-- we need this ###########-->
+            											19*	{{ \Illuminate\Support\Str::limit($iSubCat2->name, 100) }}<!-- we need this ###########-->
 
 
 
@@ -3999,7 +3999,7 @@ $superid_ext=$iSubCat2->translation_of;
 
 
 
-												20*{{ str_limit($supersubcat_3[$x]->name, 100) }}
+												20*{{ \Illuminate\Support\Str::limit($supersubcat_3[$x]->name, 100) }}
 
 
 
@@ -4387,7 +4387,7 @@ $superid=$supersubcat_4[$z]->id;
 
 
 
-													21*{{ str_limit($iSubCat2->name, 100) }}wwwwwwwwwwwwww
+													21*{{ \Illuminate\Support\Str::limit($iSubCat2->name, 100) }}wwwwwwwwwwwwww
 
 
 
@@ -4467,7 +4467,7 @@ $superid=$supersubcat_4[$z]->id;
 
 
 
-												22* {{ str_limit($iSubCat2->name, 100) }}
+												22* {{ \Illuminate\Support\Str::limit($iSubCat2->name, 100) }}
 
 
 
@@ -4619,7 +4619,7 @@ $superid=$supersubcat_4[$z]->id;
 
 
 
-													23*{{ str_limit($iSubCat2->name, 100) }} aaaaaaaaaaaaaaaa
+													23*{{ \Illuminate\Support\Str::limit($iSubCat2->name, 100) }} aaaaaaaaaaaaaaaa
 
 
 
@@ -4711,7 +4711,7 @@ $superid=$supersubcat_4[$z]->id;
 
 
 
-												24*{{ str_limit($iSubCat2->name, 100) }}<!-- we need this ccccccccccccccccc-->
+												24*{{ \Illuminate\Support\Str::limit($iSubCat2->name, 100) }}<!-- we need this ccccccccccccccccc-->
 
 <?php
 
@@ -5003,7 +5003,7 @@ $superid=$supersubcat[$i]->id;
 
 
 
-												25*{{ str_limit($supersubcat[$i]->name, 100) }}
+												25*{{ \Illuminate\Support\Str::limit($supersubcat[$i]->name, 100) }}
 
 
 

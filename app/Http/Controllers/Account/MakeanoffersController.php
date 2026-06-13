@@ -32,7 +32,7 @@ use App\PushNotification\push;
 
 class MakeanoffersController extends AccountBaseController
 {
-	private $perPage = 10;
+	protected $perPage = 10;
 	
 	public function __construct()
 	{

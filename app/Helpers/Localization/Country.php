@@ -25,11 +25,11 @@ use App\Models\Scopes\ReviewedScope;
 use App\Models\Scopes\VerifiedScope;
 use App\Models\TimeZone;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Input;
+
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Route;
 use App\Models\Setting;
-use PulkitJalan\GeoIP\Facades\GeoIP;
+use Torann\GeoIP\Facades\GeoIP;
 use Jaybizzle\CrawlerDetect\CrawlerDetect;
 
 class Country
@@ -175,7 +175,7 @@ class Country
 				'robots.txt',
 				'feed',
 			]) ||
-			ends_with($this->request->url(), '.xml')
+			str_ends_with($this->request->url(), '.xml')
 		) {
 			return false;
 		}
@@ -206,7 +206,7 @@ class Country
 					trans('routes.sitemap'),
 					'verify',
 				]) &&
-				!Input::filled('iam') &&
+				!request()->filled('iam') &&
 				getSegment(1) !== null &&
 				!str_contains(Route::currentRouteAction(), 'Search\\') &&
 				!str_contains(Route::currentRouteAction(), 'SitemapController') &&
@@ -387,11 +387,11 @@ class Country
 	public function getCountryFromQueryString()
 	{
 		$countryCode = '';
-		if (Input::filled('site')) {
-			$countryCode = Input::get('site');
+		if (request()->filled('site')) {
+			$countryCode = request()->input('site');
 		}
-		if (Input::filled('d')) {
-			$countryCode = Input::get('d');
+		if (request()->filled('d')) {
+			$countryCode = request()->input('d');
 		}
 		
 	//	$countryCode = getSegment(1);
@@ -432,8 +432,8 @@ class Country
 		$countryCode = null;
 		$cityId = null;
 		
-		if (Input::filled('l')) {
-			$cityId = Input::get('l');
+		if (request()->filled('l')) {
+			$cityId = request()->input('l');
 		}
 		if (empty($cityId)) {
 			$tmpValue = getSegment(3);
@@ -544,8 +544,7 @@ class Country
 		try {
 			$ipAddr = Ip::get();
 			
-			GeoIP::setIp($ipAddr);
-			$countryCode = GeoIP::getCountryCode();
+			$countryCode = optional(GeoIP::getLocation($ipAddr))->iso_code;
 			
 			if (!is_string($countryCode) || strlen($countryCode) != 2) {
 				return false;
@@ -642,7 +641,7 @@ class Country
 				$found = false;
 				foreach ($countryLanguageCodes as $isoLang) {
 					foreach ($availableLanguages as $language) {
-						if (starts_with(strtolower($isoLang), strtolower($language->abbr))) {
+						if (str_starts_with(strtolower($isoLang), strtolower($language->abbr))) {
 							$langCode = $language->abbr;
 							$hrefLang = $isoLang;
 							$found = true;

@@ -22,7 +22,7 @@ use App\Models\Traits\CountryTrait;
 use App\Observer\PostObserver;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Request;
-use Jenssegers\Date\Date;
+use Carbon\Carbon;
 use Larapen\Admin\app\Models\Crud;
 use Spatie\Feed\Feedable;
 use Spatie\Feed\FeedItem;
@@ -111,11 +111,15 @@ class Post extends BaseModel implements Feedable
 	// protected $hidden = [];
 	
 	/**
-	 * The attributes that should be mutated to dates.
+	 * The attributes that should be cast.
 	 *
 	 * @var array
 	 */
-	protected $dates = ['created_at', 'updated_at', 'deleted_at'];
+	protected $casts = [
+		'created_at' => 'datetime',
+		'updated_at' => 'datetime',
+		'deleted_at' => 'datetime',
+	];
 	
 	/*
 	|--------------------------------------------------------------------------
@@ -124,8 +128,8 @@ class Post extends BaseModel implements Feedable
 	*/
 	protected static function boot()
 	{
-		// parent::boot();
-		
+		parent::boot();
+
 		// Post::observe(PostObserver::class);
 		
 		// static::addGlobalScope(new FromActivatedCategoryScope());
@@ -170,12 +174,12 @@ class Post extends BaseModel implements Feedable
 		return $posts;
 	}
 	
-	public function toFeedItem()
+	public function toFeedItem(): FeedItem
 	{
 		$title = $this->title;
 		$title .= (isset($this->city) && !empty($this->city)) ? ' - ' . $this->city->name : '';
 		$title .= (isset($this->country) && !empty($this->country)) ? ', ' . $this->country->name : '';
-		// $summary = str_limit(str_strip(strip_tags($this->description)), 5000);
+		// $summary = \Illuminate\Support\Str::limit(str_strip(strip_tags($this->description)), 5000);
 		$summary = transformDescription($this->description);
 		$link = config('app.locale') . '/' . $this->uri;
 		
@@ -502,7 +506,7 @@ class Post extends BaseModel implements Feedable
 	*/
 	public function getCreatedAtAttribute($value)
 	{
-		$value = Date::parse($value);
+		$value = Carbon::parse($value);
 		if (config('timezone.id')) {
 			$value->timezone(config('timezone.id'));
 		}
@@ -514,7 +518,7 @@ class Post extends BaseModel implements Feedable
 	
 	public function getUpdatedAtAttribute($value)
 	{
-		$value = Date::parse($value);
+		$value = Carbon::parse($value);
 		if (config('timezone.id')) {
 			$value->timezone(config('timezone.id'));
 		}
@@ -524,7 +528,7 @@ class Post extends BaseModel implements Feedable
 	
 	public function getDeletedAtAttribute($value)
 	{
-		$value = Date::parse($value);
+		$value = Carbon::parse($value);
 		if (config('timezone.id')) {
 			$value->timezone(config('timezone.id'));
 		}
@@ -534,8 +538,8 @@ class Post extends BaseModel implements Feedable
 	
 	public function getCreatedAtTaAttribute($value)
 	{
-		Date::setLocale(app()->getLocale());
-		$value = Date::parse($this->attributes['created_at']);
+		Carbon::setLocale(app()->getLocale());
+		$value = Carbon::parse($this->attributes['created_at']);
 		if (config('timezone.id')) {
 			$value->timezone(config('timezone.id'));
 		}

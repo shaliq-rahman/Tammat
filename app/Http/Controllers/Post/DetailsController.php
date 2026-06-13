@@ -37,7 +37,7 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Request;
-use Jenssegers\Date\Date;
+
 use Torann\LaravelMetaTags\Facades\MetaTag;
 use App\PushNotification\firebase;
 use App\PushNotification\push;
@@ -294,7 +294,7 @@ $sql = Category::trans()->where('id', $post->category->tid)->orderBy('lft')->get
         view()->share('commentsAreDisabledByUser', $commentsAreDisabledByUser);
 //abdelhyreda
         // Increment Post visits counter
-        Event::fire(new PostWasVisited($post));
+        event(new PostWasVisited($post));
 
         // GET SIMILAR POSTS
         $featured = $this->getCategorySimilarPosts($post->category, $post->id);
@@ -303,7 +303,7 @@ $sql = Category::trans()->where('id', $post->category->tid)->orderBy('lft')->get
 
         // SEO
         $title = $post->title . ', ' . $post->city->name;
-        $description = str_limit(str_strip(strip_tags($post->description)), 200);
+        $description = \Illuminate\Support\Str::limit(str_strip(strip_tags($post->description)), 200);
 
         // Meta Tags
         MetaTag::set('title', $title);
@@ -332,7 +332,7 @@ $sql = Category::trans()->where('id', $post->category->tid)->orderBy('lft')->get
         view()->share('og', $this->og);
 
         // Expiration Info
-        $today = Date::now(config('timezone.id'));
+        $today = \Carbon\Carbon::now(config('timezone.id'));
         if ($today->gt($post->created_at->addMonths($this->expireTime))) {
             flash(t("Warning! This ad has expired. The product or service is not more available (may be)"))->error();
         }
@@ -788,7 +788,7 @@ public function sendMessageContact_app(SendMessageRequest $request)
             $cacheId = 'posts.similar.category.' . $cat->tid . '.post.' . $currentPostId;
             $posts = Cache::remember($cacheId, $this->cacheExpiration, function () use ($sql, $bindings) {
                 try {
-                    $posts = DB::select(DB::raw($sql), $bindings);
+                    $posts = DB::select($sql, $bindings);
                 } catch (\Exception $e) {
                     return [];
                 }
@@ -860,7 +860,7 @@ public function sendMessageContact_app(SendMessageRequest $request)
             $cacheId = 'posts.similar.city.' . $city->id . '.post.' . $currentPostId;
             $posts = Cache::remember($cacheId, $this->cacheExpiration, function () use ($sql, $bindings) {
                 try {
-                    $posts = DB::select(DB::raw($sql), $bindings);
+                    $posts = DB::select($sql, $bindings);
                 } catch (\Exception $e) {
                     return [];
                 }

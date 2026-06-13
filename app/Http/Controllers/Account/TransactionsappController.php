@@ -32,7 +32,7 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 //class TransactionsappController extends AccountappBaseController
 class TransactionsappController extends FrontController
 {
-	private $perPage = 10;
+	protected $perPage = 10;
 	
 	public function __construct()
 	{

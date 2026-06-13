@@ -223,7 +223,7 @@ read the full License from here - http://codecanyon.net/licenses/standard --}}
 
 	@show @section('add_more') @show @section('update_offer') @show @includeWhen(!auth()->check(), 'layouts.inc.modal.login')
 
-	@include('layouts.inc.modal.change-country') @include('cookieConsent::index') @if (isset($detectAdsBlockerPlugin) and !empty($detectAdsBlockerPlugin))
+	@include('layouts.inc.modal.change-country') @include('cookie-consent::index') @if (isset($detectAdsBlockerPlugin) and !empty($detectAdsBlockerPlugin))
 
 	@if (view()->exists('detectadsblocker::modal')) @include('detectadsblocker::modal') @endif @endif
 

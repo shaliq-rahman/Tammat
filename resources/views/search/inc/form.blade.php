@@ -1,21 +1,19 @@
 <?php
-use Illuminate\Support\Facades\Input;
-
 // Keywords
-$keywords = rawurldecode(Input::get('q'));
+$keywords = rawurldecode(request()->get('q'));
 
 // Category
-$qCategory = (isset($cat) and !empty($cat)) ? $cat->tid : Input::get('c');
+$qCategory = (isset($cat) and !empty($cat)) ? $cat->tid : request()->get('c');
 
 // Location
 if (isset($city) and !empty($city)) {
 	$qLocationId = (isset($city->id)) ? $city->id : 0;
 	$qLocation = $city->name;
-	$qAdmin = Input::get('r');
+	$qAdmin = request()->get('r');
 } else {
-	$qLocationId = Input::get('l');
-	$qLocation = (Input::filled('r')) ? t('area:') . rawurldecode(Input::get('r')) : Input::get('location');
-    $qAdmin = Input::get('r');
+	$qLocationId = request()->get('l');
+	$qLocation = (request()->filled('r')) ? t('area:') . rawurldecode(request()->get('r')) : request()->get('location');
+    $qAdmin = request()->get('r');
 }
 ?>
 <div class="container" style="padding-top:50px;">
@@ -28,16 +26,16 @@ if (isset($city) and !empty($city)) {
 				</div>
 				
 				
-				<!--<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">-->
-				<!--	<select name="c" id="catSearch" class="form-control selecter">-->
-				<!--		<option value="" {{ ($qCategory=='') ? 'selected="selected"' : '' }}> {{ t('All Categories') }} </option>-->
-				<!--		@if (isset($cats) and $cats->count() > 0)-->
-				<!--			@foreach ($cats->groupBy('parent_id')->get(0) as $itemCat)-->
-				<!--				<option {{ ($qCategory==$itemCat->tid) ? ' selected="selected"' : '' }} value="{{ $itemCat->tid }}"> {{ $itemCat->name }} </option>-->
-				<!--			@endforeach-->
-				<!--		@endif-->
-				<!--	</select>-->
-				<!--</div>-->
+				{{-- <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+					<select name="c" id="catSearch" class="form-control selecter">
+						<option value="{{ ($qCategory=='')?'selected="selected"':'' }}"> {{ t('All Categories') }} </option>
+						@if (isset($cats) and $cats->count() > 0)
+							@foreach ($cats->groupBy('parent_id')->get(0) as $itemCat)
+								<option value="{{ $itemCat->tid }}"> {{ $itemCat->name }} </option>
+							@endforeach
+						@endif
+					</select>
+				</div> --}}
 				
 				
 				

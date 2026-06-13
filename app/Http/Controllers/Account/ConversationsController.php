@@ -24,7 +24,7 @@ use Torann\LaravelMetaTags\Facades\MetaTag;
 
 class ConversationsController extends AccountBaseController
 {
-	private $perPage = 10;
+	protected $perPage = 10;
 	
 	public function __construct()
 	{

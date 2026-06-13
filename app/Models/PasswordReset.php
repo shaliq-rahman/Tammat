@@ -67,11 +67,13 @@ class PasswordReset extends BaseModel
     // protected $hidden = [];
     
     /**
-     * The attributes that should be mutated to dates.
+     * The attributes that should be cast.
      *
      * @var array
      */
-    protected $dates = ['created_at'];
+    protected $casts = [
+        'created_at' => 'datetime',
+    ];
     
     /*
     |--------------------------------------------------------------------------
@@ -96,7 +98,7 @@ class PasswordReset extends BaseModel
     public function routeNotificationForTwilio()
     {
         $phone = phoneFormatInt($this->phone, config('country.code'));
-        if (!starts_with($phone, '+')) {
+        if (!str_starts_with($phone, '+')) {
             $phone = '+' . $phone;
         }
         return $phone;

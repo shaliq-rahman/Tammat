@@ -195,10 +195,11 @@ return [
         NotificationChannels\Twilio\TwilioProvider::class,
 		Larapen\Feed\FeedServiceProvider::class,
 		Larapen\Impersonate\ImpersonateServiceProvider::class,
-		Jackiedo\DotenvEditor\DotenvEditorServiceProvider::class,
+		// Jackiedo\DotenvEditor\DotenvEditorServiceProvider::class, // package not installed
     Laravel\Passport\PassportServiceProvider::class,
-    JoeDixon\Translation\TranslationServiceProvider::class
-    
+    // JoeDixon\Translation\TranslationServiceProvider::class, // package not installed
+    App\Providers\ImageServiceProvider::class,
+
     ],
     
     /*
@@ -227,6 +228,7 @@ return [
 		'DB' => Illuminate\Support\Facades\DB::class,
 		'Eloquent' => Illuminate\Database\Eloquent\Model::class,
 		'Event' => Illuminate\Support\Facades\Event::class,
+		'Image' => App\Facades\Image::class,
 		'File' => Illuminate\Support\Facades\File::class,
 		'Gate' => Illuminate\Support\Facades\Gate::class,
 		'Hash' => Illuminate\Support\Facades\Hash::class,
@@ -253,7 +255,7 @@ return [
         'MetaTag' => Torann\LaravelMetaTags\Facades\MetaTag::class,
         'LaravelLocalization' => Larapen\LaravelLocalization\Facades\LaravelLocalization::class,
         'TextToImage' => Larapen\TextToImage\Facades\TextToImage::class,
-		'DotenvEditor' => Jackiedo\DotenvEditor\Facades\DotenvEditor::class,
+		// 'DotenvEditor' => Jackiedo\DotenvEditor\Facades\DotenvEditor::class, // package not installed
         'Alert' => 'Prologue\Alerts\Facades\Alert',
     'Carbon' => 'Carbon\Carbon',
      

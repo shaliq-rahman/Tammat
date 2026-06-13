@@ -143,9 +143,9 @@ if (!isset($cacheExpiration)) {
 				<h5 class="add-title">
 					<?php $attr = ['slug' => slugify($post->title), 'id' => $post->id]; ?>
 					@if(isset($_GET['cat']))
-					    <a style="color:#ff5555" href="{{ lurl($post->uri, $attr) }}?cat={{$_GET['cat']}}">{{ str_limit($post->title, 70) }} </a>
+					    <a style="color:#ff5555" href="{{ lurl($post->uri, $attr) }}?cat={{$_GET['cat']}}">{{ \Illuminate\Support\Str::limit($post->title, 70) }} </a>
 					@else
-						<a style="color:#ff5555" href="{{ lurl($post->uri, $attr) }}">{{ str_limit($post->title, 70) }} </a>
+						<a style="color:#ff5555" href="{{ lurl($post->uri, $attr) }}">{{ \Illuminate\Support\Str::limit($post->title, 70) }} </a>
 					@endif
 				</h5>
 				

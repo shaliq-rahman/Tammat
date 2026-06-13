@@ -48,7 +48,7 @@ class PageController extends FrontController
 
         // SEO
         $title = $page->title;
-        $description = str_limit(str_strip($page->content), 200);
+        $description = \Illuminate\Support\Str::limit(str_strip($page->content), 200);
 
         // Meta Tags
         MetaTag::set('title', $title);

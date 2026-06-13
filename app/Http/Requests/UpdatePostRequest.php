@@ -24,7 +24,7 @@ class UpdatePostRequest extends Request
 		
 		$rules['price'] = 'required|numeric';
 		
-	    /*if (request()->wantsJson() || starts_with(request()->path(), 'api')) {
+	    /*if (request()->wantsJson() || str_starts_with(request()->path(), 'api')) {
 			$rules['price'] = 'integer';
 		} else {
 			$rules['price'] = 'required|numeric';

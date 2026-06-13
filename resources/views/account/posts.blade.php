@@ -167,7 +167,7 @@
 											<div>
 												<p>
 													<strong>
-                                                        <a href="{{ $postUrl }}" title="{{ $post->title }}">{{ str_limit($post->title, 40) }}</a>
+                                                        <a href="{{ $postUrl }}" title="{{ $post->title }}">{{ \Illuminate\Support\Str::limit($post->title, 40) }}</a>
                                                     </strong>
 													@if (in_array($pagePath, ['my-posts','approved' ,'archived', 'pending-approval','rejected']))
 														@if (isset($post->latestPayment) and !empty($post->latestPayment))

@@ -31,7 +31,7 @@ class FeedServiceProvider extends \Spatie\Feed\FeedServiceProvider
         $this->registerRouteMacro();
     }
 
-    protected function registerRouteMacro()
+    protected function registerRouteMacro(): void
     {
         $router = $this->app['router'];
 
@@ -51,7 +51,7 @@ class FeedServiceProvider extends \Spatie\Feed\FeedServiceProvider
         });
     }
 
-    protected function feeds()
+    protected function feeds(): \Illuminate\Support\Collection
     {
         return collect(config('feed.feeds'))->mapWithKeys(function ($feed, $name) {
             return [$name => $feed['title']];

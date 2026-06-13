@@ -113,7 +113,7 @@ class Category extends BaseModel
 	 *
 	 * @return array
 	 */
-	public function sluggable()
+	public function sluggable(): array
 	{
 		return [
 			'slug' => [
@@ -368,8 +368,8 @@ class Category extends BaseModel
 				} else {
 					// Common path includes 'app/categories/custom/' and 'app/categories/skin-*/' paths
 					$commonPath = 'app/categories/';
-					if (!starts_with($value, $commonPath)) {
-						$value = $commonPath . last(explode($commonPath, $value));
+					if (!str_starts_with($value, $commonPath)) {
+						$value = $commonPath . array_slice(explode($commonPath, $value), -1)[0];
 					}
 				}
 				$this->attributes[$attribute_name] = $value;

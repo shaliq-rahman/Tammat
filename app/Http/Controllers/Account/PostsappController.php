@@ -63,7 +63,7 @@ class PostsAPPController extends FrontController
     public $transactions;
     public $makeanoffers;
 	public $apiPlugin;
-    private $perPage = 12;
+    protected $perPage = 12;
 
     public function __construct()
     {

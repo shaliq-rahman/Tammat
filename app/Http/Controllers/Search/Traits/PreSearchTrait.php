@@ -44,11 +44,11 @@ trait PreSearchTrait
 		if (!empty($location)) {
 			$location = preg_replace('/\s+\:/', ':', $location);
 			if (str_contains($location, t('area:'))) {
-				$adminName = last(explode(t('area:'), $location));
+				$adminName = array_slice(explode(t('area:'), $location), -1)[0];
 				$adminName = trim($adminName);
 				
 				$fullUrl = url(Request::getRequestUri());
-				$fullUrlNoParams = head(explode('?', $fullUrl));
+				$fullUrlNoParams = explode('?', $fullUrl)[0];
 				$url = qsurl($fullUrlNoParams, array_merge(request()->except(['l', 'location']), ['d' => config('country.code'), 'r' => $adminName]));
 				
 				headerLocation($url);
@@ -117,11 +117,11 @@ trait PreSearchTrait
 		if (!empty($location)) {
 			$location = preg_replace('/\s+\:/', ':', $location);
 			if (str_contains($location, t('area:'))) {
-				$adminName = last(explode(t('area:'), $location));
+				$adminName = array_slice(explode(t('area:'), $location), -1)[0];
 				$adminName = trim($adminName);
 				
 				$fullUrl = url(Request::getRequestUri());
-				$fullUrlNoParams = head(explode('?', $fullUrl));
+				$fullUrlNoParams = explode('?', $fullUrl)[0];
 				$url = qsurl($fullUrlNoParams, array_merge(request()->except(['l', 'location']), ['d' => config('country.code'), 'r' => $adminName]));
 				
 				headerLocation($url);
@@ -163,7 +163,7 @@ trait PreSearchTrait
 		if (empty($this->city)) {
 			$this->city = Arr::toObject([
 				'id'             => -999999,
-				'name'           => str_limit($cityName, 70),
+				'name'           => \Illuminate\Support\Str::limit($cityName, 70),
 				'longitude'      => -999999,
 				'latitude'       => -999999,
 				'subadmin1_code' => '',
@@ -226,7 +226,7 @@ trait PreSearchTrait
 			if (empty($this->admin)) {
 				$this->admin = Arr::toObject([
 					'code' => 'XXX',
-					'name' => str_limit($adminName, 70),
+					'name' => \Illuminate\Support\Str::limit($adminName, 70),
 				]);
 			}
 			
@@ -241,7 +241,7 @@ trait PreSearchTrait
 			}
 			
 			$fullUrl = url(Request::getRequestUri());
-			$fullUrlNoParams = head(explode('?', $fullUrl));
+			$fullUrlNoParams = explode('?', $fullUrl)[0];
 			$url = qsurl($fullUrlNoParams, array_merge(request()->except(['r']), ['l' => $this->city->id, 'location' => $adminName]));
 			
 			headerLocation($url);

@@ -332,7 +332,7 @@ if(!empty($tmpExplode[1])){
 
 											<a href="{{ lurl(trans('routes.v-search-subCat', $attr), $attr) }}{{$tail}}" title="{{ $iCat->name }}" style="width:85%;">
 
-												{{ str_limit($iCat->name, 100) }}
+												{{ \Illuminate\Support\Str::limit($iCat->name, 100) }}
 
 												<span class="count">({{ $postsCount or 0 }}) </span>
 
@@ -430,7 +430,7 @@ if(!empty($tmpExplode[1])){
 
 											<a href="{{ lurl(trans('routes.v-search-subCat', $attr), $attr) }}{{$tail}}" title="{{ $supersubcat[$i]->name }}" style="width:85%;">
 
-												{{ str_limit($supersubcat[$i]->name, 100) }}
+												{{ \Illuminate\Support\Str::limit($supersubcat[$i]->name, 100) }}
 
 												<span class="count">({{ $postsCount or 0 }}) </span>
 
@@ -524,7 +524,7 @@ $superid_ext=$supersubcat_2[$x]->translation_of;
   <?php $attr = ['countryCode' => config('country.icode'), 'catSlug' => $supersubcat[$i]->slug]; ?>
 
 											<a href="{{ lurl(trans('routes.v-search-subCat', $attr), $attr) }}/<?php print_r($supersubcat_2[$x]->slug); ?>{{$tail}}" title="{{ $supersubcat_2[$x]->name }}" style="width:85%;">
-                                            {{ str_limit($supersubcat_2[$x]->name, 100) }}
+                                            {{ \Illuminate\Support\Str::limit($supersubcat_2[$x]->name, 100) }}
                                             <span class="count">({{ $postsCount or 0 }}) </span>
                                             </a>
                                       
@@ -626,7 +626,7 @@ $superid_ext=$supersubcat_3[$w]->translation_of;
 <?php /*?>  <a href="https://www.tmmat.com/category/<?php print_r($supersubcat_2[$x]->slug); ?>/<?php print_r($supersubcat_3[$w]->slug); ?>" title="{{ $supersubcat_3[$w]->name }}" style="width:85%;">
 											<a href="{{ lurl(trans('routes.v-search-subCat', $attr), $attr) }}" title="{{ $supersubcat[$i]->name }}" style="width:85%;"><?php */?>
 
-												{{ str_limit($supersubcat_3[$w]->name, 100) }}
+												{{ \Illuminate\Support\Str::limit($supersubcat_3[$w]->name, 100) }}
 
 												<span class="count">({{ $postsCount or 0 }}) </span>
 
@@ -1149,7 +1149,7 @@ $superid_ext=$supersubcat_4[$z]->translation_of;
 
 											<strong>
 												<!--<a href="{{ lurl(trans('routes.v-search-subCat', $attr), $attr) }}" title="{{ $iSubCat->name }}" style="width:85%;">-->
-													{{ str_limit($iSubCat->name, 100) }}abcd
+													{{ \Illuminate\Support\Str::limit($iSubCat->name, 100) }}abcd
 													<span class="count">({{ $countSubCatPosts->get($iSubCat->tid)->total or 0 }}) </span>
 
 											</strong>
@@ -1279,7 +1279,7 @@ if($slug[4]==$iSubCat->slug){
 
 				
 
-											{{ str_limit($iSubCat->name, 100) }}
+											{{ \Illuminate\Support\Str::limit($iSubCat->name, 100) }}
 
 										<span class="count"> ({{$postsCount or 0}}) 111111111</span>
 
@@ -1290,7 +1290,7 @@ if($slug[4]==$iSubCat->slug){
                                       <a href="{{ lurl(trans('routes.v-search-subCat', $attr), $attr) }}{{$tail}}" title="{{ $iSubCat->name }}" style="width:85%">
 
                                       <?php /*?>  <a href="https://www.tmmat.com/category/<?php print_r($iSubCat->slug); ?>" title="{{ $iSubCat->name }}" style="width:85%"> <?php */?>
-										{{ str_limit($iSubCat->name, 100) }}
+										{{ \Illuminate\Support\Str::limit($iSubCat->name, 100) }}
 
 										<span class="count"> ({{$postsCount or 0}})
                                         <!-- we need this xxxxssss--></span>
@@ -1368,7 +1368,7 @@ if($slug[4]==$iSubCat->slug){
 
 												<a href="{{ lurl(trans('routes.v-search-subCat', $attr), $attr) }}{{$tail}}" title="{{ $iSubCat2->name }}">
 
-													{{ str_limit($iSubCat2->name, 100) }}wwwwww
+													{{ \Illuminate\Support\Str::limit($iSubCat2->name, 100) }}wwwwww
 
 													<span class="count">({{ $countSubCatPosts->get($iSubCat2->tid)->total or 0 }})44444444444444444 </span>
 
@@ -1380,7 +1380,7 @@ if($slug[4]==$iSubCat->slug){
 
 											<a href="{{ lurl(trans('routes.v-search-subCat', $attr), $attr) }}{{$tail}}" title="{{ $iSubCat2->name }}">
 
-												{{ str_limit($iSubCat2->name, 100) }}rrrrrr
+												{{ \Illuminate\Support\Str::limit($iSubCat2->name, 100) }}rrrrrr
 
                                                 <span class="count">({{ $countSubCatPosts->get($iSubCat2->tid)->total or 0 }}) 55555555555555555</span>
 
@@ -1432,7 +1432,7 @@ if($slug[4]==$iSubCat->slug){
 
 												<a href="{{ lurl(trans('routes.v-search-subCat', $attr), $attr) }}{{$tail}}" title="{{ $iSubCat2->name }}" style="width:85%;">
 
-													{{ str_limit($iSubCat2->name, 100) }}
+													{{ \Illuminate\Support\Str::limit($iSubCat2->name, 100) }}
 
 													<span class="count">({{ $countSubCatPosts->get($iSubCat2->id)->total or 0 }}) 777777777777777777</span>
 
@@ -1460,7 +1460,7 @@ if($slug[4]==$iSubCat->slug){
 
 										<a data-toggle="collapse" data-parent="#accordion3" href="#collapse{{$iSubCat2->slug}}{{$tail}}" class="collapsed" aria-expanded="false" aria-controls="collapseOne" title="Accessories" >	
 
-												{{ str_limit($iSubCat2->name, 100) }}
+												{{ \Illuminate\Support\Str::limit($iSubCat2->name, 100) }}
 
                                                 <span class="count">({{ $countSubCatPosts->get($iSubCat2->tid)->total or 0 }})88888888888888</span>
 
@@ -1472,7 +1472,7 @@ if($slug[4]==$iSubCat->slug){
 
 										<a href="{{ lurl(trans('routes.v-search-subCat', $attr), $attr) }}{{$tail}}" title="{{ $iSubCat2->name }}" style="width:85%;">
 
-												{{ str_limit($iSubCat2->name, 100) }}
+												{{ \Illuminate\Support\Str::limit($iSubCat2->name, 100) }}
 
                                                 <span class="count">({{ $countSubCatPosts->get($iSubCat2->tid)->total or 0 }})99999999999999 </span>
 
@@ -1562,7 +1562,7 @@ if($slug[4]==$iSubCat->slug){
 
 												<a href="{{ lurl(trans('routes.v-search-subCat', $attr), $attr) }}{{$tail}}" title="{{ $iSubCat2->name }}">
 
-													{{ str_limit($iSubCat2->name, 100) }}
+													{{ \Illuminate\Support\Str::limit($iSubCat2->name, 100) }}
 
 													<span class="count">({{ $countSubCatPosts->get($iSubCat2->tid)->total or 0 }})* </span>
 
@@ -1574,7 +1574,7 @@ if($slug[4]==$iSubCat->slug){
 
 											<a href="{{ lurl(trans('routes.v-search-subCat', $attr), $attr) }}{{$tail}}" title="{{ $iSubCat2->name }}">
 
-												{{ str_limit($iSubCat2->name, 100) }}
+												{{ \Illuminate\Support\Str::limit($iSubCat2->name, 100) }}
 
                                                 <span class="count">({{ $countSubCatPosts->get($iSubCat2->tid)->total or 0 }}) **</span>
 
@@ -1649,7 +1649,7 @@ if($slug[4]==$iSubCat->slug){
 
 						<a data-toggle="collapse" data-parent="#accordion2" href="#collapse{{$iSubCat2->slug}}" class="collapsed" aria-expanded="false" aria-controls="collapseOne" title="Accessories" >	
 
-												{{ str_limit($iSubCat2->name, 100) }}
+												{{ \Illuminate\Support\Str::limit($iSubCat2->name, 100) }}
 
 												<span class="count">({{ $countSubCatPosts->get($iSubCat2->tid)->total or 0 }}) ****</span>
 
@@ -1661,7 +1661,7 @@ if($slug[4]==$iSubCat->slug){
 
 											<a href="{{ lurl(trans('routes.v-search-subCat', $attr), $attr) }}{{$tail}}" title="{{ $iSubCat2->name }}" style="width:85%;">
 
-												{{ str_limit($iSubCat2->name, 100) }}
+												{{ \Illuminate\Support\Str::limit($iSubCat2->name, 100) }}
 
 												<span class="count">({{ $countSubCatPosts->get($iSubCat2->tid)->total or 0 }})***** </span>
 
@@ -1751,7 +1751,7 @@ if($slug[5]==$iSubCat->slug){ ?>
 
     												<a href="{{ lurl(trans('routes.v-search-subCat', $attr), $attr) }}{{$tail}}" title="{{ $iSubCat2->name }}">
 
-    													{{ str_limit($iSubCat2->name, 100) }}
+    													{{ \Illuminate\Support\Str::limit($iSubCat2->name, 100) }}
 
     													<span class="count">({{ $countSubCatPosts->get($iSubCat2->tid)->total or 0 }})******</span>
 
@@ -1763,7 +1763,7 @@ if($slug[5]==$iSubCat->slug){ ?>
 
     											<a href="{{ lurl(trans('routes.v-search-subCat', $attr), $attr) }}{{$tail}}" title="{{ $iSubCat2->name }}">
 
-    												{{ str_limit($iSubCat2->name, 100) }}
+    												{{ \Illuminate\Support\Str::limit($iSubCat2->name, 100) }}
 
                                                     <span class="count">({{ $countSubCatPosts->get($iSubCat2->tid)->total or 0 }})********</span>
 
@@ -1812,7 +1812,7 @@ if($slug[5]==$iSubCat->slug){ ?>
 
 												<a href="{{ lurl(trans('routes.v-search-subCat', $attr), $attr) }}{{$tail}}" title="{{ $iSubCat2->name }}" style="width:85%;">
 
-													{{ str_limit($iSubCat2->name, 100) }}<!-- we need this 0000002222-->
+													{{ \Illuminate\Support\Str::limit($iSubCat2->name, 100) }}<!-- we need this 0000002222-->
 
 																					<?php  
 
@@ -1955,7 +1955,7 @@ $superid_ext=$iSubCat2->translation_of;
  <a href="https://www.tmmat.com/<?php print_r($slug[3]);?>/category/{{$iSubCat2->slug}}/<?php print_r($supersubcat[$i]->slug); ?>{{$tail}}" title="{{ $supersubcat[$i]->name }}" style="width:85%;">
  
 									 
-												{{ str_limit($supersubcat[$i]->name, 100) }}
+												{{ \Illuminate\Support\Str::limit($supersubcat[$i]->name, 100) }}
 
 												<span class="count">({{ $postsCount or 0 }}) </span>
 
@@ -2144,7 +2144,7 @@ $superid_ext=$iSubCat2->translation_of;
 
             										<a href="{{ lurl(trans('routes.v-search-subCat', $attr), $attr) }}{{$tail}}" title="{{ $iSubCat2->name }}" style="width:85%;">
 
-            												{{ str_limit($iSubCat2->name, 100) }}<!-- we need this ###########-->
+            												{{ \Illuminate\Support\Str::limit($iSubCat2->name, 100) }}<!-- we need this ###########-->
 
                                                             <span class="count">({{ $postsCount or 0 }}) </span>
 
@@ -2257,7 +2257,7 @@ $superid_ext=$iSubCat2->translation_of;
   <a href="https://www.tmmat.com/category/{{$iSubCat2->slug}}/<?php print_r($supersubcat_3[$x]->slug); ?>{{$tail}}" title="{{ $supersubcat_3[$x]->name }}" style="width:85%;">
 										<?php /*?>	<a href="{{ lurl(trans('routes.v-search-subCat', $attr), $attr) }}" title="{{ $supersubcat[$i]->name }}" style="width:85%;"><?php */?>
 
-												{{ str_limit($supersubcat_3[$x]->name, 100) }}
+												{{ \Illuminate\Support\Str::limit($supersubcat_3[$x]->name, 100) }}
 
 												<span class="count">({{ $postsCount or 0 }}) </span>
 
@@ -2451,7 +2451,7 @@ $superid=$supersubcat_4[$z]->id;
 
 												<a href="{{ lurl(trans('routes.v-search-subCat', $attr), $attr) }}{{$tail}}" title="{{ $iSubCat2->name }}">
 
-													{{ str_limit($iSubCat2->name, 100) }}wwwwwwwwwwwwww
+													{{ \Illuminate\Support\Str::limit($iSubCat2->name, 100) }}wwwwwwwwwwwwww
 
 													<?php  
 
@@ -2491,7 +2491,7 @@ $superid=$supersubcat_4[$z]->id;
 
 											<a href="{{ lurl(trans('routes.v-search-subCat', $attr), $attr) }}{{$tail}}" title="{{ $iSubCat2->name }}">
 
-												{{ str_limit($iSubCat2->name, 100) }}
+												{{ \Illuminate\Support\Str::limit($iSubCat2->name, 100) }}
 
                                                 <?php  
 
@@ -2567,7 +2567,7 @@ $superid=$supersubcat_4[$z]->id;
 
 												<a href="{{ lurl(trans('routes.v-search-subCat', $attr), $attr) }}{{$tail}}" title="{{ $iSubCat2->name }}">
 
-													{{ str_limit($iSubCat2->name, 100) }} aaaaaaaaaaaaaaaa
+													{{ \Illuminate\Support\Str::limit($iSubCat2->name, 100) }} aaaaaaaaaaaaaaaa
 
 													<?php  
 
@@ -2613,7 +2613,7 @@ $superid=$supersubcat_4[$z]->id;
 
 										<a href="{{ lurl(trans('routes.v-search-subCat', $attr), $attr) }}{{$tail}}" title="{{ $iSubCat2->name }}" style="width:85%;">
 
-												{{ str_limit($iSubCat2->name, 100) }}<!-- we need this ccccccccccccccccc-->
+												{{ \Illuminate\Support\Str::limit($iSubCat2->name, 100) }}<!-- we need this ccccccccccccccccc-->
 <?php
 
 $superid=$iSubCat2->id; 
@@ -2759,7 +2759,7 @@ $superid=$supersubcat[$i]->id;
 <?php /*?>  <a href="https://www.tmmat.com/category/{{$iSubCat2->slug}}/<?php print_r($supersubcat[$i]->slug); ?>" title="{{ $supersubcat[$i]->name }}" style="width:85%;">
 											<a href="{{ lurl(trans('routes.v-search-subCat', $attr), $attr) }}" title="{{ $supersubcat[$i]->name }}" style="width:85%;"><?php */?>
 
-												{{ str_limit($supersubcat[$i]->name, 100) }}
+												{{ \Illuminate\Support\Str::limit($supersubcat[$i]->name, 100) }}
 
 												<span class="count">({{ $postsCount or 0 }}) </span>
 

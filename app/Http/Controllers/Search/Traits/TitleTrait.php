@@ -324,9 +324,8 @@ trait TitleTrait
 		}
 		
 		// Sort by Position
-		$bcTab = array_values(array_sort($bcTab, function ($value) {
-			return $value['position'];
-		}));
+		usort($bcTab, function ($a, $b) { return $a['position'] <=> $b['position']; });
+		$bcTab = array_values($bcTab);
 		
 		view()->share('bcTab', $bcTab);
 		

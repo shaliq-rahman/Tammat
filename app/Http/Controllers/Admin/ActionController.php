@@ -23,7 +23,7 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
-use Jackiedo\DotenvEditor\Facades\DotenvEditor;
+use App\Facades\DotenvEditor;
 use Larapen\Admin\app\Http\Controllers\Controller;
 use Prologue\Alerts\Facades\Alert;
 

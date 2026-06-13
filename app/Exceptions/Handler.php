@@ -17,6 +17,7 @@ namespace App\Exceptions;
 
 use App\Helpers\Arr;
 use App\Helpers\DBTool;
+use Throwable;
 use Exception;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -84,11 +85,11 @@ class Handler extends ExceptionHandler
 	 *
 	 * This is a great spot to send exceptions to Sentry, Bugsnag, etc.
 	 *
-	 * @param Exception $e
+	 * @param Throwable $e
 	 * @return mixed|void
-	 * @throws Exception
+	 * @throws Throwable
 	 */
-	public function report(Exception $e)
+	public function report(Throwable $e)
 	{
 		// Prevent error 500 from PDO Exception
 		if ($this->isInstalled()) {
@@ -111,10 +112,10 @@ class Handler extends ExceptionHandler
 	 * Render an exception into an HTTP response.
 	 *
 	 * @param \Illuminate\Http\Request $request
-	 * @param Exception $e
+	 * @param Throwable $e
 	 * @return $this|\Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|\Symfony\Component\HttpFoundation\Response
 	 */
-	public function render($request, Exception $e)
+	public function render($request, Throwable $e)
 	{
 		// Show AJAX requests exceptions (for API)
 		if ($request->ajax() || $request->wantsJson() || $request->segment(1) == 'api') {

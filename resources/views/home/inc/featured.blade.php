@@ -239,11 +239,11 @@ if (!isset($cacheExpiration)) {
 
                                                 @if(isset($_GET['cat']))
 
-                                                <a href="{{ lurl($uri, $attr11) }}?cat={{$_GET['cat']}}">{{ str_limit($value_post->title, 70) }} </a>
+                                                <a href="{{ lurl($uri, $attr11) }}?cat={{$_GET['cat']}}">{{ \Illuminate\Support\Str::limit($value_post->title, 70) }} </a>
 
                                                 @else
 
-                                                <a href="{{ lurl($uri, $attr11) }}">{{ str_limit($value_post->title, 70) }} </a>
+                                                <a href="{{ lurl($uri, $attr11) }}">{{ \Illuminate\Support\Str::limit($value_post->title, 70) }} </a>
 
                                                 @endif
 

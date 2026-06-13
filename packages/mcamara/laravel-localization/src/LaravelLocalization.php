@@ -305,7 +305,7 @@ class LaravelLocalization
 		$parsed_url['path'] = ltrim(ltrim($base_path, '/') . '/' . $parsed_url['path'], '/');
 		
 		// Make sure that the pass path is returned with a leading slash only if it come in with one.
-		if (starts_with($path, '/') === true) {
+		if (str_starts_with($path, '/') === true) {
 			$parsed_url['path'] = '/' . $parsed_url['path'];
 		}
 		$parsed_url['path'] = rtrim($parsed_url['path'], '/');
@@ -343,7 +343,7 @@ class LaravelLocalization
 			$route = '/' . $locale;
 		}
 		if (is_string($locale) && $this->translator->has($transKeyName, $locale)) {
-			$translation = $this->translator->trans($transKeyName, [], $locale);
+			$translation = $this->translator->get($transKeyName, [], $locale);
 			$route .= "/" . $translation;
 			
 			$route = $this->substituteAttributesInRoute($attributes, $route);
@@ -637,7 +637,7 @@ class LaravelLocalization
 			$this->translatedRoutes[] = $routeName;
 		}
 		
-		return $this->translator->trans($routeName);
+		return $this->translator->get($routeName);
 	}
 	
 	/**
@@ -659,7 +659,7 @@ class LaravelLocalization
 		$path = trim($path, "/");
 		
 		foreach ($this->translatedRoutes as $route) {
-			if ($this->substituteAttributesInRoute($attributes, $this->translator->trans($route)) === $path) {
+			if ($this->substituteAttributesInRoute($attributes, $this->translator->get($route)) === $path) {
 				return $route;
 			}
 		}
@@ -679,7 +679,7 @@ class LaravelLocalization
 	{
 		// check if this url is a translated url
 		foreach ($this->translatedRoutes as $translatedRoute) {
-			if ($this->translator->trans($translatedRoute, [], $url_locale) == rawurldecode($path)) {
+			if ($this->translator->get($translatedRoute, [], $url_locale) == rawurldecode($path)) {
 				return $translatedRoute;
 			}
 		}

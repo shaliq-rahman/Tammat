@@ -84,7 +84,7 @@ trait SubAdminTrait
             else {
                 
                 // Value contains the Custom Prefix
-                if (starts_with($value, $customPrefix)) {
+                if (str_starts_with($value, $customPrefix)) {
                     
                     $prefixLoop = '';
                     $partOfValue = '';

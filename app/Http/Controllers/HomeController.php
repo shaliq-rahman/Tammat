@@ -410,7 +410,7 @@ class HomeController extends FrontController
 
 										
 
-										$post->created_at = \Date::parse($post->created_at)->timezone(config('timezone.id'));
+										$post->created_at = \Carbon\Carbon::parse($post->created_at)->timezone(config('timezone.id'));
 
 										$post->created_at = $post->created_at->ago();
 
@@ -546,7 +546,7 @@ class HomeController extends FrontController
 
 										
 
-										$post->user_created_at = \Date::parse($user_created_at)->timezone(config('timezone.id'));
+										$post->user_created_at = \Carbon\Carbon::parse($user_created_at)->timezone(config('timezone.id'));
 
 										$post->user_created_at = $post->user_created_at->ago();
 
@@ -748,9 +748,9 @@ dd($last);
 
 		$sql = 'SELECT * FROM categories WHERE parent_id=0 and active=1 AND translation_lang="'.$request->translation_lang.'"  order by lft ';
 
-        $categories = DB::select(DB::raw($sql), $bindings);
+        $categories = DB::select($sql, $bindings);
 
-        $cats = DB::select(DB::raw($sql), $bindings);
+        $cats = DB::select($sql, $bindings);
 
 		$res = array();
 
@@ -820,13 +820,13 @@ dd($last);
 
 		//$productSql = 'select * from posts where category_id = "'.$category->translation_of.'" AND country_code ="'.$request->country_code.'"';
 
-       // $products = DB::select(DB::raw($productSql));
+       // $products = DB::select($productSql);
 
        // $mSum += count($products);
 
 		$sql = 'select * from categories where parent_id = "'.$category->translation_of.'" and translation_lang="'.$request->translation_lang.'"  order by lft ';
 
-        $subCategories = DB::select(DB::raw($sql), $bindings);
+        $subCategories = DB::select($sql, $bindings);
 
         
 
@@ -836,7 +836,7 @@ dd($last);
 
             $productSql1 = 'select * from posts where category_id = "'.$subC->translation_of.'" AND country_code="'.$request->country_code.'"';
 
-        $products1 = DB::select(DB::raw($productSql1));
+        $products1 = DB::select($productSql1);
 
         //print_r($products);
 
@@ -844,7 +844,7 @@ dd($last);
 
        		$sql2 = 'select * from categories where parent_id = "'.$subC->translation_of.'" and translation_lang="'.$request->translation_lang.'"  order by lft ';
 
-            $subCategories2 = DB::select(DB::raw($sql2), $bindings);
+            $subCategories2 = DB::select($sql2, $bindings);
 
             if(!empty($subCategories2)){
 
@@ -852,7 +852,7 @@ dd($last);
 
                      $productSql2 = 'select * from posts where category_id = "'.$subC->translation_of.'" and country_code="'.$request->country_code.'"';
 
-                $products2 = DB::select(DB::raw($productSql2));
+                $products2 = DB::select($productSql2);
 
                 //print_r($products);
 
@@ -1018,9 +1018,9 @@ else{
 
 		$sql = 'SELECT * FROM categories WHERE parent_id=0 and active=1 AND translation_lang="'.$request->translation_lang.'"  order by lft ';
 
-        $categories = DB::select(DB::raw($sql), $bindings);
+        $categories = DB::select($sql, $bindings);
 
-        $cats = DB::select(DB::raw($sql), $bindings);
+        $cats = DB::select($sql, $bindings);
 
 		$res = array();
 
@@ -1152,9 +1152,9 @@ public function getSubCategoriesNew_app(Request $request)
 
 		$sql = 'SELECT * FROM categories WHERE parent_id="'.$request->translation_of.'" and active=1 AND translation_lang="'.$request->translation_lang.'"  order by lft ';
 
-        $categories = DB::select(DB::raw($sql), $bindings);
+        $categories = DB::select($sql, $bindings);
 
-        $cats = DB::select(DB::raw($sql), $bindings);
+        $cats = DB::select($sql, $bindings);
 
 		$res = array();
 
@@ -1284,7 +1284,7 @@ if($category->type==""){$type = "";}else{$type = $category->type;}
 
 		$sql = 'SELECT * FROM categories WHERE parent_id="'.$cat_id.'" and active=1 AND translation_lang="'.$lang.'"  order by lft ';
 
-        $categories = DB::select(DB::raw($sql), $bindings);		
+        $categories = DB::select($sql, $bindings);		
 
 	    $cat_names=array();
 
@@ -1352,7 +1352,7 @@ if($category->type==""){$type = "";}else{$type = $category->type;}
 
         and country_code="'.$request->countryCode.'" and archived!=1';
 
-        $products = DB::select(DB::raw($productSql)); 
+        $products = DB::select($productSql); 
 
 
 
@@ -1406,7 +1406,7 @@ if($category->type==""){$type = "";}else{$type = $category->type;}
 
         and country_code="'.$countryCode.'" and archived!=1';
 
-        $products = DB::select(DB::raw($productSql)); 
+        $products = DB::select($productSql); 
 
         $total_products= count($products);
 
@@ -1432,7 +1432,7 @@ if($category->type==""){$type = "";}else{$type = $category->type;}
 
         and country_code="'.$countryCode.'" and archived!=1';
 
-        $products = DB::select(DB::raw($productSql)); 
+        $products = DB::select($productSql); 
 
         $total_products= count($products);
 
@@ -1480,7 +1480,7 @@ if($category->type==""){$type = "";}else{$type = $category->type;}
 
 		$sql = 'select * from categories where parent_id = "'.$request->category_id.'"  and translation_lang="'.strtolower($request->translation_lang).'"  order by lft ';
 
-        $categories = DB::select(DB::raw($sql), $bindings);
+        $categories = DB::select($sql, $bindings);
 
 
 
@@ -1532,7 +1532,7 @@ if($category->type==""){$type = "";}else{$type = $category->type;}
 
         
 
-        $products = DB::select(DB::raw($productSql)); 
+        $products = DB::select($productSql); 
 
         //print_r($products);
 
@@ -1544,7 +1544,7 @@ if($category->type==""){$type = "";}else{$type = $category->type;}
 
             $imgSql = 'select * from pictures where post_id = "'.$pId.'"';
 
-            $img = DB::select(DB::raw($imgSql)); 
+            $img = DB::select($imgSql); 
 
             $des = $value->description;
 
@@ -2368,7 +2368,7 @@ protected function getLatestPostsHomepage(Request $request)
 
 
 
-        $categories = DB::select(DB::raw($sql), $bindings);
+        $categories = DB::select($sql, $bindings);
 
 		$cat_posts=array();
 
@@ -3486,7 +3486,7 @@ protected function getActivePostsByUser(Request $request)
 
 		$sql = 'select * from category_field where (category_id="'.$catId.'") OR (category_id="'.$subcatId.'")';
 
-        $categories = DB::select(DB::raw($sql), $bindings);
+        $categories = DB::select($sql, $bindings);
 
         //print_r($categories);
 
@@ -3496,7 +3496,7 @@ protected function getActivePostsByUser(Request $request)
 
             $sqlField = 'select * from fields where id="'.$fieldId.'"';
 
-            $fieldDetails = DB::select(DB::raw($sqlField), $bindings);
+            $fieldDetails = DB::select($sqlField, $bindings);
 
             //print_r($fieldDetail);
 
@@ -3508,7 +3508,7 @@ protected function getActivePostsByUser(Request $request)
 
                 $sqlFieldOption = 'select id,translation_of,value from fields_options WHERE field_id="'.$fieldId.'" AND translation_lang="'.$lang.'"';
 
-                $fieldOptionDetails = DB::select(DB::raw($sqlFieldOption), $bindings);
+                $fieldOptionDetails = DB::select($sqlFieldOption, $bindings);
 
                 
 
@@ -3696,7 +3696,7 @@ protected function getActivePostsByUser(Request $request)
 
 
 
-        $categories = DB::select(DB::raw($sql), $bindings);
+        $categories = DB::select($sql, $bindings);
 
 		
 
@@ -3746,7 +3746,7 @@ protected function getActivePostsByUser(Request $request)
 
 
 
-        //$categories1 = DB::select(DB::raw($sql1), $bindings1);
+        //$categories1 = DB::select($sql1, $bindings1);
 
 		
 
@@ -3798,7 +3798,7 @@ protected function getActivePostsByUser(Request $request)
 
 
 
-        $categories = DB::select(DB::raw($sql), $bindings);
+        $categories = DB::select($sql, $bindings);
 
 		
 
@@ -4028,7 +4028,7 @@ protected function getActivePostsByUser(Request $request)
 
         $posts = Cache::remember($cacheId, $cacheExpiration, function () use ($sql, $bindings) {
 
-            $posts = DB::select(DB::raw($sql), $bindings);
+            $posts = DB::select($sql, $bindings);
 
 
 
@@ -4134,7 +4134,7 @@ protected function getActivePostsByUser(Request $request)
 
         $posts = Cache::remember($cacheId, $cacheExpiration, function () use ($sql, $bindings) {
 
-            $posts = DB::select(DB::raw($sql), $bindings);
+            $posts = DB::select($sql, $bindings);
 
 
 
@@ -4238,7 +4238,7 @@ protected function getActivePostsByUser(Request $request)
 
         $cacheId = $country_code . '.home.getPosts.' . $type;
 
-        $posts = DB::select(DB::raw($sql), $bindings);
+        $posts = DB::select($sql, $bindings);
 
 
 
@@ -4422,7 +4422,7 @@ protected function getActivePostsByUser(Request $request)
 
 										
 
-										$post->created_at = \Date::parse($post->created_at)->timezone(config('timezone.id'));
+										$post->created_at = \Carbon\Carbon::parse($post->created_at)->timezone(config('timezone.id'));
 
 										$post->created_at = $post->created_at->ago();
 
@@ -4720,7 +4720,7 @@ protected function getActivePostsByUser(Request $request)
 
 										
 
-										$post->user_created_at = \Date::parse($user_created_at)->timezone(config('timezone.id'));
+										$post->user_created_at = \Carbon\Carbon::parse($user_created_at)->timezone(config('timezone.id'));
 
 										$post->user_created_at = $post->user_created_at->ago();
 
@@ -4862,7 +4862,7 @@ protected function getActivePostsByUser(Request $request)
 
         $cacheId = $country_code . '.home.getPosts.' . $type;
 
-        $posts = DB::select(DB::raw($sql), $bindings);
+        $posts = DB::select($sql, $bindings);
 
 
 
@@ -5064,7 +5064,7 @@ protected function getActivePostsByUser(Request $request)
 
 										
 
-										$post->created_at = \Date::parse($post->created_at)->timezone(config('timezone.id'));
+										$post->created_at = \Carbon\Carbon::parse($post->created_at)->timezone(config('timezone.id'));
 
 
 
@@ -5248,7 +5248,7 @@ protected function getActivePostsByUser(Request $request)
 
 										
 
-										$post->user_created_at = \Date::parse($user_created_at)->timezone(config('timezone.id'));
+										$post->user_created_at = \Carbon\Carbon::parse($user_created_at)->timezone(config('timezone.id'));
 
 										$post->user_created_at = $post->user_created_at->ago();
 
@@ -5418,7 +5418,7 @@ protected function getActivePostsByUser(Request $request)
 
         $cacheId = $country_code . '.home.getPosts.' . $type;
 
-        $posts = DB::select(DB::raw($sql), $bindings);
+        $posts = DB::select($sql, $bindings);
 
 
 
@@ -5532,7 +5532,7 @@ protected function getActivePostsByUser(Request $request)
 
 										
 
-										$post->created_at = \Date::parse($post->created_at)->timezone(config('timezone.id'));
+										$post->created_at = \Carbon\Carbon::parse($post->created_at)->timezone(config('timezone.id'));
 
 										$post->created_at = $post->created_at->ago();										
 
@@ -5762,7 +5762,7 @@ protected function getActivePostsByUser(Request $request)
 
         $cacheId = $country_code . '.home.getPosts.' . $type;
 
-        $posts = DB::select(DB::raw($sql), $bindings);
+        $posts = DB::select($sql, $bindings);
 
 
 
@@ -5930,7 +5930,7 @@ protected function getActivePostsByUser(Request $request)
 
 										
 
-										$post->created_at = \Date::parse($post->created_at)->timezone(config('timezone.id'));
+										$post->created_at = \Carbon\Carbon::parse($post->created_at)->timezone(config('timezone.id'));
 
 										$post->created_at = $post->created_at->ago();
 
@@ -6226,7 +6226,7 @@ protected function getActivePostsByUser(Request $request)
 
 										
 
-										$post->user_created_at = \Date::parse($user_created_at)->timezone(config('timezone.id'));
+										$post->user_created_at = \Carbon\Carbon::parse($user_created_at)->timezone(config('timezone.id'));
 
 										$post->user_created_at = $post->user_created_at->ago();
 
@@ -6390,7 +6390,7 @@ protected function getActivePostsByUser(Request $request)
 
         $cacheId = $country_code . '.home.getPosts.' . $type;
 
-        $posts = DB::select(DB::raw($sql), $bindings);
+        $posts = DB::select($sql, $bindings);
 
 
 
@@ -6580,7 +6580,7 @@ protected function getActivePostsByUser(Request $request)
 
 		
 
-		$post->created_at = \Date::parse($post->created_at)->timezone(config('timezone.id'));
+		$post->created_at = \Carbon\Carbon::parse($post->created_at)->timezone(config('timezone.id'));
 
 		$post->created_at = $post->created_at->ago();
 
@@ -6876,7 +6876,7 @@ protected function getActivePostsByUser(Request $request)
 
 										
 
-										$post->user_created_at = \Date::parse($user_created_at)->timezone(config('timezone.id'));
+										$post->user_created_at = \Carbon\Carbon::parse($user_created_at)->timezone(config('timezone.id'));
 
 										$post->user_created_at = $post->user_created_at->ago();
 
@@ -7734,7 +7734,7 @@ if(!empty($cities))
 
 										
 
-										$post->created_at = \Date::parse($post->created_at)->timezone(config('timezone.id'));
+										$post->created_at = \Carbon\Carbon::parse($post->created_at)->timezone(config('timezone.id'));
 
 										$post->created_at = $post->created_at->ago();
 
@@ -7838,7 +7838,7 @@ if(!empty($cities))
 
                                         //$post->user_created_at = $user_created_at;
 
-                                        $post->user_created_at = \Date::parse($user_created_at)->timezone(config('timezone.id'));
+                                        $post->user_created_at = \Carbon\Carbon::parse($user_created_at)->timezone(config('timezone.id'));
 
                                         $post->user_created_at = $post->user_created_at->ago();
 
@@ -8626,7 +8626,7 @@ $cities[]=$city_nm->city_name;
 
                                        
 
-                                       $post->created_at = \Date::parse($post->created_at)->timezone(config('timezone.id'));
+                                       $post->created_at = \Carbon\Carbon::parse($post->created_at)->timezone(config('timezone.id'));
 
                                        $post->created_at = $post->created_at->ago();
 
@@ -8748,7 +8748,7 @@ $cities[]=$city_nm->city_name;
 
                                        
 
-                                       $post->user_created_at = \Date::parse($user_created_at)->timezone(config('timezone.id'));
+                                       $post->user_created_at = \Carbon\Carbon::parse($user_created_at)->timezone(config('timezone.id'));
 
                                        $post->user_created_at = $post->user_created_at->ago();
 

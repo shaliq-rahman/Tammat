@@ -102,7 +102,7 @@
 				<div class="add-details">
 					<h5 class="add-title">
 						<?php $attr = ['slug' => slugify($post->title), 'id' => $post->id]; ?>
-						<a href="{{ lurl($post->uri, $attr) }}">{{ str_limit($post->title, 70) }} </a>
+						<a href="{{ lurl($post->uri, $attr) }}">{{ \Illuminate\Support\Str::limit($post->title, 70) }} </a>
 					</h5>
 					
 					<span class="info-row">

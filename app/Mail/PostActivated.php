@@ -39,7 +39,7 @@ class PostActivated extends Mailable
         $from_email = 'admin@tmmat.com'; 
 		$this->from($from_email, $fromname);
         $this->to($post->email, $post->contact_name);
-        $this->subject(trans('mail.post_activated_title', ['title' => str_limit($post->title, 50)]));
+        $this->subject(trans('mail.post_activated_title', ['title' => \Illuminate\Support\Str::limit($post->title, 50)]));
     }
 
     /**
