@@ -39,4 +39,4 @@ RUN mkdir -p storage/logs storage/framework/cache storage/framework/sessions sto
 
 EXPOSE 8000
 
-CMD php artisan config:cache && php artisan view:cache && php -S 0.0.0.0:${PORT:-8000} -t public public/index.php
+CMD php artisan config:cache && php artisan view:cache && php -S 0.0.0.0:${PORT:-8000} -t public public/router.php
