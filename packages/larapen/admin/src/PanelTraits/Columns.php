@@ -216,7 +216,7 @@ trait Columns
 	 */
 	public function removeColumn($column)
 	{
-		array_forget($this->columns, $column);
+		\Illuminate\Support\Arr::forget($this->columns, $column);
 	}
 	
 	/**

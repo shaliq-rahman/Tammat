@@ -28,7 +28,7 @@ function plugin_list($category = null, $checkInstalled = false)
 	if (count($list) > 0) {
 		foreach ($list as $pluginPath) {
 			// Get plugin folder name
-			$pluginFolderName = strtolower(last(explode('/', $pluginPath)));
+			$pluginFolderName = strtolower(array_slice(explode('/', $pluginPath), -1)[0]);
 			
 			// Get plugin details
 			$plugin = load_plugin($pluginFolderName);
@@ -283,7 +283,7 @@ function plugin_setting_field_delete($attributes, $pluginAttrName)
 	});
 	
 	// Remove the plugin Setting field array
-	array_forget($attributes, array_keys($pluginAttrArray));
+	\Illuminate\Support\Arr::forget($attributes, array_keys($pluginAttrArray));
 	
 	$attributes = json_encode($attributes);
 	

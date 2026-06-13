@@ -84,7 +84,7 @@ class PostsController extends AccountBaseController
 
 
 
-    private $perPage = 12;
+    protected $perPage = 12;
 
 
 

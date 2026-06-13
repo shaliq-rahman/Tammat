@@ -56,7 +56,7 @@ class PluginsServiceProvider extends ServiceProvider
         if (count($pluginsList) > 0) {
             foreach($pluginsList as $pluginPath) {
                 // Get plugin folder name
-                $pluginFolderName = strtolower(last(explode('/', $pluginPath)));
+                $pluginFolderName = strtolower(array_slice(explode('/', $pluginPath), -1)[0]);
 
                 // Get plugin details
                 $plugin = load_plugin($pluginFolderName);

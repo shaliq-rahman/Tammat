@@ -239,9 +239,9 @@ $Min_Longitudinal = (float)$lng - (float)$Longitudinal_Degrees;
         $title = $this->getTitle();
         //echo $title;exit();
         if (isset($catDescription) && !empty($catDescription)) {
-            $description = str_limit($catDescription, 200);
+            $description = \Illuminate\Support\Str::limit($catDescription, 200);
         } else {
-            $description = str_limit(t('Free ads :category in :location', [
+            $description = \Illuminate\Support\Str::limit(t('Free ads :category in :location', [
                     'category' => $catName,
                     'location' => config('country.name')
                 ]) . '. ' . t('Looking for a product or service') . ' - ' . config('country.name'), 200);
@@ -280,11 +280,11 @@ $Min_Longitudinal = (float)$lng - (float)$Longitudinal_Degrees;
 		if (!empty($location)) {
 			$location = preg_replace('/\s+\:/', ':', $location);
 			if (str_contains($location, t('area:'))) {
-				$adminName = last(explode(t('area:'), $location));
+				$adminName = array_slice(explode(t('area:'), $location), -1)[0];
 				$adminName = trim($adminName);
 				
 				$fullUrl = url(Request::getRequestUri());
-				$fullUrlNoParams = head(explode('?', $fullUrl));
+				$fullUrlNoParams = explode('?', $fullUrl)[0];
 				$url = qsurl($fullUrlNoParams, array_merge(request()->except(['l', 'location']), ['d' => config('country.code'), 'r' => $adminName]));
 				
 				headerLocation($url);
@@ -524,7 +524,7 @@ $Min_Longitudinal = (float)$lng - (float)$Longitudinal_Degrees;
 													$post->saved = 'No'; 
 													}
 			
-			$post->created_at = \Date::parse($post->created_at)->timezone(config('timezone.id'));
+			$post->created_at = \Carbon\Carbon::parse($post->created_at)->timezone(config('timezone.id'));
 										$post->created_at = $post->created_at->ago();
 			
 			
@@ -536,7 +536,7 @@ $Min_Longitudinal = (float)$lng - (float)$Longitudinal_Degrees;
 										$post->username = $username;
 										//$post->user_created_at = $user_created_at;
 										
-										$post->user_created_at = \Date::parse($user_created_at)->timezone(config('timezone.id'));
+										$post->user_created_at = \Carbon\Carbon::parse($user_created_at)->timezone(config('timezone.id'));
 										$post->user_created_at = $post->user_created_at->ago();
 			
 			
@@ -821,7 +821,7 @@ $Min_Longitudinal = (float)$lng - (float)$Longitudinal_Degrees;
 										$post->username = $username;
 										//$post->user_created_at = $user_created_at;
 										
-										$post->user_created_at = \Date::parse($user_created_at)->timezone(config('timezone.id'));
+										$post->user_created_at = \Carbon\Carbon::parse($user_created_at)->timezone(config('timezone.id'));
 										$post->user_created_at = $post->user_created_at->ago();
 										
 										

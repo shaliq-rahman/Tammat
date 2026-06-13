@@ -16,7 +16,7 @@
 namespace App\Helpers\Lang\Traits;
 
 use App\Models\Language;
-use Jackiedo\DotenvEditor\Facades\DotenvEditor;
+use App\Facades\DotenvEditor;
 
 trait LangTablesTrait
 {

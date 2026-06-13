@@ -19,14 +19,14 @@ use App\Models\Page;
 use App\Models\PaymentMethod;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Input;
+
 use ChrisKonnertz\OpenGraph\OpenGraph;
 use Illuminate\Support\Facades\Route;
-use Jackiedo\DotenvEditor\Facades\DotenvEditor;
+use App\Facades\DotenvEditor;
 use Jaybizzle\CrawlerDetect\CrawlerDetect;
 use App\Helpers\Localization\Country as CountryLocalization;
 use App\Helpers\Localization\Helpers\Country as CountryLocalizationHelper;
-use Jenssegers\Date\Date;
+
 use Torann\LaravelMetaTags\Facades\MetaTag;
 
 trait SettingsTrait
@@ -75,7 +75,7 @@ trait SettingsTrait
 		
 		// Set Date Locale
 		if (!empty(config('lang.abbr'))) {
-			Date::setLocale(config('lang.abbr'));
+			\Carbon\Carbon::setLocale(config('lang.abbr'));
 		}
 		if (!empty(config('lang.locale'))) {
 			setlocale(LC_ALL, config('lang.locale'));

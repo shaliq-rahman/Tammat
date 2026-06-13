@@ -236,7 +236,7 @@
                                     </td>
                                     <td>
                                         <a href="{{ url(config('larapen.admin.route_prefix', 'admin') . '/users/'.$user->id.'/edit') }}">
-                                            {{ str_limit($user->name, 70) }}
+                                            {{ \Illuminate\Support\Str::limit($user->name, 70) }}
                                         </a>
                                     </td>
                                     <td>

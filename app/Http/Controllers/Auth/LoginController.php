@@ -302,7 +302,7 @@ class LoginController extends FrontController
 
             // Update last user logged Date
 
-            Event::fire(new UserWasLogged(User::find(Auth::user()->id)));
+            event(new UserWasLogged(User::find(Auth::user()->id)));
 
             if(!empty(Auth::user()->user_new))
 
@@ -428,7 +428,7 @@ class LoginController extends FrontController
 
        if($getusernamedetail || $getemaildetail){
 
-           //Event::fire(new UserWasLogged(User::find(Auth::user()->id)));
+           //event(new UserWasLogged(User::find(Auth::user()->id)));
 
            if(!empty($getusernamedetail)){
 

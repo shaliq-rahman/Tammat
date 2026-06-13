@@ -351,7 +351,11 @@ trait Crud
      */
     public function hasAttribute($attr)
     {
-        return array_key_exists($attr, $this->attributes);
+        return array_key_exists($attr, $this->attributes) ||
+            array_key_exists($attr, $this->getCasts()) ||
+            $this->hasGetMutator($attr) ||
+            $this->hasAttributeMutator($attr) ||
+            $this->isClassCastable($attr);
     }
 	
 	/**

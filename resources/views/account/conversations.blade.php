@@ -213,7 +213,7 @@
 												<!--@endif-->
 												<!--<br>-->
 												<!--{{ t('Subject') }}:&nbsp;{{ $conversation->subject }}<br>-->
-												<!--{{ t('Started by') }}:&nbsp;{{ str_limit($fromusername, 50) }}-->
+												<!--{{ t('Started by') }}:&nbsp;{{ \Illuminate\Support\Str::limit($fromusername, 50) }}-->
 												
 												
 												<!--{!! (!empty($conversation->filename) and \Storage::exists($conversation->filename)) ? ' <i class="icon-attach-2"></i> ' : '' !!}&nbsp;|&nbsp;-->

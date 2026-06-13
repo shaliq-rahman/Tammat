@@ -62,7 +62,7 @@ class AjaxController1 extends Controller
 			return response()->json($result, 200, [], JSON_UNESCAPED_UNICODE);
 		}
 		$sql = 'SELECT DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name = "' . DB::getTablePrefix() . $table . '" AND COLUMN_NAME = "' . $field . '"';
-		$info = DB::select(DB::raw($sql));
+		$info = DB::select($sql);
 		if (empty($info)) {
 			return response()->json($result, 200, [], JSON_UNESCAPED_UNICODE);
 		} else {
@@ -93,8 +93,8 @@ class AjaxController1 extends Controller
 		$modelFiles = array_filter(\File::glob($modelsPath . '/' . '*.php'), 'is_file');
 		if (count($modelFiles) > 0) {
 			foreach ($modelFiles as $filePath) {
-				$filename = last(explode('/', $filePath));
-				$modelName = head(explode('.', $filename));
+				$filename = array_slice(explode('/', $filePath), -1)[0];
+				$modelName = explode('.', $filename)[0];
 				
 				if (!str_contains(strtolower($filename), '.php') || str_contains(strtolower($modelName), 'base')) {
 					continue;

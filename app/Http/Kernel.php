@@ -27,7 +27,7 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $middleware = [
-        \App\Http\Middleware\CheckForMaintenanceMode::class,
+        \Illuminate\Foundation\Http\Middleware\PreventRequestsDuringMaintenance::class,
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
@@ -75,13 +75,13 @@ class Kernel extends HttpKernel
     ];
     
     /**
-     * The application's route middleware.
+     * The application's middleware aliases.
      *
      * These middleware may be assigned to groups or used individually.
      *
      * @var array
      */
-    protected $routeMiddleware = [
+    protected $middlewareAliases = [
 		'auth' => \Illuminate\Auth\Middleware\Authenticate::class,
 		'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
 		'bindings' => \Illuminate\Routing\Middleware\SubstituteBindings::class,

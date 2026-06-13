@@ -80,7 +80,7 @@ class ReplySent extends Notification implements ShouldQueue
         return trans('sms.reply_form_content', [
             'appName' => config('app.name'),
             'subject' => $this->message->subject,
-            'message' => str_limit(strip_tags($this->message->message), 50)
+            'message' => \Illuminate\Support\Str::limit(strip_tags($this->message->message), 50)
         ]);
     }
 }

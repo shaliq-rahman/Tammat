@@ -105,7 +105,7 @@ class PaymentMethod extends BaseModel
     {
         $out = strtoupper(trans('admin::messages.All'));
         if (isset($this->countries) && !empty($this->countries)) {
-            $countriesCropped = str_limit($this->countries, 50, ' [...]');
+            $countriesCropped = \Illuminate\Support\Str::limit($this->countries, 50, ' [...]');
             $out = '<div title="' . $this->countries . '">' . $countriesCropped . '</div>';
         }
         

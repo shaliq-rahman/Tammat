@@ -112,7 +112,7 @@ class BaseController extends FrontController
             $bindings = [
                 'countryCode' => config('country.code')
             ];
-            $countSubCatPosts = DB::select(DB::raw($sql), $bindings);
+            $countSubCatPosts = DB::select($sql, $bindings);
             $countSubCatPosts = collect($countSubCatPosts)->keyBy('id');
             
             view()->share('countSubCatPosts', $countSubCatPosts);
@@ -136,7 +136,7 @@ class BaseController extends FrontController
             $bindings = [
                 'countryCode' => config('country.code')
             ];
-            $countCatPosts = DB::select(DB::raw($sql), $bindings);
+            $countCatPosts = DB::select($sql, $bindings);
             $countCatPosts = collect($countCatPosts)->keyBy('id');
             
             view()->share('countCatPosts', $countCatPosts);

@@ -20,10 +20,9 @@ use App\Models\Traits\CountryTrait;
 use App\Notifications\ResetPasswordNotification;
 use App\Observer\UserObserver;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\Input;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Route;
-use Jenssegers\Date\Date;
 use Larapen\Admin\app\Models\Crud;
 use Laravel\Passport\HasApiTokens;
 
@@ -110,11 +109,16 @@ class User extends BaseUser
     protected $hidden = ['password', 'remember_token'];
     
     /**
-     * The attributes that should be mutated to dates.
+     * The attributes that should be cast.
      *
      * @var array
      */
-    protected $dates = ['created_at', 'updated_at', 'last_login_at', 'deleted_at'];
+    protected $casts = [
+        'created_at'    => 'datetime',
+        'updated_at'    => 'datetime',
+        'last_login_at' => 'datetime',
+        'deleted_at'    => 'datetime',
+    ];
     
     /*
     |--------------------------------------------------------------------------
@@ -169,8 +173,8 @@ class User extends BaseUser
 
     public function sendPasswordResetNotification($token)
     {
-        if (Input::filled('email') || Input::filled('phone')) {
-            if (Input::filled('email')) {
+        if (request()->filled('email') || request()->filled('phone')) {
+            if (request()->filled('email')) {
                 $field = 'email';
             } else {
                 $field = 'phone';
@@ -350,7 +354,7 @@ class User extends BaseUser
     */
     public function getCreatedAtAttribute($value)
     {
-        $value = Date::parse($value);
+        $value = Carbon::parse($value);
         if (config('timezone.id')) {
             $value->timezone(config('timezone.id'));
         }
@@ -362,7 +366,7 @@ class User extends BaseUser
     
     public function getUpdatedAtAttribute($value)
     {
-        $value = Date::parse($value);
+        $value = Carbon::parse($value);
         if (config('timezone.id')) {
             $value->timezone(config('timezone.id'));
         }
@@ -372,7 +376,7 @@ class User extends BaseUser
     
     public function getLastLoginAtAttribute($value)
     {
-        $value = Date::parse($value);
+        $value = Carbon::parse($value);
         if (config('timezone.id')) {
             $value->timezone(config('timezone.id'));
         }
@@ -382,7 +386,7 @@ class User extends BaseUser
     
     public function getDeletedAtAttribute($value)
     {
-        $value = Date::parse($value);
+        $value = Carbon::parse($value);
         if (config('timezone.id')) {
             $value->timezone(config('timezone.id'));
         }
@@ -396,8 +400,8 @@ class User extends BaseUser
             return null;
         }
 	
-		Date::setLocale(app()->getLocale());
-        $value = Date::parse($this->attributes['created_at']);
+		Carbon::setLocale(app()->getLocale());
+        $value = Carbon::parse($this->attributes['created_at']);
         if (config('timezone.id')) {
             $value->timezone(config('timezone.id'));
         }

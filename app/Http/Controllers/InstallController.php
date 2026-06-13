@@ -29,8 +29,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
-use Jenssegers\Date\Date;
-use PulkitJalan\GeoIP\Facades\GeoIP;
+
+use Torann\GeoIP\Facades\GeoIP;
 
 class InstallController extends Controller
 {
@@ -922,7 +922,7 @@ class InstallController extends Controller
 	private function updateDatabase($pdo, $tablesPrefix, $siteInfo)
 	{
 		// Default date
-		$date = Date::now();
+		$date = \Carbon\Carbon::now();
 		
 		try {
 			
@@ -1072,8 +1072,7 @@ class InstallController extends Controller
 			try {
 				$ipAddr = Ip::get();
 				
-				GeoIP::setIp($ipAddr);
-				$countryCode = GeoIP::getCountryCode();
+				$countryCode = optional(GeoIP::getLocation($ipAddr))->iso_code;
 				
 				if (!is_string($countryCode) or strlen($countryCode) != 2) {
 					return null;

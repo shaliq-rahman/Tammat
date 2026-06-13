@@ -385,7 +385,7 @@ class Search_app
         // echo 'BINDINGS<hr><pre>'; print_r($bindings); echo '</pre><hr>';
 
         try {
-            $result = DB::select(DB::raw($sql), $bindings);
+            $result = DB::select($sql, $bindings);
         } catch (\Exception $e) {
             $result = null;
     

@@ -34,7 +34,7 @@ class PictureObserver
             $filePath = str_replace('uploads/', '', $picture->filename);
         
             // Delete the picture with its thumbs
-            $filename = last(explode('/', $filePath));
+            $filename = array_slice(explode('/', $filePath), -1)[0];
             $files = Storage::files(dirname($filePath));
             if (!empty($files)) {
                 foreach($files as $file) {

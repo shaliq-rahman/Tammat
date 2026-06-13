@@ -52,7 +52,7 @@
              
              $uri = trans('routes.v-post', ['slug' => slugify($nlData->title), 'id' => $nlData->post_id]);
             $attr11 = ['slug' => slugify($nlData->title), 'id' => $nlData->id]; ?>
-            <a target="_blank" href="{{ lurl($uri, $attr11) }}">{{ str_limit($nlData->title, 70) }} </a>
+            <a target="_blank" href="{{ lurl($uri, $attr11) }}">{{ \Illuminate\Support\Str::limit($nlData->title, 70) }} </a>
                                                 
              
              </td>

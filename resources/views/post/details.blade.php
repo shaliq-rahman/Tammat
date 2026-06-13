@@ -956,7 +956,7 @@ else
 
 				@endif<?php */?>
 
-				<li class="active">{{ str_limit($post->title, 70) }}</li>
+				<li class="active">{{ \Illuminate\Support\Str::limit($post->title, 70) }}</li>
 
 			</ol>
 
@@ -2209,11 +2209,11 @@ else
 
                                                 @if(isset($_GET['cat']))
 
-                                                <a href="{{ lurl($uri, $attr11) }}?cat={{$_GET['cat']}}">{{ str_limit($value_post->title, 70) }} </a>
+                                                <a href="{{ lurl($uri, $attr11) }}?cat={{$_GET['cat']}}">{{ \Illuminate\Support\Str::limit($value_post->title, 70) }} </a>
 
                                                 @else
 
-                                                <a href="{{ lurl($uri, $attr11) }}">{{ str_limit($value_post->title, 70) }} </a>
+                                                <a href="{{ lurl($uri, $attr11) }}">{{ \Illuminate\Support\Str::limit($value_post->title, 70) }} </a>
 
                                                 @endif
 

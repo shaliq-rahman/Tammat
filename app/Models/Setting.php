@@ -410,7 +410,7 @@ class Setting extends BaseModel
 
 					if ($key == 'body_background_image') {
 
-						if (!Storage::exists($value['body_background_image'])) {
+						if (empty($value['body_background_image']) || !Storage::exists($value['body_background_image'])) {
 
 							$value[$key] = null;
 
@@ -1176,9 +1176,9 @@ class Setting extends BaseModel
 
 					} else {
 
-						if (!starts_with($value[$attribute_name], $destination_path)) {
+						if (!str_starts_with($value[$attribute_name], $destination_path)) {
 
-							$value[$attribute_name] = $destination_path . last(explode($destination_path, $value[$attribute_name]));
+							$value[$attribute_name] = $destination_path . array_slice(explode($destination_path, $value[$attribute_name]), -1)[0];
 
 						}
 
@@ -1192,9 +1192,9 @@ class Setting extends BaseModel
 
 					} else {
 
-						if (!starts_with($value[$attribute_name], $destination_path)) {
+						if (!str_starts_with($value[$attribute_name], $destination_path)) {
 
-							$value[$attribute_name] = $destination_path . last(explode($destination_path, $value[$attribute_name]));
+							$value[$attribute_name] = $destination_path . array_slice(explode($destination_path, $value[$attribute_name]), -1)[0];
 
 						}
 

@@ -37,7 +37,7 @@ class LaravelLocalizationRedirectFilter extends LaravelLocalizationMiddlewareBas
 			if (!empty($locales[$localeCode])) {
 				if ($localeCode === $defaultLocale && $hideDefaultLocale) {
 					// Don't remove the language code from the sitemaps generation URL
-					if (!ends_with($request->url(), '.xml')) {
+					if (!str_ends_with($request->url(), '.xml')) {
 						$redirection = app('laravellocalization')->getNonLocalizedURL();
 					}
 				}

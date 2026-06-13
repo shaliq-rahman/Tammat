@@ -280,7 +280,7 @@ class PhotoController extends FrontController
                     // Build Bootstrap-Input plugin's parameters
                     $data['initialPreview'][] = resize($picture->filename);
                     $data['initialPreviewConfig'][] = [
-                        'caption' => last(explode('/', $picture->filename)),
+                        'caption' => array_slice(explode('/', $picture->filename), -1)[0],
                         'size'    => (int)File::size(filePath($picture->filename)),
                         'url'     => $initialPreviewConfigUrl,
                         'key'     => $picture->id,

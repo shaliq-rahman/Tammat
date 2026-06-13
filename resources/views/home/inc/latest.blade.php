@@ -274,7 +274,7 @@
 
                                     <?php $attr = ['slug' => slugify($post->title), 'id' => $post->id]; ?>
 
-                                    <a href="{{ lurl($post->uri, $attr) }}">{{ str_limit($post->title, 70) }} </a>
+                                    <a href="{{ lurl($post->uri, $attr) }}">{{ \Illuminate\Support\Str::limit($post->title, 70) }} </a>
 
                                  </h5>
 
@@ -696,7 +696,7 @@
 
                                     <?php $attr = ['slug' => slugify($post->title), 'id' => $post->id]; ?>
 
-                                    <a href="{{ lurl($post->uri, $attr) }}">{{ str_limit($post->title, 70) }} </a>
+                                    <a href="{{ lurl($post->uri, $attr) }}">{{ \Illuminate\Support\Str::limit($post->title, 70) }} </a>
 
                                  </h5>
 
@@ -1088,7 +1088,7 @@
 
                                     <?php $attr = ['slug' => slugify($post->title), 'id' => $post->id]; ?>
 
-                                    <a href="{{ lurl($post->uri, $attr) }}">{{ str_limit($post->title, 70) }} </a>
+                                    <a href="{{ lurl($post->uri, $attr) }}">{{ \Illuminate\Support\Str::limit($post->title, 70) }} </a>
 
                                  </h5>
 

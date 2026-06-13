@@ -1199,7 +1199,7 @@ $Min_Longitudinal = (float)$lng - (float)$Longitudinal_Degrees;
 
 
 
-										$post->created_at = \Date::parse($post->created_at)->timezone(config('timezone.id'));
+										$post->created_at = \Carbon\Carbon::parse($post->created_at)->timezone(config('timezone.id'));
 
 										$post->created_at = $post->created_at->ago();
 
@@ -1417,7 +1417,7 @@ $liveCat = \App\Models\Category::findTransApp($post->category_id, $lang);
 
 										
 
-										$post->user_created_at = \Date::parse($user_created_at)->timezone(config('timezone.id'));
+										$post->user_created_at = \Carbon\Carbon::parse($user_created_at)->timezone(config('timezone.id'));
 
 										$post->user_created_at = $post->user_created_at->ago();
 

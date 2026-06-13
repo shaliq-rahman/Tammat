@@ -348,7 +348,7 @@ var app = angular.module('myApp', []);
 							<a href="{{ lurl($post->uri, $attr) }}" class="tooltipHere" title="" data-placement="top"
 								data-toggle="tooltip"
 								data-original-title="{!! $post->title !!}">
-								{!! str_limit($post->title, 45) !!}
+								{!! \Illuminate\Support\Str::limit($post->title, 45) !!}
 							</a>
 						</h2>
 						<div class="row">

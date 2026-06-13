@@ -26,7 +26,7 @@ use DB;
 
 class ConversationsappController extends FrontController
 {
-	private $perPage = 10;
+	protected $perPage = 10;
 	
 	public function __construct()
 	{

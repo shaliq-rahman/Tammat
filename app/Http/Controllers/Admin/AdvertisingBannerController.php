@@ -25,7 +25,7 @@ use App\Models\User;
 use App\Models\Newsletter;
 use App\Models\Country;
 use App\Models\Category;
-use Illuminate\Support\Facades\Input;
+
 use App\Http\Requests\Admin\UserRequest as StoreRequest;
 use App\Http\Requests\Admin\UserRequest as UpdateRequest;
 use App\Http\Requests;

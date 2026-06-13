@@ -58,19 +58,20 @@ class AdminServiceProvider extends ServiceProvider
         });
 
         // Register its dependencies
-        $this->app->register(\Jenssegers\Date\DateServiceProvider::class);
+        // $this->app->register(\Jenssegers\Date\DateServiceProvider::class); // removed - use Carbon
         $this->app->register(\Prologue\Alerts\AlertsServiceProvider::class);
-        $this->app->register(\Collective\Html\HtmlServiceProvider::class);
-        $this->app->register(\Intervention\Image\ImageServiceProvider::class);
+        // $this->app->register(\Collective\Html\HtmlServiceProvider::class); // package not installed
+        // $this->app->register(\Intervention\Image\ImageServiceProvider::class); // removed in v3
+        $this->app->register(\App\Providers\ImageServiceProvider::class);
 
         // Register their aliases
         $loader = \Illuminate\Foundation\AliasLoader::getInstance();
         $loader->alias('Alert', \Prologue\Alerts\Facades\Alert::class);
-        $loader->alias('Date', \Jenssegers\Date\Date::class);
+        $loader->alias('Date', \Carbon\Carbon::class); // jenssegers/date replaced by Carbon
         $loader->alias('CRUD', \Larapen\Admin\RouteCrud::class);
-        $loader->alias('Form', \Collective\Html\FormFacade::class);
-        $loader->alias('Html', \Collective\Html\HtmlFacade::class);
-        $loader->alias('Image', \Intervention\Image\Facades\Image::class);
+        // $loader->alias('Form', \Collective\Html\FormFacade::class); // package not installed
+        // $loader->alias('Html', \Collective\Html\HtmlFacade::class); // package not installed
+        $loader->alias('Image', \App\Facades\Image::class);
     }
 
     public function registerAdminMiddleware(Router $router)
@@ -133,7 +134,9 @@ class AdminServiceProvider extends ServiceProvider
                 // Auth
                 // if not otherwise configured, setup the auth routes
                 if (config('larapen.admin.setup_auth_routes')) {
-                    Route::auth();
+                    // Route::auth() was removed in Laravel 5.7+; define auth routes manually
+                    Route::get('login', 'Auth\LoginController@showLoginForm')->name('admin.login');
+                    Route::post('login', 'Auth\LoginController@login');
                     Route::get('logout', 'Auth\LoginController@logout');
                 }
                 // Dashboard

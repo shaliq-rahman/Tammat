@@ -37,7 +37,7 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Request;
-use Jenssegers\Date\Date;
+
 use Torann\LaravelMetaTags\Facades\MetaTag;
 
 
@@ -217,7 +217,7 @@ class DetailsappController extends FrontController
                                     return $city;
                                 });
                                 if (empty($city)) continue;
-                                $value_post->created_at = \Date::parse($value_post->created_at)->timezone($this->timezone);
+                                $value_post->created_at = \Carbon\Carbon::parse($value_post->created_at)->timezone($this->timezone);
                                 $value_post->created_at = $value_post->created_at->ago();
                                 $getcategorydata = \DB::table('categories')
                                     ->select('*')
@@ -378,7 +378,7 @@ class DetailsappController extends FrontController
 										
 										
 										
-										$post->created_at = \Date::parse($post->created_at)->timezone($this->timezone);
+										$post->created_at = \Carbon\Carbon::parse($post->created_at)->timezone($this->timezone);
 										$post->created_at = $post->created_at->ago();
 										
 										$liveCat = \App\Models\Category::findTrans($post->category_id);
@@ -449,7 +449,7 @@ class DetailsappController extends FrontController
 										$post->username = $username;
 										//$post->user_created_at = $user_created_at;
 										
-										$post->user_created_at = \Date::parse($user_created_at)->timezone($this->timezone);
+										$post->user_created_at = \Carbon\Carbon::parse($user_created_at)->timezone($this->timezone);
 										$post->user_created_at = $post->user_created_at->ago();
 										
 										if (!empty($user_id))
@@ -534,7 +534,7 @@ class DetailsappController extends FrontController
 										
 										
 										
-										$post->created_at = \Date::parse($post->created_at)->timezone($this->timezone);
+										$post->created_at = \Carbon\Carbon::parse($post->created_at)->timezone($this->timezone);
 										$post->created_at = $post->created_at->ago();
 										
 										$liveCat = \App\Models\Category::findTrans($post->category_id);
@@ -605,7 +605,7 @@ class DetailsappController extends FrontController
 										$post->username = $username;
 										//$post->user_created_at = $user_created_at;
 										
-										$post->user_created_at = \Date::parse($user_created_at)->timezone($this->timezone);
+										$post->user_created_at = \Carbon\Carbon::parse($user_created_at)->timezone($this->timezone);
 										$post->user_created_at = $post->user_created_at->ago();
 										
 										if (!empty($user_id))
@@ -1224,7 +1224,7 @@ return response()->json(['posts'=> $post, 'customFields'=>$arr]);
             $cacheId = 'posts.similar.category.' . $cat->tid . '.post.' . $currentPostId;
             $posts = Cache::remember($cacheId, $this->cacheExpiration, function () use ($sql, $bindings) {
                 try {
-                    $posts = DB::select(DB::raw($sql), $bindings);
+                    $posts = DB::select($sql, $bindings);
                 } catch (\Exception $e) {
                     return [];
                 }
@@ -1308,10 +1308,10 @@ return response()->json(['posts'=> $post, 'customFields'=>$arr]);
             ];
 
             $cacheId = 'posts.similar.category.' . $cat->tid . '.post.' . $currentPostId;
-			//$posts = DB::select(DB::raw($sql), $bindings);
+			//$posts = DB::select($sql, $bindings);
             /*$posts = Cache::remember($cacheId, $this->cacheExpiration, function () use ($sql, $bindings) {
                 try {
-                    $posts = DB::select(DB::raw($sql), $bindings);
+                    $posts = DB::select($sql, $bindings);
                 } catch (\Exception $e) {
                     return [];
                 }
@@ -1319,7 +1319,7 @@ return response()->json(['posts'=> $post, 'customFields'=>$arr]);
                 return $posts;
             });*/
 			
-			$posts = DB::select(DB::raw($sql), $bindings);
+			$posts = DB::select($sql, $bindings);
 			
 
 
@@ -1411,7 +1411,7 @@ return response()->json(['posts'=> $post, 'customFields'=>$arr]);
                 'currentPostId' => $currentPostId,
             ];
 
-            $posts = DB::select(DB::raw($sql), $bindings);
+            $posts = DB::select($sql, $bindings);
 			
 			//dd($posts);
         }
@@ -1474,7 +1474,7 @@ return response()->json(['posts'=> $post, 'customFields'=>$arr]);
             $cacheId = 'posts.similar.city.' . $city->id . '.post.' . $currentPostId;
             $posts = Cache::remember($cacheId, $this->cacheExpiration, function () use ($sql, $bindings) {
                 try {
-                    $posts = DB::select(DB::raw($sql), $bindings);
+                    $posts = DB::select($sql, $bindings);
                 } catch (\Exception $e) {
                     return [];
                 }

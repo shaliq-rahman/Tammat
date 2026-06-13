@@ -45,7 +45,7 @@
 										@foreach ($savedSearch->getCollection() as $search)
 											<li class="list-group-item {{ (Request::get('q')==$search->keyword) ? 'active' : '' }}">
 												<a href="{{ lurl('account/saved-search/?'.$search->query.'&pag='.Request::get('pag')) }}" class="">
-													<span> {{ str_limit(strtoupper($search->keyword), 20) }} </span>
+													<span> {{ \Illuminate\Support\Str::limit(strtoupper($search->keyword), 20) }} </span>
 													<span class="label label-warning" id="{{ $search->id }}">{{ $search->count }}+</span>
 												</a>
 												<span class="delete-search-result">

@@ -76,7 +76,7 @@ use Illuminate\Support\Facades\Event;
 
 use Illuminate\Support\Facades\Request;
 
-use Jenssegers\Date\Date;
+
 
 use Torann\LaravelMetaTags\Facades\MetaTag;
 
@@ -902,7 +902,7 @@ class DetailsappController extends FrontController
 
                                 if (empty($city)) continue;
 
-                                $value_post->created_at = \Date::parse($value_post->created_at)->timezone($this->timezone);
+                                $value_post->created_at = \Carbon\Carbon::parse($value_post->created_at)->timezone($this->timezone);
 
                                 $value_post->created_at = $value_post->created_at->ago();
 
@@ -1100,7 +1100,7 @@ class DetailsappController extends FrontController
 
 										
 
-										$post->created_at = \Date::parse($post->created_at)->timezone($this->timezone);
+										$post->created_at = \Carbon\Carbon::parse($post->created_at)->timezone($this->timezone);
 
 										$post->created_at = $post->created_at->ago();
 
@@ -1228,7 +1228,7 @@ class DetailsappController extends FrontController
 
 										
 
-										$post->user_created_at = \Date::parse($user_created_at)->timezone($this->timezone);
+										$post->user_created_at = \Carbon\Carbon::parse($user_created_at)->timezone($this->timezone);
 
 										$post->user_created_at = $post->user_created_at->ago();
 
@@ -2468,7 +2468,7 @@ return response()->json(['posts'=> $post, 'customFields'=>$arr]);
 
                 try {
 
-                    $posts = DB::select(DB::raw($sql), $bindings);
+                    $posts = DB::select($sql, $bindings);
 
                 } catch (\Exception $e) {
 
@@ -2636,13 +2636,13 @@ return response()->json(['posts'=> $post, 'customFields'=>$arr]);
 
             $cacheId = 'posts.similar.category.' . $cat->tid . '.post.' . $currentPostId;
 
-			//$posts = DB::select(DB::raw($sql), $bindings);
+			//$posts = DB::select($sql, $bindings);
 
             /*$posts = Cache::remember($cacheId, $this->cacheExpiration, function () use ($sql, $bindings) {
 
                 try {
 
-                    $posts = DB::select(DB::raw($sql), $bindings);
+                    $posts = DB::select($sql, $bindings);
 
                 } catch (\Exception $e) {
 
@@ -2658,7 +2658,7 @@ return response()->json(['posts'=> $post, 'customFields'=>$arr]);
 
 			
 
-			$posts = DB::select(DB::raw($sql), $bindings);
+			$posts = DB::select($sql, $bindings);
 
 			
 
@@ -2842,7 +2842,7 @@ return response()->json(['posts'=> $post, 'customFields'=>$arr]);
 
 
 
-            $posts = DB::select(DB::raw($sql), $bindings);
+            $posts = DB::select($sql, $bindings);
 
 			
 
@@ -2968,7 +2968,7 @@ return response()->json(['posts'=> $post, 'customFields'=>$arr]);
 
                 try {
 
-                    $posts = DB::select(DB::raw($sql), $bindings);
+                    $posts = DB::select($sql, $bindings);
 
                 } catch (\Exception $e) {
 

@@ -17,7 +17,7 @@ namespace App\Http\Controllers\Auth\Traits;
 
 
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Input;
+
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Validator;
@@ -73,20 +73,20 @@ trait VerificationTrait
 		}
 
         // Show Token Form
-        if (empty($token) && !Input::filled('_token')) {
+        if (empty($token) && !request()->filled('_token')) {
             return view('token');
         }
 
         // Token Form Submission
-        if (Input::filled('_token')) {
+        if (request()->filled('_token')) {
             // Form validation
-            $validator = Validator::make(Input::all(), ['code' => 'required']);
+            $validator = Validator::make(request()->all(), ['code' => 'required']);
             if ($validator->fails()) {
                 return back()->withErrors($validator)->withInput();
             }
 
-            if (Input::filled('code')) {
-                return redirect(config('app.locale') . '/verify/' . $entityRef['slug'] . '/' . $field . '/' . Input::get('code'));
+            if (request()->filled('code')) {
+                return redirect(config('app.locale') . '/verify/' . $entityRef['slug'] . '/' . $field . '/' . request()->input('code'));
             }
         }
 

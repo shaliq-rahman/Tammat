@@ -225,7 +225,7 @@ class SitemapsController extends FrontController
 		
 		if ($cities->count() > 0) {
 			foreach ($cities as $city) {
-				$city->name = trim(head(explode('/', $city->name)));
+				$city->name = trim(explode('/', $city->name)[0]);
 				$attr = [
 					'countryCode' => $country->icode,
 					'city'        => slugify($city->name),
