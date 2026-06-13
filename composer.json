@@ -53,6 +53,9 @@
 			"app/Helpers/Functions/plugin.php",
 			"app/Helpers/Functions/wordpress.php"
 		],
+		"classmap": [
+			"packages/mcamara/laravel-localization/src/Traits"
+		],
 
 		"psr-4": {
 			"App\\": "app/",
