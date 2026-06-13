@@ -13,7 +13,8 @@
                 Your profile change notification
                 <br /><br />
                 Kind Regards,<br />
-                The Deal Not Deal Team 
+                
+                Tammat Team 
                 </p>
             </td>
         </tr>

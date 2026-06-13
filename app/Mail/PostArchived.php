@@ -19,6 +19,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use App\Models\Post;
+use App\Models\User;
 
 class PostArchived extends Mailable
 {
@@ -34,7 +35,9 @@ class PostArchived extends Mailable
     public function __construct(Post $post)
     {
         $this->post = $post;
-
+		$fromname = 'Tammat';
+        $from_email = 'admin@tmmat.com'; 
+		$this->from($from_email, $fromname);
         $this->to($post->email, $post->contact_name);
         $this->subject(trans('mail.post_archived_title', ['title' => $post->title]));
     }
@@ -46,6 +49,9 @@ class PostArchived extends Mailable
      */
     public function build()
     {
-        return $this->view('emails.post.archived');
+        $post = $this->post;
+        $user = User::where('email',$post->email)->first();
+        dd($post);
+        return $this->view('emails.post.archived',compact('post','user'));
     }
 }

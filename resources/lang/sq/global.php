@@ -1,781 +1,1588 @@
 <?php 
 
+
+
 return [
+
     'Date & Time Preference' => 'Data & Preferenca kohore',
+
     'Free local classified ads in the World' => 'Free Local Classified Ads in the World',
+
     'Free local classified ads in :location' => 'Free Local Classified Ads in :location',
+
     'Sell and buy near you' => 'Sell and Buy near you',
+
     'Simple, fast and efficient' => 'Simple, fast and efficient',
+
     'Daily good deals' => 'Daily good deals',
+
+	
+
+	  'Balance' => 'Balance',
+
+  'Your Current Balance' => 'Your Current Balance',
+
+  'Points' => 'Points',
+
+  'Increase Your Balance' => 'Increase Your Balance',
+
+  'Recharge Points First' => 'Recharge Points First',
+
+  'Recharge Points' => 'Recharge Points',
+
+	
+
     'Daily good deals in :location' => 'Daily good deals in :location',
+
     'Looking for a product or service' => 'Looking for a product or service',
+
     'Post your Free Ads here' => 'Post your Free Ads here',
+
     'Make your deal Now!' => 'Make your deal Now!',
+
     'Free Ads' => 'Free ads',
+
     'Free ads' => 'Free ads',
+
     'Free ads in' => 'Free ads in',
+
     'Free ads in :location' => 'Free ads in :location',
+
     'Free ads in :category' => 'Free ads in :category',
+
     'Free ads :category in :location' => 'Free ads :category in :location',
+
     'Search for' => 'Search for',
+
     'free ads' => 'free ads',
+
     'free ads in' => 'free ads in',
+
     'Latest free ads' => 'Latest free ads',
+
     ':count free local classified ads' => ':count free local classified ads',
+
     ':count free local classified ads in :location' => ':count free local classified ads in <strong>:location</strong>',
+
     '100% Free local classified ads' => '100% Free local classified ads',
+
     'Free ads in the World' => 'Free ads in the World',
+
+    'If you can’t sell or buy … exchange in entertaining way!' => 'If you can’t sell or buy … exchange in entertaining way!',
+
     'Select a country' => 'zgjidh një vend',
+
     'Select your country to start' => 'Select your country to start',
+
     'I\'m looking for a ...' => 'I\'m looking for a ...',
+
     'Location (City) ...' => 'Location (City) ...',
+
     'What?' => 'çfarë ?',
+
     'Where?' => 'ku ?',
+
     'Select your Location' => 'Select your Location',
+
     'Please select your location before' => 'Please select your location before',
+
     'Find' => 'kërko',
+
     'Search' => 'kërko',
+
     'Sell and Buy your products and services on :app_name in Minutes' => '<strong>Sell</strong> and <strong>Buy</strong> your products and services on :app_name in Minutes',
+
     'Sell, Buy and Rent your products and services on :app_name in Minutes' => '<strong>Sell</strong>, <strong>Buy</strong> and <strong>Rent</strong> your products and services on :app_name in Minutes',
+
     'Sell and Buy products and services on :app_name in Minutes' => '<strong>Sell</strong> and <strong>Buy</strong> products and services on :app_name in Minutes',
+
     'Sell, Buy and Rent products and services on :app_name in Minutes' => '<strong>Sell</strong>, <strong>Buy</strong> and <strong>Rent</strong> products and services on :app_name in Minutes',
+
     'Post Free Ads' => 'posto njoftime falas',
+
     'Start Now!' => 'Start Now!',
+
     'e.g. Smartphone' => 'e.g. Smartphone',
+
     'All Categories' => 'gjithë kategoritë',
+
     'Others Categories' => 'gjithë kategoritë',
+
     'Price range' => 'rang çmimi',
+
     'Salary range' => 'Salary range',
+
     'GO' => 'fillo',
+
     'To' => 'deri',
+
     'Condition' => 'Condition',
+
     'New' => 'e re',
+
     'Used' => 'e përdorur',
+
     'None' => 'None',
+
     'Location' => 'Vendodhja',
+
     'Locations' => 'Vendodhja',
+
     'Urgent' => 'Urgent',
+
     'Urgent Ads only' => 'Urgent Ads only',
+
     ':app_name is also available in your country: :country. Starting good deals here now!' => ':app_name is also available in your country: <a href=":url"><strong>:country</strong></a>. Starting good deals <a href=":url"><strong>here</strong></a> now!',
+
     'Login for faster access to the best deals. Click here if you don\'t have an account.' => '<a href=":login_url"><strong>Login</strong></a> for faster access to the best deals. <a href=":register_url"><strong>Click here</strong></a> if you don\'t have an account.',
+
     'List of Categories and Sub-categories' => 'Lista e Kategorive dhe Nën-kategorive',
+
     'List of Cities in' => 'lista e qyteteve në',
+
     'Do have anything to sell or rent?' => 'Do have anything to sell or rent?',
+
     'Sell your products and services online FOR FREE. It\'s easier than you think !' => 'Sell your products and services online FOR FREE. It\'s easier than you think !',
+
     'footer_note' => '<strong>Sell</strong>, <strong>Offer</strong>, <strong>Rent</strong>, <strong>Bargain</strong>, <strong>Search</strong>, <strong>Buy</strong> products and services in <strong>:country</strong>. It\'s 100% free!',
+
     'Home' => 'Home',
+
     'About us' => 'About us',
+
     'FAQ' => 'FAQ',
+
     'Sitemap' => 'harta e faqes',
+
     'I am abroad' => 'I am abroad',
+
     'Countries' => 'Countries',
+
     'Terms' => 'Terms',
+
     'Privacy' => 'Privacy',
+
     'All Rights Reserved' => 'Të gjitha të drejtat të rezervuara',
+
     'Password' => 'Fjalëkalim',
+
     'Submit' => 'dërgo',
+
     'Keep me logged in' => 'Më mbaj të kyçur',
+
     'Lost your password?' => 'Keni humbur fjalëkalimin?',
+
     'Don\'t have an account?' => 'Don\'t have an account?',
+
     'Signup' => 'Signup',
+
     'Sign Up' => 'Sign Up',
+
     'Signin' => 'Signin',
+
     'Sign In' => 'Sign In',
+
     'Login' => 'Identifikohu',
+
     'Log In' => 'Identifikohu',
+
     'Logout' => 'Dil',
+
     'Log Out' => 'Dil',
+
     'Signout' => 'Signout',
+
     'Sign Out' => 'Sign Out',
+
     'Create your account, Its free' => 'Krijo llogarinë tënde, është 100% falas.',
+
     'Gender' => 'Gjinia',
+
     'Dob' => 'datëlindja',
+
     'Select a gender' => 'Select a gender',
+
     'Male' => 'Mashkull',
+
     'Female' => 'Femër',
+
     'Mr' => 'Mr',
+
     'Mrs' => 'Mrs',
+
     'First Name' => 'Emër',
+
     'Last Name' => 'Mbiemër',
-    'You are a' => 'Ti je një',
+
+    'User Type' => 'Lloji i përdoruesit',
+
     'Professional' => 'profesionist',
+
     'Individual' => 'Individual',
+
     'Company name' => 'Company name',
+
     'Company Name' => 'Company Name',
+
     'Your Country' => 'Vendi',
+
     'ZipCode' => 'Kodi Postar',
+
     'Country' => 'Vendi',
+
     'Phone' => 'numër',
-    'Phone Number' => 'numër telefoni',
+
+    'Mobile' => 'i lëvizshëm',
+
+    'Phone Number' => 'Numri i telefonit',
+
+    'Without Country Code' => 'Numri i telefonit pa kodin e vendit',
+
     'Offers' => 'oferta',
+
     'Offer Price' => 'Offer Price',
+
     'Original Price' => 'Çmimi Fillestar',
+
     'Low Price' => 'Low Price',
+
     'Fix Price' => 'Fix Price',
+
     'Not Negotiation' => 'Not Negotiation',
+
     'Good Offer' => 'Good Offer',
+
     'Offer Description' => 'Offer Description',
+
     'Add Information' => 'Add Information',
+
     'Active' => 'Active',
+
     'Not Active' => 'Not Active',
+
     'Rejected' => 'Rejected',
+
     'Accepted' => 'Accepted',
+
     'Email' => 'Email',
+
     'Please repeat your password' => 'Please repeat your password',
+
     'At least 5 characters' => 'Të paktën 5 karaktere',
+
     'I have read and agree to the <a :attributes>Terms & Conditions</a>' => 'I kam lexuar dhe jam dakort me <a :attributes>termat dhe kushtet</a>',
+
     'SignUp For Newsletter' => 'Rregjistrohu për Buletinin Informativ',
+
     'By continuing on this website, you accept our <a :attributes>Terms of Use</a>' => 'Duke vazhduar në këtë faqe, ju pranoni Kushtet e Përdorimit <a :attributes>Terms of Use</a>',
+
     'By continuing on this website, you accept our <a :attributes>Terms of Use</a> and Posting Rules' => 'By continuing on this website, you accept our <a :attributes>Terms of Use</a> and Posting Rules',
+
     'Register' => 'Rregjistrohu',
+
     'Your message has been sent to our moderators' => 'Your message has been sent to our moderators.',
+
     'Your message has been sent to our moderators. Thank you' => 'Your message has been sent to our moderators. Thank you.',
+
     'Post a Free Classified' => 'Posto një Klasifikim të Lirë',
+
     'Do you have something to sell, buy, exchange or just give it away? Post it on our website, its free, for local business and very easy to use!' => 'Ke diçka për të shitur, blerë, shkëmbyer ose për të  dhënë? Postoje në faqen tonë, është falas, për biznese vendase dhe shumë e thjeshtë për t\'u përdorur!',
+
     'Do you have something to sell, to rent, any service to offer or a job offer? Post it at :app_name, its free, local, easy, reliable and super fast!' => 'Do you have something to sell, to rent, any service to offer or a job offer? Post it at :app_name, its free, for local business and very easy to use!',
+
     'Create and Manage Items' => 'Krijo dhe menaxho produktet',
+
     'Become a best seller or buyer. Create and Manage your ads. Repost your old ads, etc.' => 'Bëhu shitësi ose blerësi më i mirë. Krijo dhe Menaxho reklamat e tua. Riposto reklamat e vjetra, etj.',
+
     'Create your Favorite ads list.' => 'Krijo listën e reklamave të Preferuara.',
+
     'Create your Favorite ads list, and save your searches. Don\'t forget any deal!' => 'Krijo listën e reklamave të Preferuara. Dhe ruaj kërkimin tënd. Mos harro asnjë marrëveshje.',
+
     'PostCategory' => 'Kategoria',
+
     'Category' => 'Kategorisë',
+
     'Seller Type' => 'Lloji i shitësit',
+
     'Select a category' => 'Zgjidh një kategori',
+
     'Sub-Category' => 'Nën-kategori',
+
     'Select a sub-category' => 'Zgjidh një nën-kategori',
+
     'Ad\'s Type' => 'Ad\'s Type',
+
     'Type' => 'Type',
+
     'Private' => 'Private',
+
     'Business' => 'Business',
+
     'Title' => 'titull',
+
     'Ad\'s title' => 'Titull Reklame',
+
     'Post\'s title' => 'Post\'s title',
+
     'A great title needs at least 60 characters.' => 'Një titull I mirë ka nevojë për të paktën 60 karaktere',
+
     'Describe ad' => 'Describe ad',
+
     'Describe what makes your ad unique' => 'përshkruaj se çfarë e bën njoftimin tënd unik',
+
     'Price' => 'çmim',
+
     'e.i. 15000' => 'p.sh 15000',
+
     'Negotiable' => 'Negotiable',
+
     'Pictures' => 'Pictures',
+
     'Your resume' => 'Your resume',
+
     'Resume format' => 'Format : pdf, doc, docx, odt, rtf, jpg, png',
+
     'File types: :file_types' => 'File types: :file_types',
+
     'Browse' => 'shfleto',
+
     'Add up to :pictures_number photos. Use a real image of your product, not catalogs.' => 'Shto deri në :pictures_number foto. Përdorni një imazh të vërtetë të produktit tuaj, jo katalogë.',
+
     'Seller information' => 'informacion I shitësit',
+
     'Seller Name' => 'Seller Name',
+
     'Seller Email' => 'Seller Email',
+
     'Phone Number (in local format)' => 'Phone Number (in local format)',
+
     'Hide the phone number on this ads.' => 'Hide the phone number on this ads.',
+
     'Select a location' => 'Select a location',
+
     'Sub-location' => 'Sub-location',
+
     'Select a sub-location' => 'Select a sub-location',
+
     'City' => 'qyteti',
+
     'City Name' => 'emër qyteti',
+
     'Select a city' => 'Select a city',
+
     'Cities' => 'Cities',
+
     'How to sell quickly?' => 'si të shes shpejt?',
+
     'Use a brief title and description of the item' => 'Përdorni një titull të shkurtër dhe përshkrimin e artikullit',
+
     'Make sure you post in the correct category' => 'Sigurohuni që të postoni në kategorinë e duhur',
+
     'Add nice photos to your ad' => 'Shtoni foto të bukura në njoftimin tuaj',
+
     'Put a reasonable price' => 'Vendosni një çmim të arsyeshëm',
+
     'Check the item before publish' => 'Kontrolloni artikullin përpara se ta publikoni',
+
     'My ads' => 'Reklamat e mia',
+
+	'My home' => 'My home',
+
     'My ads on :app_name' => 'My ads on :app_name',
+
     'The repost has failed. Please try again.' => 'The repost has failed. Please try again.',
+
     'The repost has done successfully.' => 'The repost has done successfully.',
+
     'My archived ads' => 'My archived ads',
+
     'My archived ads on :app_name' => 'My archived ads on :app_name',
+
     'My favourite ads' => 'My favourite ads',
+
     'My favourite ads on :app_name' => 'My favourite ads on :app_name',
+
     'My pending approval ads' => 'My pending approval ads',
+
     'My pending approval ads on :app_name' => 'My pending approval ads on :app_name',
+
     'My saved search' => 'My saved search',
+
     'My saved search on :app_name' => 'My saved search on :app_name',
+
     'No deletion is done. Please try again.' => 'No deletion is done. Please try again.',
+
     'Your account details has updated successfully.' => 'Your account details has updated successfully.',
+
     'Your details account has updated successfully.' => 'Your details account has updated successfully.',
+
     'Your settings account has updated successfully.' => 'Your settings account has updated successfully.',
+
     'My account' => 'LLOGARIA IME',
+
     'My account on :app_name' => 'My account on :app_name',
+
     'Your message has sent successfully to :contact_name.' => 'Your message has sent successfully to :contact_name.',
+
     'Your report has sent successfully to us. Thank you!' => 'Your report has sent successfully to us. Thank you!',
+
     'Posting Ads was disabled for this time. Please try later. Thank you.' => 'Posting Ads was disabled for this time. Please try later. Thank you.',
+
     'Your ad has been created.' => 'Reklama juaj u krijua.',
+
     'Update My Ad' => 'Update My Ad',
+
     'Update Offer' => 'Përditëso Ofertë',
+
     'Your ad has been updated.' => 'Your ad has been updated.',
+
     'Log in' => 'Identifikohu',
+
     'Log in to :app_name' => 'Log in to :app_name',
+
     'The Email Address or Password don\'t match.' => 'The Email Address or Password don\'t match.',
+
     'You have been logged out.' => 'Ju keni dal.',
+
     'Sign Up on :app_name !' => 'Sign Up on :app_name !',
+
     'Your account has been created.' => 'Your account has been created.',
+
     'Welcome to :app_name' => 'Welcome to :app_name !',
+
     'Welcome to :app_name : 100% Free Ads Classified' => 'Welcome to :app_name : 100% Free Ads Classified. Sell and buy near you. Simple, fast and efficient.',
+
     'Sitemap :domain - :country. 100% Free Ads Classified' => 'Sitemap :domain - :country. 100% Free Ads Classified',
+
     'My Ads' => 'Reklamat e mia',
+
     'Archived ads' => 'Reklama arkivë',
+
     'Favourite ads' => 'Reklamat e Preferuara',
+
     'Pending approval' => 'aprovim në pritje',
+
     'Posts' => 'Posts',
+
     'Ads' => 'REKLAMAT',
+
     'Select' => 'zgjidh',
+
     'All' => 'Të gjitha',
+
     'Delete' => 'fshije',
+
     'clear' => 'zbraze',
+
     'Ads Details' => 'Detaje të reklamës',
+
     'Posted On' => 'Posted On',
+
     'Visitors' => 'Visitors',
+
     'Located In' => 'Located In',
+
     'Edit' => 'Edit',
+
     'Share' => 'Share',
+
     'Repost' => 'Repost',
+
     'Close account' => 'Mbylle llogarinë',
+
     'You are sure you want to close your account?' => 'Je i sigurt për ta mbyllur llogarinë tënde?',
+
     'Yes' => 'Po',
+
     'No' => 'Jo',
+
     'count_posts' => '{0} reklama|{1} reklama|[2,*] reklama',
+
     'count_visits' => '{0} vizita|{1} vizita|[2,*] vizita',
+
     'count_favorites' => '{0} të preferuara|{1} të preferuara|[2,*] të preferuara',
+
     'count_views' => '{0} shikime|{1} shikime|[2,*] shikime',
+
     'Oops ! An error has occurred. Please correct the red fields in the form' => 'Oops! Ka ndodhur një gabim. Ju lutem korrigjoni fushat e kuqe në formë.',
+
     'Favorites' => 'Favorites',
+
     'Visits' => 'Visits',
+
     'Hello' => 'Përshëndetje',
+
     'You last logged in at' => 'Së fundmi keni hyrë në',
+
     'My details' => 'Detajet e mia',
+
     'Hide the phone number on the published ads.' => 'Ocultar el número de teléfono en los anuncios publicados.',
+
     'About Yourself' => 'About Yourself',
+
     'Update' => 'përditëso',
+
     'Settings' => 'Rregullime',
+
     'Comments are enabled on my ads' => 'Comments are enabled on my ads',
+
     'Disable comments on my ads' => 'Disable comments on my ads',
+
     'New Password' => 'Fjalëkalim i Ri',
+
     'Confirm Password' => 'Konfirmo Fjalëkalim',
+
     'Preferences' => 'Preferences',
+
     'I want to receive newsletter.' => 'I want to receive newsletter.',
+
     'I want to receive advice on buying and selling.' => 'I want to receive advice on buying and selling.',
+
     'Saved search' => 'Saved search',
+
     'Saved searches' => 'Kërkime të ruajtura',
+
     'You have no saved search.' => 'You have no saved search.',
+
     'Business Ads' => 'Business Ads',
+
     'Private Ads' => 'Private Ads',
+
     'B' => 'B',
+
     'P' => 'P',
+
     'Please select a saved search to show the result' => 'Please select a saved search to show the result',
+
     'No result. Refine your search using other criteria.' => 'Asnjë rezultat. Përmirësoni kërkimin tuaj duke përdorur tjetër kriter.',
+
     'Close' => 'Close',
+
     'There\'s something wrong with this ads?' => 'There\'s something wrong with this ads?',
+
     'Reason' => 'Reason',
+
     'Select a reason' => 'Select a reason',
+
     'Your E-mail' => 'Your E-mail',
+
     'Message' => 'Mesazh',
+
     'Cancel' => 'Anullo',
+
     'Send Report' => 'Send Report',
+
     'Warning! This ad has expired. The product or service is not more available (may be)' => '<strong>Warning !</strong> This ad has expired. The product or service is not more available (may be)',
+
     'Back to Results' => 'Kthehu tek Rezultatet',
+
     ':type ad' => ':type ad',
+
     'Ad\'s Details' => 'detaje postimi',
+
     'Post\'s Details' => 'Post\'s Details',
+
     'Salary' => 'Salary',
+
     'Item' => 'Item',
+
     'More ads by User' => 'More ads by User',
+
     'Remove favorite' => 'Remove favorite',
+
     'Save ad' => 'Save ad',
+
     'Share ad' => 'Share ad',
+
     'Report abuse' => 'Report abuse',
+
     'My Resume' => 'My Resume',
+
     'Resume' => 'Resume',
+
     'Download the resume' => 'Download the resume',
+
     'Send a message' => 'Send a message',
+
     'Make an Offer' => 'Make an Offer',
+
     'Buy Now' => 'Buy it Now',
+
     'Contact Seller' => 'Contact Seller',
+
     'Safety Tips for Buyers' => 'Këshilla Sigurie për Blerësit',
+
     'Meet seller at a public place' => 'Takohuni me shitësin në një vend publik',
+
     'Check the item before you buy' => 'Kontrolloni artikullin para se ta blini',
+
     'Pay only after collecting the item' => 'Paguani vetëm pas marrjes së sendit',
+
     'Know more' => 'Know more',
+
     'View phone' => 'View phone',
+
     'Contact advertiser' => 'Kontanto reklamuesin',
+
     'Name' => 'Name',
+
     'Your name' => 'Your name',
+
     'E-mail' => 'E-mail',
+
     'i.e. you@gmail.com' => 'i.e. you@gmail.com',
+
     'Your message here...' => 'Mesazhi juaj këtu...',
+
     'Send message' => 'Dërgo Mesazh',
+
     'Congratulations!' => 'Congratulations!',
+
     'Oops!' => 'Oops!',
+
     'Download current Resume' => 'Download current Resume',
+
     'Email Address' => 'Email Address',
+
     'Send Password Reset Link' => 'Send Password Reset Link',
+
     'Back to the Log In page' => 'Back to the Log In page',
+
     'Sign Up !' => 'Sign Up !',
+
     'Reset your Password' => 'Reset your Password',
+
     'Reset Password' => 'Reset Password',
+
     'Password Confirmation' => 'Konfirmim i Fjalëkalimit',
+
     'Firtst Name' => 'Emër',
+
     'Reset the Password' => 'Reset Password',
+
     ':domain, sell and buy near you. Simple, fast and efficient.' => ':domain, sell and buy near you. Simple, fast and efficient.',
+
     'Choose a city' => 'Choose a city',
+
     'More cities' => 'More cities',
+
     'Phishing' => 'Phishing',
-    'Personal Home' => 'Kryefaqja Personale',
+
+    'Rejected Ads' => 'Rejected Ads',
+
+    'Profile' => 'Kryefaqja Personale',
+
     'Payment history' => 'Payment history',
+
     'Top Ads' => 'Top',
+
     'Featured Ads' => 'Featured',
+
     'Save' => 'Save',
+
     'All Ads' => 'gjithë postimet në',
+
     'Professionals' => 'profesionist',
+
     'Personal' => 'personale',
+
     'Personals' => 'personale',
+
     'Sort by' => 'rradhit sipas',
+
     'Price : Low to High' => 'Çmimit: rend rritës',
+
     'Price : High to Low' => 'Çmimit: rend zbritës',
+
     'Relevance' => 'rëndësisë',
-    'Date' => 'datës',
+
+    'Date : New to Old' => 'Data: E Re në të Vjetër',
+
     'Around :distance :unit' => 'rreth :distance :unit',
+
     'Around' => 'rreth',
+
     'All ads' => 'gjithë postimet në',
+
     'Select your region' => 'Select your region',
+
     'Popular cities in' => 'Popular cities in',
+
     'All regions' => 'All regions',
+
     'All Cities' => 'All Cities',
+
     'in :distance :unit around :city' => 'in :distance :unit around :city',
+
     ':distance :unit around :city' => ':distance :unit around :city',
+
     'in :category' => ':category',
+
     'in' => 'in',
+
     'at' => 'at',
+
     'Save Search' => 'Save Search',
+
     'Please log in to save the Ads.' => 'Please log in to save the Ads.',
+
     'Please log in to save your search.' => 'Please log in to save the search.',
+
     'Search saved successfully !' => 'Search saved successfully !',
+
     'Search deleted successfully !' => 'Search deleted successfully !',
+
     'The countries' => 'The countries',
+
     'Our websites abroad' => 'Our websites abroad',
+
     'My Account' => 'LLOGARIA IME',
+
     'Terminate Account' => 'TERMINALIZO LLOGARI',
+
     'We do not like robots' => 'Nuk na pëlqejnë robotët',
+
     'Sitemap :country' => 'Sitemap - :country',
+
     'We regret that we can not process your request at this time. Our engineers have been notified of this problem and will try to resolve it as soon as possible.' => 'We regret that we can not process your request at this time. Our engineers have been notified of this problem and will try to resolve it as soon as possible.',
+
     'Whoops, looks like something went wrong. Please try later.' => 'Whoops, looks like something went wrong. Please try later.',
+
     'Whoops, looks like something went wrong.' => 'Whoops, looks like something went wrong.',
+
     'Whoops !' => 'Whoops !',
+
     'Joined' => 'U bashkua',
+
     'Your session has expired. Please try again.' => 'Your session has expired. Please try again.',
+
     'The session has expired after a longtime. Please try again.' => 'The session has expired after a longtime. Please try again.',
+
     'Page not found' => 'Page not found',
+
     'Oops ! Error 404. Page not found.' => 'Oops ! Error 404. Page not found.',
+
     'Meanwhile, you may <a href=":url">return to homepage</a>' => 'Meanwhile, you may <a href=":url">return to homepage</a>',
+
     'views' => 'shikime',
+
     'View More' => 'shiko më shumë',
+
     'View Less' => 'shiko më pak',
+
     'Free' => 'Të ndryshme',
+
     'free' => 'Të ndryshme',
+
     'Step' => 'Step',
+
     'Informations about your Ad' => 'Informations about your Ad',
+
     'Upload' => 'Upload',
+
     'Seller informations' => 'informacion I shitësit',
+
     'Select a package' => 'Select a package',
+
     'Select a package and click "Finish"' => 'Select a package and click "Finish"',
+
     'Next' => 'tjetër',
+
     'Previous' => 'Kthehu',
+
     'Skip' => 'anashkalo',
+
     'Premium Ad' => 'Premium Ad',
+
     'The premium package help sellers to promote their products or services by giving more visibility to their ads to attract more buyers and sell faster.' => 'The premium package help sellers to promote their products or services by giving more visibility to their ads to attract more buyers and sell faster.',
+
     'Regular List' => 'Free',
+
     'Payment Method' => 'Mënyra e pagesës',
+
     'Payment Methods' => 'Mënyra e pagesës',
+
     'Payment Gateway' => 'Payment Gateway',
+
     'Payment Gateways' => 'Payment Gateways',
+
     'Gateway' => 'Gateway',
+
     'Gateways' => 'Gateways',
+
     'Finish' => 'përfundo',
+
     'Trusted Seller' => 'Trusted Seller',
+
     'Trusted Sellers' => 'Trusted Sellers',
+
     'Facebook Fans' => 'Facebook Fans',
+
     'Sell anything for free' => 'Sell anything for FREE!',
+
     'Hundreds of buyers every day' => 'Hundreds of buyers every day',
+
     'Add images to sell faster' => 'Add images to sell faster!',
+
     'We sponsor your Ad' => 'We sponsor your Ad',
+
     'View all Ads' => 'View all Ads',
+
     'Browse by' => 'Shfletoni sipas',
+
     'View more' => 'shiko më tepër',
+
     'View all' => 'shiko më tepër',
+
     'Error in sending mail. Please contact our engineers: :app_email' => 'Error in sending mail. Please contact our engineers: :app_email',
+
     'The sending messages is not enabled. Please check the SMTP settings in the /.env file.' => 'The sending messages is not enabled. Please check the SMTP settings in the <code>/.env</code> file.',
+
     'The sending messages is not enabled. Please check the SMTP settings in the admin.' => 'The sending messages is not enabled. Please check the SMTP settings in the admin.',
+
     'Your account has been deleted.' => 'Your account has been deleted.',
+
     'Your account has been deleted. We regret you.' => 'Your account has been deleted. We regret you.',
+
     'Your account has been deleted. We regret you. <a href=":url">Re-register</a> if that is a mistake.' => 'Your account has been deleted. We regret you. <a href=":url">Re-register</a> if that is a mistake.',
+
     'We have received your payment.' => 'We have received your payment.',
+
     'We have received your payment. Please check your inbox to activate your ad.' => 'We have received your payment. Please check your inbox to activate your ad.',
+
     'We have not received your payment. Payment cancelled.' => 'We have not received your payment. Payment cancelled.',
+
     'We have not received your payment. An error occurred.' => 'We have not received your payment. An error occurred.',
+
     'Address' => 'Adresa',
+
     'Fill an address to display on Google Maps.' => 'Fill an address to display on Google Maps.',
+
     'Unknown error. Please try again in a few minutes.' => 'Unknown error. Please try again in a few minutes.',
+
     'Email address not found. You can\'t use your :provider account on our website.' => 'Email address not found. You can\'t use your :provider account on our website.',
+
     'Payable Amount' => 'Payable Amount',
+
     'Home - Featured Ads' => 'Featured <span style="font-weight: bold;">Ads</span>',
+
     'Similar Ads' => 'Similar <span style="font-weight: bold;">Ads</span>',
+
     'More ads at :distance :unit around :city' => 'More ads at :distance :unit around <span style="font-weight: bold;">:city</span>',
+
     'Error' => 'Error',
+
     'Unknown error' => 'Unknown error',
+
     'Error. Please select another Country.' => 'Error. Please select another Country.',
+
     'Error. Please select another category.' => 'Error. Please select another category.',
+
     'Error. Please select another location.' => 'Error. Please select another location.',
+
     'Error. Post doesn\'t exist.' => 'Error. Post doesn\'t exist.',
+
     'Unactivated ads' => 'Unactivated ads',
+
     'Activated ads' => 'Activated ads',
+
     'User Registrations' => 'User Registrations',
+
     'Activated countries' => 'Installed countries',
+
     'Connect with Facebook' => 'Connect with <strong>Facebook</strong>',
+
     'Connect with Google' => 'Connect with <strong>Google</strong>',
+
     'Connect with Twitter' => 'Connect with <strong>Twitter</strong>',
+
     'or' => 'or',
+
     'Premium ad' => 'Premium ad',
+
     'Not available' => 'Not available',
+
     'Upgrade' => 'Upgrade',
+
     'Current' => 'Current',
+
     'Help' => 'Help',
+
     'To launch your website for several countries you need to activate these countries.' => 'To launch your website for several countries you need to activate these countries.',
+
     'By disabling or removing a country the ads of this country (also) will be deleted.' => 'By disabling or removing a country the ads of this country (also) will be deleted.',
+
     'Contact' => 'Na kontaktoni',
+
     'Contact us' => 'Na kontaktoni',
+
     'Contact Us' => 'Na kontaktoni',
+
     'Login Area' => 'Login Area',
+
     'Knowledge Base' => 'Knowledge Base',
+
     'Subject' => 'Tema',
+
     'Anti-scam' => 'Anti-scam',
+
     'Clear all' => 'Clear all',
+
     'hour' => 'hour',
+
     'hours' => 'hours',
+
     'day' => 'day',
+
     'days' => 'days',
+
     'month' => 'month',
+
     'months' => 'months',
+
     'year' => 'year',
+
     'years' => 'years',
+
     'Date Posted' => 'Date Posted',
+
     'last' => 'last',
+
     'from a' => 'from a',
+
     'Featured' => 'Featured',
+
     'Expired' => 'Expired',
+
     'Payment Details' => 'Payment Details',
+
     'Username' => 'Emër Identifikimi',
+
     'Email or Phone' => 'Email or Phone',
+
     'Email address' => 'Email address',
+
     'SMS Code' => 'SMS Code',
+
     'Token' => 'Token',
+
     'Code' => 'Code',
+
     'Code received by Email' => 'Code received by Email',
+
     'Code received by SMS' => 'Code received by SMS',
+
     'Code received by SMS or Email' => 'Code received by SMS or Email',
+
     'Validation Code' => 'Validation Code',
+
     'Enter the validation code' => 'Enter the validation code',
+
     'Enter the code you received by Email in the field below' => 'Enter the code you received by Email in the field below',
+
     'Enter the code you received by SMS in the field below' => 'Enter the code you received by SMS in the field below',
+
     'Enter the code you received by SMS or Email in the field below' => 'Enter the code you received by SMS or Email in the field below',
+
     'The entered code is invalid.' => 'The entered code is invalid.',
+
     'These credentials do not match our records.' => 'These credentials do not match our records.',
+
     'The code does not match your email or phone number.' => 'The code does not match your email or phone number.',
+
     'The code does not match your email.' => 'The code does not match your email.',
+
     'The code does not match your phone number.' => 'The code does not match your phone number.',
+
     'The entered value is not registered with us.' => 'The entered value is not registered with us.',
+
     'This feature has been turned off in demo mode.' => 'This feature has been turned off in demo mode.',
-    'Photo' => 'Fotografi',
-    'Option' => 'Opsion',
-    'Back' => 'Back',
-    'Back to the Item' => 'Back to the Item',
-    'Report for :title' => 'Report for ":title"',
-    'Send a report for :title' => 'Send a report for ":title"',
-    'Home - Latest Ads' => 'Latest <span style="font-weight: bold;">Ads</span>',
-    'Home - Sponsored Ads' => 'Sponsored <span style="font-weight: bold;">Ads</span>',
+
     'Photos' => 'Fotografi',
+
+    'Option' => 'Opsion',
+
+    'Back' => 'Back',
+
+    'Back to the Item' => 'Back to the Item',
+
+    'Report for :title' => 'Report for ":title"',
+
+    'Send a report for :title' => 'Send a report for ":title"',
+
+    'Home - Latest Ads' => 'Latest <span style="font-weight: bold;">Ads</span>',
+
+    'Home - Sponsored Ads' => 'Sponsored <span style="font-weight: bold;">Ads</span>',
+
+    'Upload Photos' => 'Fotografi',
+
     'Images' => 'Images',
+
     'Preview' => 'Preview',
+
     'Done' => 'Done',
+
     'The pictures have been updated' => 'The pictures have been updated',
+
     'Are you sure you want to delete this picture?' => 'Are you sure you want to delete this picture?',
+
     'The picture has been deleted.' => 'The picture has been deleted.',
+
     'Post not found' => 'Post not found',
+
     'Upload Status' => 'Upload Status',
+
     'The picture #:key is required.' => 'The picture #:key is required.',
+
     'The picture #:key must be image.' => 'The picture #:key must be image.',
+
     'The picture #:key must be a file of type: :type.' => 'The picture #:key must be a file of type: :type.',
+
     'The picture #:key may not be greater than :max.' => 'The picture #:key may not be greater than :max.',
+
     'Uploaded file #index successfully' => '\'<li>\' + \'Uploaded file # \' + (index + 1) + \' - \'  + fname + \' successfully.\' + \'</li>\'',
+
     'Uploaded file #key successfully' => '\'<li>\' + \'Uploaded file # \' + (key + 1) + \' - \'  + fname + \' successfully.\' + \'</li>\'',
+
     'Do you want add more pictures?' => 'Do you want add more pictures?',
+
     'Add more pictures?' => 'Add more pictures?',
+
     'Upload pictures' => 'Upload pictures',
+
     'Upload the picture' => 'Upload the picture',
+
     'Upload files' => 'Upload files',
+
     'Upload the file' => 'Upload the file',
+
     'Send' => 'Dërgo',
+
     'Pay' => 'Pay',
+
     'Pricing' => 'Pricing',
+
     'Packages' => 'Packages',
+
     'Package' => 'Package',
+
     'The type of admin does not exist.' => 'The type of admin does not exist.',
+
     'No admin. division doesn\'t exists for the current country.' => 'No admin. division doesn\'t exists for the current country.',
+
     'area:' => 'area:',
+
     'Enter a city name OR a state name with the prefix ":prefix" like: :prefix' => 'Enter a city name OR a state name with the prefix ":prefix" like: :prefix',
+
     'State Name' => 'State Name',
+
     'for' => 'for',
+
     'among' => 'among',
+
     'inside' => 'inside',
+
     'within' => 'within',
+
     'of' => 'of',
+
     'from' => 'Nga',
+
     'From' => 'Nga',
+
     'Date & Time' => 'Ora & Data',
+
     'Post saved in favorites successfully !' => 'Postimi u ruajt tek të Preferuarat me sukses !',
+
     'Post deleted from favorites successfully !' => 'Postimi u fshi nga të Preferuarat me sukses !',
+
     'An activation link has been sent to you to verify your email address.' => 'An activation link has been sent to you to verify your email address.',
+
     'An activation code has been sent to you to verify your phone number.' => 'An activation code has been sent to you to verify your phone number.',
+
     'The activation link has been sent to you to verify your email address.' => 'The activation link has been sent to you to verify your email address.',
+
     'The activation code has been sent to you to verify your phone number.' => 'The activation code has been sent to you to verify your phone number.',
+
     'Resend the verification message to verify your email address.' => 'Resend the verification message to verify your email address.',
+
     'Resend the verification message to verify your phone number.' => 'Resend the verification message to verify your phone number.',
+
     'Re-send' => 'Re-send',
+
     'Entity ID not found.' => 'Entity ID not found.',
+
     'Congratulation :name ! Your :field has been verified.' => 'Congratulation :name ! Your :field has been verified.',
+
     'Your :field is already verified.' => 'Your :field is already verified.',
+
     'Your :field verification has failed.' => 'Your :field verification has failed.',
+
     'Homepage' => 'Homepage',
+
     'Messages' => 'Mesazh',
+
     'Messages Received' => 'Messages Received',
+
     'Messages Received on :app_name' => 'Messages Received on :app_name',
+
     'Ad' => 'Ad',
+
     'Download' => 'Download',
+
     'View' => 'Shiko',
+
     'Transactions' => 'tranzaksione',
+
     'Transaction' => 'tranzaksione',
+
     'My Transactions' => 'My Transactions',
+
     'My Transactions on :app_name' => 'My Transactions on :app_name',
+
     'Offers Maker' => 'Krijuesi i Ofertave',
+
     'Offer Maker' => 'Offer Maker',
+
     'My Offer Maker' => 'My Offer Maker',
+
     'My Offers Maker on :app_name' => 'My Offers Maker on :app_name',
+
     'Description' => 'përshkrim',
+
     'Value' => 'Vlera',
+
     'Status' => 'Statusi',
+
     'Pending payment' => 'Pending payment',
+
     'Pending' => 'Pending',
+
     'Paid by' => 'Paid by',
+
     '1 :entity has been deleted successfully.' => '1 :entity has been deleted successfully.',
+
     'x :entities has been deleted successfully.' => ':count :entities has been deleted successfully.',
+
     'messages' => 'Mesazhe',
+
     'message' => 'Mesazhe',
+
     'ad' => 'ad',
+
     'ads' => 'ads',
+
     'post' => 'ad',
+
     'posts' => 'ads',
+
     'Message for' => 'Message for',
+
     'Reply' => 'Reply',
+
     'Sender\'s Name' => 'Sender\'s Name',
+
     'Sender\'s Email' => 'Sender\'s Email',
+
     'Sender\'s Phone' => 'Sender\'s Phone',
+
     'You have already answered this message.' => 'You have already answered this message.',
+
     'Error on user\'s login.' => 'Error on user\'s login.',
+
     'The activation link has been sent to the user to verify his email address.' => 'The activation link has been sent to the user to verify his email address.',
+
     'The activation code has been sent to the user to verify his phone number.' => 'The activation code has been sent to the user to verify his phone number.',
+
     'The :field is required.' => 'The :field is required.',
+
     'The :field is required. And cannot be 0.' => 'The :field is required. And cannot be 0.',
+
     'The file of :field must be in the good format.' => 'The file of :field must be in the good format.',
+
     'The file of :field may not be greater than :max.' => 'The file of :field may not be greater than :max.',
+
     'Additional Details' => 'Additional Details',
+
     'Map' => 'Map',
+
     'Maps' => 'Maps',
+
     'Location\'s Map' => 'vendodhje e hartës',
+
     'Specification' => 'Specification',
+
     'More Specification' => 'More Specification',
+
     'Clear all the :category\'s filters' => 'Clear all the :category\'s filters',
+
     'Are you sure you want to perform this action?' => 'Are you sure you want to perform this action?',
+
     'km' => 'km',
+
     'kilometer' => 'kilometer',
+
     'kilometers' => 'kilometers',
+
     'count_km' => '{0} km|{1} km|[2,*] km',
+
     'count_kilometers' => '{0} kilometer|{1} kilometer|[2,*] kilometers',
+
     'mi' => 'mi',
+
     'mile' => 'mile',
+
     'miles' => 'miles',
+
     'count_mi' => '{0} mi|{1} mi|[2,*] mi',
+
     'count_miles' => '{0} mile|{1} mile|[2,*] miles',
+
     'Your reply has been sent. Thank you!' => 'Your reply has been sent. Thank you!',
+
     'prev' => 'prev',
+
     'next' => 'next',
+
     'Tags' => 'Tags',
+
     'Tag' => 'Tag',
+
     'Enter the tags separated by commas.' => 'Enter the tags separated by commas.',
+
     'add a tag' => 'add a tag',
+
     'Click to see' => 'Click to see',
+
     'Add to Favorites' => 'shtoje tek të preferuarat',
+
     'Payment pending' => 'Payment pending',
+
     'Error found' => 'Error found',
+
     'Contact & Sitemap' => 'Contact & Sitemap',
+
     'Mobile Apps' => 'Mobile Apps',
+
     'iOS app' => 'iOS app',
+
     'Android App' => 'Android App',
+
     'Available on the App Store' => 'Available on the App Store',
+
     'Available on Google Play' => 'Available on Google Play',
+
     'Follow us on' => 'Follow us on',
+
     'Powered by' => 'Powered by',
+
     'Select your Country' => 'zgjidh një vend',
+
     'Select a Country' => 'zgjidh një vend',
+
     'See you soon.' => 'Shihemi së shpejti',
+
     'on' => 'on',
+
     'Duration' => 'Duration',
+
     'Loading' => 'Loading',
+
     'Processing' => 'Processing',
+
     'Your picture has been reorder successfully' => 'Your picture has been reorder successfully',
+
     'Add Listing' => 'shto postim',
+
     'Choose a city or region' => 'Choose a city or region',
+
     'Choose a state or region' => 'Choose a state or region',
+
     'Conversations' => 'Biseda',
+
     'Conversation' => 'Biseda',
+
     'Conversations Received' => 'Conversations Received',
+
     'Conversations Received on :app_name' => 'Conversations Received on :app_name',
+
     'Conversations Started' => 'Conversations Started',
+
     'Conversations Started on :app_name' => 'Conversations Started on :app_name',
+
     'Received at' => 'Mbërritur në',
+
     'Related to the ad' => 'Related to the ad',
+
     'Sender' => 'Sender',
+
     'Click here to read the messages' => 'Click here to read the messages',
+
     'Click here to see' => 'Click here to see',
+
     'Reply to' => 'Reply to',
+
     'Started by' => 'Nisi nga',
+
     'Created by' => 'Created by',
+
     ':number max' => ':number max',
+
     'Impersonate this user' => 'Impersonate this user',
+
     'Leave impersonation' => 'Leave impersonation',
+
     'Leave' => 'Leave',
+
     'The current user can\'t impersonate' => 'The current user can\'t impersonate',
+
     'The destination user can\'t be impersonated' => 'The destination user can\'t be impersonated',
+
     'Can\'t be accessed by an impersonator' => 'Can\'t be accessed by an impersonator',
+
     'Cannot impersonate yourself' => 'Cannot impersonate yourself',
+
     'Cannot impersonate admin users' => 'Cannot impersonate admin users',
+
     'Cannot impersonate unactivated users' => 'Cannot impersonate unactivated users',
+
     'Admin users can\'t be deleted by this way.' => 'Përdoruesit Administrator nuk mund të fshihen në këtë mënyrë.',
+
     'Post Free Ad' => 'Post Free Ad',
+
     'Filters' => 'Filters',
+
     'This user no longer exists.' => 'This user no longer exists.',
+
     'Maybe the user\'s account has been disabled or deleted.' => 'Maybe the user\'s account has been disabled or deleted.',
+
     'The results could not be loaded.' => 'The results could not be loaded.',
+
     'Please delete #t character' => '\'Please delete \' + t + \' character\'',
+
     'Please enter #t or more characters' => '\'Please enter \' + t + \' or more characters\'',
+
     'Loading more results…' => 'Loading more results…',
+
     'You can only select #max item' => '\'You can only select \' + e.maximum + \' item\'',
+
     'No results found' => 'No results found',
+
     'Searching…' => 'Searching…',
+
     'An error occurred while validating the data.' => 'An error occurred while validating the data.',
+
     'Hide the phone number on the ads.' => 'Hide the phone number on the ads.',
+
     'Hide' => 'Hide',
+
     'Show' => 'Show',
+
     'Will never be displayed on the website.' => 'Will never be displayed on the website.',
+
     'No payment has been made.' => 'No payment has been made.',
+
     'Whoops! Something went wrong!' => 'Whoops! Something went wrong!',
+
     'Reload to see New Messages' => 'Reload to see New Messages',
+
     'Reload' => 'Reload',
+
     'cookie_consent_message' => 'Your experience on this site will be improved by allowing cookies.',
+
     'cookie_consent_agree_btn_label' => 'Allow cookies',
+
     'Payment' => 'pagesa',
+
     'Choose plan' => 'Zgjidh planin',
+
     'Author\'s Actions' => 'Author\'s Actions',
+
     'Return to the Ad' => 'Return to the Ad',
+
     'Update the Details' => 'përditëso detajet',
+
     'Update Photos' => 'përditëso fotografitë',
+
     'Make It Premium' => 'Make It Premium',
+
     'Decision' => 'Decision',
+
     'Offer' => 'Offer',
+
     'Send Offer' => 'Dërgo Ofertë',
+
     'Add More in Offer' => 'Add More in Offer',
+
     'Add' => 'Add',
+
     'Add Post' => 'Add Post',
+
     'No more spam/scam phone calls or emails …. Deal and Bargain online !!!' => 'Nuk ka më telefonata ose email-e mashtruese Kryej marrëveshje dhe bli online',
+
     'Latest Ads' => 'Postimet më të fundit',
+
     'Popular Ads' => 'Postimet më të kërkuara',
+
     'Distance within' => 'distanca',
+
     'Sign up for Newsletter' => 'Rregjistrohu për Buletinin Informativ',
-    'Minimize the waste and Maximize the prosperity of your community by giving away your unwanted items !!!' => 'Minimizo humbjet dhe maksimizo mirëqenien e komunitetit tënd duke dhënë artikujt që nuk dëshiron më <br> rregjistrohu për buletin',
-    'Show my Email to public' => 'Trego Email-in tim publikut',
+
+    'Minimize your waste and Maximize the prosperity of your community by giving away your unwanted items !' => 'Minimizo humbjet dhe maksimizo mirëqenien e komunitetit tënd duke dhënë artikujt që nuk dëshiron më <br> rregjistrohu për buletin !',
+
+    'Show my Email on the Ad' => 'Trego Email-in tim publikut',
+
     'show/hide your email' => 'trego/fshihe emailin tënd',
+
     'show/hide your phone' => 'trego/fshihe telefonin tënd',
+
     'I want to purchase your item for the same price you are asking for. Please contact me on the email/phone shown above so we discuss how you want to get paid and how I want to collect the item.' => 'Dua të blej produktin tënd me çmimin që ti kerkon. Të lutem më kontakto në email-in/telefonin e sipërpërmendur që të diskutojmë sesi do paguhesh dhe si do të marr unë produktin.',
+
     'Pick up the item myself' => 'Do e marr personalisht produktin',
+
     'Shipped or deliverd to me' => 'Të më dorëzohet mua',
+
     'Delivery Preference:' => 'Preferencë Dorëzimi:',
-    'Show my Phone to public' => 'Tregoje Telefonin tim publikisht',
+
+    'Show my phone number on the Ad' => 'Tregoje Telefonin tim publikisht',
+
     'Please enter the same value again' => 'Please enter the same value again.',
+
     'Please enter at least 5 characters' => 'Please enter at least 5 characters',
+
     'please enter a valid email address' => 'please enter a valid email address.',
-    'The delivery service is provided by a third party where Deal Not Deal no control over, and assumes no responsibility or liability for, the practices of any third party.' => '* The delivery service is provided by a third party where Deal Not Deal no control over, and assumes no responsibility or liability for, the practices of any third party.',
+
+    'The delivery service is provided by a third party where Tammat no control over, and assumes no responsibility or liability for, the practices of any third party.' => '* The delivery service is provided by a third party where Tammat no control over, and assumes no responsibility or liability for, the practices of any third party.',
+
     'Please check the item post for to know who will be charged for the delivery cost.' => '* Please check the item post for to know who will be charged for the delivery cost.',
+
     'Show all posts' => 'All ads',
+
     'Show posts with images only' => 'Ads with images only',
+
     'Buyer Address' => 'Buyer Address',
+
     'Your Address' => 'Your Address',
+
     'Seller Address' => 'Seller Address',
+
     'Shop' => 'Shop',
+
     'Newsletter successfully subscribe' => 'Newsletter successfully subscribe!',
+
     'State' => 'State',
+
     'ID' => 'ID',
+
     '500 max' => '500 max',
+
     'Posted by' => 'Posted by',
+
     'Seller' => 'Seller',
+
     'Get it for Free' => 'Get it for Free',
+
     'I want to have your item for free. would you please contact me here or on the phone number or the email shown above to discuss to how I can collect it. Thank you for your generosity !!' => 'I want to have your item for free. Would you please contact me here or on the phone number or the email shown above to discuss to how I can collect it. Thank you for your generosity !!',
+
     'Send Delivery Info' => 'Send Delivery Info',
+
     'Hi, It is pleasure to make a deal with you. According to our deal agreement please check my delivery preference and my contact information here so we can proceed. Waiting for your response to take action.' => 'Hi, It is pleasure to make a deal with you. According to our deal agreement please check my delivery preference and my contact information here so we can proceed. Thank you',
+
     'Request a delivery' => 'Request a delivery',
+
     'Buyer Username' => 'Buyer Username',
+
     'Seller Username' => 'Seller Username',
+
     'Date of pick up the item from the seller' => 'Date of pick up the item from the seller',
+
     'Time of pick up the item from the seller' => 'Time of pick up the item from the seller',
+
     'Delivery Info' => 'Delivery Info',
+
     'To build a deal change the cash value and drag the items you would like to exchange inside the briefcase' => 'To build a deal change the cash value and drag the items you would like to exchange inside the briefcase',
+
     'shipping cost will be split equally between the seller and buyer' => 'shipping cost will be split equally between the seller and buyer',
+
     'New Offer' => 'New Offer',
+
     'Deal' => 'DEAL!',
+
     'Closed' => 'CLOSED!',
+
     'Not Deal' => 'NOT DEAL!',
+
     'Counter-Offer' => 'COUNTER-OFFER',
+
     'Send New Offer' => 'SEND NEW OFFER',
+
     'Close Offer' => 'CLOSE OFFER',
+
     'Accept' => 'ACCEPT',
+
     'Reject' => 'REJECT',
+
     'Awaiting Response' => 'Awaiting Response',
+
     'Message successfully sent' => 'Message successfully sent',
+
     'Buyer Phone' => 'Buyer Phone',
+
     'Add Products' => 'Add Products',
+
     'Request Reset Password' => 'Request Reset Password',
+
     'Select Main Category' => 'Select Main Category',
-    'Select Sub Category' => 'Select Sub Category',
-    'Select Sub Category in' => 'Select Sub Category in',
+
+    'Select Subcategory' => 'Select Sub Category',
+
+    'Select Subcategory in' => 'Select Sub Category in',
+
     'Men' => 'Men',
+
     'Women' => 'Women',
+
     'Girls' => 'Girls',
+
     'Boys' => 'Boys',
+
     'Toddlers & Children' => 'Toddlers & Children',
+
     'Newborns & Infants' => 'Newborns & Infants',
+
     'Beauty & Care' => 'Beauty & Care',
+
     'Animals' => 'Animals',
+
     'Arts' => 'Arts',
+
     'Equipment & Materials' => 'Equipment & Materials',
+
     'Events & Coupons' => 'Events & Coupons',
+
     'Books' => 'Books',
+
     'Electronics' => 'Electronics',
+
     'Food' => 'Food',
+
     'Furniture' => 'Furniture',
+
     'Marine' => 'Marine',
+
     'Real Estate' => 'Real Estate',
+
     'Services' => 'Services',
+
     'Sports' => 'Sports',
+
     'Toys' => 'Toys',
+
     'Vehicles' => 'Vehicles',
+
     'Others' => 'Others',
+
     'Offers & Sales' => 'Offers & Sales',
+
 ];
+

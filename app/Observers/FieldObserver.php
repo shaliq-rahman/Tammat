@@ -19,7 +19,7 @@ use App\Models\CategoryField;
 use App\Models\Field;
 use App\Models\FieldOption;
 use App\Models\PostValue;
-use Illuminate\Support\Facades\Input;
+
 use Illuminate\Support\Facades\Storage;
 
 class FieldObserver extends TranslatedModelObserver
@@ -35,9 +35,9 @@ class FieldObserver extends TranslatedModelObserver
         // Get fields types having options
         $fieldTypesHavingOptions = ['checkbox_multiple', 'radio', 'select'];
     
-        if (Input::filled('type')) {
+        if (request()->filled('type')) {
             // Check if field has options
-            if (in_array($field->type, $fieldTypesHavingOptions) && !in_array(Input::get('type'), $fieldTypesHavingOptions)) {
+            if (in_array($field->type, $fieldTypesHavingOptions) && !in_array(request()->input('type'), $fieldTypesHavingOptions)) {
                 // Delete all the Custom Field's options
                 $options = FieldOption::where('field_id', $field->id)->get();
                 if ($options->count() > 0) {
@@ -56,7 +56,7 @@ class FieldObserver extends TranslatedModelObserver
             }
         
             // Check if field has options
-            if (!in_array($field->type, $fieldTypesHavingOptions) && in_array(Input::get('type'), $fieldTypesHavingOptions)) {
+            if (!in_array($field->type, $fieldTypesHavingOptions) && in_array(request()->input('type'), $fieldTypesHavingOptions)) {
                 // Delete all Posts Custom Field's Values
                 $postValues = PostValue::where('field_id', $field->id)->get();
                 if ($postValues->count() > 0) {

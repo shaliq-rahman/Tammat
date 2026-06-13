@@ -120,7 +120,7 @@ class CategoryFieldController extends PanelController
 		// Category => CategoryField
 		if ($this->parentEntity == 'categories') {
 			$this->xPanel->addColumn([
-				'name'          => 'field_id',
+				'name'          => 'field_idxxxx',
 				'label'         => mb_ucfirst(trans("admin::messages.custom field")),
 				'type'          => 'model_function',
 				'function_name' => 'getFieldHtml',

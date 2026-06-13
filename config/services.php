@@ -62,8 +62,8 @@ return [
         'redirect'        => env('APP_URL') . '/auth/twitter/callback',
     ],
 
-    'googlemaps' => [
-        'key' => "AIzaSyCB8c7XNqEd6UaMLc-nz76Xh2MXd5Pgwd8", //-> for Google Map JavaScript & Embeded
+    'GoogleMaps' => [
+        'key' => "AIzaSyD8GdePwqtn_AUN98KKj8eddsxOwND3Wkg", //-> for Google Map JavaScript & Embeded
     ],
 
     // Payment

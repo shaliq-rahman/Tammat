@@ -42,7 +42,8 @@ class PackageRequest extends Request
             if ($this->filled('package_id')) {
                 $package = Package::find($this->input('package_id'));
                 if (!empty($package) && $package->price > 0) {
-                    $rules['payment_method_id'] = 'required|not_in:0';
+                   // $rules['payment_method_id'] = 'required|not_in:0';
+				   $rules['payment_method_id'] = 'required';
                 }
             }
         }

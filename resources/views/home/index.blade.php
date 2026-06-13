@@ -12,26 +12,47 @@
  * Please read the full License from here - http://codecanyon.net/licenses/standard
 --}}
 @extends('layouts.master')
-
-@section('search')
-	@parent
-@endsection
-@section('content')
-
-	<div class="main-container" id="homepage">
-		@if (Session::has('flash_notification'))
-		
+<link rel="shortcut icon" href="{{ \Storage::url(config('settings.app.favicon')) . getPictureVersion() }}">
+	@if (Session::has('flash_notification'))		
 			@include('common.spacer')
-			
 			<?php $paddingTopExists = true; ?>
-			<div class="container">
+		
+        
+        	<div class="container">
 				<div class="row">
-					<div class="col-lg-12">
+					<div class="col-lg-6 pstn_clss pstn_clss_h" >
 						@include('flash::message')
 					</div>
 				</div>
 			</div> 
+        @else        
+        	@include('common.spacer')
+			<?php $paddingTopExists = true; ?>
+		
+        
+        	<div class="container">
+				<div class="row">
+					<div class="col-lg-6 pstn_clss pstn_clss_h" >
+						 
+					</div>
+				</div>
+			</div> 
+            
 		@endif
+        
+
+
+@section('search')
+
+	@parent
+
+@endsection
+
+@section('content')
+
+	<div class="main-container" id="homepage">
+	
+		
 		
 		@if (isset($sections) and $sections->count() > 0)
 			@foreach($sections as $section)

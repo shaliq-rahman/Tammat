@@ -42,8 +42,11 @@ class PaymentNotification extends Mailable
         $this->post = $post;
 		$this->package = Package::findTrans($payment->package_id);
 		$this->paymentMethod = PaymentMethod::find($payment->payment_method_id);
-
-        $this->to($adminUser->email, $adminUser->name);
+		$fromname = 'Tammat';
+        $from_email = 'admin@tmmat.com'; 
+		$this->from($from_email, $fromname);
+       // $this->to($adminUser->email, $adminUser->name);
+        $this->to('admin@tmmat.com', $adminUser->name);
         $this->subject(trans('mail.payment_notification_title'));
     }
 

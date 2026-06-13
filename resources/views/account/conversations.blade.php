@@ -18,7 +18,7 @@
 
   
 	@include('common.spacer')
-	<div class="main-container">
+	<div class="main-container"  style="margin-top: 50px;">
 		<div class="container">
 			<div class="row">
 				
@@ -50,9 +50,11 @@
 				
 				<div class="col-sm-9 page-content">
 					<div class="inner-box">
-						<h2 class="title-2">
+                    <div  style="background-color: #ff5555 ; border-radius: 40px;margin:7px;padding:12px 0px 0px 14px;">
+						<h2 class="title-2"  style="color: #fff">
 							<i class="icon-mail"></i> {{ t('Messages') }}
 						</h2>
+                   </div>
 						<div id="reloadBtn" class="mb30" style="display: none;">
 							<a href="" class="btn btn-primary" class="tooltipHere" title="" data-placement="{{ (config('lang.direction')=='rtl') ? 'left' : 'right' }}"
 							   data-toggle="tooltip"
@@ -123,6 +125,15 @@
                                                         ->where('position', '=', 1)
                                                         ->where('active', '=', 1)
                                                         ->first();
+														
+														// Get Post's Pictures
+                                        if (!empty($getpostpicture->filename)) {
+                                            $postImg = resize($getpostpicture->filename, 'medium');
+                                        } else {
+                                            $postImg = resize(config('larapen.core.picture.default'));
+                                        }
+										//echo "xxxxxxxxxxx".$postImg;
+										
 									?>
 							        <?php
 								    $selectedquery = '';
@@ -186,8 +197,11 @@
                                                 <a href="{{ lurl($uri, $attr1) }}">
     										    {{ $conversation->subject }}
     										    </a>
+                                                <br /># {{$conversation->post_id}}
 									    </td>
 									    <td>
+                                        <img class="thumbnail img-responsive" src="{{ $postImg }}"  style="height: 100px;"  alt="img"></a>
+                                        
 											@if (!empty($conversation->filename) and \Storage::exists($conversation->filename))
 										   <img src="{{url('storage/'.$getpostpicture->filename)}}" style="height: 100px;" alt="&nbsp;">
 										   @endif
@@ -199,7 +213,7 @@
 												<!--@endif-->
 												<!--<br>-->
 												<!--{{ t('Subject') }}:&nbsp;{{ $conversation->subject }}<br>-->
-												<!--{{ t('Started by') }}:&nbsp;{{ str_limit($fromusername, 50) }}-->
+												<!--{{ t('Started by') }}:&nbsp;{{ \Illuminate\Support\Str::limit($fromusername, 50) }}-->
 												
 												
 												<!--{!! (!empty($conversation->filename) and \Storage::exists($conversation->filename)) ? ' <i class="icon-attach-2"></i> ' : '' !!}&nbsp;|&nbsp;-->

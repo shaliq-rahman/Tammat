@@ -984,7 +984,7 @@ hr.small {
 }
 
 .link-color {
-	color: #369;
+	color: #f55;
 }
 
 .mb10 {
@@ -1935,7 +1935,6 @@ tbody.collapse.show {
 }
 
 .intro h1, .intro-title {
-	color: #fff;
 	font-family: "Roboto", Helvetica, Arial, sans-serif;
 	font-size: 44px;
 	line-height: 42px;
@@ -2300,7 +2299,7 @@ html[dir="rtl"] body .intro h1, .intro html[dir="rtl"] body h1, html[dir="rtl"] 
 	border-top: solid 1px #ddd;
 	padding: 30px 0;
 	font-size: 12px;
-	color: #4e575d;
+	color: #fffff;
 	letter-spacing: 0.5px;
 }
 
@@ -2322,7 +2321,7 @@ html[dir="rtl"] body .intro h1, .intro html[dir="rtl"] body h1, html[dir="rtl"] 
 	border-top: 1px solid rgba(0, 0, 0, 0.1);
 	font-size: 14px;
 	padding: 40px 0;
-	color: #333;
+	color: #fffff;
 	background: #f5f5f5;
 }
 
@@ -4297,7 +4296,7 @@ nav.slider-nav a.next {
 	font-size: 12px;
 	padding: 2px 25px 2px 20px;
 	position: relative;
-	color: #369;
+	color: #f55;
 }
 
 /* Price Range */
@@ -4607,12 +4606,12 @@ hr.thin {
 }
 
 .thumb-item-link:focus {
-	box-shadow: 0 0 2px #369;
+	box-shadow: 0 0 2px #f55;
 	outline: none;
 }
 
 .thumb-item-link.active {
-	border-bottom: 4px solid #369;
+	border-bottom: 4px solid #f55;
 }
 
 .thumb-item-link.active img {
@@ -5586,7 +5585,7 @@ td.ads-details-td {
 .title-1 {
 	font-family: Roboto, sans-serif;
 	font-weight: 300;
-	text-transform: uppercase;
+
 }
 
 .has-lead-para {
@@ -6329,7 +6328,7 @@ td.ads-details-td {
 }
 
 .row-featured-company .f-category h6 .company-name {
-	color: #369;
+	color: #f55;
 }
 
 .filter-content label {

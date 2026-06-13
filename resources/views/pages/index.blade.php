@@ -20,7 +20,7 @@
 
 @section('content')
 	@include('common.spacer')
-	<div class="main-container inner-page">
+	<div class="main-container inner-page" style="margin-top: 80px;">
 		<div class="container">
 			<div class="section-content">
 				<div class="row">

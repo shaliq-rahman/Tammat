@@ -81,7 +81,7 @@ if (
 								<li><a href="{{ lurl(trans('routes.login')) }}"> {{ t('Log In') }} </a></li>
 								<li><a href="{{ lurl(trans('routes.register')) }}"> {{ t('Register') }} </a></li>
 							@else
-								<li><a href="{{ lurl('account') }}"> {{ t('Personal Home') }} </a></li>
+								<li><a href="{{ lurl('account') }}"> {{ t('Profile') }} </a></li>
 								<li><a href="{{ lurl('account/my-posts') }}"> {{ t('My ads') }} </a></li>
 								<li><a href="{{ lurl('account/favourite') }}"> {{ t('Favourite ads') }} </a></li>
 							@endif

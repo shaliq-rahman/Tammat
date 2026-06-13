@@ -46,7 +46,11 @@
                      </select>
                   </div>
                   <!-- text input -->
-                  
+                  <div class="form-group col-md-12">
+                        <label>Link</label>
+                        <input type="url" class="form-control"  name="link" value="{{$banner->link}}">
+                        
+                    </div>
                     <div class="form-group col-md-12">
                         <label>Image</label>
                         <input type="file" name="tracking_code_large">

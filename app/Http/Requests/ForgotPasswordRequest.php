@@ -30,7 +30,8 @@ class ForgotPasswordRequest extends Request
     
         // Recaptcha
         if (config('settings.security.recaptcha_activation')) {
-            $rules['g-recaptcha-response'] = 'required';
+           // i hashed it temprarly after fix it abdelhay 23-3-2023.
+          //  $rules['g-recaptcha-response'] = 'required';
         }
         
         return $rules;

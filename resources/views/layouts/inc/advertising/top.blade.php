@@ -25,7 +25,7 @@ $advertising = \DB::table('banner')->where('banner_type', 'top')->where('country
             }
     ?>
       <div class="item <?=$ad_active?>">
-        <img src="{{ url('banner/'.$ad_value->tracking_code_large) }}"  style="width:100%;" class="banner-size">
+        <a href="{{$ad_value->link}}" target="_blank"><img src="{{ url('banner/'.$ad_value->tracking_code_large) }}"  style="width:100%;" class="banner-size"></a>
       </div>
     @endforeach
       

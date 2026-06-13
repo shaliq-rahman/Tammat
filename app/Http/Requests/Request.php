@@ -44,12 +44,29 @@ abstract class Request extends FormRequest
 		if ($this->ajax() || $this->wantsJson() || $this->segment(1) == 'api') {
 			// Get Errors
 			$errors = (new ValidationException($validator))->errors();
-			
+			//start abdelhay code : i added it to show error details in mobile
+			$errorsPlus = '';
+				if (is_array($errors) && count($errors) > 0) {
+					$errorsPlus = '( ';
+					foreach ($errors as $value) {
+						if (is_array($value)) {
+							foreach ($value as $v) {
+								$errorsPlus .= ' - ' . $v;
+							}
+						} else {
+							$errorsPlus .= ' - ' . $value;
+						}
+					}
+					$errorsPlus .= ' )';
+			 }	
+			 //end abdelhay code
+
 			// Get Json
 			$json = [
 				'success' => false,
-				'message' => t('An error occurred while validating the data.'),
+				'message' => t('An error occurred while validating the data.').$errorsPlus ,
 				'data'    => $errors,
+				//'errorsPlus'    => $errorsPlus,
 			];
 			
 			// Add a specific json attributes for 'bootstrap-fileinput' plugin
@@ -66,8 +83,7 @@ abstract class Request extends FormRequest
 							$errorsTxt .= '<br>- ' . $value;
 						}
 					}
-				}
-				
+				}				
 				// NOTE: 'bootstrap-fileinput' need 'errorkeys' (array) element & 'error' (text) element
 				$json['error'] = $errorsTxt;
 				$json['errorkeys'] = $errors;

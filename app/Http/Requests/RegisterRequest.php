@@ -26,21 +26,23 @@ class RegisterRequest extends Request
     {
         $rules = [
             //'name' => 'mb_between:2,200',
-			'gender_id'    => 'required|not_in:0',
+			//'gender_id'    => 'required|not_in:0',
+			'gender_id'    => 'required',
             'first_name' => 'required',
             'last_name' => 'required',
         	'user_type_id' => 'required',
         // 	'user_type_id' => 'required|not_in:0',
             'username' => 'required|min:5|alpha_dash|unique:users,username',
-			'phone' => 'max:20',
-			'phone_number' => 'required|max:20',
-			'email' => 'max:100|whitelist_email|whitelist_domain',
+			'phone' => 'max:15',
+			'phone_number' => 'required|numeric|unique:users,phone',
+			'email' => 'max:100|whitelist_email|whitelist_domain|unique:users,email',
 			//'country_code' => 'sometimes|required|not_in:0',
             'password' => 'required|between:6,60|dumbpwd|confirmed',
             'term' => 'accepted',
+            'g-recaptcha-response' => (config('settings.security.recaptcha_activation')) ? 'required' : '',
             //'city' => 'required',
-           // 'phone_number' => 'required|numeric',
-//            'address' => 'required',
+            // 'phone_number' => 'required|numeric',
+            //'address' => 'required',
         ];
 
         // Email
@@ -64,6 +66,7 @@ class RegisterRequest extends Request
         if (config('settings.sms.phone_verification') == 1) {
             if ($this->filled('phone')) {
                 $countryCode = $this->input('country_code', config('country.code'));
+				//$countryCode= 'UK';
                 if ($countryCode == 'UK') {
                     $countryCode = 'GB';
                 }
@@ -76,22 +79,18 @@ class RegisterRequest extends Request
             } else {
                 $rules['phone'] = 'required|' . $rules['phone'];
             }
-        }
-        
+        }        
         // if ($this->filled('phone')) {
         //     $rules['phone'] = 'unique:users,phone|' . $rules['phone'];
         // }
-
         // Username
         if (isEnabledField('username')) {
             $rules['username'] = ($this->filled('username')) ? 'valid_username|allowed_username|between:3,100|unique:users,username' : '';
         }
-
         // Recaptcha
         // if (config('settings.security.recaptcha_activation')) {
         //     $rules['g-recaptcha-response'] = 'required';
         // }
-
         return $rules;
     }
 

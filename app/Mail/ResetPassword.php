@@ -36,7 +36,9 @@ class ResetPassword extends Mailable
     {
         $this->user = $user;
         $this->token = $token;
-
+		$fromname = 'Tammat';
+        $from_email = 'admin@tmmat.com'; 
+		$this->from($from_email, $fromname);
         $this->to($user->email, $user->name);
         $this->subject(trans('mail.reset_password_title'));
     }

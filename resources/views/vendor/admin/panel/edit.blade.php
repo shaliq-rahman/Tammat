@@ -31,6 +31,7 @@ var app = angular.module('myApp1', []);
 	method: "POST",
 			data: xsrf,
 			headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'}
+		
 	}).then(function(response) {
 	    $scope.SIZE = response.data.size;
                   //alert(JSON.stringify($scope.SIZE));
@@ -56,17 +57,27 @@ var app = angular.module('myApp1', []);
 	    else if($scope.SIZE==4) {
                  $scope.SUBCAT1 = response.data.CAT3;
                   $scope.data1 = response.data.tab4;
-                  $scope.data2 = response.data.CAT1;
-                  $scope.data3 = response.data.CAT2;
+				  $scope.data3 = response.data.CAT2;
+                  $scope.data2 = response.data.CAT1;                 
                   $scope.data4 = response.data.CAT;
 	    
 	    }    else {
-	        $scope.SUBCAT1 = response.data.CAT4;
+			 
+	      
+		          $scope.SUBCAT1 = response.data.CAT4;
+                  $scope.data1 = response.data.tab5;
+                  $scope.data2 = response.data.CAT3;
+                  $scope.data3 = response.data.CAT2;
+                  $scope.data4 = response.data.CAT1;
+                  $scope.data5 = response.data.CAT;
+				  
+		   /* $scope.SUBCAT1 = response.data.CAT4;
                   $scope.data1 = response.data.tab5;
                   $scope.data2 = response.data.CAT3;
                   $scope.data3 = response.data.CAT1;
                   $scope.data4 = response.data.CAT2;
-                  $scope.data5 = response.data.CAT;
+                  $scope.data5 = response.data.CAT;*/
+				  
 	    }
 					$scope.hastrue=false;
 					
@@ -80,7 +91,7 @@ var app = angular.module('myApp1', []);
     $scope.category =function() {
       $scope.cat=(document.getElementById("deecat").value);
     // alert($scope.cat);
-    
+
     $('#bootscatid').attr('value', $scope.cat);
     //document.getElementById('bootscatid2').value=$scope.cat;
       // $("#bootscatid").val($scope.cat);
@@ -99,6 +110,10 @@ var app = angular.module('myApp1', []);
 			data: xsrf,
 			headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'}
 	}).then(function(response) {
+	    
+	        	      $('input[name ="tags"]').closest("div").remove();
+            console.log('hi from jQuery!');
+
                   $scope.data2 = response.data.tab1;
                   
                   if($scope.data2!=undefined){
@@ -229,6 +244,7 @@ var app = angular.module('myApp1', []);
     };
   });
 </script>
+
 @section('header')
     <section class="content-header" >
         <h1>
@@ -243,6 +259,7 @@ var app = angular.module('myApp1', []);
 @endsection
 
 @section('content')
+    <style>input[name="tags"] {display: none;}</style>
     <div class="row"  ng-app="myApp1" ng-controller="myCtrl1" ng-init="UserCategory1()">
         <div class="col-md-8 col-md-offset-2">
             <!-- Default box -->
@@ -267,11 +284,14 @@ var app = angular.module('myApp1', []);
                         @include('vendor.admin.panel.' . $xPanel->entity_name . '.form_content', ['fields' => $xPanel->getFields('update', $entry->getKey())])
                        
                     @elseif(view()->exists('vendor.admin.panel.form_content'))
+               
+               
                   <?php $actual_link = "http://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
    $cururl=explode('/',$actual_link);
    
    if($cururl[4]=='posts'){
    ?>
+   
 <?php if(isset($entry)) { ?>
 <input type="hidden" id="postcatid"    value="2" name="post_type_id">
 
@@ -391,5 +411,5 @@ var app = angular.module('myApp1', []);
             {!! Form::close() !!}
         </div>
     </div>
-  
+
 @endsection

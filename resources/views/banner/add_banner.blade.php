@@ -44,10 +44,13 @@
                     <div class="form-group col-md-12">
                         <label>Image</label>
                         <input type="file" required  name="tracking_code_large">
-                            
-
+                        
                     </div>
-                  
+                  <div class="form-group col-md-12">
+                        <label>Link</label>
+                        <input type="url" class="form-control"   name="link">
+                        
+                    </div>
                     <!--<div class="form-group col-md-12">-->
                     <!--    <label>Tracking Code (Tablet Format)</label>-->
                     <!--     <input type="file" name="tracking_code_medium">-->

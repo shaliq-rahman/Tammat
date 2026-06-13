@@ -2,12 +2,12 @@
 
 
 $ch = curl_init();
-curl_setopt($ch, CURLOPT_URL, "https://www.dealnotdeal.com/expire-post-cron");
+curl_setopt($ch, CURLOPT_URL, "https://www.tmmat.com/expire-post-cron");
 curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
 curl_setopt($ch, CURLOPT_MAXREDIRS, 3);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
 $data = curl_exec($ch);
-
+   
 
 
 //     require_once('PHPMailer/class.phpmailer.php');

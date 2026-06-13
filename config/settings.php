@@ -6,7 +6,7 @@ return [
         'phone_verification' => '1'
     ),
     'app' => array(
-        'email' => 'admin@dealnotdeal.com',
-        'name' => 'Deal Not Deal'
+        'email' => 'admin@tmmat.com',
+        'name' => 'Tammat'
     )
 ];

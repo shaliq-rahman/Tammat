@@ -97,7 +97,7 @@ if (getSegment(1) != trans('routes.countries')) {
                             <ul class="dropdown-menu user-menu">
                                 <li class="active">
                                     <a href="{{ url(config('app.locale') . '/account') }}">
-                                        <i class="icon-home"></i> {{ t('Personal Home') }}
+                                        <i class="icon-user"></i> {{ t('Profile') }}
                                     </a>
                                 </li>
                                 <li><a href="{{ url(config('app.locale') . '/account/my-posts') }}"><i class="icon-th-thumb"></i> {{ t('My ads') }} </a></li>
@@ -109,7 +109,7 @@ if (getSegment(1) != trans('routes.countries')) {
                                 <li><a href="{{ url(config('app.locale') . '/account/transactions') }}"><i class="icon-money"></i> {{ t('Transactions') }} </a></li>
                             </ul>
                         </li>
-                        <li class="postadd">
+                        <li class="postadd" Style="background-color:#ff55555">
                             <a class="btn btn-block btn-post btn-add-listing" href="{{ url(config('app.locale') . '/posts/create') }}">
 								<i class="fa fa-plus-circle"></i> {{ t('Add Listing') }}
 							</a>

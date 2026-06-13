@@ -29,26 +29,26 @@ class PostRequest extends Request
 	{
 		$rules = [
 			'category_id'  => 'required',
-			'post_type_id' => 'required',
+		    //'post_type_id' => 'required',
 			'title'        => 'required|mb_between:2,150|whitelist_word_title',
 			'description'  => 'required|mb_between:5,6000|whitelist_word',
-			'contact_name' => 'required|mb_between:2,200',
+			//'contact_name' => 'required|mb_between:2,200',
 			'email'        => 'max:100|whitelist_email|whitelist_domain',
 			'phone'        => 'max:20',
 // 			'city_id'      => 'required',
 			'city_name'      => 'required',
 		];
 		
-		if (request()->wantsJson() || starts_with(request()->path(), 'api')) {
+		if (request()->wantsJson() || str_starts_with(request()->path(), 'api')) {
 			$rules['price'] = 'integer';
 		} else {
-			$rules['price'] = 'required|integer';
+			$rules['price'] = 'required|numeric';
 		}
 		
 		// CREATE
 		if (in_array($this->method(), ['POST', 'CREATE'])) {
-			$rules['parent_id'] = 'required';
-			$rules['parent_id'] = 'required|integer';
+			//$rules['parent_id'] = 'required';
+			//$rules['parent_id'] = 'required|integer';
 			
 			// Recaptcha
 // 			if (config('settings.security.recaptcha_activation')) {
@@ -136,7 +136,8 @@ class PostRequest extends Request
 	 */
 	public function messages()
 	{
-		$messages = [];
+		$messages = ['price.required' => 'The price is required with Arabic numbers only',
+		            'price.numeric' => 'The price is valid with Arabic numbers only'];
 		
 		// Custom Fields
 		if (!isFromApi()) {

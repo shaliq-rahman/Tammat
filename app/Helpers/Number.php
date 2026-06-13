@@ -187,7 +187,7 @@ class Number
 			}
 		} else {
 			if (config('currency.in_left') == 1) {
-				$number = config('currency.symbol') . $number;
+				$number = config('currency.symbol').' '.$number;
 			} else {
 				$number = $number . ' ' . config('currency.symbol');
 			}
@@ -211,8 +211,8 @@ class Number
 		}
 		
 		$separators = [];
-		$separators['thousand'] = (starts_with($locale, 'fr')) ? ' ' : ',';
-		$separators['decimal'] = (starts_with($locale, 'fr')) ? ',' : '.';
+		$separators['thousand'] = (str_starts_with($locale, 'fr')) ? ' ' : ',';
+		$separators['decimal'] = (str_starts_with($locale, 'fr')) ? ',' : '.';
 		
 		return $separators;
 	}

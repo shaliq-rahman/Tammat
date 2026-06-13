@@ -120,7 +120,7 @@
 						<textarea id="buyer_address" name="buyer_address"  class="form-control " placeholder="{{ t('Your Address') }}" rows="2">{{ !empty(auth()->user()->address)?auth()->user()->address.', ':'' }}{{ !empty( auth()->user()->city)? auth()->user()->city.', ':'' }}{{ !empty(auth()->user()->zipcode)?auth()->user()->zipcode.', ':'' }}{{ !empty(auth()->user()->state)?auth()->user()->state.', ':'' }}{{ !empty(auth()->user()->country->name)?auth()->user()->country->name:'' }}</textarea>
                         
                          <p style="margin-top: 10px;margin-bottom: 3px;font-size: 15px;">
-                            {{ t('The delivery service is provided by a third party where Deal Not Deal no control over, and assumes no responsibility or liability for, the practices of any third party.') }}
+                            {{ t('The delivery service is provided by a third party where Tammat no control over, and assumes no responsibility or liability for, the practices of any third party.') }}
                          
                         </p>
                         <p style="font-size: 15px;">

@@ -62,7 +62,7 @@ class AjaxController extends Controller
 			return response()->json($result, 200, [], JSON_UNESCAPED_UNICODE);
 		}
 		$sql = 'SELECT DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name = "' . DB::getTablePrefix() . $table . '" AND COLUMN_NAME = "' . $field . '"';
-		$info = DB::select(DB::raw($sql));
+		$info = DB::select($sql);
 		if (empty($info)) {
 			return response()->json($result, 200, [], JSON_UNESCAPED_UNICODE);
 		} else {
@@ -93,8 +93,8 @@ class AjaxController extends Controller
 		$modelFiles = array_filter(\File::glob($modelsPath . '/' . '*.php'), 'is_file');
 		if (count($modelFiles) > 0) {
 			foreach ($modelFiles as $filePath) {
-				$filename = last(explode('/', $filePath));
-				$modelName = head(explode('.', $filename));
+				$filename = array_slice(explode('/', $filePath), -1)[0];
+				$modelName = explode('.', $filename)[0];
 				
 				if (!str_contains(strtolower($filename), '.php') || str_contains(strtolower($modelName), 'base')) {
 					continue;
@@ -203,16 +203,42 @@ class AjaxController extends Controller
 		if ($table == 'posts' && $field == 'reviewed') {
 		    if($item->{$field} == '1')
 		    {
-		        $from_email = 'admin@dealnotdeal.com';
-		        $fromname = 'Deal Not Deal';
+		        $from_email = 'admin@tmmat.com';
+		        $fromname = 'Tammat';
 		        $postvalue = Post::find($primaryKey);
+		        $postvalue->is_rejected = 0;
+		        $postvalue->update();
 		        $uservalue = User::find($postvalue->user_id);
 		        $data['post'] = $postvalue;
+		        $data['user'] = $uservalue;
 		        $toemail = $uservalue->email;
 	            \Mail::send('emails.post.reviewed', $data, function($message) use ($from_email, $fromname, $toemail)
                 {
                     $message->to($toemail);
-                    $message->subject('Your Post Approved');
+                    $message->subject('Your Post is Published');
+                    $message->from($from_email, $fromname);
+                    $message->replyTo($from_email, $fromname);        
+                    
+                });    
+		    }
+		}
+		
+		if ($table == 'posts' && $field == 'is_rejected') {
+		    if($item->{$field} == '1')
+		    {
+		        $from_email = 'admin@tmmat.com';
+		        $fromname = 'Tammat';
+		        $postvalue = Post::find($primaryKey);
+		        $postvalue->reviewed = 0;
+		        $postvalue->update();
+		        $uservalue = User::find($postvalue->user_id);
+		        $data['post'] = $postvalue;
+		        $data['user'] = $uservalue;
+		        $toemail = $uservalue->email;
+	            \Mail::send('emails.post.rejected', $data, function($message) use ($from_email, $fromname, $toemail)
+                {
+                    $message->to($toemail);
+                    $message->subject('Your Post is Rejected');
                     $message->from($from_email, $fromname);
                     $message->replyTo($from_email, $fromname);        
                     

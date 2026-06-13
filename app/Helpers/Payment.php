@@ -142,7 +142,7 @@ class Payment
 		}
 		
 		// Update ad 'reviewed'
-		$post->reviewed = 1;
+		//$post->reviewed = 1;
 		$post->featured = 1;
 		$post->save();
 		
@@ -150,6 +150,7 @@ class Payment
 		$paymentInfo = [
 			'post_id'           => $post->id,
 			'postid'           => $post->id,
+			'user_id' => (auth()->check()) ? auth()->user()->id : 0,
 			'package_id'        => $params['package_id'],
 			'payment_method_id' => $params['payment_method_id'],
 			'transaction_id'    => (isset($params['transaction_id'])) ? $params['transaction_id'] : null,

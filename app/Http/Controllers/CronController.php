@@ -49,11 +49,13 @@ class CronController extends FrontController
                 ->where('payments.post_id', '=', $row->id)
                 ->first();
                 
+            //$toemail = $rowuser->email;
             $toemail = $rowuser->email;
             $data['toname']  = $rowuser->username;
             $data['title'] = $row->title;
         
-        
+            $from_email = 'admin@tmmat.com';
+            $fromname = 'Tammat';
         
             if($checkpayment_count == 0)    
             {
@@ -73,13 +75,20 @@ class CronController extends FrontController
                      
                      $temp = \App::getLocale();
                     \App::setLocale($rowuser->language_code);
-            
-                    \Mail::send('emails.post.expire_post', $data, function($message) use ($toemail)
+                   
+                  
+             
+                    \Mail::send('emails.post.expire_post', $data, function($message) use ($toemail,$fromname,$from_email)
                     {
                         $message->to($toemail);
                         $message->subject(trans('mail.expire_post'));
+                        $message->replyTo($from_email, $fromname);
                     });  
                     \App::setLocale($temp);
+
+
+
+                   
                     
                 }
             }
@@ -96,9 +105,10 @@ class CronController extends FrontController
                     
                      $temp = \App::getLocale();
                     \App::setLocale($rowuser->language_code);
-                    \Mail::send('emails.post.expire_post', $data, function($message) use ($toemail){
+                    \Mail::send('emails.post.expire_post', $data, function($message) use ($toemail,$fromname,$from_email){
                         $message->to($toemail);
                         $message->subject(trans('mail.expire_post'));
+                        $message->replyTo($from_email, $fromname);
                     });   
                      \App::setLocale($temp);
                     

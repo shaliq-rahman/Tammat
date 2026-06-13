@@ -94,7 +94,7 @@ if (isset($citiesOptions)) {
 							
 							@if ($loc['showButton'])
 								@if (!auth()->check() and config('settings.single.guests_can_post_ads') != '1')
-									<a class="btn btn-lg btn-add-listing" href="#quickLogin" data-toggle="modal">
+									<a class="btn btn-lg btn-add-listing" style="background-color:#ff5555" href="#quickLogin" data-toggle="modal">
 										<i class="fa fa-plus-circle"></i> {{ t('Add Listing') }}
 									</a>
 								@else

@@ -21,6 +21,7 @@ use App\Models\Message;
 use App\Models\Payment;
 use App\Models\Makeanoffer;
 use App\Models\SavedPost;
+use App\Models\SavedUser;
 use App\Models\SavedSearch;
 use App\Models\Scopes\VerifiedScope;
 use App\Models\Scopes\ReviewedScope;
@@ -30,9 +31,11 @@ use DB;
 
 abstract class AccountBaseController extends FrontController
 {
+    protected $perPage = 10;
     public $countries;
     public $myPosts;
     public $archivedPosts;
+    public $rejectedPosts;
     public $favouritePosts;
     public $pendingPosts;
     public $conversations;
@@ -73,12 +76,30 @@ abstract class AccountBaseController extends FrontController
             ->orderByDesc('id');
         view()->share('countMyPosts', $this->myPosts->count());
 
+
+        // Approved Posts
+        $this->approvedPosts = Post::where('user_id', auth()->user()->id)
+            ->verified()
+			->unarchived()
+			->reviewed()
+			->with(['pictures', 'city', 'latestPayment' => function ($builder) { $builder->with(['package']); }])
+            ->orderByDesc('id');
+        view()->share('countApprovedPosts', $this->approvedPosts->count());
+
+
         // Archived Posts
         $this->archivedPosts = Post::where('user_id', auth()->user()->id)
             ->archived()
             ->with(['pictures', 'city', 'latestPayment' => function ($builder) { $builder->with(['package']); }])
             ->orderByDesc('id');
         view()->share('countArchivedPosts', $this->archivedPosts->count());
+
+        // Rejected Posts
+        $this->rejectedPosts = Post::where('user_id', auth()->user()->id)
+            ->where('is_rejected',1)
+            ->with(['pictures', 'city', 'latestPayment' => function ($builder) { $builder->with(['package']); }])
+            ->orderByDesc('id');
+        view()->share('countRejectedPosts', $this->rejectedPosts->count());
 
         // Favourite Posts
         $this->favouritePosts = SavedPost::whereHas('post', function($query) {
@@ -88,6 +109,12 @@ abstract class AccountBaseController extends FrontController
             ->with(['post.pictures', 'post.city'])
             ->orderByDesc('id');
         view()->share('countFavouritePosts', $this->favouritePosts->count());
+		
+		  // Favourite users
+        $this->favouriteUsers = SavedUser::where('user_id', auth()->user()->id)->orderByDesc('id');
+        view()->share('countFavouriteUsers', $this->favouriteUsers->count());
+		
+		
 
         // Pending Approval Posts
         $this->pendingPosts = Post::withoutGlobalScopes([VerifiedScope::class, ReviewedScope::class])
@@ -105,11 +132,11 @@ abstract class AccountBaseController extends FrontController
         view()->share('countSavedSearch', $savedSearch->count());
         
         // Conversations
-		$this->conversations = Message::with('latestReply')
+		$this->conversations = Message::
 // 			->whereHas('post', function($query) {
 // 				$query->currentCountry();
 // 			})
-			->byUserId(auth()->user()->id)
+			byUserId(auth()->user()->id)
 			->where('parent_id', 0)
 			->orderByDesc('id');
 		view()->share('countConversations', $this->conversations->count());

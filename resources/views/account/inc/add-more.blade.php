@@ -15,7 +15,7 @@
 		{!! csrf_field() !!}
         <div class="modal-body">
           <div class="form-group required <?php echo (isset($errors) and $errors->has('offer_price')) ? 'has-error' : ''; ?>">
-				<label for="offer_price" class="control-label">{{ t('Add Post') }}
+				<label for="offer_price" class="control-label" style="color:#ff5555";>{{ t('Add Post') }}
 					@if (!isEnabledField('email'))
 						<sup>*</sup>
 					@endif

@@ -34,7 +34,9 @@ class ReplySent extends Mailable
     public function __construct(Message $msg)
     {
         $this->msg = $msg;
-
+		$fromname = 'Tammat';
+        $from_email = 'admin@tmmat.com'; 
+		$this->from($from_email, $fromname);
         $this->to($msg->to_email, $msg->to_name);
         $this->replyTo($msg->from_email, $msg->from_name);
         $this->subject($msg->subject);

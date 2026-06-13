@@ -1,109 +1,364 @@
 <?php 
 
+
+
 return [
-    'mail_footer_content' => ':appName, продавайте и покупайте с нами. Просто, быстро и эффективно.',
-    'email_verification_title' => '[:appName] Пожалуйста подтвердите ваш адрес электронной почты.',
+
+
+
+	// mail_footer
+
+	'mail_footer_content' => ':appName, продавайте и покупайте с нами. Просто, быстро и эффективно.',
+
+	
+ 
+	// email_verification
+
+    'email_verification_title' => 'Пожалуйста подтвердите ваш адрес электронной почты.',
+
     'email_verification_action' => 'Подтвердите адрес электронной почты',
+
     'email_verification_content_1' => 'Здравствуйте :userName !',
+
     'email_verification_content_2' => 'Нажмите на кнопку ниже, чтобы подтвержить Ваш электронный адрес',
+
     'email_verification_content_3' => 'Кнопка не работает? Вставьте следующую ссылку в свой браузер.:<br><a href=":verificationLink">:verificationLink</a>.',
-    'email_verification_content_4' => '<br><br>Вы получаете это письмо, потому что недавно создали учетную запись Deal Not Deal или добавили новый адрес электронной почты. Если это были не Вы, пожалуйста, проигнорируйте это письмо.',
+
+    'email_verification_content_4' => '<br><br>Вы получаете это письмо, потому что недавно создали учетную запись Tammat или добавили новый адрес электронной почты. Если это были не Вы, пожалуйста, проигнорируйте это письмо.',
+
     'email_verification_content_5' => '<br><br>С уважением,<br>Команда :appName',
-    'post_activated_title' => 'Ваше объявление активировано',
+
+	
+
+	
+
+	// post_activated
+
+	'post_activated_title' => 'Ваше объявление активировано',
+
     'post_activated_content_1' => 'Здравствуйте, <br><br>Ваше объявление <a href=":postUrl">:title</a> было активировано.',
+
     'post_activated_content_2' => '<br>Вскоре оно будет рассмотрено одним из наших администраторов для его публикации на сайте.',
+
     'post_activated_content_3' => '<br><br>Вы получили это письмо, потому что недавно разместили новое объявление на :appName. Если это не вы, пожалуйста, проигнорируйте это письмо.',
+
     'post_activated_content_4' => '<br><br>Kind С уважением,<br>The :appName Команда',
+
+
+
+	
+
+	// post_reviewed
+
     'post_reviewed_title' => 'Ваше объявление сейчас в сети',
+
     'post_reviewed_content_1' => 'Здравствуйте, <br><br>Ваше объявление <a href=":postUrl">:title</a> уже в сети.',
-    'post_reviewed_content_2' => '<br><br>Вы получили это письмо, потому что недавно разместили новое объявление на :appName. Если это не вы, пожалуйста, проигнорируйте это письмо.',
-    'post_reviewed_content_3' => '<br><br>Kind С уважением,<br>The :appName Команда',
+
+    'post_reviewed_content_2' => '<br><br>Вы получили это письмо, потому что недавно разместили новое объявTammatName. Если это не вы, пожалуйста, проигнорируйте это письмо.',
+
+    'post_reviewed_content_3' => '<br><br>Kind С уважением,<br>The :appName Команда',	
+
+	
+
+		
+ 
+	// user_post_notification
+
+	'user_post_notification_title'          => 'Your new Ad is being reviewd and waiting for approval',
+
+	'user_post_notification_content_1'      => 'Dear :userName,<br> Your new Ad entitled :title and has ID No. :postNumber is in pending status and being reviewed by one of :appName team. After completing the reviewing process, your Ad will either be:',
+
+	'user_post_notification_content_2'      => '<br>1. Approved for publishing and change to active status.<br>2. Rejected and changed to status which you will need to make changes and try again to get it approved.<br><br>Signature: Thank you for using :appName <br /><br /> :appName Team',
+
+	
+
+		
+
+	// post_rejected
+
+	'post_rejected_title'              => 'Your Ad is rejected',
+
+	'post_rejected_content_1'          => 'Dear :userName,<br> Your ad entitled :title and has ID No. :postNumber has been rejected and assigned to rejected status due to one or more of the followings:',
+
+	'post_rejected_content_2'          => '<br>1. It violates :appName regulations regarding dealing with forbidden items such as unregulated medicine, drugs, prostitution, pornography, unlicensed weapons ...etc. <br> 2. Your ad contains political issues which will create a conflict with a government. <br> 3. Doubt that your Ad is a fraud. <br> 4. Your item is stolen. <br> 5. A reason :appName don’t want to reveal to you.',
+
+	'post_rejected_content_3'          => '<br><br>Kind Regards,<br /><br />:appName Team',
+
+	
+
+	
+
+	// post_deleted
+
+	'user_post_deleted_content_1'      => 'Dear :userName,<br> your ad entitled :title and NO. :postNumber has been deleted from your account',
+
     'post_deleted_title' => 'Ваше объявление было удалено',
+
     'post_deleted_content_1' => 'Здравствуйте,<br><br>Ваше объявление ":title"Было удалено с <a href=":appUrl">:appName</a> в :now.',
+
     'post_deleted_content_2' => '<br><br>Спасибо за ваше доверие и скоро увидимся,',
+
     'post_deleted_content_3' => '<br><br>Ваша:appName Команда',
-    'post_deleted_content_4' => '<br><br><br>PS: Это автоматическая электронная почта, пожалуйста, не отвечайте.',
-    'post_seller_contacted_title' => 'Ваше объявление ":title" на :appName',
+
+    'post_deleted_content_4' => '<br><br><br>PS: Это автоматическая электронная почта, пожалуйста, не отвечайте.',	
+
+	
+
+	
+
+	// post_seller_contacted
+
+	'post_seller_contacted_title_delivey_info'      => 'Delivey Info regrding your Ad ":title"',
+
+	'post_seller_contacted_content_7'  => '<b><br><br>The delivery service is provided by a third party where Tammat no control over, and assumes no responsibility or liability for, the practices of any third party.<br><br>Please check the item post for to know who will be charged for the delivery cost.</b>',
+
+    'post_seller_contacted_title' => '[:appName] Ваше объявление ":title" на :appName',
+
     'post_seller_contacted_content_1' => '<strong>Контактная информация :</strong><br>Имя : :name<br>Электронный адрес : :email<br>Номер телефона : :phone<br><br>Это письмо было отправлено вам по поводу объявления ":title" you filed on <a href=":appUrl">:appName</a> : <a href=":postUrl">:postUrl</a>',
+
     'post_seller_contacted_content_2' => '<br><br>PS : Лицо, связавшееся с вами, не знает вашу электронную почту, поскольку вы не будете отвечать.',
+
     'post_seller_contacted_content_3' => '<br><br>Не забудьте всегда проверять информацию своего контактного лица (имя, адрес, ...), чтобы убедиться, что у вас есть контакт в случае открытия спора. По умолчанию, выберите поставку товара лично в руки.<br><br>Остерегайтесь заманчивых предложений! Будьте осторожны с запросами из-за рубежа, когда у вас есть только контактный адрес. Банковский перевод, предложенный Western Union или MoneyGram, может быть несуществующим.',
+
     'post_seller_contacted_content_4' => '<br><br>Спасибо за ваше доверие и скоро увидимся,',
+
     'post_seller_contacted_content_5' => '<br><br>Ваша :appName Команда',
+
     'post_seller_contacted_content_6' => '<br><br><br>PS: Это автоматическая электронная почта, пожалуйста, не отвечайте.',
+
+
+
+	
+
+	// user_deleted
+
     'user_deleted_title' => 'Ваша учетная запись была удалена :appName',
+
     'user_deleted_content_1' => 'Здравствуйте,<br><br>Ваша учетная запись была удалена с <a href=":appUrl">:appName</a> at :now.',
+
     'user_deleted_content_2' => '<br><br>Спасибо за ваше доверие и скоро увидимся,',
+
     'user_deleted_content_3' => '<br><br>Ваша :appName Команда',
+
     'user_deleted_content_4' => '<br><br><br>PS: Это автоматическая электронная почта, пожалуйста, не отвечайте.',
+
+	
+
+	
+
+	// user_activated
+
     'user_activated_title' => 'Добро пожаловать :appName !',
+
     'user_activated_content_1' => 'Добро пожаловать :appName :userName !',
+
     'user_activated_content_2' => '<br>Ваша учетная запись активирована.',
+
     'user_activated_content_3' => '<br><br><strong>Помните : :appName Наша команда рекомендует чтоб Вы:</strong><br><br>1 - Всегда остерегались рекламодателей, которые отказываются показывать вам хорошее предложение для продажи или аренды,<br>2 -Никогда не отправляйте деньги через Western Union или другой международный мандат.<br><br>Если у вас есть сомнения относительно серьезности рекламодателя, немедленно свяжитесь с нами. Мы сделаем все возможное чтоб защитить вас чтоб вы не стали жертвой обмана.',
+
     'user_activated_content_4' => '<br><br>Вы получаете это письмо, потому что недавно создали новый:appName акаунт. Если это не вы, пожалуйста, проигнорируйте это письмо.',
+
     'user_activated_content_5' => '<br><br>С уважением,<br>Ваша :appName Команда',
+
+	
+
+	
+
+	// reset_password
+
     'reset_password_title' => 'Сбросить пароль',
+
     'reset_password_action' => 'Сбросить пароль',
+
     'reset_password_content_1' => 'Забыли пароль?',
+
     'reset_password_content_2' => 'Создадим новый!',
+
     'reset_password_content_3' => 'Если вы не запросили сброс пароля, никаких дополнительных действий не требуется.',
+
     'reset_password_content_4' => '<br><br>С уважением,<br>:appName',
+
     'reset_password_content_5' => '<br><br>---<br>Если у вас возникли проблемы с нажатием кнопки "сбросить пароль", скопируйте и вставьте URL-адрес ниже в свой веб-браузер:<br> :link',
+
+	
+
+	
+
+	// contact_form
+
     'contact_form_title' => 'Новое сообщение от :appName',
-    'contact_form_content' => ':appName - Новое сообщение',
+
+    'contact_form_content' => ':appName - Новое сообщение',	
+
+	
+
+	// post_report_sent
+
     'post_report_sent_title' => 'Новый отчет о злоупотреблениях',
+
     'post_report_sent_content' => 'Новый отчет о злоупотреблениях - :appName/:countryCode',
-    'Post URL' => 'Вставьте URL',
+
+    'Post URL' => 'Вставьте URL',	
+
+	
+
+	// post_archived
+
     'post_archived_title' => 'Ваше объявление было заархивировано',
+
     'post_archived_content_1' => 'Здравствуйте,<br><br>Ваше объявление ":title" было заархивировано с :appName в :now.',
+
     'post_archived_content_2' => '<br><br>Вы можете отправить его, нажав здесь. : <a href=":repostLink">:repostLink</a>',
+
     'post_archived_content_3' => '<br><br>Если вы ничего не сделаете, ваше объявление будет удалено навсегда :dateDel.',
+
     'post_archived_content_4' => '<br><br>Спасибо за ваше доверие и скоро увидимся,',
+
     'post_archived_content_5' => '<br><br>Ваша :appName Команда',
+
     'post_archived_content_6' => '<br><br><br>ПС: Это автоматическая электронная почта, пожалуйста, не отвечайте.',
+
+	
+
+	
+
+	// post_will_be_deleted
+
     'post_will_be_deleted_title' => 'Ваше объявление будет удалено через :days days',
+
     'post_will_be_deleted_content_1' => 'Здравствуйте,<br><br>Ваше объявление ":title" будет удалено через :days days с :appName.',
+
     'post_will_be_deleted_content_2' => '<br><br>Вы можете отправить его, нажав здесь. : <a href=":repostLink">:repostLink</a>',
+
     'post_will_be_deleted_content_3' => '<br><br>Если вы ничего не сделаете, ваше объявление будет удалено навсегда :dateDel.',
+
     'post_will_be_deleted_content_4' => '<br><br>Спасибо за ваше доверие и скоро увидимся,',
+
     'post_will_be_deleted_content_5' => '<br><br>Ваша :appName Команда',
+
     'post_will_be_deleted_content_6' => '<br><br><br>PS: Это автоматическая электронная почта, пожалуйста, не отвечайте.',
+
+	
+
+	
+
+	// post_notification
+
     'post_notification_title' => 'Новое объявление опубликовано',
-    'post_notification_content_1' => 'Привет, Admin,<br><br>Пользователь :advertiserName только что опубликовал новое объявление.',
+
+    'post_notification_content_1' => 'Привет, Admin,<br><br>Пользователь только что опубликовал новое объявление.',
+
     'post_notification_content_2' => '<br>Название объявления: :title<br>опубликовано на: :now at :time',
-    'post_notification_content_3' => '<br><br>С Уважением,<br>Ваша :appName Команда',
-    'user_notification_title' => 'Регистрация нового пользователя',
+
+    'post_notification_content_3' => '<br><br>С Уважением,<br>Ваша :appName Команда',	
+
+
+
+
+
+	// user_notification
+
+    'user_notification_title' => ':appName Регистрация нового пользователя',
+
     'user_notification_content_1' => 'Привет, Admin,<br><br>:name только что зарегистрировался.',
+
     'user_notification_content_2' => '<br>Зарегистрировано: :now по :time<br>Электронному адресу: <a href="mailto::email">:email</a>',
+
     'user_notification_content_3' => '<br><br>С Уважением,<br>Ваша :appName Команда',
+
+	
+
+	
+
+	// payment_sent
+
     'payment_sent_title' => 'Спасибо за ваш платеж!',
+
     'payment_sent_content_1' => 'Здравствуйте,<br><br>Мы получили оплату за объявление ":title".',
+
     'payment_sent_content_2' => '<br><h1>Спасибо !</h1>',
+
     'payment_sent_content_3' => '<br>С Уважением,<br>Ваша :appName Команда',
+
+	
+
+	
+
+	// payment_notification
+
     'payment_notification_title' => 'Новый платеж отправлен',
+
     'payment_notification_content_1' => 'Привет, Admin,<br><br>Пользователь :advertiserName только что заплатил пакет за ее объявление ":title".',
+
     'payment_notification_content_2' => '<br><br><strong>ДЕТАЛИ ОПЛАТЫ</strong><br><strong>Причина оплаты:</strong> Объявление #:adId - :packageName<br><strong>Сумма:</strong> :amount :currency<br><strong>Способ оплаты:</strong> :paymentMethodName',
-    'payment_notification_content_3' => '<br><br>С Уважением,<br>Ваша :appName Команда',
+
+    'payment_notification_content_3' => '<br><br>С Уважением,<br>Ваша :appName Команда',	
+
+	
+
+	// reply_form
+
     'reply_form_title' => ':subject',
+
     'reply_form_content_1' => 'Здравствуйте,<br><br><strong>Вы получили ответ от: :senderName. Смотрите Сообщение ниже:</strong><br><br>',
+
     'reply_form_content_2' => '<br><br>С Уважением,<br>Ваша :appName Команда',
-    'post_seller_contacted_title_delivey_info' => 'Delivey Info ":title" on :appName',
-    'post_seller_contacted_content_7' => '<b><br><br>The delivery service is provided by a third party where Deal Not Deal no control over, and assumes no responsibility or liability for, the practices of any third party.<br><br>Please check the item post for to know who will be charged for the delivery cost.</b>',
-    'new_offer' => 'New Offer',
-    'offer_send_1' => 'Hello :sellername',
-    'offer_send_2' => 'You have received a response from: :buyername. See the message below:',
-    'offer_send_3' => 'You have received New Offer from :buyername',
-    'offer_send_4' => 'Related to the ad: <a href=":url">Click here to see</a>',
-    'offer_send_5' => 'Kind Regards,<br />The Deal Not Deal Team',
-    'offer_rejected' => 'Offer Rejected',
-    'offer_reject_1' => 'Hello :toname',
-    'offer_reject_2' => 'You have received a response from: :fromname. See the message below:',
-    'offer_reject_3' => 'Your offer is Rejected by :buyername',
-    'offer_reject_4' => 'Related to the ad: <a href=":url">Click here to see</a>',
-    'offer_reject_5' => 'Kind Regards,<br />The Deal Not Deal Team',
-    'expire_post' => 'Expire Post',
-    'expire_post_1' => 'Hello :toname',
-    'expire_post_2' => 'Your post has expired.',
-    'expire_post_3' => 'Post Title: :title',
-    'expire_post_5' => 'https://www.dealnotdeal.com',
-    'expire_post_4' => 'Kind Regards,<br />The Deal Not Deal Team',
+
+
+
+    // send offer
+
+    'new_offer'                  =>'New Offer',
+
+    'offer_send_1'               => 'Hello :sellername',
+
+    'offer_send_2'               => '<br><br>You have received a response from :buyername. See the message below:',
+
+    'offer_send_3'               => '<br><br>You have received New Offer from :buyername',
+
+    'offer_send_4'               => 'Related to the ad: <a href=":url">Click here to see</a>',
+
+    'offer_send_5'               => '<br><br>Kind Regards,<br /><br /> :appName Team',
+
+    
+
+    
+
+    // offer rejected
+
+    'offer_rejected'               =>'Your Offer is Rejected',
+
+    'offer_reject_1'               => 'Hello :toname',
+
+    'offer_reject_2'               => '<br><br>You have received a response from :fromname. See the message below:',
+
+    'offer_reject_3'               => 'Your offer is Rejected by :fromname',
+
+    'offer_reject_4'               => 'Related to the ad: <a href=":url">Click here to see</a>',
+
+    'offer_reject_5'               => '<br><br>Kind Regards,<br /><br /> :appName Team',
+
+    
+
+    
+
+        
+
+    // Expired Ad
+
+    'expire_post'               =>'Expired Ad',
+
+    'expire_post_1'               => 'Hello :toname,',
+
+    'expire_post_2'               => '<br>Your Ad is expired and moved to your archive. You can repost your Ad from your archive without need for review or approval, unless you make a change to the post which then will be treated as a new post. Your Ad will be deleted after limited time if you do not repost it.',
+
+    'expire_post_3'               => 'Post Title: :title',
+
+    'expire_post_5'               => 'https://www.tmmat.com',
+
+    'expire_post_4'               => '<br><br>Kind Regards,<br /><br /> :appName Team',
+
+
+
 ];
+

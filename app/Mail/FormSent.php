@@ -34,9 +34,19 @@ class FormSent extends Mailable
     public function __construct($request, $recipient)
     {
         $this->msg = $request;
+        if(!empty($request->full_name)){
+        $name=$request->full_name;
+        $request->first_name=$name;
+        $request->last_name="";
+        }else{
+        $name=$request->first_name . ' ' . $request->last_name;
+        }
 
+        $fromname = 'Tammat';
+        $from_email = 'admin@tmmat.com'; 
+		$this->from($from_email, $fromname);
         $this->to($recipient->email, $recipient->name);
-        $this->replyTo($request->email, $request->first_name . ' ' . $request->last_name);
+        $this->replyTo($request->email,$name );
         $this->subject(trans('mail.contact_form_title', [
             'country' => $request->country_name,
             'appName' => config('app.name'),

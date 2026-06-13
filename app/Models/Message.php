@@ -134,7 +134,7 @@ class Message extends BaseModel
     */
     public function post()
     {
-        // return $this->belongsTo(Post::class, 'post_id');
+        return $this->belongsTo(Post::class, 'post_id');
     }
 	
 	public function parent()
@@ -145,13 +145,13 @@ class Message extends BaseModel
     public function latestReply()
 	{
 		// Get the Conversation's latest Message
-		// return $this->hasOne(self::class, 'parent_id')->latest('id');
+		return $this->hasOne(self::class, 'parent_id')->latest('id');
 	}
     
     public function reply()
 	{
 		// Get the Conversation's latest Message
-		// return $this->hasMany(self::class, 'parent_id');
+		  return $this->hasMany(self::class, 'parent_id');
 	}
     
     /*

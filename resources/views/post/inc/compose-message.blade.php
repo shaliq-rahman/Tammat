@@ -43,7 +43,7 @@
     								    
     									<span class="input-group-addon"><i class="icon-mail"></i></span>
     									<input id="from_email" name="from_email" type="text" placeholder="{{ t('i.e. you@gmail.com') }}"
-    										   class="form-control" value="">
+    										   class="form-control" value="" disabled>
     								</div>
 								</div>
 								<div style="clear:both"></div>
@@ -105,7 +105,7 @@
     							<span class="input-group-addon"><i class="icon-phone-1"></i></span>
     							<input id="from_phone" name="from_phone" type="text"
     								   placeholder="{{ t('Phone Number') }}"
-    								   maxlength="60" class="form-control number_ltr" value="">
+    								   maxlength="60" class="form-control number_ltr" value="" disabled>
     						</div>
 						</div>
 						<div style="clear:both"></div>

@@ -29,9 +29,10 @@ use DB;
 use Illuminate\Http\Request;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
-class TransactionsappController extends AccountappBaseController
+//class TransactionsappController extends AccountappBaseController
+class TransactionsappController extends FrontController
 {
-	private $perPage = 10;
+	protected $perPage = 10;
 	
 	public function __construct()
 	{
@@ -72,7 +73,7 @@ class TransactionsappController extends AccountappBaseController
                     $query->where('user_id', $userid);
                 });
 			})
-		    ->select('*',\DB::raw('(SELECT CONCAT("https://www.dealnotdeal.com/storage/", pictures.filename) as filename  FROM pictures WHERE pictures.post_id = payments.post_id AND pictures.position = 1 ) AS image'))  
+		    ->select('*',\DB::raw('(SELECT CONCAT("https://www.tmmat.com/storage/", pictures.filename) as filename  FROM pictures WHERE pictures.post_id = payments.post_id AND pictures.position = 1 ) AS image'))  
 			->with(['post', 'paymentMethod', 'package' => function ($builder) { $builder->with(['currency']); }])
 			->orderByDesc('id');
 		

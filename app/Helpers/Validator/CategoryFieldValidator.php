@@ -17,7 +17,7 @@ namespace App\Helpers\Validator;
 
 use App\Models\Category;
 use App\Models\CategoryField;
-use Illuminate\Support\Facades\Input;
+
 
 class CategoryFieldValidator
 {
@@ -100,7 +100,7 @@ class CategoryFieldValidator
 				}
 			}
 			
-			if ($fieldAlreadyExistsInAChild && Input::get('disabled_in_subcategories') != 1) {
+			if ($fieldAlreadyExistsInAChild && request()->input('disabled_in_subcategories') != 1) {
 				return false;
 			}
 		}

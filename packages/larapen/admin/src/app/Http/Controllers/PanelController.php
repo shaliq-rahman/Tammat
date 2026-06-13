@@ -11,9 +11,13 @@ use Larapen\Admin\app\Http\Controllers\Features\TranslateItem;
 use Larapen\Admin\Panel;
 use Prologue\Alerts\Facades\Alert;
 
+use DB;
+use Illuminate\Support\Facades\Storage;
+
 // VALIDATION
 use Larapen\Admin\app\Http\Requests\Request as StoreRequest;
 use Larapen\Admin\app\Http\Requests\Request as UpdateRequest;
+
 
 class PanelController extends Controller
 {
@@ -159,12 +163,39 @@ class PanelController extends Controller
         // get the info for that entry
         $this->data['entry'] = $this->xPanel->getEntry($id);
         $this->data['xPanel'] = $this->xPanel;
+        $ip_addr = isset($this->data['xPanel']->update_fields['ip_addr']) ? $this->data['xPanel']->update_fields['ip_addr'] : '';
+        unset($this->data['xPanel']->update_fields['negotiable']);
+        unset($this->data['xPanel']->update_fields['verified_email']);
+        unset($this->data['xPanel']->update_fields['verified_phone']);
+        unset($this->data['xPanel']->update_fields['ip_addr']);
+
+        if(isset($this->data['xPanel']->update_fields['reviewed'])){
+            // add rejected
+            $this->data['xPanel']->update_fields['is_rejected'] = $this->data['xPanel']->update_fields['reviewed'];
+            $this->data['xPanel']->update_fields['is_rejected']['name'] = 'is_rejected';
+            $this->data['xPanel']->update_fields['is_rejected']['label'] = 'Rejected';
+            $this->data['xPanel']->update_fields['is_rejected']['wrapperAttributes']['class'] = 'form-group col-md-4';
+            
+            // add ip add
+            $this->data['xPanel']->update_fields['ip_addr'] = $ip_addr;
+    
+            // updates
+            $this->data['xPanel']->update_fields['reviewed']['name'] = 'reviewed';
+            $this->data['xPanel']->update_fields['reviewed']['label'] = 'Approved';
+            $this->data['xPanel']->update_fields['reviewed']['wrapperAttributes']['class'] = 'form-group col-md-4';
+            $this->data['xPanel']->update_fields['archived']['wrapperAttributes']['class'] = 'form-group col-md-4';
+            $this->data['xPanel']->update_fields['tags']['wrapperAttributes']['class'] = 'form-group col-md-12';
+        }
+
+
+
+
 		$this->data['saveAction'] = $this->getSaveAction();
         $this->data['fields'] = $this->xPanel->getUpdateFields($id);
         $this->data['title'] = trans('admin::messages.edit') . ' ' . $this->xPanel->entity_name;
 
         $this->data['id'] = $id;
-
+        
         return view('admin::panel.edit', $this->data);
     }
 
@@ -258,6 +289,25 @@ class PanelController extends Controller
             $id = $childId;
         }
 
+
+					$pictures= \DB::table('pictures')->where('post_id',$id)->get();
+					
+					if(!empty($pictures)){
+					
+					foreach($pictures as $pich){
+						
+						
+					 Storage::delete($pich->filename);					
+					  $query_update =  \DB::table('pictures')
+                       ->where('id', $pich->id)
+                       ->delete();
+					   
+						}
+						
+					}
+					
+					
+					
         return $this->xPanel->delete($id);
     }
 }

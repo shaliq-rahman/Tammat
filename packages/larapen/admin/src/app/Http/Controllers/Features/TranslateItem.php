@@ -35,7 +35,7 @@ trait TranslateItem
             $new_entry_attributes = $this->data['entry']->getAttributes();
             $new_entry_attributes['translation_lang'] = $lang;
             $new_entry_attributes['translation_of'] = $id;
-            $new_entry_attributes = array_except($new_entry_attributes, 'id');
+            $new_entry_attributes = \Illuminate\Support\Arr::except($new_entry_attributes, 'id');
 
             $new_entry = $model::create($new_entry_attributes);
 

@@ -15,7 +15,7 @@
 
 	@section('content')
 	@include('common.spacer')
-	<div class="main-container">
+	<div class="main-container"    style="margin-top: 50px;">
 		<div class="container">
 			<div class="row">
 				<div class="col-sm-3 page-sidebar">
@@ -25,7 +25,9 @@
 				
 				<div class="col-sm-9 page-content">
 					<div class="inner-box">
-						<h2 class="title-2"><i class="glyphicon glyphicon-hand-left"></i> {{ t('Offers Maker') }} </h2>
+						<div  style="background-color: #ff5555 ; border-radius: 40px;margin:7px;padding:12px 0px 0px 14px;">
+						<h2 class="title-2"  style="color: #fff"><i class="glyphicon glyphicon-hand-left"></i> {{ t('Offers Maker') }} </h2>
+                        </div>
 						
 						<div style="clear:both"></div>
 						
@@ -55,19 +57,19 @@
 										foreach($makeanoffers as $key => $makeanoffer):
 										    $status_counter_offer = 0;
 											$picture = \App\Models\Picture::where(['post_id' => $makeanoffer->post_id, 'position'=> 1])->get();
+											
 											if (!empty($picture[0]->filename)) {
 												$postImg = resize($picture[0]->filename, 'medium');
 											} else {
 												$postImg = resize(config('larapen.core.picture.default'));
 											}
-											$countryFlagPath = 'images/flags/16/' . strtolower($makeanoffer->country_code) . '.png';
 											
+											
+											$countryFlagPath = 'images/flags/16/' . strtolower($makeanoffer->country_code) . '.png';											
 											$getpostprice = \DB::table('posts')->where('id', '=', $makeanoffer->post_id)->first();
 											$postprice = $getpostprice->price;    
 											$statuscounter = '';
 											$rejected = '';
-											
-											
 											
 											$getcurrencycountry = \DB::table('countries')
 											->join('currencies', 'currencies.code', '=', 'countries.currency_code')
@@ -77,27 +79,28 @@
 											
 											$SendDeliveryInfo = '';
 											?>
-											@if($makeanoffer->close_offer == 1)
-											<?php
+											<?php if($makeanoffer->close_offer == 1)
+											{
 											$statuscounter = '<button style="cursor: auto;" class="btn btn-danger btn-sm">'.t('Closed').'</button>';
 											?>
 											
-											@else
+											<?php }else{?>
+                                            
 											@if(auth()->user()->id != $makeanoffer->offer_maker_id || $makeanoffer->approve_seller == 1 || $makeanoffer->approve_seller == 2)
-											@if($makeanoffer->approve_seller == 1)
-											@if(auth()->user()->id != $makeanoffer->offer_maker_id)
-											<?php
-											$statuscounter = '<button style="cursor: auto;" class="btn btn-success btn-sm">'.t('Deal').'</button>';
-											?>
-											@else
-											<?php
-											$SendDeliveryInfo = '<a data-offerid="'.$makeanoffer->id.'" data-postid="'.$makeanoffer->post_id.'"  data-val="'.lurl('posts/' . $makeanoffer->post_id . '/contact').'" id="proceedDeliveryPopup" style="margin-top: 10px;"  class="btn btn-primary btn-sm">'.t('Send Delivery Info').'</a>';
-											$statuscounter = '<button style="cursor: auto;" class="btn btn-success btn-sm">'.t('Accepted').'</button>';
-											?>
-											@endif	
+												@if($makeanoffer->approve_seller == 1)
+                                                @if(auth()->user()->id != $makeanoffer->offer_maker_id)
+                                                <?php
+                                                $statuscounter = '<button style="cursor: auto;" class="btn btn-success btn-sm">'.t('Deal').'</button>';
+                                                ?>
+                                                @else
+													<?php
+                                                    $SendDeliveryInfo = '<a data-offerid="'.$makeanoffer->id.'" data-postid="'.$makeanoffer->post_id.'"  data-val="'.lurl('posts/' . $makeanoffer->post_id . '/contact').'" id="proceedDeliveryPopup" style="margin-top: 10px;"  class="btn btn-primary btn-sm">'.t('Send Delivery Info').'</a>';
+                                                    $statuscounter = '<button style="cursor: auto;" class="btn btn-success btn-sm">'.t('Accepted').'</button>';
+                                                    ?>
+											    @endif	
 											@else
 											@if($makeanoffer->approve_seller == 2)
-											@if(auth()->user()->id != $makeanoffer->offer_maker_id)
+												@if(auth()->user()->id != $makeanoffer->offer_maker_id)
 											<?php
 											    $status_counter_offer = 1;
 									            $statuscounter = '<button style="cursor: auto;" class="btn btn-danger btn-sm">'.t('Counter-Offer').'</button>';
@@ -114,14 +117,16 @@
 											$statuscounter = '<button style="cursor: auto;" class="btn btn-danger btn-sm">'.t('New Offer').'</button>';
 											?>
 											@endif	        
-											@endif	
+											
+                                            @endif	
 											@else
 											<?php
 											$statuscounter = '<button style="cursor: auto;" class="btn btn-danger btn-sm">'.t('Awaiting Response').'</button>';
 											?>
 											
 											@endif
-											@endif
+										
+                                        	<?php }?>
 											
 												<?php
 													$sellername = \DB::table('users')
@@ -182,7 +187,7 @@
 
 																<a  target="_blank" href="{{ lurl('/').'/'.slugify($makeanoffer->title).'/'.$makeanoffer->post_id }}"><img style="<?=!empty($rejected)?'opacity: 0.4;':''?>" class="thumbnail img-responsive" src="{{ $postImg }}" alt="img"></a>
 																<strong>
-																	<a target="_blank" href="{{ lurl('/').'/'.slugify($makeanoffer->title).'/'.$makeanoffer->post_id }}" title="{{ $makeanoffer->title }}">{{ str_limit($makeanoffer->title, 40) }}</a>
+																	<a target="_blank" href="{{ lurl('/').'/'.slugify($makeanoffer->title).'/'.$makeanoffer->post_id }}" title="{{ $makeanoffer->title }}">{{ \Illuminate\Support\Str::limit($makeanoffer->title, 40) }}</a>
 																</strong>
 																<p>	
 																	

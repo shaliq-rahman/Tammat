@@ -26,10 +26,21 @@
 				@include('post.inc.notification')
 
 				<div class="col-md-12 page-content">
+                
+                
+               
+                
+                
+                
 					<div class="inner-box category-content">
-						<h2 class="title-2"><strong> <i class="icon-docs"></i> 
-						{{ t('Select Main Category') }}
-						</strong></h2>
+                        <div class="col-lg-12 box-title no-border" style="background-color: #ff5555 ; border-radius: 40px;margin:7px">
+                        <h2  style="color: #fff"><i class="icon-docs"></i> 
+						{{ t('Select Main Category') }}</h2> 
+                        <br />
+                    </div>
+                
+                
+                
 						<div class="row row-featured row-featured-category">
 						
 							    
@@ -37,7 +48,7 @@
 							
 				<?php if (isset($categories) and $categories->count() > 0) { ?>
 						@foreach($categories as $key => $cat)
-							<div class="col-lg-2 col-md-3 col-sm-3 col-xs-4 f-category">
+							<div class="col-lg-3 col-md-3 col-sm-3 col-xs-4 col-lg-2-new f-category" style="border-radius: 40px">
 								<?php $attr = ['countryCode' => config('country.icode'), 'catSlug' => $cat->slug]; ?>
 								
 									<?php
@@ -110,7 +121,7 @@
 	        
                 google.maps.event.addDomListener(window, 'load', initialize);
         </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD3HKnsvpSAYaoQQ-wIeqDBTjb69hJ-vMw&libraries=places&callback=initialize"
+    <script src="https://maps.googleapis.com/maps/api/js?key={{ config('services.GoogleMaps.key') }}&libraries=places&callback=initialize"
          async defer></script>
          
 
@@ -224,7 +235,7 @@
 		var lang = {
 			'select': {
 				'category': "{{ t('Select a category') }}",
-				'subCategory': "{{ t('Select a sub-category') }}",
+				'subCategory': "{{ t('Select a subcategory') }}",
 				'country': "{{ t('Select a country') }}",
 				'admin': "{{ t('Select a location') }}",
 				'city': "{{ t('Select a city') }}"

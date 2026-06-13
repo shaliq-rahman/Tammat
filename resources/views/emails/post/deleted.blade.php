@@ -11,6 +11,7 @@
     <table style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6em; width: 100%; margin: 0; padding: 0;">
         <tr style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6em; margin: 0; padding: 0;">
             <td style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6em; margin: 0; padding: 0;">
+                @if($flag == 1)
                 <p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6em; font-weight: normal; margin: 0 0 10px; padding: 0; display: inline-block; max-width: 100%; word-wrap: break-word;">@lang('mail.post_deleted_content_1', [
                         'title'   => $post->title,
                         'now'     => \Date::now(config('timezone.id'))->formatLocalized(config('settings.app.default_date_format')),
@@ -23,6 +24,17 @@
                         'appName' => config('app.name')
                     ])
                     @lang('mail.post_deleted_content_4')</p>
+                @else
+                    <p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6em; font-weight: normal; margin: 0 0 10px; padding: 0; display: inline-block; max-width: 100%; word-wrap: break-word;">
+                        @lang('mail.user_post_deleted_content_1', [
+                        //'userName' => $user->name,
+                        'userName' => 'User',
+                        'postTitle' => $post->title,
+                        'postNumber' => $post->id,
+                    ])
+                    @lang('mail.post_deleted_content_2')
+                    </p>
+                @endif
             </td>
         </tr>
     </table>

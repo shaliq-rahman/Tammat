@@ -88,11 +88,14 @@ class Country extends BaseModel
     // protected $hidden = [];
     
     /**
-     * The attributes that should be mutated to dates.
+     * The attributes that should be cast.
      *
      * @var array
      */
-    protected $dates = ['created_at', 'created_at'];
+    protected $casts = [
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+    ];
     
     /*
     |--------------------------------------------------------------------------
@@ -251,8 +254,8 @@ class Country extends BaseModel
 				$this->attributes[$attribute_name] = $destination_path . '/' . $filename;
 			} else {
 				// Retrieve current value without upload a new file.
-				if (!starts_with($value, $destination_path)) {
-					$value = $destination_path . last(explode($destination_path, $value));
+				if (!str_starts_with($value, $destination_path)) {
+					$value = $destination_path . array_slice(explode($destination_path, $value), -1)[0];
 				}
 				$this->attributes[$attribute_name] = $value;
 			}

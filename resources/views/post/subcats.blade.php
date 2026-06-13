@@ -173,7 +173,7 @@
 	        
                 google.maps.event.addDomListener(window, 'load', initialize);
         </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD3HKnsvpSAYaoQQ-wIeqDBTjb69hJ-vMw&libraries=places&callback=initialize"
+    <script src="https://maps.googleapis.com/maps/api/js?key={{ config('services.GoogleMaps.key') }}&libraries=places&callback=initialize"
          async defer></script>
          
 

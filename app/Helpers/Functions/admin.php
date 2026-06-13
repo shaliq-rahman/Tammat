@@ -151,7 +151,7 @@ function getPostUrl($post)
 
     // Get URL
     $url = url(config('app.locale') . '/' . $post->uri) . $preview;
-    $out = '<a href="' . $url . '" target="_blank">' . str_limit($post->title, 60) . '</a>' . $out;
+    $out = '<a href="' . $url . '" target="_blank">' . \Illuminate\Support\Str::limit($post->title, 60) . '</a>' . $out;
 
     return $out;
 }

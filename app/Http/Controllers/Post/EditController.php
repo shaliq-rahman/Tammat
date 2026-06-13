@@ -189,54 +189,146 @@ class EditController extends FrontController
     public function postForm($postId, PostRequest $request)
     {
         // dd($request);
-        // $postval=$request->input();
+          $postval=$request->input();
+      if(!empty($postval['cf'])){
+          $keys = array_keys($postval['cf']);
       
-        // $keys = array_keys($postval['cf']);
+         $valuex = array_values($postval['cf']);
+	  }else{
+		  
+		   $keys = array();
       
-        // $value = array_values($postval['cf']);
-       
-    //    $keySearch = 530; 
-       // print_r(array_keys($value[7]));//exit(); 
-        //print_r(array_values($value[7]));exit(); 
-    //    for($i=0;$i<sizeof($value);$i++) {
-    //      if ($keys[$i] == $keySearch) {
-    //         if($value[$i]==""){
-    //             $value[$i]="";
-    //         }
-    //         $optionId=array_keys($value[$i]);
-    //          $value=array_values($value[$i]);
-    //         for($j=0;$j<sizeof($optionId);$j++) {
-    //         $values = array('post_id' =>$postId,'field_id' => $keys[$i],'option_id'=>$optionId[$j],'value'=>$value[$j]);
-    //         DB::table('post_values')->insert($values);
-    //         }
-    //         //return true;
-    //     } else {
-    //         if($value[$i]==""){
-    //             $value[$i]="";
-    //         }
-    //         $optionId=0;
-    //        $values = array('post_id' =>$postId,'field_id' => $keys[$i],'option_id'=>$optionId,'value'=>$value[$i]);
-    //     DB::table('post_values')->insert($values);
+         $valuex = array();
+		  }
+        // dd($valuex);
+         $keySearch = 530; 
+		// print_r($value[4]);//exit(); 
+        // print_r(array_keys($value[4]));//exit(); 
+        // print_r(array_values($value[4]));exit(); 
+		
+ 	/*	 for($i=0;$i<(sizeof($valuex));$i++) {
+			 echo $keys[$i]."zzzzzz".sizeof($valuex)."zzzzz";
+          if ($keys[$i] == $keySearch) {
+              if($valuex[$i]==""){
+                  $valuex[$i]="";
+              }
+              $optionId=array_keys($valuex[$i]);
+              $value=array_values($valuex[$i]);
+              for($j=0;$j<sizeof($optionId);$j++) {
+				 if($optionId[$j] != 0){
+              echo 'post_id =>'.$postId.',field_id => '.$keys[$i].',option_idx=>'.$optionId[$j].',value=>'.$value[$j]."<br />";
+					}
+              //DB::table('post_values')->insert($values);
+             }
+              //return true;
+          } else {
+			   
+             if($valuex[$i]==""){
+                  $valuex[$i]="";
+             }
+              $optionId=0;
+           // $values = array('post_id' =>$postId,'field_id' => $keys[$i],'option_id'=>$optionId,'value'=>$value[$i]);
+			 echo 'post_id =>'.$postId.',field_id => '.$keys[$i].',option_id=>'.$optionId.',value=>'.$valuex[$i]."<br />";
+        // DB::table('post_values')->insert($values);
             
-    //     }
+          }
         
-    // }
- //exit();
-    
-      
-        $getlocation = $this->getlocationcity($request->input('city_name'));
+      }
+	  exit(); */
+	  
+	  $deletedRows = DB::table('post_values')->where('post_id', $postId)->delete();
+        for($i=0;$i<(sizeof($valuex));$i++) {
+          if ($keys[$i] == $keySearch) {
+              if($valuex[$i]==""){
+                  $valuex[$i]="";
+              }
+              $optionId=array_keys($valuex[$i]);
+              $value=array_values($valuex[$i]);
+              for($j=0;$j<sizeof($optionId);$j++) {
+				  if($optionId[$j] > 0){
+             $values = array('post_id' =>$postId,'field_id' => $keys[$i],'option_id'=>$optionId[$j],'value'=>$value[$j]);
+              DB::table('post_values')->insert($values);
+			  }
+             }
+              //return true;
+          } else {
+			   
+             if($valuex[$i]==""){
+                  $valuex[$i]="";
+             }
+              $optionId=0;
+              $valuesqwe=array();
+              if(is_array($valuex[$i])==1){
+                 
+                  // dd($valuex[$i]);
+                    foreach($valuex[$i] as $keyz => $valuez){
+
+                       // $values= array('post_id' =>$postId,'field_id' => $keys[$i],'option_id'=>$optionId,'value'=>$valuex);
+                       
+                        DB::table('post_values')->insert([
+                            'post_id' =>$postId,'field_id' => $keys[$i],'option_id'=>$optionId,'value'=>$valuez
+                        ]);
+
+                        $valuesqwe[] =$valuez;
+                      //  DB::table('post_values')->insert($values);
+                       
+                    }
+                   // dd($valuesqwe);
+
+                }else{
+                    
+                    $vle=$valuex[$i];
+                    $values = array('post_id' =>$postId,'field_id' => $keys[$i],'option_id'=>$optionId,'value'=>$vle);
+                    DB::table('post_values')->insert($values);
+                }
+
+                
+           // $values = array('post_id' =>$postId,'field_id' => $keys[$i],'option_id'=>$optionId,'value'=>$vle);
         
-         $lat = !empty($getlocation['lat'])?$getlocation['lat']:0;
-		 $lng = !empty($getlocation['lng'])?$getlocation['lng']:0;
-		
-		
-		$country_code = strtoupper(config('country.icode'));
+            
+          }
+        
+      } 
+	  
+	  
+	  
+	  		
+		$country_code = strtoupper(config('country.code'));
 		$cityname = $request->input('city_name');
+		
+		
+		
+		 
+					   
+					   
+			   $city_query = \DB::table('posts')->select('lat','lon','city_id')->where('city_name', 'like', '%'.$cityname.'%')->first();
+			   $lat = !empty($city_query->lat)?$city_query->lat:0;
+			   $lng = !empty($city_query->lon)?$city_query->lon:0;
+			   $locationid =!empty($city_query->city_id)?$city_query->city_id:0;
+			   
+			   if($lat == 0 && $lng == 0){
+				   
+		      $city_query = \DB::table('cities')->select('latitude','longitude','id')->where('name', 'like', '%'.$cityname.'%')->first();
+			  $lat = !empty($city_query->latitude)?$city_query->latitude:0;
+			  $lng = !empty($city_query->longitude)?$city_query->longitude:0;
+		      if(!empty($city_query->id)){$locationid = $city_query->id;}
+	 
+	 if($lat == 0 && $lng == 0){		 
+		 
+       $getlocation = $this->getlocationcity($cityname);
+        
+          $lat = !empty($getlocation['lat'])?$getlocation['lat']:0;
+		  $lng = !empty($getlocation['lng'])?$getlocation['lng']:0;
+		  
+				
 		
 		$subadmin1_code_query = \DB::table('subadmin1')
 		    ->where('country_code','=',$country_code)
            ->select('code')
            ->first();
+           
+           
+        
            
 		$subadmin1_code = !empty($subadmin1_code_query->code)?$subadmin1_code_query->code:'';
 		
@@ -246,6 +338,8 @@ class EditController extends FrontController
 		   ->select('code')
            ->first();
            
+          
+           
         $subadmin2_code = !empty($subadmin2_code_query->code)?$subadmin2_code_query->code:'';           
            
      	$timezon_query = \DB::table('time_zones')
@@ -253,18 +347,25 @@ class EditController extends FrontController
            ->select('time_zone_id')
            ->first();
            
-        $timezon = !empty($timezon_query->time_zone_id)?$timezon_query->time_zone_id:'';           
+        $timezon = !empty($timezon_query->time_zone_id)?$timezon_query->time_zone_id:'';    
+		
+		   $city_data = \DB::insert('insert into cities (country_code, name, asciiname,latitude,longitude,subadmin1_code,subadmin2_code,active,time_zone,created_at,updated_at) 
+       values ("'.$country_code.'", "'.request()->get('location').'", "'.request()->get('location').'", "'.$lat.'", "'.$lng.'", "'.$subadmin1_code.'", "'.$subadmin2_code.'", 1, "'.$timezon.'", "'.date('Y-m-d H:i:s').'", "'.date('Y-m-d H:i:s').'")');
+	   
+	    $locationid = \DB::getPdo()->lastInsertId();
+	   
+	 }
+	 
+	 }
+	 
       
-      \DB::update('update cities set country_code = "'.$country_code.'",
-      name = "'.$cityname.'",
-      asciiname = "'.$cityname.'",
-      latitude = "'.$lat.'",
-      longitude = "'.$lng.'",
-      subadmin1_code = "'.$subadmin1_code.'",
-      subadmin2_code = "'.$subadmin2_code.'",
-      time_zone = "'.$timezon.'",
-      updated_at = "'.date('Y-m-d H:i:s').'" 
-      where id = "'.$request->input('city_id').'" ');
+        $city_id = $locationid;
+	  
+	  
+	  
+	  $request->merge([
+    'city_id' =>  $locationid,
+]);
       
         $checkpaymentpayaccount = \DB::table('payments')->where('post_id', '=', $postId)->where('active', '=', 1)->count();
       
@@ -274,7 +375,7 @@ class EditController extends FrontController
         }    
 
 
-
+        \DB::table('posts')->where('id', $postId)->update(['is_rejected' => 0]);
         return $this->postUpdateForm($postId, $request);
     }
     

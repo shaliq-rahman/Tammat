@@ -392,7 +392,7 @@
                                                                         
                                                                         
                         <div class="form-group required ">
-								<label for="from_email" style="margin-bottom: 6px;" class="control-label">{{t('Show my Email to public')}}</label>
+								<label for="from_email" style="margin-bottom: 6px;" class="control-label">{{t('Show my Email on the Ad')}}</label>
 								<div style="clear:both"></div>
 								<div class="col-md-6" style="padding: 0px;margin-top: 9px;width: 3%;">
 								    <input id="EmailCheckbox" checked type="checkbox">
@@ -409,7 +409,7 @@
                                                                         
                                                            
 	                    <div class="form-group required ">
-							<label for="phone" style="margin-bottom: 6px;" class="control-label">{{t('Show my Phone to public')}}</label>
+							<label for="phone" style="margin-bottom: 6px;" class="control-label">{{t('Show my phone number on the Ad')}}</label>
 							<div style="clear:both"></div>
 							<div class="col-md-6"  style="padding: 0px;margin-top: 9px;width: 3%;">
 						      <input id="PhoneCheckbox" checked type="checkbox">
@@ -518,7 +518,7 @@
 
                                                 <div class="row payment-plugin" id="paypalPaymentKnet" style="display: none;">
                                                     <div class="col-xs-12 col-md-8 box-center center">
-                                                        <img class="img-responsive box-center center" title="Payment with Paypal" style="margin-bottom: 20px;" src="http://dealnotdeal.com/images/knet.png">
+                                                        <img class="img-responsive box-center center" title="Payment with Paypal" style="margin-bottom: 20px;" src="http://tmmat.com/images/knet.png">
                                                     </div>
                                                 </div>   
                                             
@@ -598,77 +598,6 @@
     @include('layouts.inc.tools.wysiwyg.js')
 
 
-<script type="text/javascript">
-	       // $('document').ready(function(){
-                
-        //         $('body').delegate('#city_name','keypress',function(){
-        //                 var input = document.getElementById('city_name');
-        //                 initialize(input);
-        //         });
-                
-	       // });    
-                function initialize() {
-                    //   new google.maps.places.Autocomplete(input);
-                    var input = document.getElementById('city_name');
-                    var options = {
-                    types: ['(cities)'],
-                        componentRestrictions: {country: "{{config('country.icode')}}"}
-                    };
-                    var autocomplete = new google.maps.places.Autocomplete(input, options);
-                    
-                }
-	        
-                google.maps.event.addDomListener(window, 'load', initialize);
-        </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD3HKnsvpSAYaoQQ-wIeqDBTjb69hJ-vMw&libraries=places&callback=initialize"
-         async defer></script>
-         
-
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.13.1/jquery.validate.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.payment/1.2.3/jquery.payment.min.js"></script>
-	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-	
-
-
-
-
-
- <script>
- 	
-
-
-	    $('#EmailCheckbox').change(function(){
-            if($(this).is(":checked")) 
-	        {
-	            var email = $('#from_email_checkbox').val();
-	            $('#from_email').val(email);
-	            $('#ShowEmailusingCheckbox').show();
-	        }
-	        else
-	        {
-	            $('#from_email').val('');
-	            $('#ShowEmailusingCheckbox').hide();
-	        }
-	    });
-	    
-	    
-        $('#PhoneCheckbox').change(function(){
-            if($(this).is(":checked")) 
-	        {
-	            var phone = $('#from_phone_checkbox').val();
-	            $('#from_phone').val(phone);
-	            
-	            $('#ShowPhoneusingCheckbox').show();
-	        }
-	        else
-	        {
-	            $('#from_phone').val('');
-	            $('#ShowPhoneusingCheckbox').hide();
-	        }
-	        
-	    });
-	    
-	</script>    
     <script>
         @if (isset($packages) and isset($paymentMethods) and $packages->count() > 0 and $paymentMethods->count() > 0)
 				
@@ -838,23 +767,7 @@
             	});
             	
 	});
-	
-		/* Translation */
-		var lang = {
-			'select': {
-				'category': "{{ t('Select a category') }}",
-				'subCategory': "{{ t('Select a sub-category') }}",
-				'country': "{{ t('Select a country') }}",
-				'admin': "{{ t('Select a location') }}",
-				'city': "{{ t('Select a city') }}"
-			},
-			'price': "{{ t('Price') }}",
-			'salary': "{{ t('Salary') }}",
-			'nextStepBtnLabel': {
-			    'next': "{{ t('Next') }}",
-                'submit': "{{ t('Submit') }}"
-			}
-		};
+
 		
 		/* Categories */
 		var category = {{ old('parent_id', 0) }};
@@ -882,69 +795,6 @@
             packageIsEnabled = true;
         @endif
 		
-		//Auto load city
-		var input = document.getElementById('city_id');
-		var opts = {
-		  types: ['(cities)']
-		};
-		var autocomplete = new google.maps.places.Autocomplete(input,opts);
-		
-		// Begin of the code made by MonTech Team
-		var currgeocoder;
-		function get_location(){
-			 navigator.geolocation.getCurrentPosition(function(position, html5Error) {
-				 geo_loc = processGeolocationResult(position);
-				 currLatLong = geo_loc.split(",");
-				 initializeCurrent(currLatLong[0], currLatLong[1]);
-			});
-		}
-		//Get geo location result
-       function processGeolocationResult(position) {
-             html5Lat = position.coords.latitude; //Get latitude
-             html5Lon = position.coords.longitude; //Get longitude
-             html5TimeStamp = position.timestamp; //Get timestamp
-             html5Accuracy = position.coords.accuracy; //Get accuracy in meters
-             return (html5Lat).toFixed(8) + ", " + (html5Lon).toFixed(8);
-       }
-
-        //Check value is present or not & call google api function
-        function initializeCurrent(latcurr, longcurr) {
-             currgeocoder = new google.maps.Geocoder();
-             //console.log(latcurr + "-- ######## --" + longcurr);
-
-             if (latcurr != '' && longcurr != '') {
-                 var myLatlng = new google.maps.LatLng(latcurr, longcurr);
-                 return getCurrentAddress(myLatlng);
-             }
-       }
-
-        //Get current address
-         function getCurrentAddress(location) {
-			 currgeocoder.geocode({'location': location}, function(results, status) {
-                if (status == google.maps.GeocoderStatus.OK) {
-                    //console.log(results[1]);
-					if (results[1]) {
-						result = results[1];
-						var country = null, countryCode = null, city = null, cityAlt = null;
-						var c, lc, component;
-						for (c = 0, lc = result.address_components.length; c < lc; c += 1) {
-								component = result.address_components[c];
-									if (component.types[0] === 'locality') {
-										city = component.long_name;
-										break;
-							}
-						}
-						if(city){
-							$("input[name='city_id']").val(city);
-						}
-					}
-                } else {
-                    console.log('Geocode was not successful for the following reason: ' + status);
-                }
-            });
-         }
-		// End of the code made by MonTech Team
-	</script>
 	<script>
 		$(document).ready(function() {
 			$('#tags').tagit({

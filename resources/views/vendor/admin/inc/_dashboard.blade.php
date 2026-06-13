@@ -2,7 +2,7 @@
 
 <!-- Small boxes (Stat box) -->
 <div class="row">
-	<div class="col-lg-3 col-xs-6">
+	<div class="col-lg-2 col-xs-6">
 		<!-- small box -->
 		<div class="small-box bg-yellow">
 			<div class="inner">
@@ -20,7 +20,7 @@
 	</div>
 	<!-- ./col -->
 
-	<div class="col-lg-3 col-xs-6">
+	<div class="col-lg-2 col-xs-6">
 		<!-- small box -->
 		<div class="small-box bg-green">
 			<div class="inner">
@@ -38,6 +38,23 @@
 	</div>
 	<!-- ./col -->
 
+	<div class="col-lg-2 col-xs-6">
+		<!-- small box -->
+		<div class="small-box bg-red">
+			<div class="inner">
+				<h3>{{ $countRejectedPosts }}</h3>
+
+				<p>{{ trans('Rejected ads') }}</p>
+			</div>
+			<div class="icon">
+				<i class="fa fa-check-circle-o"></i>
+			</div>
+			<a href="{{ url(config('larapen.admin.route_prefix', 'admin') . '/posts?rejected=1') }}" class="small-box-footer">
+				{{ trans('admin::messages.View more') }} <i class="fa fa-arrow-circle-right"></i>
+			</a>
+		</div>
+	</div>
+	<!-- ./col -->
 	<div class="col-lg-3 col-xs-6">
 		<!-- small box -->
 		<div class="small-box bg-aqua">
@@ -219,7 +236,7 @@
                                     </td>
                                     <td>
                                         <a href="{{ url(config('larapen.admin.route_prefix', 'admin') . '/users/'.$user->id.'/edit') }}">
-                                            {{ str_limit($user->name, 70) }}
+                                            {{ \Illuminate\Support\Str::limit($user->name, 70) }}
                                         </a>
                                     </td>
                                     <td>

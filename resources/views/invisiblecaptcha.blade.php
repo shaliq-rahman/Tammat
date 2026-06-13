@@ -92,6 +92,9 @@
         // messagingSenderId: "976649279867",
         // // appId: "1:976649279867:web:6a4c11707b2e6f913705de",
         // // measurementId: "G-X5GPSFGCKJ"
+    
+        /*  this is last configration   
+    
         apiKey: "AIzaSyCQSZX-HXslGe8gVHbb6_D35bdYQrS2WFw",
         authDomain: "dealnotdealweb.firebaseapp.com",
         databaseURL: "https://dealnotdealweb.firebaseio.com",
@@ -101,10 +104,29 @@
         // appId: "1:670297019656:web:bf1e222cf20dca3e0208bd",
         // measurementId: "G-HD7HZT1YR1"
 
+
+        */
+
+
+
+   apiKey: "AIzaSyD8GdePwqtn_AUN98KKj8eddsxOwND3Wkg",
+  authDomain: "fifth-tensor-355408.firebaseapp.com",
+  databaseURL: "https://fifth-tensor-355408-default-rtdb.firebaseio.com/",
+  projectId: "fifth-tensor-355408",
+  storageBucket: "fifth-tensor-355408.appspot.com",
+  messagingSenderId: "551696870023",
+  appId: "1:551696870023:web:c11b31855c04aab32fe622",
+  measurementId: "G-019G8VRYP2"
+
+
     };
     firebase.initializeApp(config);
+    firebase.auth().languageCode = 'it';
+// To apply the default browser preference instead of explicitly setting it.
+// firebase.auth().useDeviceLanguage();
 
     var database = firebase.database();
+    let confirmationResult; // Declaration in a scope accessible to both functions
   /**
    * Set up UI event listeners and registering Firebase auth listeners.
    */
@@ -154,6 +176,8 @@
     });
   };
 
+var recaptchaResponse = grecaptcha.getResponse(window.recaptchaWidgetId);
+
   /**
    * Function called when clicking the Login/Logout button.
    */
@@ -189,6 +213,7 @@
    * Function called when clicking the "Verify Code" button.
    */
   function onVerifyCodeSubmit(e) {
+    //for test 1
     e.preventDefault();
     if (!!getCodeFromUserInput()) {
       window.verifyingCode = true;

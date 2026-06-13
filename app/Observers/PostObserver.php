@@ -24,7 +24,7 @@ use App\Models\PostValue;
 use App\Models\SavedPost;
 use App\Models\Scopes\StrictActiveScope;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Input;
+
 use Illuminate\Support\Facades\Storage;
 use App\Notifications\PostArchived;
 
@@ -40,7 +40,7 @@ class PostObserver
     {
     	/*
         // Get the Post's Category
-        $cat = Category::find(Input::get('parent_id'));
+        $cat = Category::find(request()->input('parent_id'));
         if (!empty($cat)) {
             // Pictures files cleanup by category type
             if (in_array($cat->type, ['job-offer', 'job-search'])) {

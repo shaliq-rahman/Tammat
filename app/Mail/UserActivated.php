@@ -23,7 +23,6 @@ use App\Models\User;
 class UserActivated extends Mailable
 {
     use Queueable, SerializesModels;
-
     public $user;
 
     /**
@@ -31,10 +30,13 @@ class UserActivated extends Mailable
      *
      * @param User $user
      */
-    public function __construct(User $user)
-    {
-        $this->user = $user;
 
+    public function __construct(User $user)
+    { 
+        $fromname = 'Tammat';
+        $from_email = 'admin@tmmat.com';        
+        $this->user = $user;        
+        $this->from($from_email, $fromname);
         $this->to($user->email, $user->name);
         $this->subject(trans('mail.user_activated_title', ['appName' => config('app.name'), 'userName' => $user->name]));
     }
@@ -48,4 +50,5 @@ class UserActivated extends Mailable
     {
         return $this->view('emails.user.activated');
     }
+    
 }

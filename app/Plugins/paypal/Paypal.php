@@ -21,6 +21,249 @@ class Paypal extends Payment
      * @return $this|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      * @throws \Exception
      */
+    public static function sendPaymentNew(Request $request,$point)
+    {
+		 
+		
+        // Set URLs
+		 $title=$point->no_points."( Points )";
+		parent::$uri['previousUrl']= config('app.locale') . '/account/recharge_points?point_id=#entryId';
+		parent::$uri['nextUrl']= config('app.locale') . '/account/recharge_points?point_id=#entryId&payment=success';
+		parent::$uri['paymentCancelUrl']= config('app.locale') . '/account/recharge_points?point_id=#entryId&payment=cancel';
+		parent::$uri['paymentReturnUrl']= config('app.locale') . '/account/recharge_points?point_id=#entryId&payment=return';
+		
+        parent::$uri['previousUrl'] = str_replace(['#entryToken', '#entryId'], [$point->id, $point->id], parent::$uri['previousUrl']);
+        parent::$uri['nextUrl'] = str_replace(['#entryToken', '#entryId', '#title'], [$point->id, $point->id, slugify($title)], parent::$uri['nextUrl']);
+        parent::$uri['paymentCancelUrl'] = str_replace(['#entryToken', '#entryId'], [$point->id, $point->id], parent::$uri['paymentCancelUrl']);
+        parent::$uri['paymentReturnUrl'] = str_replace(['#entryToken', '#entryId'], [$point->id, $point->id], parent::$uri['paymentReturnUrl']);
+
+        // Get the Package
+       // $package = Package::find($request->input('package_id'));
+		$package = \DB::table('points')->where('id', '=', $request->point_id)->first(); 
+
+        // Don't make a payment if 'price' = 0 or null
+        if (empty($package) || $package->price <= 0) {
+            return redirect(parent::$uri['previousUrl'] . '?error=package')->withInput();
+        }
+
+        /*SET Price based on selected currency*/
+        if (!empty(Session::get('currency'))) {
+            $package->price = getCurrencyAmount(Session::get('currency'), $package->price);
+            $package->currency_code = Session::get('currency');
+        }
+
+        // API Parameters
+        $providerParams = [
+            'cancelUrl' => parent::$uri['paymentCancelUrl'],
+            'returnUrl' => parent::$uri['paymentReturnUrl'],
+            'name' => $package->name,
+            'description' => $package->name,
+            'amount' => Number::toFloat($package->price),
+            'currency' => $package->currency_code,
+        ];
+
+        // Local Parameters
+        $localParams = [
+            'payment_method_id' => $request->input('payment_method_id'),
+            'point_id' => $point->id,
+            'package_id' => $package->id,
+        ];
+        $localParams = array_merge($localParams, $providerParams);
+
+        // Try to make the Payment
+        try {
+            $gateway = Omnipay::create('PayPal_Express');
+            $gateway->setUsername(config('payment.paypal.username'));
+            $gateway->setPassword(config('payment.paypal.password'));
+            $gateway->setSignature(config('payment.paypal.signature'));
+            $gateway->setTestMode((config('payment.paypal.mode') == 'sandbox') ? true : false);
+
+            // $gateway = Omnipay::create('PayPal_Express');
+            // $gateway->setUsername('prof.alolayan_api1.gmail.com');
+            // $gateway->setPassword('H3QTY22Y2T5VPBVK');
+            // $gateway->setSignature('AteqDFq8qSmENryr7KX0vAzjxGc3AgNuWYZ6BDD.gQ3d94QmytRJy5f8');
+            // $gateway->setTestMode((config('payment.paypal.mode') != 'sandbox') ? true : false);
+
+
+            // Card Data
+            // $providerParams['card'] = [];
+
+            // Make the payment
+            $response = $gateway->purchase($providerParams)->send();
+
+            // Save the Transaction ID at the Provider
+            $localParams['transaction_id'] = $response->getTransactionId();
+
+            // Save local parameters into session
+            Session::put('params', $localParams);
+            Session::save();
+
+            // Payment by Credit Card when Card info are provide from the form.
+            if ($response->isSuccessful()) {
+
+                // Check if redirection to offsite payment gateway is needed
+                if ($response->isRedirect()) {
+                    return $response->redirect();
+                }
+
+                // Apply actions after successful Payment
+                return self::paymentConfirmationActions($localParams, $point);
+
+            } elseif ($response->isRedirect()) {
+
+                // Redirect to offsite payment gateway
+                // Redirect to success URL to make the payment on the Paypal website
+                return $response->redirect();
+
+            } else {
+
+                // Apply actions when Payment failed
+                return parent::paymentFailureActions($point, $response->getMessage());
+
+            }
+        } catch (\Exception $e) {
+
+            // Apply actions when API failed
+            return parent::paymentApiErrorActions($point, $e);
+
+        }
+    }
+
+
+
+     /**
+     * Send Payment
+     *
+     * @param Request $request
+     * @param Post $post
+     * @return $this|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @throws \Exception
+     */
+    public static function sendPaymentNewApi(Request $request,$point)
+    {
+		 
+		
+        // Set URLs
+		 $title=$point->no_points."( Points )";
+		parent::$uri['previousUrl']= config('app.locale') . '/account/recharge_points?point_id=#entryId';
+		parent::$uri['nextUrl']= config('app.locale') . '/account/recharge_points?point_id=#entryId&payment=success';
+		parent::$uri['paymentCancelUrl']= config('app.locale') . '/account/recharge_points?point_id=#entryId&payment=cancel';
+		parent::$uri['paymentReturnUrl']= config('app.locale') . '/account/recharge_points?point_id=#entryId&payment=return';
+		
+        parent::$uri['paymentUrl']= 'https://www.paypal.com/cgi-bin/webscr?cmd=_express-checkout&useraction=commit&token=#entryId';
+
+        parent::$uri['previousUrl'] = str_replace(['#entryToken', '#entryId'], [$point->id, $point->id], parent::$uri['previousUrl']);
+        parent::$uri['nextUrl'] = str_replace(['#entryToken', '#entryId', '#title'], [$point->id, $point->id, slugify($title)], parent::$uri['nextUrl']);
+        parent::$uri['paymentCancelUrl'] = str_replace(['#entryToken', '#entryId'], [$point->id, $point->id], parent::$uri['paymentCancelUrl']);
+        parent::$uri['paymentReturnUrl'] = str_replace(['#entryToken', '#entryId'], [$point->id, $point->id], parent::$uri['paymentReturnUrl']);
+        
+        parent::$uri['paymentUrl'] = str_replace(['#entryToken', '#entryId'], [$point->id, $point->id], parent::$uri['paymentUrl']);
+        // Get the Package
+       // $package = Package::find($request->input('package_id'));
+		$package = \DB::table('points')->where('id', '=', $request->point_id)->first(); 
+
+        // Don't make a payment if 'price' = 0 or null
+        if (empty($package) || $package->price <= 0) {
+            return redirect(parent::$uri['previousUrl'] . '?error=package')->withInput();
+        }
+
+        /*SET Price based on selected currency*/
+        if (!empty(Session::get('currency'))) {
+            $package->price = getCurrencyAmount(Session::get('currency'), $package->price);
+            $package->currency_code = Session::get('currency');
+        }
+
+        // API Parameters
+        $providerParams = [
+            'cancelUrl' => parent::$uri['paymentCancelUrl'],
+            'returnUrl' => parent::$uri['paymentReturnUrl'],
+            'name' => $package->name,
+            'description' => $package->name,
+            'amount' => Number::toFloat($package->price),
+            'currency' => $package->currency_code,
+        ];
+
+        // Local Parameters
+        $localParams = [
+            'payment_method_id' => $request->input('payment_method_id'),
+            'point_id' => $point->id,
+            'package_id' => $package->id,
+        ];
+        $localParams = array_merge($localParams, $providerParams);
+
+        // Try to make the Payment
+        try {
+            $gateway = Omnipay::create('PayPal_Express');
+            $gateway->setUsername(config('payment.paypal.username'));
+            $gateway->setPassword(config('payment.paypal.password'));
+            $gateway->setSignature(config('payment.paypal.signature'));
+            $gateway->setTestMode((config('payment.paypal.mode') == 'sandbox') ? true : false);
+
+            // $gateway = Omnipay::create('PayPal_Express');
+            // $gateway->setUsername('prof.alolayan_api1.gmail.com');
+            // $gateway->setPassword('H3QTY22Y2T5VPBVK');
+            // $gateway->setSignature('AteqDFq8qSmENryr7KX0vAzjxGc3AgNuWYZ6BDD.gQ3d94QmytRJy5f8');
+            // $gateway->setTestMode((config('payment.paypal.mode') != 'sandbox') ? true : false);
+
+
+            // Card Data
+            // $providerParams['card'] = [];
+
+            // Make the payment
+            $response = $gateway->purchase($providerParams)->send();
+
+            // Save the Transaction ID at the Provider
+            $localParams['transaction_id'] = $response->getTransactionId();
+
+            // Save local parameters into session
+            Session::put('params', $localParams);
+            Session::save();
+
+            // Payment by Credit Card when Card info are provide from the form.
+            if ($response->isSuccessful()) {
+
+                // Check if redirection to offsite payment gateway is needed
+                if ($response->isRedirect()) {
+                    return $response->redirect();
+                }
+
+                // Apply actions after successful Payment
+                return self::paymentConfirmationActions($localParams, $point);
+
+            } elseif ($response->isRedirect()) {
+
+                // Redirect to offsite payment gateway
+                // Redirect to success URL to make the payment on the Paypal website
+                 $data_url[]=$response->getData();
+                 $p_url="https://www.paypal.com/cgi-bin/webscr?cmd=_express-checkout&useraction=commit&token=".$data_url[0]['TOKEN'];
+             
+                return  response()->json(['paymenturl'=>$p_url]);
+  
+              //  return $response->redirect();
+
+            } else {
+
+                // Apply actions when Payment failed
+                return parent::paymentFailureActions($point, $response->getMessage());
+
+            }
+        } catch (\Exception $e) {
+
+            // Apply actions when API failed
+            return parent::paymentApiErrorActions($point, $e);
+
+        }
+    }
+
+
+/**
+     * Send Payment
+     *
+     * @param Request $request
+     * @param Post $post
+     * @return $this|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @throws \Exception
+     */
     public static function sendPayment(Request $request, Post $post)
     {
         // Set URLs

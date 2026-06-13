@@ -25,7 +25,7 @@ use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 use App\Models\Setting;
 use Illuminate\Support\Facades\Config;
-use Jenssegers\Date\Date;
+use Carbon\Carbon;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -108,6 +108,11 @@ class AppServiceProvider extends ServiceProvider
 		if (config('larapen.core.forceHttps') == true) {
 			URL::forceScheme('https');
 		}
+
+		// In local env, force log mail driver so no SMTP connections are attempted
+		if ($this->app->environment('local')) {
+			config(['mail.mailer' => 'log']);
+		}
 	}
 	
 	/**
@@ -128,7 +133,7 @@ class AppServiceProvider extends ServiceProvider
 				Config::set('appLang', $defaultLang->toArray());
 				
 				// Set dates default locale
-				Date::setLocale(config('appLang.abbr'));
+				Carbon::setLocale(config('appLang.abbr'));
 				setlocale(LC_ALL, config('appLang.locale'));
 			} else {
 				Config::set('appLang.abbr', config('app.locale'));

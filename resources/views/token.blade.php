@@ -14,12 +14,15 @@
 @extends('layouts.master')
 
 @section('content')
-	@include('common.spacer')
+<p style="color:white">
+@include('common.spacer')
+</p>
 	<div class="main-container">
 		<div class="container">
 			<div class="row">
 
-				@if (isset($errors) and $errors->any())
+				<?php if(isset($errors) and $errors->any()){?>
+                 
 					<div class="col-lg-12">
 						<div class="alert alert-danger">
 							<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
@@ -30,18 +33,20 @@
 							</ul>
 						</div>
 					</div>
-				@endif
+				
+              
+              <?php  }?>
 
-				@if (session('code'))
+				<?php if(session('code')){?>
 					<div class="col-lg-12">
 						<div class="alert alert-danger">
 							<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 							<p>{{ session('code') }}</p>
 						</div>
 					</div>
-				@endif
+				<?php }?>
 
-				@if (Session::has('flash_notification'))
+				<?php if(Session::has('flash_notification')){?>
 					<div class="container" style="margin-bottom: -10px; margin-top: -10px;">
 						<div class="row">
 							<div class="col-lg-12">
@@ -49,7 +54,7 @@
 							</div>
 						</div>
 					</div>
-				@endif
+				<?php }?>
 					
 				<div class="col-lg-12">
 					<div class="alert alert-info">
@@ -59,13 +64,16 @@
 
 				<div class="col-sm-5 login-box">
 					<div class="panel panel-default">
-						<div class="panel-intro text-center">
+						<div class="panel-intro text-center" style="display:none">
 							<h2 class="logo-title">
 								<span class="logo-icon"> </span> {{ t('Code') }} <span> </span>
 							</h2>
 						</div>
 						
 						<div class="panel-body">
+
+								
+             
 							<form id="tokenForm" role="form" method="POST" action="{{ lurl(Request::path()) }}">
 								{!! csrf_field() !!}
 								
@@ -84,31 +92,53 @@
               </form>
               
               <form class="text-center" id="sign-in-form" action="#">
-                <!-- Input to enter the phone number -->
-                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                  <input disabled class="form-control mdl-textfield__input" type="text" pattern="\+[0-9\s\-\(\)]+" id="phone-number" value="{{ session('phone') }}">
-                  {{-- <label class="mdl-textfield__label" for="phone-number">Enter your phone number...</label> --}}
-                  {{-- <span class="mdl-textfield__error">Input is not an international phone number!</span> --}}
-                </div>
-                <br><code>Ex. +919898989898</code><br><br>
+                    <div style="display:none" >
+                    
+                            <!-- Input to enter the phone number -->
+                            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                              <input disabled class="form-control mdl-textfield__input" type="text" pattern="\+[0-9\s\-\(\)]+" id="phone-number" value="{{ session('phone') }}">
+                              {{-- <label class="mdl-textfield__label" for="phone-number">Enter your phone number...</label> --}}
+                              {{-- <span class="mdl-textfield__error">Input is not an international phone number!</span> --}}
+                            </div>
+                            <br><code>Ex. +91989898989844</code><br><br>
+                      
+                    </div>
+                
+                    <div class="panel-intro text-center">
+                      <h2 class="logo-title">
+                        <span class="logo-icon">   <h1 style="font-size: 64px;font-weight: bold;">1 </h1></span>
+                      </h2>
+				            </div>
+                
+                
                 <!-- Sign-in button -->
-                <button disabled class="btn btn-primary btn-lg btn-block mdl-button mdl-js-button mdl-button--raised" id="sign-in-button">Press to Send Code</button>
+                <button disabled class="btn btn-primary btn-lg btn-block mdl-button mdl-js-button mdl-button--raised" id="sign-in-button">{{ t('Press to Send Code') }}</button>
+                
+                <div class="panel-intro text-center">
+                  <h2 class="logo-title">
+                    <span class="logo-icon">   <h1 style="font-size: 64px;font-weight: bold;">2 </h1></span>
+                  </h2>
+				        </div>
+                        
+                        
               </form>
 
               <!-- Button that handles sign-out -->
-              <button style="display:none" class="btn btn-primary btn-lg btn-block mdl-button mdl-js-button mdl-button--raised" id="sign-out-button">Re-send</button>
-
-              <form style="display:none" id="verification-code-form" action="#">
+              <button style="display:none" class="btn btn-primary btn-lg btn-block mdl-button mdl-js-button mdl-button--raised" id="sign-out-button">{{ t('Re-send') }}</button>
+              <input type="hidden" id="sign-in-status" name="sign-in-status"/>
+              <input type="hidden" id="account-details" name="account-details"/>  
+              
+              <form  id="verification-code-form" action="#">
                 <!-- Input to enter the verification code -->
                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                  <input placeholder="Enter your verification code here..." class="form-control mdl-textfield__input" type="text" id="verification-code">
-                  <label class="mdl-textfield__label" for="verification-code">Enter the verification code...</label>
+                  <input placeholder="{{ t('Enter your verification code here...') }}" class="form-control mdl-textfield__input" type="text" id="verification-code">
+                  <label class="mdl-textfield__label" for="verification-code">{{ t('Enter the verification code...') }}</label>
                 </div>
 
                 <!-- Button that triggers code verification -->
-                <input type="submit" class="btn btn-primary btn-lg btn-block mdl-button mdl-js-button mdl-button--raised" id="verify-code-button" value="Verify Code"/>
+                <input type="submit" class="btn btn-primary btn-lg btn-block mdl-button mdl-js-button mdl-button--raised" id="verify-code-button" value="{{ t('Verify Code') }}"/>
                 <!-- Button to cancel code verification -->
-                <button class="btn btn-danger btn-lg btn-block mdl-button mdl-js-button mdl-button--raised" id="cancel-verify-code-button">Cancel</button>
+                <button class="btn btn-danger btn-lg btn-block mdl-button mdl-js-button mdl-button--raised" id="cancel-verify-code-button">{{ t('Cancel') }}</button>
               </form>
 						</div>
 						
@@ -134,6 +164,10 @@
 	</script>
 
 <script src="https://www.gstatic.com/firebasejs/4.9.1/firebase.js"></script>
+
+ 
+
+
 <script type="text/javascript">
     // Initialize Firebase
     var config = {
@@ -145,6 +179,9 @@
         // messagingSenderId: "976649279867",
         // // appId: "1:976649279867:web:6a4c11707b2e6f913705de",
         // // measurementId: "G-X5GPSFGCKJ"
+      
+      /*
+      this is last configration   
         apiKey: "AIzaSyCQSZX-HXslGe8gVHbb6_D35bdYQrS2WFw",
         authDomain: "dealnotdealweb.firebaseapp.com",
         databaseURL: "https://dealnotdealweb.firebaseio.com",
@@ -153,10 +190,25 @@
         messagingSenderId: "670297019656",
         // appId: "1:670297019656:web:bf1e222cf20dca3e0208bd",
         // measurementId: "G-HD7HZT1YR1"
+        */
+
+        
+        apiKey: "AIzaSyD8GdePwqtn_AUN98KKj8eddsxOwND3Wkg",
+  authDomain: "fifth-tensor-355408.firebaseapp.com",
+  databaseURL: "https://fifth-tensor-355408-default-rtdb.firebaseio.com/",
+  projectId: "fifth-tensor-355408",
+  storageBucket: "fifth-tensor-355408.appspot.com",
+  messagingSenderId: "551696870023",
+  appId: "1:551696870023:web:c11b31855c04aab32fe622",
+  measurementId: "G-019G8VRYP2"
+ // 551696870023-nejripgpfuvtcj2k37rkishokt3g0rnc.apps.googleusercontent.com
+    
+
     };
     firebase.initializeApp(config);
 
     var database = firebase.database();
+   // let confirmationResult; // Declaration in a scope accessible to both functions
   /**
    * Set up UI event listeners and registering Firebase auth listeners.
    */
@@ -190,15 +242,19 @@
     document.getElementById('verification-code-form').addEventListener('submit', onVerifyCodeSubmit);
     document.getElementById('cancel-verify-code-button').addEventListener('click', cancelVerification);
 
+
     // [START appVerifier]
     window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('sign-in-button', {
       'size': 'invisible',
       'callback': function(response) {
-        // reCAPTCHA solved, allow signInWithPhoneNumber.
-        onSignInSubmit();
+          //reCAPTCHA solved, allow signInWithPhoneNumber.
+         // console.log('allow signInWithPhoneNumber');
+           onSignInSubmit();
+
       }
     });
     // [END appVerifier]
+    
 
     recaptchaVerifier.render().then(function(widgetId) {
       window.recaptchaWidgetId = widgetId;
@@ -219,7 +275,13 @@
           .then(function (confirmationResult) {
             // SMS sent. Prompt user to type the code from the message, then sign the
             // user in with confirmationResult.confirm(code).
+           
             window.confirmationResult = confirmationResult;
+            
+          //  console.log('confirmationResult');
+          //  console.log(window.confirmationResult);
+          //  console.log(confirmationResult);
+
             window.signingIn = false;
             updateSignInButtonUI();
             updateVerificationCodeFormUI();
@@ -241,8 +303,31 @@
    * Function called when clicking the "Verify Code" button.
    */
   function onVerifyCodeSubmit(e) {
+   
+   // console.log(e);
+   // console.log(getCodeFromUserInput());
+
+
+    console.log('aaaaaaaa');    
+
+    console.log(window.confirmationResult);
+    console.log(confirmationResult);
+    console.log('bbbbbbbbb');
+
+    var verificationCode = getCodeFromUserInput();
+
+ 
+
+
+     //for test 2s    
     e.preventDefault();
     if (!!getCodeFromUserInput()) {
+
+      //console.log('cccccc');
+      //console.log(confirmationResult);
+      //console.log(window.confirmationResult);
+      //console.log('dddddddd');
+
       window.verifyingCode = true;
       updateVerifyCodeButtonUI();
       var code = getCodeFromUserInput();
@@ -353,6 +438,10 @@
    * Updates the state of the Verify code form.
    */
   function updateVerificationCodeFormUI() {
+    //console.log("1111");
+    //console.log(window.confirmationResult);
+    //console.log("2222");
+    //console.log(firebase.auth().currentUser);
     if (!firebase.auth().currentUser && window.confirmationResult) {
       document.getElementById('verification-code-form').style.display = 'block';
     } else {
@@ -374,14 +463,18 @@
   /**
    * Updates the Signed in user status panel.
    */
+
   function updateSignedInUserStatusUI() {
     var user = firebase.auth().currentUser;
+    //console.log("start user Info");
+   // console.log(user);
+   // console.log("end user Info");
     if (user) {
       document.getElementById('sign-in-status').textContent = 'Signed in';
-      document.getElementById('account-details').textContent = JSON.stringify(user, null, '  ');
+       document.getElementById('account-details').textContent = JSON.stringify(user, null, '  ');
     } else {
-      document.getElementById('sign-in-status').textContent = 'Signed out';
-      document.getElementById('account-details').textContent = 'null';
+       document.getElementById('sign-in-status').textContent = 'Signed out';
+       document.getElementById('account-details').textContent = 'null';
     }
   }
 </script>	

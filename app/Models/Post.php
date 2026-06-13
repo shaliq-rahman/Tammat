@@ -22,10 +22,11 @@ use App\Models\Traits\CountryTrait;
 use App\Observer\PostObserver;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Request;
-use Jenssegers\Date\Date;
+use Carbon\Carbon;
 use Larapen\Admin\app\Models\Crud;
 use Spatie\Feed\Feedable;
 use Spatie\Feed\FeedItem;
+use App\Models\UserType;
 
 class Post extends BaseModel implements Feedable
 {
@@ -91,6 +92,7 @@ class Post extends BaseModel implements Feedable
 		'verified_email',
 		'verified_phone',
 		'reviewed',
+		'is_rejected',
 		'featured',
 		'archived',
 		'fb_profile',
@@ -109,11 +111,15 @@ class Post extends BaseModel implements Feedable
 	// protected $hidden = [];
 	
 	/**
-	 * The attributes that should be mutated to dates.
+	 * The attributes that should be cast.
 	 *
 	 * @var array
 	 */
-	protected $dates = ['created_at', 'updated_at', 'deleted_at'];
+	protected $casts = [
+		'created_at' => 'datetime',
+		'updated_at' => 'datetime',
+		'deleted_at' => 'datetime',
+	];
 	
 	/*
 	|--------------------------------------------------------------------------
@@ -122,8 +128,8 @@ class Post extends BaseModel implements Feedable
 	*/
 	protected static function boot()
 	{
-		// parent::boot();
-		
+		parent::boot();
+
 		// Post::observe(PostObserver::class);
 		
 		// static::addGlobalScope(new FromActivatedCategoryScope());
@@ -168,12 +174,12 @@ class Post extends BaseModel implements Feedable
 		return $posts;
 	}
 	
-	public function toFeedItem()
+	public function toFeedItem(): FeedItem
 	{
 		$title = $this->title;
 		$title .= (isset($this->city) && !empty($this->city)) ? ' - ' . $this->city->name : '';
 		$title .= (isset($this->country) && !empty($this->country)) ? ', ' . $this->country->name : '';
-		// $summary = str_limit(str_strip(strip_tags($this->description)), 5000);
+		// $summary = \Illuminate\Support\Str::limit(str_strip(strip_tags($this->description)), 5000);
 		$summary = transformDescription($this->description);
 		$link = config('app.locale') . '/' . $this->uri;
 		
@@ -211,6 +217,26 @@ class Post extends BaseModel implements Feedable
 	}
 	
 	
+
+	public function getPendingHtml()
+	{
+		
+		$out = 'N/A';
+		
+
+		$this->xPanel->addClause('where', 'reviewed', '=', 1);
+		$this->xPanel->addClause('orwhere', 'is_rejected', '=', 1);
+
+
+		if($this->reviewed==1 || $this->is_rejected==1)
+		$out = 'no';
+		if($this->reviewed==0 && $this->is_rejected==0)
+		$out = 'yes';
+		
+		return $out;
+	}
+
+
 	public function getArchivedHtml()
 	{
 		
@@ -296,8 +322,55 @@ class Post extends BaseModel implements Feedable
 		return ajaxCheckboxDisplay($this->{$this->primaryKey}, $this->getTable(), 'archived', $this->archived);
 	}
 	
+	public function getActiveHtmlAjax()
+	{   
+		
+		$out='<span>';
+		if($this->reviewed == 1 && $this->is_rejected == 0 && $this->archived ==0){
+			
+			$out .= 'Yes';
+			 
+		}else{
+			$out .= 'NO';
+		} 
+
+		$out .= '</span>';
+		return $out;
+	}
+
+
+	public function getPendingHtmlAjax()
+	{   
+		
+		$out='<span>';
+		if($this->reviewed == 1 || $this->is_rejected == 1){
+			
+			$out .= 'NO';
+			 
+		}
+
+		if($this->reviewed == 0 && $this->is_rejected == 0){
+			$out .= 'Yes';
+		}
+
+		$out .= '</span>';
+		return $out;
+	}
+
+
 	
+	public function getIsRejectedHtml()
+	{
+	    if($this->reviewed == 0 ){
+	       ajaxCheckboxDisplay($this->{$this->primaryKey}, $this->getTable(), 'reviewed', 0);
+	    }
+		return ajaxCheckboxDisplay($this->{$this->primaryKey}, $this->getTable(), 'is_rejected', $this->is_rejected);
+	}
 	
+		public function getApprovedHtml()
+	{
+		return ajaxCheckboxDisplay($this->{$this->primaryKey}, $this->getTable(), 'reviewed', $this->reviewed);
+	}
 	
 	/*
 	|--------------------------------------------------------------------------
@@ -306,7 +379,7 @@ class Post extends BaseModel implements Feedable
 	*/
 	public function postType()
 	{
-		return $this->belongsTo(PostType::class, 'post_type_id', 'translation_of')->where('translation_lang', config('app.locale'));
+		return $this->belongsTo(UserType::class, 'post_type_id', 'id');
 	}
 	
 	public function category()
@@ -382,15 +455,25 @@ class Post extends BaseModel implements Feedable
 		});
 		
 		if (config('settings.single.posts_review_activation')) {
-			$builder->orWhere('reviewed', 0);
+			$builder->orWhere('reviewed', 0)->where('is_rejected',0);
 		}
 		
 		return $builder;
 	}
 	
+	public function scopeApproved($builder)
+	{
+		return $builder->where('reviewed', 1);
+	}
+	
 	public function scopeArchived($builder)
 	{
 		return $builder->where('archived', 1);
+	}
+
+	public function scopeRejected($builder)
+	{
+		return $builder->where('is_rejected',1);
 	}
 	
 	public function scopeUnarchived($builder)
@@ -423,7 +506,7 @@ class Post extends BaseModel implements Feedable
 	*/
 	public function getCreatedAtAttribute($value)
 	{
-		$value = Date::parse($value);
+		$value = Carbon::parse($value);
 		if (config('timezone.id')) {
 			$value->timezone(config('timezone.id'));
 		}
@@ -435,7 +518,7 @@ class Post extends BaseModel implements Feedable
 	
 	public function getUpdatedAtAttribute($value)
 	{
-		$value = Date::parse($value);
+		$value = Carbon::parse($value);
 		if (config('timezone.id')) {
 			$value->timezone(config('timezone.id'));
 		}
@@ -445,7 +528,7 @@ class Post extends BaseModel implements Feedable
 	
 	public function getDeletedAtAttribute($value)
 	{
-		$value = Date::parse($value);
+		$value = Carbon::parse($value);
 		if (config('timezone.id')) {
 			$value->timezone(config('timezone.id'));
 		}
@@ -455,8 +538,8 @@ class Post extends BaseModel implements Feedable
 	
 	public function getCreatedAtTaAttribute($value)
 	{
-		Date::setLocale(app()->getLocale());
-		$value = Date::parse($this->attributes['created_at']);
+		Carbon::setLocale(app()->getLocale());
+		$value = Carbon::parse($this->attributes['created_at']);
 		if (config('timezone.id')) {
 			$value->timezone(config('timezone.id'));
 		}

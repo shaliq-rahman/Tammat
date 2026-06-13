@@ -40,7 +40,7 @@ class ImpersonateController extends \Lab404\Impersonate\Controllers\ImpersonateC
      * @param   int $id
      * @return  RedirectResponse
      */
-    public function take(Request $request, $id)
+    public function take(Request $request, $id, $guardName = null)
     {
         // Cannot impersonate yourself
         if ($id == $request->user()->getKey()) {

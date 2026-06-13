@@ -1,0 +1,1598 @@
+<?php 
+
+
+
+return [
+
+    'Please enter the same value again' => 'Senha muito comum. Por favor tenta outra!',
+
+    'Please enter at least 5 characters' => 'Senha entre 6 e 60 caracteres.',
+
+    'please enter a valid email address' => 'É necessário preencher o campo de email.',
+
+    'Request Reset Password' => 'Solicitar nova senha',
+
+		
+
+  'Balance' => 'Balance',
+
+  'Your Current Balance' => 'Your Current Balance',
+
+  'Points' => 'Points',
+
+  'Increase Your Balance' => 'Increase Your Balance',
+
+  'Recharge Points First' => 'Recharge Points First',
+
+  'Recharge Points' => 'Recharge Points',
+
+  
+
+    'Minimize your waste and Maximize the prosperity of your community by giving away your unwanted items !' => 'Minimize o desperdício e aumente a prosperidade da sua comunidade trocando ou dando seus pertençes indesejados !',
+
+    'Date & Time Preference' => 'Preferência por data e hora',
+
+    'Free local classified ads in the World' => 'Anúncios classificados grátis no mundo',
+
+    'Free local classified ads in :location' => 'Anúncios classificados grátis em :location',
+
+    'Sell and buy near you' => 'Vender e comprar perto de si',
+
+    'Simple, fast and efficient' => 'Simples, Rápido e Eficiente',
+
+    'Daily good deals' => 'Promoçoes Diarias',
+
+    'Daily good deals in :location' => 'Promoçoes Diarias em  :location',
+
+    'Looking for a product or service' => 'Procurando por um produto ou serviço',
+
+    'Post your Free Ads here' => 'Publique seus anúncios gratuitos aqui',
+
+    'Make your deal Now!' => 'Faça o seu negócio Agora!',
+
+    'Free Ads' => 'Anúncios gratuitos',
+
+    'Free ads' => 'Anúncios gratuitos',
+
+    'Free ads in' => 'Anúncios gratuitos em',
+
+    'Free ads in :location' => 'Anúncios gratuitos em :location',
+
+    'Free ads in :category' => 'Anúncios gratuitos na :category',
+
+    'Free ads :category in :location' => 'Anúncios gratuitos :category em :location',
+
+    'Search for' => 'Procurar',
+
+    'free ads' => 'anúncios gratuitos',
+
+    'free ads in' => 'anúncios gratuitos em',
+
+    'Latest free ads' => 'Últimos anúncios gratuitos',
+
+    ':count free local classified ads' => ':countanúncios gratuitos em',
+
+    ':count free local classified ads in :location' => ':count anúncios gratuitos em <strong>:location</strong>',
+
+    '100% Free local classified ads' => '100% anúncios gratuitos',
+
+    'Free ads in the World' => 'Anúncios gratuitos no mundos',
+
+    'Select a country' => 'Selecione um país',
+
+    'Select your country to start' => 'Selecione seu país para começar',
+
+    'I\'m looking for a ...' => 'Eu estou procurando um ...',
+
+    'Location (City) ...' => 'Localização (Cidade) ...',
+
+    'What?' => 'O que?',
+
+    'Where?' => 'Onde?',
+
+    'Select your Location' => 'Selecione a sua localização',
+
+    'Please select your location before' => 'Selecione sua localização anterior',
+
+    'Find' => 'Encontrar',
+
+    'No more spam/scam phone calls or emails …. Deal and Bargain online !!!' => 'Esqueça de golpes, ligações ou mensagens de spam... Negocie e feche seu acordo online!',
+
+    'Search' => 'Pesquisar',
+
+    'Sell and Buy your products and services on :app_name in Minutes' => '<strong>Venda</strong> e <strong>Compre</strong> produtos e serviços no :app_name em Minutos',
+
+    'Sell, Buy and Rent your products and services on :app_name in Minutes' => '<strong>Venda</strong>, <strong>Compre</strong> e <strong>Alugue</strong> os seus produtos e serviços no :app_name em Minutos ',
+
+    'Sell and Buy products and services on :app_name in Minutes' => '<strong>Venda</strong> e <strong>Compre</strong> produtos e serviços no :app_name em Minutos',
+
+    'Sell, Buy and Rent products and services on :app_name in Minutes' => '<strong>Venda</strong>, <strong>Compre</strong> e <strong>Alugue</strong> produtos e serviços no :app_name em Minutos',
+
+    'Post Free Ads' => 'Publicar anúncios gratuitos',
+
+    'Create Free Ads' => 'Inserir Anúncio',
+
+    'Post your Ads' => 'Publicar Anúncios gratuitos',
+
+    'Start Now!' => 'Comece agora!',
+
+    'e.g. Smartphone' => 'ex. Smartphone',
+
+    'All Categories' => 'Todas as Categorias',
+
+    'Others Categories' => 'Todas as categorias',
+
+    'Price range' => 'Faixa de preço',
+
+    'Distance within' => 'Distancia Entre',
+
+    'Salary range' => 'Intervalo de Salário',
+
+    'GO' => 'GO',
+
+    'Condition' => 'Condição',
+
+    'New' => 'Novo',
+
+    'Used' => 'Usado',
+
+    'None' => 'Nenhum',
+
+    'Location' => 'Localização',
+
+    'Locations' => 'Locais',
+
+    'Urgent' => 'Urgente',
+
+    'Urgent Ads only' => 'Só Anúncios Urgentes',
+
+    ':app_name is also available in your country: :country. Starting good deals here now!' => ':app_name is also available in your country: <a href=":url"><strong>:country</strong></a>. Starting good deals <a href=":url"><strong>here</strong></a> now!',
+
+    'Login for faster access to the best deals. Click here if you don\'t have an account.' => '<a href=":login_url"><strong>Login</strong></a> for faster access to the best deals. <a href=":register_url"><strong>Click here</strong></a> if you don\'t have an account.',
+
+    'List of Categories and Sub-categories' => 'Lista de Categorias e Sub-categorias',
+
+    'List of Cities in' => 'Lista das Cidades em',
+
+    'Do you get anything for sell ?' => 'Quer começar a ganhar dinheiro com artigos que já não utiliza ?',
+
+    'Sell your products and services online FOR FREE. It\'s easier than you think !' => 'Venda os seus produtos e serviços online de forma gratuita. E mais facil do que pensa !!!',
+
+    'footer_note' => '<strong>Venda</strong>, <strong>Oferta</strong>, <strong>Alugar</strong>, <strong>Ofertas</strong>, <strong>Pesquisar</strong>, <strong>Compre</strong> productos e serviços em <strong>:country</strong>. E 100% gratuito !',
+
+    'Home' => 'Home',
+
+    'About us' => 'Quem Somos',
+
+    'FAQ' => 'Perguntas frequentes',
+
+    'Sitemap' => 'Mapa do Site',
+
+    'I am abroad' => 'I am abroad',
+
+    'Countries' => 'Paises',
+
+    'Terms' => 'Termos',
+
+    'Privacy' => 'Privacidade',
+
+    'All Rights Reserved' => 'Todos os direitos reservados',
+
+    'Password' => 'Senha',
+
+    'Submit' => 'Enviar',
+
+    'Keep me logged in' => 'Lembrar me',
+
+    'Lost your password?' => 'Esqueceu sua senha?',
+
+    'Don\'t have an account?' => 'Ainda não possue uma conta?',
+
+    'Signup' => 'Inscreva-se',
+
+    'Sign Up' => 'Inscreva-se',
+
+    'Signin' => 'Faça Login',
+
+    'Sign In' => 'Faça Login',
+
+    'Login' => 'Faça seu login',
+
+    'Log In' => 'Login',
+
+    'Logout' => 'Sair',
+
+    'Log Out' => 'Sair',
+
+    'Signout' => 'Sair',
+
+    'Sign Out' => 'Sair',
+
+    'Create your account, Its free' => 'Crie sua conta, é 100% gratuíto.',
+
+    'Gender' => 'Sexo',
+
+    'Select a gender' => 'Selecione o seu genero',
+
+    'Male' => 'Masculino',
+
+    'Female' => 'Feminino',
+
+    'Mr' => 'Sr',
+
+    'Mrs' => 'Sra',
+
+    'First Name' => 'Nome',
+
+    'Firtst Name' => 'Nome',
+
+    'Last Name' => 'Sobrenome',
+
+    'User Type' => 'Tipo de usuário',
+
+    'Professional' => 'Lojista',
+
+    'Shop' => 'Lojista',
+
+    'Show all posts' => 'Todas os posts',
+
+    'Show posts with images only' => 'Somente posts com imagens',
+
+    'Individual' => 'Vendedor particular',
+
+    'Company name' => 'Nome da empresa',
+
+    'Company Name' => 'Nome da Empresa',
+
+    'Your Country' => 'Nacionalidade',
+
+    'Country' => 'País',
+
+    'Phone' => 'Telefone',
+
+    'Mobile' => 'Móvel',
+
+    'Phone Number' => 'Número de telefone',
+
+    'Without Country Code' => 'Número de telefone sem código do país',
+
+    'Email' => 'E-mail',
+
+    'Please repeat your password' => 'Por favor, repita sua Palavra Passe',
+
+    'At least 5 characters' => 'No mínimo 5 caracteres',
+
+    'SignUp For Newsletter' => 'Cadastre-se para receber notificações',
+
+    'I have read and agree to the <a :attributes>Terms & Conditions</a>' => 'Li e concordo com os <a :attributes>Termos e Condições</a>',
+
+    'By continuing on this website, you accept our <a :attributes>Terms of Use</a>' => 'Ao continuar neste site, você aceita nossos <a :attributes> Termos de Uso </a>',
+
+    'By continuing on this website, you accept our <a :attributes>Terms of Use</a> and Posting Rules' => 'Ao continuar neste site, você aceita nossos <a :attributes> Termos de Uso </a> e regras de publicação ',
+
+    'Register' => 'Inscreva-se ',
+
+    'Your message has been sent to our moderators' => 'Sua mensagem foi enviada aos nossos moderadores.',
+
+    'Your message has been sent to our moderators. Thank you' => 'Sua mensagem foi enviada aos nossos moderadores. Obrigado.',
+
+    'Post a Free Classified' => 'Anuncie Gratuitamente',
+
+    'Post a Free Ads' => 'Publicar um Anúncio Gratuito',
+
+    'Do you have something to sell, to rent, any service to offer or a job offer? Post it at :app_name, its free, local, easy, reliable and super fast!' => 'Possue algo para vender, deseja comprar alguma coisa, trocar ou simplesmente  doar? Anuncie conosco, é grátis para negócios locais e muito fácil de usar!',
+
+    'Create and Manage Items' => 'Crie e gerencie seus anúncios',
+
+    'Become a best seller or buyer. Create and Manage your ads. Repost your old ads, etc.' => 'Torne-se omelhor comprador ou vendedor. Crie e gerencie seus anúncios. Atualize seus postes antigos etc.',
+
+    'Create your Favorite ads list.' => 'Crie sua lista de anúncios preferidos.',
+
+    'Create your Favorite ads list, and save your searchs. Don\'t forget any deal!' => 'Crie  sua lista de anúncios preferidos, salve suas buscas. Não deixe nenhum negócio para trás.',
+
+    'Post a Free Classified Ad' => 'Publicar um anúncio grátis',
+
+    'Category' => 'Categoria',
+
+    'Select a category' => 'Selecionar categoria',
+
+    'Sub-Category' => 'Subcategoria',
+
+    'Select a sub-category' => 'Selecionar uma subcategoria',
+
+    'Ad\'s Type' => 'Tipo de Anúncio',
+
+    'Type' => 'Tipo',
+
+    'Private' => 'Privado',
+
+    'Business' => 'Negócios',
+
+    'Title' => 'Título',
+
+    'Ad\'s title' => 'Titulo do Anúncio',
+
+    'Post\'s title' => 'Titulo do Anúncio',
+
+    'A great title needs at least 60 characters.' => 'Um excelente título precisa de pelo menos 60 caracteres.',
+
+    'Describe ad' => 'Descrever anúncio',
+
+    'Describe what makes your ad unique' => 'Descreva o que torna seu anúncio exclusivo',
+
+    'Price' => 'Preço',
+
+    'e.i. 15000' => 'ex 15000',
+
+    'Negotiable' => 'Negociável',
+
+    'Pictures' => 'Imagens',
+
+    'Your resume' => 'Seu currículo',
+
+    'Resume format' => 'Formato : pdf, doc, docx, odt, rtf, jpg, png',
+
+    'File types: :file_types' => 'Tipos de arquivo: :file_types',
+
+    'Browse' => 'Navegar',
+
+    'Add up to :pictures_number photos. Use a real image of your product, not catalogs.' => 'Adicione até :pictures_number fotos.Use uma imagem real do seu produto, e não de catálogos.',
+
+    'Seller information' => 'Informação do vendedor',
+
+    'Seller Name' => 'Nome do Vendedor',
+
+    'Seller Email' => 'E-mail do vendedor',
+
+    'Phone Number (in local format)' => 'Número de telefone (no formato local)',
+
+    'Hide the phone number on this ads.' => 'Ocultar o número de telefone nesses anúncios.',
+
+    'Select a location' => 'Selecionar um local',
+
+    'Sub-location' => 'Sub-localização',
+
+    'Select a sub-location' => 'Selecionar uma sub-localização',
+
+    'City' => 'Cidade',
+
+    'Select a city' => 'Selecione uma cidade',
+
+    'Cities' => 'Cidades',
+
+    'How to sell quickly?' => 'Como vender rapidamente ?',
+
+    'Use a brief title and description of the item' => 'Use um título pequeno e descreva o item',
+
+    'Make sure you post in the correct category' => 'Certifique-se de postar na categoria correta',
+
+    'Add nice photos to your ad' => 'Adicione fotos de boa qualidade ao seu anúncio',
+
+    'Put a reasonable price' => 'Coloque um preço razoável',
+
+    'Check the item before publish' => 'Verifique o item antes de publicar',
+
+    'My ads' => 'Meus anúncios',
+
+    'My ads on :app_name' => 'Meus anúncios no :app_name',
+
+    'The repost has failed. Please try again.' => 'O repost falhou. Por favor, tente novamente.',
+
+    'The repost has done successfully.' => 'O repost foi feito com sucesso.',
+
+    'My archived ads' => 'Meus anúncios arquivados',
+
+    'My archived ads on :app_name' => 'Meus anúncios arquivados no :app_name',
+
+    'My favourite ads' => 'Meus anúncios favoritos',
+
+    'My favourite ads on :app_name' => 'Meus anúncios favoritos no :app_name',
+
+    'My pending approval ads' => 'Meus anúncios pendentes',
+
+    'My pending approval ads on :app_name' => 'Meus anúncios pendentes no :app_name',
+
+    'My saved search' => 'Minhas pesquisas guardadas',
+
+    'My saved search on :app_name' => 'Minhas pesquisas guardadas no :app_name',
+
+    'No deletion is done. Please try again.' => 'Nenhuma remoção está concluída. Por favor, tente novamente.',
+
+    'Your account details has updated successfully.' => 'Os detalhes da sua conta foram atualizados com sucesso.',
+
+    'Your details account has updated successfully.' => 'Informações de conta atualizadas com sucesso',
+
+    'Your settings account has updated successfully.' => 'A sua conta de configurações foi atualizada com sucessos',
+
+    'My account' => 'Minha conta',
+
+    'My account on :app_name' => 'Minha conta no :app_name',
+
+    'Your message has sent successfully to :contact_name.' => 'Sua mensagem foi enviada com sucesso para: contact_name.',
+
+    'Your report has sent successfully to us. Thank you!' => 'O seu relatório enviou-nos com sucesso. Obrigado!',
+
+    'Posting Ads was disabled for this time. Please try later. Thank you.' => 'Publicar anúncios foi desativado para este período. Por favor tente mais tarde. Obrigado.',
+
+    'Your ad has been created.' => 'Seu anúncio foi criado.',
+
+    'Update My Ad' => 'Atualizar Anúncio',
+
+    'Your ad has been updated.' => 'Seu anúncio foi atualizado',
+
+    'Log in' => 'Entrar',
+
+    'Log in to :app_name' => 'Logar em :app_name',
+
+    'The Email Address or Password don\'t match.' => 'O endereço de e-mail ou a Palavra Passe não coincidem.',
+
+    'You have been logged out.' => 'Você foi desconectado.',
+
+    'Sign Up on :app_name !' => 'Inscreva-se no :app_name !',
+
+    'Your account has been created.' => 'Sua conta foi criada.',
+
+    'Welcome to :app_name' => 'Bem vindo ao :app_name !',
+
+    'Welcome to :app_name : 100% Free Ads Classified' => 'Bem vindo ao :app_name : Anúncios de Classificados Gratuitos. Venda e compre perto de si. Simples, rápido e eficaz .',
+
+    'Sitemap :domain - :country. 100% Free Ads Classified' => 'Sitemap :domain - :country. Anúncios de Classificados Gratuitos.',
+
+    'My Ads' => 'Meus anúncios',
+
+	'My home' => 'My home',
+
+    'Archived ads' => 'Anúncios arquivados',
+
+    'Favourite ads' => 'Anúncios favoritos',
+
+    'Pending approval' => 'Aguardando aprovação',
+
+    'Posts' => 'Publicados',
+
+    'Ads' => 'Anúncios',
+
+    'Select' => 'Selecione',
+
+    'All' => 'Todos',
+
+    'Delete' => 'Remover',
+
+    'clear' => 'limpar',
+
+    'Ads Details' => 'Detalhes do Anúncios',
+
+    'Posted On' => 'Publicado em',
+
+    'Visitors' => 'Visitantes',
+
+    'Located In' => 'Localizado em',
+
+    'Edit' => 'Edita',
+
+    'Share' => 'Partilhar',
+
+    'Repost' => 'Renovar',
+
+    'Close account' => 'Fechar conta',
+
+    'You are sure you want to close your account?' => 'Tem a certeza do fecho da sua conta?',
+
+    'Yes' => 'Sim',
+
+    'No' => 'Não',
+
+    'count_posts' => '{0} anúncio|{1} anúncio|[2,*] anúncios',
+
+    'count_visits' => '{0} visita|{1} visita|[2,*] visitas',
+
+    'count_favorites' => '{0} Favorito|{1} Favorito|[2,*] Favoritos',
+
+    'count_views' => '{0} visão|{1} visão|[2,*] vistas',
+
+    'Oops ! An error has occurred. Please correct the red fields in the form' => ' Opa!  Ocorreu algum erro. Por favor corrija os campos em vermelho.',
+
+    'Favorites' => 'Favoritos',
+
+    'Visits' => 'Visitas',
+
+    'Hello' => 'Olá',
+
+    'You last logged in at' => 'ocê fez o último login em',
+
+    'My details' => 'Meus Detalhes',
+
+    'Hide the phone number on the published ads.' => 'Ocultar o número de telefone nos anúncios publicados.',
+
+    'About Yourself' => 'Sobre Mim',
+
+    'Update' => 'Atualizar',
+
+    'Settings' => 'Configurações',
+
+    'Comments are enabled on my ads' => 'Os comentários estão habilitados em meus anúncios',
+
+    'Disable comments on my ads' => 'Desativar comentários em meus anúncios',
+
+    'New Password' => 'Nova senha',
+
+    'Confirm Password' => 'Confirmar Palavra Passe',
+
+    'Preferences' => 'Preferências',
+
+    'I want to receive newsletter.' => 'Quero receber uma newsletter',
+
+    'I want to receive advice on buying and selling.' => 'Quero receber conselhos sobre compra e venda.',
+
+    'Saved search' => 'Pesquisa Guardada',
+
+    'Saved searches' => 'Pesquisas Guardadas',
+
+    'You have no saved search.' => 'Você não possui nenhuma pesquisa guardada.',
+
+    'Business Ads' => 'Anúncios de Negócios',
+
+    'Private Ads' => 'Anúncios Privados',
+
+    'B' => 'N',
+
+    'P' => 'P',
+
+    'Please select a saved search to show the result' => 'Selecione uma pesquisa guardada para mostrar o resultado',
+
+    'No result. Refine your search using other criteria.' => 'Nenhum resultado. Redefine sua pesquisa usando outros critérios.',
+
+    'Close' => 'Fechar',
+
+    'There\'s something wrong with this ads?' => 'Há algo de errado com esses anúncios?',
+
+    'Reason' => 'Razão',
+
+    'Select a reason' => 'Selecione  a rasão',
+
+    'Your E-mail' => 'Seuo E-mail',
+
+    'Message' => 'Mensagem',
+
+    'Cancel' => 'Cancelar',
+
+    'Send Report' => 'Enviar relatório',
+
+    'Warning! This ad has expired. The product or service is not more available (may be)' => '<strong>Atenção !</strong> Este anúncio expirou. O produto ou serviço não está mais disponível !',
+
+    'Back to Results' => 'Voltar aos resultados',
+
+    ':type ad' => ':type anúncio',
+
+    'Ad\'s Details' => 'Detalhes do anúncio',
+
+    'Post\'s Details' => 'Post\'s Details',
+
+    'Salary' => 'Salario',
+
+    'Item' => 'Item',
+
+    'More ads by User' => 'Mais anúncios do Utilizador',
+
+    'Remove favorite' => 'Remover favorito',
+
+    'Save ad' => 'Guardar anúncio',
+
+    'Share ad' => 'Partilhar anúncio',
+
+    'Report abuse' => 'Reportar abuso',
+
+    'My Resume' => 'Meu Currículum Vitae',
+
+    'Resume' => 'Currículum Vitae',
+
+    'Download the resume' => 'Download do currículum vitae',
+
+    'Send a message' => 'Enviar mensagem',
+
+    'Contact Seller' => 'Contactar Vendedor',
+
+    'Safety Tips for Buyers' => 'Dicas de segurança para compradores',
+
+    'Meet seller at a public place' => 'Encontre com o vendedor em local público',
+
+    'Check the item before you buy' => 'Verifique o produto antes de finalizar a compra',
+
+    'Pay only after collecting the item' => 'Pague somente após coletar o item',
+
+    'Know more' => 'Saber mais',
+
+    'View phone' => 'Ver telefone',
+
+    'Contact advertiser' => 'Entrar em contato com o anunciante',
+
+    'Name' => 'Nome',
+
+    'Your name' => 'Seu nome',
+
+    'E-mail' => 'E-mail',
+
+    'i.e. you@gmail.com' => 'ex: you@gmail.com',
+
+    'Your message here...' => 'Sua mensagem...',
+
+    'Send message' => 'Enviar mensagem',
+
+    'Congratulations!' => 'Parabéns!',
+
+    'Oops!' => 'Oops!',
+
+    'Download current Resume' => 'Download do currículum vitae',
+
+    'Email Address' => 'Endereço de e-mail',
+
+    'Send Password Reset Link' => 'Enviar Link de redefinição de Palavra Passe',
+
+    'Back to the Log In page' => 'Voltar para a página de login',
+
+    'Sign Up !' => 'Cadastre-se!',
+
+    'Reset your Password' => 'Redefinir a sua Palavra Passe',
+
+    'Reset Password' => 'Redefinir senha',
+
+    'Password Confirmation' => 'Confirme sua senha.',
+
+    'Reset the Password' => 'Redefinir Palavra Passe',
+
+    ':domain, sell and buy near you. Simple, fast and efficient.' => ':domain, venda e compre perto de si. Simples, rápido e eficiente.',
+
+    'Choose a city' => 'Selecione uma cidade ou região',
+
+    'More cities' => 'Mais cidades',
+
+    'Phishing' => 'Phishing',
+
+    'Rejected Ads' => 'Rejected Ads',
+
+    'Profile' => 'Perfil',
+
+    'Payment history' => 'Hístorico de Pagamentos',
+
+    'Top Ads' => 'Top',
+
+    'Featured Ads' => 'Destaque',
+
+    'Save' => 'Guardar',
+
+    'All Ads' => 'Todas os posts',
+
+    'Professionals' => 'Negócios',
+
+    'Personal' => 'Pessoal',
+
+    'Personals' => 'Pessoais',
+
+    'Sort by' => 'Ordenar por',
+
+    'Price : Low to High' => 'Preço: baixo a alto',
+
+    'Price : High to Low' => 'Preço: alto a baixo',
+
+    'Relevance' => 'Relevance',
+
+    'Date : New to Old' => 'Data: Novo para Velho',
+
+    'Around :distance :unit' => 'Aproximadamente :distance :unit',
+
+    'Around' => 'Aproximadamente',
+
+    'All ads' => 'Todas os posts',
+
+    'Select your region' => 'Selecione sua região',
+
+    'Popular cities in' => 'Cidades populares em',
+
+    'All regions' => 'Todas as regiões',
+
+    'All Cities' => 'Todas as cidades',
+
+    'in :distance :unit around :city' => 'em :distance :unit perto de :city',
+
+    ':distance :unit around :city' => ':distance :unit perto de :city',
+
+    'in :category' => 'na :category',
+
+    'in' => 'na',
+
+    'at' => 'na',
+
+    'Save Search' => 'Guardar Pesquisa',
+
+    'Please log in to save the Ads.' => 'Faça o login para guardar os anúncios.',
+
+    'Please log in to save your search.' => 'Faça o login para guardar a pesquisa.',
+
+    'Search saved successfully !' => 'Pesquisa guardada com sucesso!',
+
+    'Search deleted successfully !' => 'Pesquisa excluída com sucesso!',
+
+    'The countries' => 'Os países',
+
+    'Our websites abroad' => 'Nossos sites no exterior',
+
+    'My Account' => 'Minha Conta',
+
+    'Terminate Account' => 'ENCERRAR CONTA',
+
+    'We do not like robots' => 'Não gostamos de robôs :(',
+
+    'Sitemap :country' => 'Sitemap - :country',
+
+    'We regret that we can not process your request at this time. Our engineers have been notified of this problem and will try to resolve it as soon as possible.' => 'Lamentamos que não possamos processar seu pedido neste momento. Nossos engenheiros foram notificados sobre este problema e tentarão resolvê-lo o mais rápido possível!',
+
+    'Whoops, looks like something went wrong. Please try later.' => 'Ups, parece que algo deu errado. Por favor tente mais tarde.',
+
+    'Whoops, looks like something went wrong.' => 'Ups, parece que algo correu mal.',
+
+    'Whoops !' => 'Ups !',
+
+    'Joined' => 'Registrado',
+
+    'Your session has expired. Please try again.' => 'Sua sessão expirou. Por favor, tente novamente.',
+
+    'The session has expired after a longtime. Please try again.' => 'A sessão expirou depois de um longo período de tempo. Por favor, tente novamente.',
+
+    'Page not found' => 'Página não encontrada',
+
+    'Oops ! Error 404. Page not found.' => 'Oops! Erro 404 - Página Não Encontrada.',
+
+    'Meanwhile, you may <a href=":url">return to homepage</a>' => 'Voltar para <a href=":url">página principal </a>',
+
+    'views' => 'vistas',
+
+    'View More' => 'VER MAIS',
+
+    'View Less' => 'Ver Menos',
+
+    'Free' => 'Gratis',
+
+    'Step' => 'Step',
+
+    'Informations about your Ad' => 'Informações sobre seu anúncio',
+
+    'Upload' => 'Upload',
+
+    'Seller informations' => 'Informação do vendedor',
+
+    'Select a package' => 'Selecione um pacote',
+
+    'Select a package and click "Finish"' => 'Selecione um pacote e clique em "Concluir"',
+
+    'Next' => 'Seguinte',
+
+    'Previous' => 'Anterior',
+
+    'Skip' => 'Skip',
+
+    'Premium Ad' => 'Anúncio Premium',
+
+    'The premium package help sellers to promote their products or services by giving more visibility to their ads to attract more buyers and sell faster.' => 'O pacote premium ajuda os vendedores a promover seus produtos ou serviços, dando mais visibilidade aos seus anúncios para atrair mais compradores e vender mais rapidamente',
+
+    'Regular List' => 'Gratis',
+
+    'Payment Method' => 'Método de pagamento',
+
+    'Payment Methods' => 'Métodos de pagamentos',
+
+    'Payment Gateway' => 'Gateway de pagamento',
+
+    'Payment Gateways' => 'Gateways de pagamentos',
+
+    'Gateway' => 'Gateway',
+
+    'Gateways' => 'Gateways',
+
+    'Finish' => 'Concluir',
+
+    'Trusted Seller' => 'Vendedor Seguro',
+
+    'Trusted Sellers' => 'Vendedores Seguros',
+
+    'Facebook Fans' => 'Facebook Fans',
+
+    'Sell anything for free' => 'Vender qualquer coisa de GRAÇA!',
+
+    'Hundreds of buyers every day' => 'Centenas de compradores todos os dias',
+
+    'Add images to sell faster' => 'Adicione imagens para vender mais rápido!',
+
+    'We sponsor your Ad' => 'Nós patrocinamos seu anúncio',
+
+    'View all Ads' => 'Ver Todas os posts',
+
+    'Browse by' => 'Buscar por',
+
+    'View more' => 'VER MAIS',
+
+    'Error in sending mail. Please contact our engineers: :app_email' => 'Erro ao enviar o correio. Entre em contato com nossos engenheiros: :app_email',
+
+    'The sending messages is not enabled. Please check the SMTP settings in the /.env file.' => 'As mensagens de envio não estão ativadas. Verifique as configurações de SMTP no arquivo /.env. ',
+
+    'The sending messages is not enabled. Please check the SMTP settings in the admin.' => 'As mensagens de envio não estão ativadas. Verifique as configurações de SMTP no administrador.',
+
+    'Your account has been deleted.' => 'Sua conta foi excluída',
+
+    'Your account has been deleted. We regret you.' => 'Lamentamos mas a sua conta foi excluída.',
+
+    'Your account has been deleted. We regret you. <a href=":url">Re-register</a> if that is a mistake.' => 'Lamentamos mas a sua conta foi excluída. <a href=":url">Inscreva-se</a> novamente se for um erro.',
+
+    'We have received your payment.' => 'Recebemos seu pagamento.',
+
+    'We have received your payment. Please check your inbox to activate your ad.' => 'Recebemos seu pagamento. Verifique sua caixa de e-mail para ativar seu anúncio. ',
+
+    'We have not received your payment. Payment cancelled.' => 'Não recebemos seu pagamento. Pagamento cancelado.',
+
+    'We have not received your payment. An error occurred.' => 'Não recebemos seu pagamento. Um erro ocorreu.',
+
+    'Address' => 'Endereço',
+
+    'Fill an address to display on Google Maps.' => 'Preencha um endereço para exibir no Google Maps.',
+
+    'Unknown error. Please try again in a few minutes.' => 'Erro desconhecido. Por favor, tente novamente em alguns minutos.',
+
+    'Email address not found. You can\'t use your :provider account on our website.' => 'Endereço de e-mail não encontrado. Você não pode usar sua conta de login em nosso site.',
+
+    'Payable Amount' => 'Valor a pagar',
+
+    'Home - Featured Ads' => 'Anúncios em <span style="font-weight: bold;">Destaque</span>',
+
+    'Similar Ads' => 'Anúncios <span style="font-weight: bold;"> Semelhantes</span>',
+
+    'More ads at :distance :unit around :city' => 'Mais anúncios em :distance :unit em redor de <span style="font-weight: bold;">:city</span>',
+
+    'Error' => 'Erro',
+
+    'Unknown error' => 'Erro desconhecido',
+
+    'Error. Please select another Country.' => 'Erro. Selecione outro país. ',
+
+    'Error. Please select another category.' => 'Erro. Selecione outra categoria. ',
+
+    'Error. Please select another location.' => 'Erro. Selecione outra localização.',
+
+    'Error. Post doesn\'t exist.' => 'Erro. Post não existe.',
+
+    'Unactivated ads' => 'Anúncios desativados',
+
+    'Activated ads' => 'Anúncios ativados',
+
+    'User Registrations' => 'Registro de utilizadores',
+
+    'Activated countries' => 'Países instalados',
+
+    'Connect with Facebook' => 'Conecte-se com  <strong>Facebook</strong>',
+
+    'Connect with Google' => 'Conecte-se com  <strong>Google</strong>',
+
+    'Connect with Twitter' => 'Conecte-se com  <strong>Twitter</strong>',
+
+    'or' => 'or',
+
+    'Premium ad' => 'Anúncio premium',
+
+    'Not available' => 'Indisponivel',
+
+    'Upgrade' => 'Upgrade',
+
+    'Current' => 'Corrente',
+
+    'Help' => 'Ajuda',
+
+    'To launch your website for several countries you need to activate these countries.' => 'Para iniciar o seu site para vários países, você precisa ativar esses países.',
+
+    'By disabling or removing a country the ads of this country (also) will be deleted.' => 'Ao desativar ou remover um país, os anúncios desse país (também) serão excluídos.',
+
+    'Contact' => 'Contate-nos',
+
+    'Contact us' => 'Entre em Contato Conosco',
+
+    'Contact Us' => 'Entre em Contato Conosco',
+
+    'Login Area' => 'Login Area',
+
+    'Knowledge Base' => 'Centro de Ajuda',
+
+    'Subject' => 'Assunto',
+
+    'Anti-scam' => 'Anti-scam',
+
+    'Clear all' => 'CLimpar Tudo',
+
+    'hour' => 'hora',
+
+    'hours' => 'horas',
+
+    'day' => 'dia',
+
+    'days' => 'dias',
+
+    'month' => 'mês',
+
+    'months' => 'meses',
+
+    'year' => 'ano',
+
+    'years' => 'anos',
+
+    'Date Posted' => 'Data de Publicação',
+
+    'last' => 'último',
+
+    'from a' => 'desde',
+
+    'Featured' => 'Destaque',
+
+    'Expired' => 'Expirado',
+
+    'Payment Details' => 'Detalhes de pagamento',
+
+    'Username' => 'Usuário',
+
+    'Email or Phone' => 'Email or Telefone',
+
+    'Email address' => 'Endereço de Email',
+
+    'SMS Code' => 'Código de SMS',
+
+    'Token' => 'Token',
+
+    'Code' => 'Código',
+
+    'Code received by Email' => 'Código recebido por e-mail',
+
+    'Code received by SMS' => 'Código recebido por SMS',
+
+    'Code received by SMS or Email' => 'Código recebido por SMS ou E-mail',
+
+    'Validation Code' => 'Validation Code',
+
+    'Enter the validation code' => 'Digite o código de validação',
+
+    'Enter the code you received by Email in the field below' => 'Enter the code you received by Email in the field below',
+
+    'Enter the code you received by SMS in the field below' => 'Digite o código que você recebeu por e-mail no campo abaixo',
+
+    'Enter the code you received by SMS or Email in the field below' => 'Digite o código que você recebeu por SMS ou Email no campo abaixo',
+
+    'The entered code is invalid.' => 'O código introduzido não é válido.',
+
+    'These credentials do not match our records.' => 'Essas informações não correspondem a nosso registros',
+
+    'The code does not match your email or phone number.' => 'O código não corresponde ao seu e-mail ou número de telefone.',
+
+    'The code does not match your email.' => 'O código não corresponde ao seu email.',
+
+    'The code does not match your phone number.' => 'O código não corresponde ao seu número de telefone.',
+
+    'The entered value is not registered with us.' => 'O valor inserido não está registrado conosco.',
+
+    'This feature has been turned off in demo mode.' => 'Esta função foi desligada no modo de demonstração.',
+
+    'Photos' => 'Foto',
+
+    'Option' => 'Opção',
+
+    'Back' => 'Voltar',
+
+    'Back to the Item' => 'Voltar ao Item',
+
+    'Report for :title' => 'Relatório para ":title"',
+
+    'Send a report for :title' => 'Enviar um relatório para  ":title"',
+
+    'Home - Latest Ads' => 'Anúncios <span style="font-weight: bold;">mais recentes</span>',
+
+    'Home - Sponsored Ads' => 'Anúncios <span style="font-weight: bold;">patrocinados</span>',
+
+    'Upload Photos' => 'Fotos',
+
+    'Images' => 'Imagens',
+
+    'Preview' => 'Previsualizar',
+
+    'Done' => 'Concluido',
+
+    'The pictures have been updated' => 'As imagens foram atualizadas',
+
+    'Are you sure you want to delete this picture?' => 'Tem certeza de que deseja excluir esta imagem?',
+
+    'The picture has been deleted.' => 'A imagem foi eliminada.',
+
+    'Post not found' => 'Post not found',
+
+    'Upload Status' => 'Upload Status',
+
+    'The picture #:key is required.' => 'The picture #:key is required.',
+
+    'The picture #:key must be image.' => 'A Foto #:key tem que ser imagem.',
+
+    'The picture #:key may not be greater than :max.' => 'A Foto #:key não pode ser maior que :max.',
+
+    'Uploaded file #index successfully' => '\'<li>\' + \'Carregamento do ficheiro # \' + (index + 1) + \' - \'  + fname + \' com sucesso\' + \'</li>\'',
+
+    'Uploaded file #key successfully' => '\'<li>\' + \'Carregamento do ficheiro  # \' + (key + 1) + \' - \'  + fname + \' com sucesso.\' + \'</li>\'',
+
+    'Do you want add more pictures?' => 'Deseja adicionar mais fotos?',
+
+    'Add more pictures?' => 'Adicionar mais fotos?',
+
+    'Upload pictures' => 'Carregar imagens',
+
+    'Upload the picture' => 'Carregar a imagenm',
+
+    'Upload files' => 'Carregar ficheiros',
+
+    'Upload the file' => 'Carregar ficheiro',
+
+    'Send' => 'Enviar',
+
+    'Pay' => 'Pagar',
+
+    'Pricing' => 'Preços',
+
+    'Packages' => 'Pacotes',
+
+    'Package' => 'Pacote',
+
+    'The type of admin does not exist.' => 'O tipo de administrador não existe.',
+
+    'No admin. division doesn\'t exists for the current country.' => 'Nenhum administrador. A divisão não existe para o país atual.',
+
+    'area:' => 'area:',
+
+    'Enter a city name OR a state name with the prefix ":prefix" like: :prefix' => 'Digite um nome da cidade OU um nome de estado com o prefixo  ":prefix" Por exemplo: :prefix',
+
+    'State Name' => 'State Name',
+
+    'for' => 'para',
+
+    'among' => 'entre',
+
+    'inside' => 'dentro',
+
+    'within' => 'dentro',
+
+    'of' => 'de',
+
+    'from' => 'de',
+
+    'Post saved in favorites successfully !' => 'Post guardado em favoritos com sucesso!',
+
+    'Post deleted from favorites successfully !' => 'Mensagem excluída dos favoritos com sucesso!',
+
+    'An activation link has been sent to you to verify your email address.' => 'Um link de ativação foi enviado para confirmação de seu e-mail.',
+
+    'An activation code has been sent to you to verify your phone number.' => 'An activation code has been sent to you to verify your phone number.',
+
+    'The activation link has been sent to you to verify your email address.' => 'O link de ativação foi enviado para você para verificar seu endereço de e-mail',
+
+    'The activation code has been sent to you to verify your phone number.' => 'O código de ativação foi enviado para você para verificar seu número de telefone.',
+
+    'Resend the verification message to verify your email address.' => 'Reenviar mensagem para confirmação de e-mail.',
+
+    'Resend the verification message to verify your phone number.' => 'Reenviar a mensagem de verificação para verificar seu número de telefone.',
+
+    'Re-send' => 'Reenviar',
+
+    'Entity ID not found.' => 'Entidade não encontrada.',
+
+    'Congratulation :name ! Your :field has been verified.' => 'Parabéns :name ! Seu :field foi confirmado.',
+
+    'Your :field is already verified.' => 'Seu :field já está verificado.',
+
+    'Your :field verification has failed.' => 'Seu :field já foi verificado.',
+
+    'Homepage' => 'Página inicial',
+
+    'Messages' => 'Mensagens',
+
+    'Messages Received' => 'Mensagens Recebidas',
+
+    'Messages Received on :app_name' => 'Mensagens recebidas no :app_name',
+
+    'Ad' => 'Anúncio',
+
+    'Download' => 'Transferir',
+
+    'View' => 'Visualizar',
+
+    'Transactions' => 'Transações',
+
+    'Transaction' => 'Transação',
+
+    'My Transactions' => 'Minhas Transações',
+
+    'My Transactions on :app_name' => 'Minhas transações no :app_name',
+
+    'Description' => 'Descrição',
+
+    'Value' => 'Valor',
+
+    'Status' => 'Status',
+
+    'Pending payment' => 'Pagamento pendente',
+
+    'Pending' => 'Pendente',
+
+    'Paid by' => 'Pago por',
+
+    '1 :entity has been deleted successfully.' => '1 :entity foi excluída com sucesso.',
+
+    'x :entities has been deleted successfully.' => ':count :entities foram excluídas com sucesso.',
+
+    'messages' => 'Mensagens',
+
+    'message' => 'mensagem',
+
+    'ad' => 'anúncio',
+
+    'ads' => 'anúncios',
+
+    'post' => 'anúncio',
+
+    'posts' => 'anúncios',
+
+    'Message for' => 'Mensagem para ',
+
+    'Reply' => 'Responder',
+
+    'Sender\'s Name' => 'Nome do remetente',
+
+    'Sender\'s Email' => 'E-mail do remetente',
+
+    'Sender\'s Phone' => 'Telefone do remetente',
+
+    'You have already answered this message.' => 'Você já respondeu esta mensagem',
+
+    'Error on user\'s login.' => 'Erro no login do utilizador',
+
+    'The activation link has been sent to the user to verify his email address.' => 'O link de ativação foi enviado ao utilizador para verificar seu endereço de e-mail',
+
+    'The activation code has been sent to the user to verify his phone number.' => 'O código de ativação foi enviado ao utilizador para verificar seu número de telefone.',
+
+    'The :field is required.' => 'O :field é necessário.',
+
+    'The :field is required. And cannot be 0.' => 'O :field é necessário. Não pode ser 0.',
+
+    'The file of :field must be in the good format.' => 'O ficheiro de :field tem que ter um bom formato.',
+
+    'The file of :field may not be greater than :max.' => 'O ficheiro de :field não pode ser maior que :max.',
+
+    'Additional Details' => 'Detalhes adicionais',
+
+    'Map' => 'Mapa',
+
+    'Maps' => 'Mapas',
+
+    'Location\'s Map' => 'Localização no mapa',
+
+    'Specification' => 'Especificação',
+
+    'More Specification' => 'Mais Especificações',
+
+    'Clear all the :category\'s filters' => 'Limpar todos os filtros da categoria :category',
+
+    'Are you sure you want to perform this action?' => 'Você tem certeza de que deseja executar esta ação?',
+
+    'km' => 'km',
+
+    'kilometer' => 'kilometro',
+
+    'kilometers' => 'kilometros',
+
+    'count_km' => '{0} km|{1} km|[2,*] km',
+
+    'count_kilometers' => '{0} kilometro|{1} kilometro|[2,*] kilometros',
+
+    'mi' => 'mi',
+
+    'mile' => 'milha',
+
+    'miles' => 'milhas',
+
+    'count_mi' => '{0} mi|{1} mi|[2,*] mi',
+
+    'count_miles' => '{0} milha|{1} milha|[2,*] milhas',
+
+    'Your reply has been sent. Thank you!' => 'Sua resposta foi enviada. Obrigado!',
+
+    'prev' => 'anterior',
+
+    'next' => 'seguinte',
+
+    'Tags' => 'Tags',
+
+    'Tag' => 'Tag',
+
+    'Enter the tags separated by commas.' => 'Digite as tags separadas por vírgulas.',
+
+    'add a tag' => 'adicionar uma tag',
+
+    'Click to see' => 'Clique para ver',
+
+    'Payment pending' => 'Pagamento pendente',
+
+    'Error found' => 'Erro encontrado',
+
+    'Contact & Sitemap' => 'Contato e Sitemap',
+
+    'Mobile Apps' => 'Aplicações móveis',
+
+    'iOS app' => 'iOS app',
+
+    'Android App' => 'Android App',
+
+    'Available on the App Store' => 'Disponível na App Store',
+
+    'Available on Google Play' => 'Disponível no Google Play',
+
+    'Follow us on' => 'Siga-nos',
+
+    'Powered by' => 'Powered by',
+
+    'Select your Country' => 'Selecione seu país',
+
+    'Select a Country' => 'Selecione um país',
+
+    'See you soon.' => 'Até breve.',
+
+    'on' => 'on',
+
+    'Duration' => 'Duração',
+
+    'Loading' => 'Carregando',
+
+    'Processing' => 'Processando',
+
+    'Your picture has been reorder successfully' => 'Sua foto foi reordenada com sucesso',
+
+    'Do have anything to sell or rent?' => 'Tem alguma coisa para vender ou alugar?',
+
+    'Create your Favorite ads list, and save your searches. Don\'t forget any deal!' => 'Crie sua lista de anúncios favoritos.  Salve sua pesquisa. Não deixe nenhum negócio para trás.',
+
+    'The picture #:key must be a file of type: :type.' => 'A imagem #:key deve ser um arquivo do tipo: :type.',
+
+    'Add Listing' => 'Adicione um post',
+
+    'Choose a city or region' => 'Escolha uma cidade ou região',
+
+    'Choose a state or region' => 'Escolha um estado ou região',
+
+    'Conversations' => 'Conversas',
+
+    'Conversation' => 'Conversação',
+
+    'Conversations Received' => 'Conversas Recebidas',
+
+    'Conversations Received on :app_name' => 'Conversas Recebidas em :app_name',
+
+    'Conversations Started' => 'Conversas Iniciadas',
+
+    'Conversations Started on :app_name' => 'Conversas Iniciadas em :app_name',
+
+    'Received at' => 'Recebido em',
+
+    'Related to the ad' => 'Relacionado ao anúncio',
+
+    'Sender' => 'Remetente',
+
+    'Click here to read the messages' => 'Clique aqui para ler as mensagens',
+
+    'Click here to see' => 'Clique aqui para ver',
+
+    'Reply to' => 'Responder a',
+
+    'Started by' => 'Começado por',
+
+    'Created by' => 'Criado por',
+
+    ':number max' => ':number máximo',
+
+    'Impersonate this user' => 'Entre como este usuário',
+
+    'Leave impersonation' => 'Sair do usuário',
+
+    'Leave' => 'Sair',
+
+    'The current user can\'t impersonate' => 'O usuário atual não pode efetuar login como outro usuário',
+
+    'The destination user can\'t be impersonated' => 'O usuário de destino não pode ser representado',
+
+    'Can\'t be accessed by an impersonator' => 'Can\'t be accessed by an impersonator',
+
+    'Cannot impersonate yourself' => 'Cannot impersonate yourself',
+
+    'Cannot impersonate admin users' => 'Cannot impersonate admin users',
+
+    'Cannot impersonate unactivated users' => 'Cannot impersonate unactivated users',
+
+    'Admin users can\'t be deleted by this way.' => 'Os usuários administradores não podem ser excluídos por esse meio.',
+
+    'Post Free Ad' => 'Publicar anúncio grátis',
+
+    'Filters' => 'Filtros',
+
+    'This user no longer exists.' => 'Este usuário não existe mais.',
+
+    'Maybe the user\'s account has been disabled or deleted.' => 'Talvez a conta do usuário tenha sido desativada ou excluída.',
+
+    'The results could not be loaded.' => 'Os resultados não puderam ser carregados.',
+
+    'Please delete #t character' => '\'Por favor delete \' + t + \' caracteres\'',
+
+    'Please enter #t or more characters' => '\'Por favor, insira \' + t + \' ou mais caracteres\'',
+
+    'Loading more results…' => 'Carregando mais resultados…',
+
+    'You can only select #max item' => '\'Você só pode selecionar \' + e.maximum + \' item\'',
+
+    'No results found' => 'Nenhum resultado encontrado',
+
+    'Searching…' => 'Procurando…',
+
+    'An error occurred while validating the data.' => 'Ocorreu um erro ao validar os dados.',
+
+    'Hide the phone number on the ads.' => 'Não mostrar número de telefone nos anúncios.',
+
+    'Hide' => 'Esconder',
+
+    'Show' => 'Mostra',
+
+    'Will never be displayed on the website.' => 'Nunca será exibido no site.',
+
+    'No payment has been made.' => 'Nenhum pagamento foi feito.',
+
+    'Whoops! Something went wrong!' => 'Ops! Algo deu errado!',
+
+    'Reload to see New Messages' => 'Recarregar para ver novas mensagens',
+
+    'Reload' => 'Recarregar',
+
+    'cookie_consent_message' => 'Sua experiência neste site será melhorada permitindo cookies.',
+
+    'cookie_consent_agree_btn_label' => 'Permitir cookies',
+
+    'Payment' => 'Pagamento',
+
+    'Author\'s Actions' => 'Ações do autor',
+
+    'Return to the Ad' => 'Regressar ao anúncio',
+
+    'Update the Details' => 'Atualizar os detalhes',
+
+    'Update Photos' => 'Atualizar fotos',
+
+    'Make It Premium' => 'Torne Premium',
+
+    'Offers' => 'Offertas',
+
+    'Offer Price' => 'Oferta',
+
+    'Original Price' => 'Original Price',
+
+    'Low Price' => 'Low Price',
+
+    'Fix Price' => 'Fix Price',
+
+    'Not Negotiation' => 'Not Negotiation',
+
+    'Good Offer' => 'Good Offer',
+
+    'Offer Description' => 'Offer Description',
+
+    'Add Information' => 'Add Information',
+
+    'Active' => 'Active',
+
+    'Not Active' => 'Not Active',
+
+    'Rejected' => 'Rejected',
+
+    'Accepted' => 'Accepted',
+
+    'Update Offer' => 'Atualizar oferta',
+
+    'Make an Offer' => 'Fazer uma oferta',
+
+    'Buy Now' => 'Compre agora',
+
+    'Offers Maker' => 'Offers Maker',
+
+    'Offer Maker' => 'Offer Maker',
+
+    'My Offer Maker' => 'My Offer Maker',
+
+    'My Offers Maker on :app_name' => 'My Offers Maker on :app_name',
+
+    'Add to Favorites' => 'Adicionar aos favoritos',
+
+    'Decision' => 'Decision',
+
+    'Offer' => 'Offer',
+
+    'Send Offer' => 'Enviar oferta',
+
+    'Add More in Offer' => 'Add More in Offer',
+
+    'Add' => 'Add',
+
+    'Add Post' => 'Add Post',
+
+    'Sign up for Newsletter' => 'Inscreva-se para nosso boletim informativo',
+
+    'Select Main Category' => 'Escolha a categoria principal',
+
+    'Select Subcategory' => 'Selecione uma subcategoria',
+
+    'Select Subcategory in' => 'Selecionar  subcategoria',
+
+    'The delivery service is provided by a third party where Deal Not Deal no control over, and assumes no responsibility or liability for, the practices of any third party.' => '* The delivery service is provided by a third party where Deal Not Deal no control over, and assumes no responsibility or liability for, the practices of any third party.',
+
+    'Please check the item post for to know who will be charged for the delivery cost.' => '* Please check the item post for to know who will be charged for the delivery cost.',
+
+    'Buyer Address' => 'Buyer Address',
+
+    'Your Address' => 'Your Address',
+
+    'Seller Address' => 'Seller Address',
+
+    'Do you have something to sell, buy, exchange or just give it away? Post it on our website, its free, for local business and very easy to use!' => 'Você tem algo para  vender, comprar, trocar ou simplesmente doar? Anuncie em nosso site, é grátis, para negócios locais e muito fácil de usar!',
+
+    'Newsletter successfully subscribe' => 'Newsletter successfully subscribe!',
+
+    'View all' => 'Ver tudo',
+
+    'State' => 'State',
+
+    'ZipCode' => 'Zip Code',
+
+    'Dob' => 'DOB',
+
+    'ID' => 'ID',
+
+    'show/hide your email' => 'mostre / oculte seu email',
+
+    'show/hide your phone' => 'show/hide your phone',
+
+    '500 max' => '500 max',
+
+    'Posted by' => 'Posted by',
+
+    'Seller' => 'Seller',
+
+    'Choose plan' => 'Escolha um plano',
+
+    'Show my phone number on the Ad' => 'Mostrar meu telefoneaopúblico',
+
+    'Show my Email on the Ad' => 'Mostrar meu e-mail ao público',
+
+    'City Name' => 'City Name',
+
+    'Latest Ads' => 'Últimos anúncios',
+
+        'Latest' => 'Últimos',
+
+            'Ads' => 'anúncios',
+
+    'Popular Ads' => 'Anúncios populares',
+
+    'Get it for Free' => 'Get it for Free',
+
+    'I want to have your item for free. would you please contact me here or on the phone number or the email shown above to discuss to how I can collect it. Thank you for your generosity !!' => 'I want to have your item for free. Would you please contact me here or on the phone number or the email shown above to discuss to how I can collect it. Thank you for your generosity !!',
+
+    'I want to purchase your item for the same price you are asking for. Please contact me on the email/phone shown above so we discuss how you want to get paid and how I want to collect the item.' => 'I want to purchase your item for the same price you are asking for. Please contact me on the email/phone shown above so we discuss how you want to get paid and how I want to collect the item.',
+
+    'Seller Type' => 'Seller Type',
+
+    'From' => 'From',
+
+    'To' => 'To',
+
+    'Date & Time' => 'Date & Time',
+
+    'Delivery Preference:' => 'Delivery Preference:',
+
+    'Pick up the item myself' => 'Pick up the item myself',
+
+    'Shipped or deliverd to me' => 'Shipped or deliverd to me',
+
+    'Send Delivery Info' => 'Send Delivery Info',
+
+    'Hi, It is pleasure to make a deal with you. According to our deal agreement please check my delivery preference and my contact information here so we can proceed. Waiting for your response to take action.' => 'Hi, It is pleasure to make a deal with you. According to our deal agreement please check my delivery preference and my contact information here so we can proceed. Thank you',
+
+    'Request a delivery' => 'Request a delivery',
+
+    'Buyer Username' => 'Buyer Username',
+
+    'Seller Username' => 'Seller Username',
+
+    'Date of pick up the item from the seller' => 'Date of pick up the item from the seller',
+
+    'Time of pick up the item from the seller' => 'Time of pick up the item from the seller',
+
+    'Delivery Info' => 'Delivery Info',
+
+    'To build a deal change the cash value and drag the items you would like to exchange inside the briefcase' => 'Para fechar um negócio, altere o valor em dinheiro e arraste os itens que você gostaria de trocar para dentro da pasta',
+
+    'shipping cost will be split equally between the seller and buyer' => 'shipping cost will be split equally between the seller and buyer',
+
+    'New Offer' => 'New Offer',
+
+    'Deal' => 'DEAL!',
+
+    'Closed' => 'CLOSED!',
+
+    'Not Deal' => 'NOT DEAL!',
+
+    'Counter-Offer' => 'COUNTER-OFFER',
+
+    'Send New Offer' => 'SEND NEW OFFER',
+
+    'Close Offer' => 'CLOSE OFFER',
+
+    'Accept' => 'ACCEPT',
+
+    'Reject' => 'REJECT',
+
+    'Awaiting Response' => 'Aguardando resposta',
+
+    'Message successfully sent' => 'Message successfully sent',
+
+    'Buyer Phone' => 'Buyer Phone',
+
+    'Add Products' => 'Add Products',
+
+    'Men' => 'Men',
+
+    'Women' => 'Women',
+
+    'Girls' => 'Girls',
+
+    'Boys' => 'Boys',
+
+    'Toddlers & Children' => 'Toddlers & Children',
+
+    'Newborns & Infants' => 'Newborns & Infants',
+
+    'Beauty & Care' => 'Beauty & Care',
+
+    'Animals' => 'Animals',
+
+    'Arts' => 'Arts',
+
+    'Equipment & Materials' => 'Equipment & Materials',
+
+    'Events & Coupons' => 'Events & Coupons',
+
+    'Books' => 'Books',
+
+    'Electronics' => 'Electronics',
+
+    'Food' => 'Food',
+
+    'Furniture' => 'Furniture',
+
+    'Marine' => 'Marine',
+
+    'Real Estate' => 'Real Estate',
+
+    'Services' => 'Services',
+
+    'Sports' => 'Sports',
+
+    'Toys' => 'Toys',
+
+    'Vehicles' => 'Vehicles',
+
+    'Others' => 'Others',
+
+    'Offers & Sales' => 'Offers & Sales',
+
+];
+

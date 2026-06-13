@@ -1,0 +1,1598 @@
+<?php 
+
+
+
+return [
+
+    'Counter-Offer' => 'Gegenangebot',
+
+    'Close Offer' => 'Angebot schließen',
+
+    'Send New Offer' => 'Neues Angebot',
+
+    'Accepted' => 'Akzeptiert',
+
+	
+
+  'Balance' => 'Balance',
+
+  'Your Current Balance' => 'Your Current Balance',
+
+  'Points' => 'Points',
+
+  'Increase Your Balance' => 'Increase Your Balance',
+
+  'Recharge Points First' => 'Recharge Points First',
+
+  'Recharge Points' => 'Recharge Points',
+
+  
+
+  
+
+    'Accept' => 'Akzeptieren',
+
+    'Reject' => 'Ablehnen',
+
+    'Show all posts' => 'Alle Artikel',
+
+    'Show posts with images only' => 'Nur Artikel mit Bilder',
+
+    'New Offer' => 'Neues Gebot',
+
+    'Send Delivery Info' => 'Versandinformation senden',
+
+    'Hi, It is pleasure to make a deal with you. According to our deal agreement please check my delivery preference and my contact information here so we can proceed. Waiting for your response to take action.' => 'Hallo, es ist mir eine Freude mit Ihnen einen Deal zu machen. Bitte überprüfen Sie gemäß unserer Geschäftsvereinbarung hier meine Versandpräferenz und Kontaktdaten, damit wir fortfahren können. Danke',
+
+    'Buyer Address' => 'Käufer Adresse',
+
+    'Closed' => 'Geschlossen!',
+
+    'View all' => 'Alle ansehen',
+
+    'Newsletter successfully subscribe' => 'Newsletter erfolgreich abonniert!',
+
+    'The delivery service is provided by a third party where Deal Not Deal no control over, and assumes no responsibility or liability for, the practices of any third party.' => '* Der Lieferservice wird von einem Dritten erbracht, für den Deal no Deal keine Kontrolle über die Praktiken Dritter hat und keine Verantwortung oder Haftung dafür übernimmt.',
+
+    'Please check the item post for to know who will be charged for the delivery cost.' => '* Bitte überprüfen Sie die Beschreibung der Artikel, um zu erfahren, wer für die Versandkosten in Rechnung gestellt wird.',
+
+    'Date & Time Preference' => 'Datums- und Uhrzeiteinstellung',
+
+    'Free local classified ads in the World' => 'Free Local Classified Ads in the World',
+
+    'Free local classified ads in :location' => 'Free Local Classified Ads in :location',
+
+    'Sell and buy near you' => 'Wenn du deine Produkte NICHT verkaufen, oder ein anderes Produkt kaufen kannst ... Probiere es doch einfach zu tauschen!',
+
+    'Simple, fast and efficient' => 'Einfach, schnell und effizient',
+
+    'Daily good deals' => 'Daily good deals',
+
+    'Daily good deals in :location' => 'Daily good deals in :location',
+
+    'Looking for a product or service' => 'Looking for a product or service',
+
+    'Post your Free Ads here' => 'Post your Free Ads here',
+
+    'Make your deal Now!' => 'Make your deal Now!',
+
+    'Free Ads' => 'Free ads',
+
+    'Free ads' => 'Free ads',
+
+    'Free ads in' => 'Free ads in',
+
+    'Free ads in :location' => 'Free ads in :location',
+
+    'Free ads in :category' => 'Free ads in :category',
+
+    'Free ads :category in :location' => 'Free ads :category in :location',
+
+    'Search for' => 'Search for',
+
+    'free ads' => 'free ads',
+
+    'free ads in' => 'free ads in',
+
+    'Latest free ads' => 'Latest free ads',
+
+    ':count free local classified ads' => ':count free local classified ads',
+
+    ':count free local classified ads in :location' => ':count free local classified ads in <strong>:location</strong>',
+
+    '100% Free local classified ads' => '100% Free local classified ads',
+
+    'Free ads in the World' => 'Free ads in the World',
+
+    'Select a country' => 'Select a country',
+
+    'Select your country to start' => 'Wähle dein Land austry to start',
+
+    'I\'m looking for a ...' => 'I\'m looking for a ...',
+
+    'Location (City) ...' => 'Location (City) ...',
+
+    'What?' => 'Was?',
+
+    'Where?' => 'Wo?',
+
+    'Select your Location' => 'Select your Location',
+
+    'Please select your location before' => 'Please select your location before',
+
+    'Find' => 'Finden',
+
+    'Search' => 'Suchen',
+
+    'Sell and Buy your products and services on :app_name in Minutes' => '<strong>Sell</strong> and <strong>Buy</strong> your products and services on :app_name in Minutes',
+
+    'Sell, Buy and Rent your products and services on :app_name in Minutes' => '<strong>Sell</strong>, <strong>Buy</strong> and <strong>Rent</strong> your products and services on :app_name in Minutes',
+
+    'Sell and Buy products and services on :app_name in Minutes' => '<strong>Sell</strong> and <strong>Buy</strong> products and services on :app_name in Minutes',
+
+    'Sell, Buy and Rent products and services on :app_name in Minutes' => '<strong>Sell</strong>, <strong>Buy</strong> and <strong>Rent</strong> products and services on :app_name in Minutes',
+
+    'Post Free Ads' => 'Artikel hinzufügen',
+
+    'Start Now!' => 'Start Now!',
+
+    'e.g. Smartphone' => 'e.g. Smartphone',
+
+    'All Categories' => 'Alle Kategorien',
+
+    'Others Categories' => 'Alle Kategorien',
+
+    'Price range' => 'Preisspanne',
+
+    'Salary range' => 'Salary range',
+
+    'GO' => 'Los',
+
+    'Condition' => 'Condition',
+
+    'New' => 'New',
+
+    'Used' => 'Used',
+
+    'None' => 'None',
+
+    'Location' => 'Standort',
+
+    'Locations' => 'Locations',
+
+    'Urgent' => 'Urgent',
+
+    'Urgent Ads only' => 'Urgent Ads only',
+
+    ':app_name is also available in your country: :country. Starting good deals here now!' => ':app_name ist auch in deinem Land verfügbar: <a href=":url"><strong>:country</strong></a>. Starte jetzt <a href=":url"><strong>hier</strong></a> gute Geschäfte!',
+
+    'Login for faster access to the best deals. Click here if you don\'t have an account.' => '<a href=":login_url"><strong>Melden Sie sich</strong></a> für einen schnelleren Zugriff auf die besten Angebote an. <a href=":register_url"><strong>Klicken Sie hier,</strong></a> wenn Sie noch kein Konto haben.',
+
+    'List of Categories and Sub-categories' => 'Liste der Kategorien und Unterkategorien',
+
+    'List of Cities in' => 'Liste der Städte in',
+
+    'Do have anything to sell or rent?' => 'Do have anything to sell or rent?',
+
+    'Sell your products and services online FOR FREE. It\'s easier than you think !' => 'Sell your products and services online FOR FREE. It\'s easier than you think !',
+
+    'footer_note' => '<strong>Sell</strong>, <strong>Offer</strong>, <strong>Rent</strong>, <strong>Bargain</strong>, <strong>Search</strong>, <strong>Buy</strong> products and services in <strong>:country</strong>. It\'s 100% free!',
+
+    'Home' => 'Home',
+
+    'About us' => 'About us',
+
+    'FAQ' => 'Häufig gestellte Fragen',
+
+    'Sitemap' => 'Seitenverzeichnis',
+
+    'I am abroad' => 'I am abroad',
+
+    'Countries' => 'Countries',
+
+    'Terms' => 'Terms',
+
+    'Privacy' => 'Privacy',
+
+    'All Rights Reserved' => 'Alle Rechte vorbehalten',
+
+    'Password' => 'Passwort',
+
+    'Submit' => 'Senden',
+
+    'Keep me logged in' => 'Angemeldet bleiben',
+
+    'Lost your password?' => 'Passwort vergessen?',
+
+    'Don\'t have an account?' => 'Hast du kein Konto ?',
+
+    'Signup' => 'Signup',
+
+    'Sign Up' => 'Melde dich an',
+
+    'Signin' => 'Signin',
+
+    'Sign In' => 'Sign In',
+
+    'Login' => 'Anmelden',
+
+    'Log In' => 'Anmelden',
+
+    'Logout' => 'Logout',
+
+    'Log Out' => 'Abmelden',
+
+    'Signout' => 'Signout',
+
+    'Sign Out' => 'Sign Out',
+
+    'Create your account, Its free' => 'Erstelle dein Konto, es ist 100% kostenlos',
+
+    'Gender' => 'Geschlecht',
+
+    'Select a gender' => 'Select a Geschlecht',
+
+     'Male' => 'Männlich',
+
+     'Female' => 'Weiblich',
+
+    'Mr' => 'Mr',
+
+    'Mrs' => 'Mrs',
+
+    'First Name' => 'Vorname',
+
+    'Last Name' => 'Nachname',
+
+    'Mobile' => 'Handy, Mobiltelefon',
+
+    'User Type' => 'Benutzertyp',
+
+    'Professional' => 'Beruflich/Professionell',
+
+    'Individual' => 'Privat',
+
+    'Company name' => 'Company name',
+
+    'Company Name' => 'Company Name',
+
+    'Your Country' => 'Land',
+
+    'Country' => 'Land',
+
+    'Phone' => 'Telefon',
+
+    'Phone Number' => 'Telefonnummer',
+
+    'Without Country Code' => 'Telefonnummer ohne Landesvorwahl',
+
+    'Email' => 'Email',
+
+    'Please repeat your password' => 'Please repeat your password',
+
+    'At least 5 characters' => 'mindestens 5 Zeichen',
+
+    'I have read and agree to the <a :attributes>Terms & Conditions</a>' => 'Ich habe die allgemeinen <a :attributes>AGB‘s gelesen und akzeptiere diese</a>',
+
+    'By continuing on this website, you accept our <a :attributes>Terms of Use</a>' => 'Mit dem weiter drücken auf dieser Webseite, akzeptieren Sie unsere <a :attributes>Nutzungsbedingungen</a>',
+
+    'By continuing on this website, you accept our <a :attributes>Terms of Use</a> and Posting Rules' => 'By continuing on this website, you accept our <a :attributes>Terms of Use</a> and Posting Rules',
+
+    'Register' => 'Registrieren',
+
+    'Your message has been sent to our moderators' => 'Your message has been sent to our moderators.',
+
+    'Your message has been sent to our moderators. Thank you' => 'Your message has been sent to our moderators. Thank you.',
+
+    'Post a Free Classified' => 'Kostenlose Kleinanzeige aufgeben',
+
+    'Do you have something to sell, to rent, any service to offer or a job offer? Post it at :app_name, its free, local, easy, reliable and super fast!' => 'Do you have something to sell, to rent, any service to offer or a job offer? Post it at :app_name, its free, for local business and very easy to use!',
+
+    'Do you have something to sell, buy, exchange or just give it away? Post it on our website, its free, for local business and very easy to use!' => 'Willst du etwas verkaufen, kaufen, tauschen oder einfach weggeben? Poste es ganz einfach und kostenlos für lokale Geschäfte auf unserer Webseite.',
+
+    'Create and Manage Items' => 'Artikel erstellen und verwalten',
+
+    'Become a best seller or buyer. Create and Manage your ads. Repost your old ads, etc.' => 'Werde ein guter Verkäufer oder Käufer. Erstelle und verwalte deine Anzeigen. Erneuere deine alten Anzeigen, etc.',
+
+    'Create your Favorite ads list.' => 'Erstelle deine Lieblingsanzeigenliste.',
+
+    'Create your Favorite ads list, and save your searches. Don\'t forget any deal!' => 'Erstelle deine Lieblingsanzeigenliste. Speicher deine Suche. Vergesse keinen Deal.',
+
+    'SignUp For Newsletter' => 'Für Neuigkeiten anmelden',
+
+    'Category' => 'Kategorien',
+
+    'Select a category' => 'Wähle eine Kategorie',
+
+    'Sub-Category' => 'Unterkategorie',
+
+    'Select a sub-category' => 'Wähle eine Unterkategorie',
+
+    'Ad\'s Type' => 'Ad\'s Type',
+
+    'Type' => 'Status',
+
+    'Private' => 'Privat',
+
+    'Business' => 'Business',
+
+    'Title' => 'Titel',
+
+    'Ad\'s title' => 'Titel hinzufügen',
+
+    'Post\'s title' => 'Post\'s title',
+
+    'A great title needs at least 60 characters.' => 'Eine gute Beschreibung braucht mindestens 60 Zeichen.',
+
+    'Describe ad' => 'Describe ad',
+
+    'Describe what makes your ad unique' => 'Beschreibe was deine Anzeige einzigartig macht…',
+
+    'Price' => 'Preis',
+
+    'e.i. 15000' => 'eg 15000',
+
+    'Negotiable' => 'Negotiable',
+
+    'Photo' => 'Bilder',
+
+    'Pictures' => 'Bilder',
+
+    'Your resume' => 'Your resume',
+
+    'Resume format' => 'Format : pdf, doc, docx, odt, rtf, jpg, png',
+
+    'File types: :file_types' => 'File types: :file_types',
+
+    'Browse' => 'Browse',
+
+    'Add up to :pictures_number photos. Use a real image of your product, not catalogs.' => 'Fügen Sie bis zu :pictures_number Bilder ein.Benutzen Sie ihre eigenen Bilder.Keine Werbebilder.',
+
+    'Seller information' => 'Angaben zum Verkäufer',
+
+    'Seller Name' => 'Seller Name',
+
+    'Seller Email' => 'Seller Email',
+
+    'Phone Number (in local format)' => 'Telefonnummer (in local format)',
+
+    'Hide the phone number on this ads.' => 'Hide the phone number on this ads.',
+
+    'Select a location' => 'Select a location',
+
+    'Sub-location' => 'Sub-location',
+
+    'Select a sub-location' => 'Select a sub-location',
+
+    'City' => 'Stadt',
+
+    'Select a city' => 'Select a city',
+
+    'Cities' => 'Cities',
+
+    'How to sell quickly?' => 'Wie kann man schnell verkaufen ?',
+
+    'Use a brief title and description of the item' => 'Verwenden Sie eine kurze Überschrift und Beschreibung des Artikels',
+
+    'Make sure you post in the correct category' => 'Vergewissern Sie sich, dass Sie in der richtigen Kategorie Posten',
+
+    'Add nice photos to your ad' => 'Machen Sie schöne Fotos ihres Artikels',
+
+    'Put a reasonable price' => 'Schreiben Sie einen angemessenen Preis',
+
+    'Check the item before publish' => 'Prüfen Sie ihre Anzeige vor der Veröffentlichung',
+
+    'My ads' => 'Meine Anzeigen',
+
+    'My ads on :app_name' => 'My ads on :app_name',
+
+    'The repost has failed. Please try again.' => 'The repost has failed. Please try again.',
+
+    'The repost has done successfully.' => 'Der Repost wurde erfolgreich hinzugefügt.',
+
+    'My archived ads' => 'My archived ads',
+
+    'My archived ads on :app_name' => 'My archived ads on :app_name',
+
+    'My favourite ads' => 'My favourite ads',
+
+    'My favourite ads on :app_name' => 'My favourite ads on :app_name',
+
+    'My pending approval ads' => 'My pending approval ads',
+
+    'My pending approval ads on :app_name' => 'My pending approval ads on :app_name',
+
+    'My saved search' => 'My saved search',
+
+    'My saved search on :app_name' => 'My saved search on :app_name',
+
+    'No deletion is done. Please try again.' => 'Es ist keine Löschung erfolgt. Bitte versuche es erneut.',
+
+    'Your account details has updated successfully.' => 'Your account details has updated successfully.',
+
+    'Your details account has updated successfully.' => 'Ihr Konto wurde erfolgreich aktualisiert.',
+
+    'Your settings account has updated successfully.' => 'Your settings account has updated successfully.',
+
+    'My account' => 'Mein Konto',
+
+    'My account on :app_name' => 'My account on :app_name',
+
+    'Your message has sent successfully to :contact_name.' => 'Ihre Nachricht wurde erfolgreich an :contact_name.',
+
+    'Your report has sent successfully to us. Thank you!' => 'Your report has sent successfully to us. Thank you!',
+
+    'Posting Ads was disabled for this time. Please try later. Thank you.' => 'Posting Ads was disabled for this time. Please try later. Thank you.',
+
+    'Your ad has been created.' => 'Deine Anzeige wurde erstellt',
+
+    'Update My Ad' => 'Update My Ad',
+
+    'Date & Time' => 'Datum & Uhrzeit',
+
+    'Your ad has been updated.' => 'Auf eine Antwort warten.',
+
+    'Log in' => 'Anmelden',
+
+    'Log in to :app_name' => 'Log in to :app_name',
+
+    'The Email Address or Password don\'t match.' => 'The Email Address or Password don\'t match.',
+
+    'You have been logged out.' => ' Du wurdest ausgeloggt.',
+
+    'Sign Up on :app_name !' => 'Sign Up on :app_name !',
+
+    'Your account has been created.' => 'Dein Account wurde erstellt.',
+
+    'Welcome to :app_name' => 'Welcome to :app_name !',
+
+    'Welcome to :app_name : 100% Free Ads Classified' => 'Welcome to :app_name : 100% Free Ads Classified. Sell and buy near you. Simple, fast and efficient.',
+
+    'Sitemap :domain - :country. 100% Free Ads Classified' => 'Seitenverzeichnis :domain - :country. 100% Free Ads Classified',
+
+    'My Ads' => 'Meine Anzeigen',
+
+    'Archived ads' => 'Archivierte Anzeigen',
+
+    'Favourite ads' => 'Favoriten',
+
+    'Pending approval' => 'Austehende Genehmigung',
+
+    'Posts' => 'Posts',
+
+    'Ads' => 'Anzeige',
+
+    'Archived' => 'Archiviert',
+
+    'Select' => 'Auswählen',
+
+    'All' => 'alles',
+
+    'Distance within' => 'Entfernung',
+
+    'Delete' => 'Löschen',
+
+    'clear' => 'löschen',
+
+    'Ads Details' => 'Details zur Anzeige',
+
+    'Posted On' => 'Posted On',
+
+    'Visitors' => 'Visitors',
+
+    'Located In' => 'Located In',
+
+    'Approved' => 'Genehmigt',
+
+    'Edit' => 'Bearbeiten',
+
+    'Share' => 'Share',
+
+    'Repost' => 'Repost',
+
+    'Close account' => 'Konto schließen',
+
+    'You are sure you want to close your account?' => 'Bist du sicher, dass du dein Konto schließen möchtest?',
+
+    'Yes' => 'JA',
+
+    'No' => 'NEIN',
+
+    'count_posts' => '{0} Anzeigen|{1} Anzeigen|[2,*] Anzeigen',
+
+    'count_visits' => '{0} Besuche|{1} Besuche|[2,*] Besuche',
+
+    'count_favorites' => '{0} Favoriten|{1} Favoriten|[2,*] Favoriten',
+
+    'count_views' => '{0} Besuche|{1} Besuche|[2,*] Besuche',
+
+    'Oops ! An error has occurred. Please correct the red fields in the form' => 'Hoppla! Es ist ein Fehler aufgetreten. Bitte korrigiere die roten Felder im Formular.',
+
+    'Favorites' => 'Favoriten',
+
+    'Visits' => 'Besuche',
+
+    'Hello' => 'Hallo',
+
+    'You last logged in at' => 'Deine letzte Anmeldung war am',
+
+    'My details' => 'Meine Details',
+
+    'Hide the phone number on the published ads.' => 'Ocultar el número de teléfono en los anuncios publicados.',
+
+    'About Yourself' => 'About Yourself',
+
+    'Update' => 'Aktualisieren',
+
+    'Settings' => 'Einstellungen',
+
+    'Comments are enabled on my ads' => 'Comments are enabled on my ads',
+
+    'Disable comments on my ads' => 'Disable comments on my ads',
+
+    'New Password' => 'Neues Passwort',
+
+    'Confirm Password' => 'Passwort bestätigen',
+
+    'Preferences' => 'Preferences',
+
+    'I want to receive newsletter.' => 'I want to receive newsletter.',
+
+    'I want to receive advice on buying and selling.' => 'I want to receive advice on buying and selling.',
+
+    'Saved search' => 'Saved search',
+
+    'Saved searches' => 'Gespeicherte Suchen',
+
+    'You have no saved search.' => 'You have no saved search.',
+
+    'Business Ads' => 'Business Ads',
+
+    'Private Ads' => 'Private Ads',
+
+    'B' => 'B',
+
+    'P' => 'P',
+
+    'Please select a saved search to show the result' => 'Please select a saved search to show the result',
+
+    'No result. Refine your search using other criteria.' => 'Keine Ergebnisse.Verfeiner deine Suche.',
+
+    'Close' => 'Close',
+
+    'There\'s something wrong with this ads?' => 'There\'s something wrong with this ads?',
+
+    'Reason' => 'Reason',
+
+    'Select a reason' => 'Select a reason',
+
+    'Your E-mail' => 'Your E-mail',
+
+    'Message' => 'Nachricht',
+
+    'Cancel' => 'Löschen',
+
+    'Send Report' => 'Send Report',
+
+    'Warning! This ad has expired. The product or service is not more available (may be)' => '<strong>Warning !</strong> This ad has expired. The product or service is not more available (may be)',
+
+    'Back to Results' => 'Zur Anzeige zurück',
+
+    ':type ad' => ':type ad',
+
+    'Ad\'s Details' => 'Details zur Anzeige',
+
+    'Post\'s Details' => 'Post\'s Details',
+
+    'Salary' => 'Salary',
+
+    'Item' => 'Item',
+
+    'More ads by User' => 'More ads by User',
+
+    'Remove favorite' => 'Remove favorite',
+
+    'Save ad' => 'Save ad',
+
+    'Share ad' => 'Share ad',
+
+    'Report abuse' => 'Report abuse',
+
+    'My Resume' => 'My Resume',
+
+    'Resume' => 'Resume',
+
+    'Download the resume' => 'Download the resume',
+
+    'Send a message' => 'Eine Nachricht senden',
+
+    'Contact Seller' => 'Contact Seller',
+
+    'Safety Tips for Buyers' => 'Sicherheitstipps für Käufer',
+
+    'Meet seller at a public place' => 'Verkäufer an öffentlichen Plätzen treffen',
+
+    'Check the item before you buy' => 'Artikel vor dem Kauf überprüfen',
+
+    'Pay only after collecting the item' => 'Bezahlen Sie erst nach dem erhalten der Ware.',
+
+    'Know more' => 'Know more',
+
+    'View phone' => 'View phone',
+
+    'Contact advertiser' => 'Verkäufer Kontaktieren',
+
+    'Name' => 'Name',
+
+    'Your name' => 'Your name',
+
+    'E-mail' => 'Email',
+
+    'i.e. you@gmail.com' => 'i.e. you@gmail.com',
+
+    'Your message here...' => 'Deine Nachricht hier...',
+
+    'show/hide your email' => 'Zeige/verberge deine Email',
+
+    'show/hide your phone' => 'Zeige/verberge deine Telefonnummer',
+
+    'Send message' => 'Nachricht senden',
+
+    'Pick up the item myself' => 'Ich hole das Paket selber ab',
+
+    'Shipped or deliverd to me' => 'an mich Liefern/Versenden',
+
+    'Delivery Preference' => 'Lieferung Präferenz',
+
+    'Congratulations!' => 'Gratulation!',
+
+    'I want to purchase your item for the same price you are asking for. Please contact me on the email/phone shown above so we discuss how you want to get paid and how I want to collect the item.' => 'Ich möchte Ihren Artikel für den gleichen Preis, den Sie verlangen, kaufen.Bitte kontaktieren Sie mich per Email/Telefon ,sodass wir uns aussprechen können wie Sie bezahlt werden möchten und ich den gekauften Artikel abholen/empfangen kann.',
+
+    'Oops!' => 'Oops!',
+
+    'Download current Resume' => 'Download current Resume',
+
+    'Email Address' => 'Email Address',
+
+    'Send Password Reset Link' => 'Send Password Reset Link',
+
+    'Back to the Log In page' => 'Zurück zur Anmeldeseite',
+
+    'Sign Up !' => 'Melde dich an!',
+
+    'Firtst Name' => 'Name',
+
+    'Reset your Password' => 'Setze dein Passwort zurück',
+
+    'Reset Password' => 'Passwort zurücksetzen',
+
+    'Password Confirmation' => 'Passwort Bestätigung',
+
+    'Reset the Password' => 'Reset Password',
+
+    ':domain, sell and buy near you. Simple, fast and efficient.' => ':domain, sell and buy near you. Simple, fast and efficient.',
+
+    'Choose a city' => 'Choose a city',
+
+    'More cities' => 'More cities',
+
+    'Phishing' => 'Phishing',
+
+    'Rejected ads' => 'Abgelehnte Anzeigen',
+
+    'Profile' => 'Profil',
+
+    'Payment history' => 'Payment history',
+
+    'Top Ads' => 'Top',
+
+    'Featured Ads' => 'Featured',
+
+    'Save' => 'Speichern',
+
+    'All Ads' => 'Alle Anzeigen',
+
+    'Professionals' => 'Beruflich/ Professionell',
+
+    'Personal' => 'Privat',
+
+    'Personals' => 'Personal',
+
+    'Sort by' => 'sortieren nach',
+
+    'Price : Low to High' => 'Preis: Preis aufsteigend',
+
+    'Price : High to Low' => 'Preis: Preis absteigend',
+
+    'Relevance' => 'Relevanteste',
+
+    'Date : New to Old' => 'Datum: Neu bis Alt',
+
+    'ID' => 'Identifizierung',
+
+    'Around :distance :unit' => 'ungefähr :distance :unit',
+
+    'Around' => 'ungefähr',
+
+    'All ads' => 'Alle Anzeigen',
+
+    'Select your region' => 'Select your region',
+
+    'Popular cities in' => 'Popular cities in',
+
+    'All regions' => 'All regions',
+
+    'All Cities' => 'All Cities',
+
+    'in :distance :unit around :city' => 'in :distance :unit rund um :city',
+
+    ':distance :unit around :city' => ':distance :unit rund um :city',
+
+    'in :category' => 'in :category',
+
+    'in' => 'in',
+
+    'at' => 'aus',
+
+    'Save Search' => 'Save Search',
+
+    'Please log in to save the Ads.' => 'Please log in to save the Ads.',
+
+    'Please log in to save your search.' => 'Please log in to save the search.',
+
+    'Search saved successfully !' => 'Search saved successfully !',
+
+    'Search deleted successfully !' => 'Search deleted successfully !',
+
+    'The countries' => 'The countries',
+
+    'Our websites abroad' => 'Our websites abroad',
+
+    'My Account' => 'Mein Konto',
+
+    'Terminate Account' => 'Konto Löschen',
+
+    'We do not like robots' => 'Wir mögen keine Roboter :(',
+
+    'Sitemap :country' => 'Seitenverzeichnis - :country',
+
+    'We regret that we can not process your request at this time. Our engineers have been notified of this problem and will try to resolve it as soon as possible.' => 'We regret that we can not process your request at this time. Our engineers have been notified of this problem and will try to resolve it as soon as possible.',
+
+    'Whoops, looks like something went wrong. Please try later.' => 'Whoops, looks like something went wrong. Please try later.',
+
+    'Whoops, looks like something went wrong.' => 'Whoops, looks like something went wrong.',
+
+    'Whoops !' => 'Whoops !',
+
+    'Joined' => 'Beigetreten',
+
+    'Your session has expired. Please try again.' => 'Your session has expired. Please try again.',
+
+    'The session has expired after a longtime. Please try again.' => 'The session has expired after a longtime. Please try again.',
+
+    'Page not found' => 'Page not found',
+
+    'Oops ! Error 404. Page not found.' => 'Oops ! Error 404. Page not found.',
+
+    'Meanwhile, you may <a href=":url">return to homepage</a>' => 'Meanwhile, you may <a href=":url">return to homepage</a>',
+
+    'views' => 'ansehen',
+
+    'View More' => 'mehr Anzeigen',
+
+    'View Less' => 'weniger Anzeigen',
+
+    'Free' => 'Kostenlos',
+
+    'free' => 'Kostenlos',
+
+    'Step' => 'Step',
+
+    'Informations about your Ad' => 'Informations about your Ad',
+
+    'Upload' => 'Upload',
+
+    'Seller informations' => 'Seller informations',
+
+    'Select a package' => 'Select a package',
+
+    'Select a package and click "Finish"' => 'Select a package and click "Finish"',
+
+    'Next' => 'Weiter',
+
+    'Previous' => 'Zurück',
+
+    'Skip' => 'Überspringen',
+
+    'Premium Ad' => 'Premium Anzeigen',
+
+    'The premium package help sellers to promote their products or services by giving more visibility to their ads to attract more buyers and sell faster.' => 'The premium package help sellers to promote their products or services by giving more visibility to their ads to attract more buyers and sell faster.',
+
+    'Regular List' => 'Free',
+
+    'Payment Method' => 'Zahlungsmethode',
+
+    'Payment Methods' => 'Zahlungsmethode',
+
+    'Payment Gateway' => 'Payment Gateway',
+
+    'Payment Gateways' => 'Payment Gateways',
+
+    'Gateway' => 'Gateway',
+
+    'Gateways' => 'Gateways',
+
+    'Finish' => 'Anzeige aufgeben',
+
+    'Trusted Seller' => 'Trusted Seller',
+
+    'Trusted Sellers' => 'Trusted Sellers',
+
+    'Facebook Fans' => 'Facebook Fans',
+
+    'Sell anything for free' => 'Sell anything for FREE!',
+
+    'Hundreds of buyers every day' => 'Hundreds of buyers every day',
+
+    'Add images to sell faster' => 'Add images to sell faster!',
+
+    'We sponsor your Ad' => 'We sponsor your Ad',
+
+    'View all Ads' => 'View all Ads',
+
+    'Browse by' => '',
+
+    'View more' => 'mehr Anzeigen',
+
+    'Error in sending mail. Please contact our engineers: :app_email' => 'Error in sending mail. Please contact our engineers: :app_email',
+
+    'The sending messages is not enabled. Please check the SMTP settings in the /.env file.' => 'The sending messages is not enabled. Please check the SMTP settings in the <code>/.env</code> file.',
+
+    'The sending messages is not enabled. Please check the SMTP settings in the admin.' => 'The sending messages is not enabled. Please check the SMTP settings in the admin.',
+
+    'Your account has been deleted.' => 'Your account has been deleted.',
+
+    'Your account has been deleted. We regret you.' => 'Your account has been deleted. We regret you.',
+
+    'Your account has been deleted. We regret you. <a href=":url">Re-register</a> if that is a mistake.' => 'Your account has been deleted. We regret you. <a href=":url">Re-register</a> if that is a mistake.',
+
+    'We have received your payment.' => 'We have received your payment.',
+
+    'We have received your payment. Please check your inbox to activate your ad.' => 'We have received your payment. Please check your inbox to activate your ad.',
+
+    'We have not received your payment. Payment cancelled.' => 'We have not received your payment. Payment cancelled.',
+
+    'We have not received your payment. An error occurred.' => 'We have not received your payment. An error occurred.',
+
+    'Address' => 'Adresse',
+
+    'Fill an address to display on Google Maps.' => 'Fill an address to display on Google Maps.',
+
+    'Unknown error. Please try again in a few minutes.' => 'Unknown error. Please try again in a few minutes.',
+
+    'Email address not found. You can\'t use your :provider account on our website.' => 'Email address not found. You can\'t use your :provider account on our website.',
+
+    'Payable Amount' => 'Payable Amount',
+
+    'Home - Featured Ads' => 'Featured <span style="font-weight: bold;">Ads</span>',
+
+    'Similar Ads' => 'Ähnliche <span style="font-weight: bold;">Anzeigen</span>',
+
+    'More ads at :distance :unit around :city' => 'More ads at :distance :unit rund um <span style="font-weight: bold;">:city</span>',
+
+    'Error' => 'Fehler',
+
+    'Unknown error' => 'Unknown error',
+
+    'Error. Please select another Country.' => 'Error. Please select another Country.',
+
+    'Error. Please select another category.' => 'Error. Please select another category.',
+
+    'Error. Please select another location.' => 'Error. Please select another location.',
+
+    'Error. Post doesn\'t exist.' => 'Error. Post doesn\'t exist.',
+
+    'Unactivated ads' => 'Unactivated ads',
+
+    'Activated ads' => 'Aktivierte Anzeigen',
+
+    'User Registrations' => 'User Registrations',
+
+    'Activated countries' => 'Installed countries',
+
+    'Connect with Facebook' => 'Connect with <strong>Facebook</strong>',
+
+    'Connect with Google' => 'Connect with <strong>Google</strong>',
+
+    'Connect with Twitter' => 'Connect with <strong>Twitter</strong>',
+
+    'or' => 'or',
+
+    'Premium ad' => 'Premium Anzeigen',
+
+    'Not available' => 'Not available',
+
+    'Upgrade' => 'Upgrade',
+
+    'Current' => 'Current',
+
+    'Help' => 'Help',
+
+    'To launch your website for several countries you need to activate these countries.' => 'To launch your website for several countries you need to activate these countries.',
+
+    'By disabling or removing a country the ads of this country (also) will be deleted.' => 'By disabling or removing a country the ads of this country (also) will be deleted.',
+
+    'Contact' => 'Kontaktieren Sie uns',
+
+    'Contact us' => 'Kontaktieren Sie uns',
+
+    'Contact Us' => 'Kontaktieren Sie uns',
+
+    'Login Area' => 'Login Area',
+
+    'Knowledge Base' => 'Knowledge Base',
+
+    'Subject' => 'Um was handelt es sich',
+
+    'Anti-scam' => 'Anti-scam',
+
+    'Clear all' => 'Clear all',
+
+    'hour' => 'hour',
+
+    'hours' => 'Stunden',
+
+    'day' => 'day',
+
+    'days' => 'Tage',
+
+    'month' => 'month',
+
+    'months' => 'months',
+
+    'year' => 'year',
+
+    'years' => 'years',
+
+    'Date Posted' => 'Datum',
+
+    'last' => 'last',
+
+    'from a' => 'Von a',
+
+    'Featured' => 'Featured',
+
+    'Expired' => 'Expired',
+
+    'Payment Details' => 'Payment Details',
+
+    'Username' => 'Benutzername',
+
+    'Email or Phone' => 'Email or Phone',
+
+    'Email address' => 'Email Adresse',
+
+    'SMS Code' => 'SMS Code',
+
+    'Token' => 'Token',
+
+    'Code' => 'Code',
+
+    'Code received by Email' => 'Code received by Email',
+
+    'Code received by SMS' => 'Code received by SMS',
+
+    'Code received by SMS or Email' => 'Code received by SMS or Email',
+
+    'Validation Code' => 'Validation Code',
+
+    'Enter the validation code' => 'Enter the validation code',
+
+    'Enter the code you received by Email in the field below' => 'Enter the code you received by Email in the field below',
+
+    'Enter the code you received by SMS in the field below' => 'Enter the code you received by SMS in the field below',
+
+    'Enter the code you received by SMS or Email in the field below' => 'Enter the code you received by SMS or Email in the field below',
+
+    'The entered code is invalid.' => 'The entered code is invalid.',
+
+    'These credentials do not match our records.' => 'These credentials do not match our records.',
+
+    'The code does not match your email or phone number.' => 'The code does not match your email or phone number.',
+
+    'The code does not match your email.' => 'The code does not match your email.',
+
+    'The code does not match your phone number.' => 'The code does not match your phone number.',
+
+    'The entered value is not registered with us.' => 'The entered value is not registered with us.',
+
+    'This feature has been turned off in demo mode.' => 'This feature has been turned off in demo mode.',
+
+    'Photos' => 'Foto',
+
+    'Option' => 'Option',
+
+    'Back' => 'Zurück',
+
+    'Back to the Item' => 'Back to the Item',
+
+    'Report for :title' => 'Report for ":title"',
+
+    'Send a report for :title' => 'Send a report for ":title"',
+
+    'Home - Latest Ads' => 'Latest <span style="font-weight: bold;">Ads</span>',
+
+    'Home - Sponsored Ads' => 'Sponsored <span style="font-weight: bold;">Ads</span>',
+
+    'Upload Photos' => 'Fotos',
+
+    'Images' => 'Fotos',
+
+    'Preview' => 'Preview',
+
+    'Done' => 'Done',
+
+    'Latest Ads' => 'Neueste Anzeigen',
+
+      'Latest' => 'Neueste',
+
+  'Ads' => 'Anzeigen',
+
+    'Popular Ads' => 'Beliebte Anzeigen',
+
+    'The pictures have been updated' => 'Die Anzeige wurde aufgegeben',
+
+    'Are you sure you want to delete this picture?' => 'Bist du dir sicher das du dieses Bild löschen möchtest?',
+
+    'The picture has been deleted.' => 'The picture has been deleted.',
+
+    'Post not found' => 'Post not found',
+
+    'Upload Status' => 'Upload Status',
+
+    'The picture #:key is required.' => 'The picture #:key is required.',
+
+    'The picture #:key must be image.' => 'The picture #:key must be image.',
+
+    'The picture #:key must be a file of type: :type.' => 'The picture #:key must be a file of type: :type.',
+
+    'The picture #:key may not be greater than :max.' => 'The picture #:key may not be greater than :max.',
+
+    'Uploaded file #index successfully' => '\'<li>\' + \'Datei # \' + (index + 1) + \' - \'  + fname + \' erfolgreich hochgeladen.\' + \'</li>\'',
+
+    'Uploaded file #key successfully' => '\'<li>\' + \'Datei # \' + (key + 1) + \' - \'  + fname + \' erfolgreich hochgeladen.\' + \'</li>\'',
+
+    'Do you want add more pictures?' => 'Do you want add more pictures?',
+
+    'Add more pictures?' => 'Add more pictures?',
+
+    'Upload pictures' => 'Upload pictures',
+
+    'Upload the picture' => 'Upload the picture',
+
+    'Upload files' => 'Upload files',
+
+    'Upload the file' => 'Upload the file',
+
+    'Send' => 'Senden',
+
+    'Pay' => 'Weiter',
+
+    'Pricing' => 'Pricing',
+
+    'Packages' => 'Packages',
+
+    'Package' => 'Package',
+
+    'The type of admin does not exist.' => 'The type of admin does not exist.',
+
+    'No admin. division doesn\'t exists for the current country.' => 'No admin. division doesn\'t exists for the current country.',
+
+    'area:' => 'area:',
+
+    'Enter a city name OR a state name with the prefix ":prefix" like: :prefix' => 'Geben sie eine Stadt ein.',
+
+    'State Name' => 'State Name',
+
+    'City Name' => 'Stadtname',
+
+    'for' => 'for',
+
+    'among' => 'among',
+
+    'inside' => 'inside',
+
+    'within' => 'innerhalb',
+
+    'of' => 'of',
+
+    'from' => 'Von',
+
+    'From' => 'Von',
+
+    'Post saved in favorites successfully !' => 'Post in den Favoriten erfolgreich gespeichert !',
+
+    'Post deleted from favorites successfully !' => 'Post aus den Favoriten erfolgreich entfernt !',
+
+    'An activation link has been sent to you to verify your email address.' => 'Ein Aktivierungslink wurde dir gesendet, um deine Email Adresse zu bestätigen.',
+
+    'An activation code has been sent to you to verify your phone number.' => 'An activation code has been sent to you to verify your phone number.',
+
+    'The activation link has been sent to you to verify your email address.' => 'Aktivierungslink wurde dir gesendet, um deine Email Adresse zu bestätigen.',
+
+    'The activation code has been sent to you to verify your phone number.' => 'The activation code has been sent to you to verify your phone number.',
+
+    'Resend the verification message to verify your email address.' => 'Den Aktivierungslink erneut senden um die E-Mail Adresse zu bestätigen.',
+
+    'Resend the verification message to verify your phone number.' => 'Resend the verification message to verify your phone number.',
+
+    'Re-send' => 'Erneut senden',
+
+    'Entity ID not found.' => 'Entity ID not found.',
+
+    'Congratulation :name ! Your :field has been verified.' => 'Gratulation :name ! Ihre :field wurde bestätigt.',
+
+    'Your :field is already verified.' => 'Your :field is already verified.',
+
+    'Your :field verification has failed.' => 'Your :field verification has failed.',
+
+    'Homepage' => 'Startseite',
+
+    'Messages' => 'Nachrichten',
+
+    'Messages Received' => 'Messages Received',
+
+    'Messages Received on :app_name' => 'Messages Received on :app_name',
+
+    'Ad' => 'Ad',
+
+    'Download' => 'Download',
+
+    'View' => 'ansehen',
+
+    'Transactions' => 'Transaktionen',
+
+    'Transaction' => 'Transaction',
+
+    'My Transactions' => 'My Transactions',
+
+    'My Transactions on :app_name' => 'My Transactions on :app_name',
+
+    'Description' => 'Beschreibung',
+
+    'Value' => 'Wert',
+
+    'Status' => 'Status',
+
+    'Pending payment' => 'Pending payment',
+
+    'Pending' => 'Pending',
+
+    'Paid by' => 'Paid by',
+
+    '1 :entity has been deleted successfully.' => '1 :entity Nachricht wurde gelöscht.',
+
+    'x :entities has been deleted successfully.' => ':count :entities wurde erfolgreich gelöscht.',
+
+    'messages' => 'Nachrichten',
+
+    'message' => 'Nachricht',
+
+    'ad' => 'Anzeigen',
+
+    'ads' => 'ads',
+
+    'post' => 'ad',
+
+    'posts' => 'ads',
+
+    'Message for' => 'Message for',
+
+    'Reply' => 'Antworten',
+
+    'Sender\'s Name' => 'Absender',
+
+    'Sender\'s Email' => 'E-Mail',
+
+    'Sender\'s Phone' => 'Telefon',
+
+    'You have already answered this message.' => 'You have already answered this message.',
+
+    'Error on user\'s login.' => 'Error on user\'s login.',
+
+    'The activation link has been sent to the user to verify his email address.' => 'The activation link has been sent to the user to verify his email address.',
+
+    'The activation code has been sent to the user to verify his phone number.' => 'The activation code has been sent to the user to verify his phone number.',
+
+    'The :field is required.' => 'The :field is required.',
+
+    'The :field is required. And cannot be 0.' => 'The :field is required. And cannot be 0.',
+
+    'The file of :field must be in the good format.' => 'The file of :field must be in the good format.',
+
+    'The file of :field may not be greater than :max.' => 'The file of :field may not be greater than :max.',
+
+    'Additional Details' => 'Weitere Details',
+
+    'Map' => 'Map',
+
+    'Maps' => 'Maps',
+
+    'Location\'s Map' => 'Standort Karte',
+
+    'Specification' => 'Specification',
+
+    'More Specification' => 'More Specification',
+
+    'Clear all the :category\'s filters' => 'Clear all the :category\'s filters',
+
+    'Are you sure you want to perform this action?' => 'Möchtest du diese Aktion wirklich ausführen?',
+
+    'km' => 'km',
+
+    'kilometer' => 'kilometer',
+
+    'kilometers' => 'kilometers',
+
+    'count_km' => '{0} km|{1} km|[2,*] km',
+
+    'count_kilometers' => '{0} kilometer|{1} kilometer|[2,*] kilometers',
+
+    'mi' => 'mi',
+
+    'mile' => 'mile',
+
+    'miles' => 'miles',
+
+    'count_mi' => '{0} mi|{1} mi|[2,*] mi',
+
+    'count_miles' => '{0} mile|{1} mile|[2,*] miles',
+
+    'Your reply has been sent. Thank you!' => 'Deine Antwort wurde gesendet. Danke!',
+
+    'prev' => 'Zurück',
+
+    'next' => 'Weiter',
+
+    'Tags' => 'Tags',
+
+    'Tag' => 'Tag',
+
+    'Enter the tags separated by commas.' => 'Enter the tags separated by commas.',
+
+    'add a tag' => 'add a tag',
+
+    'Click to see' => 'Click to see',
+
+    'Payment pending' => 'Payment pending',
+
+    'Error found' => 'Error found',
+
+    'Contact & Sitemap' => 'Contact & Sitemap',
+
+    'Mobile Apps' => 'Mobile Apps',
+
+    'iOS app' => 'iOS app',
+
+    'Android App' => 'Android App',
+
+    'Available on the App Store' => 'Available on the App Store',
+
+    'Available on Google Play' => 'Available on Google Play',
+
+    'Follow us on' => 'Follow us on',
+
+    'Powered by' => 'Powered by',
+
+    'Select your Country' => 'Wähle dein Land aus',
+
+    'Select a Country' => 'Select a Country',
+
+    'See you soon.' => 'Bis bald',
+
+    'on' => 'on',
+
+    'Duration' => 'Duration',
+
+    'Loading' => 'Loading',
+
+    'Processing' => 'Processing',
+
+    'Your picture has been reorder successfully' => 'Your picture has been reorder successfully',
+
+    'Add Listing' => 'Artikel hinzufügen',
+
+    'Choose a city or region' => 'Choose a city or region',
+
+    'Choose a state or region' => 'Choose a state or region',
+
+    'Conversations' => 'Gespräche',
+
+    'Conversation' => 'Gespräche',
+
+    'Conversations Received' => 'Conversations Received',
+
+    'Conversations Received on :app_name' => 'Conversations Received on :app_name',
+
+    'Conversations Started' => 'Conversations Started',
+
+    'Conversations Started on :app_name' => 'Conversations Started on :app_name',
+
+    'Received at' => 'erhalten um',
+
+    'Related to the ad' => 'im Zusammenhang mit der Anzeige:',
+
+    'Sender' => 'Sender',
+
+    'Click here to read the messages' => 'Click here to read the messages',
+
+    'Click here to see' => 'hier klicken',
+
+    'Reply to' => 'Antworten to',
+
+    'Started by' => 'angefangen von',
+
+    'Created by' => 'Created by',
+
+    ':number max' => ':number max',
+
+    'Impersonate this user' => 'Impersonate this user',
+
+    'Leave impersonation' => 'Leave impersonation',
+
+    'Leave' => 'Leave',
+
+    'The current user can\'t impersonate' => 'The current user can\'t impersonate',
+
+    'The destination user can\'t be impersonated' => 'The destination user can\'t be impersonated',
+
+    'Can\'t be accessed by an impersonator' => 'Can\'t be accessed by an impersonator',
+
+    'Cannot impersonate yourself' => 'Cannot impersonate yourself',
+
+    'Cannot impersonate admin users' => 'Cannot impersonate admin users',
+
+    'Cannot impersonate unactivated users' => 'Cannot impersonate unactivated users',
+
+    'Admin users can\'t be deleted by this way.' => 'Admin-Benutzer können auf diese Weise nicht gelöscht werden.',
+
+    'Post Free Ad' => 'Post Free Ad',
+
+    'Filters' => 'Filters',
+
+    'This user no longer exists.' => 'This user no longer exists.',
+
+    'Maybe the user\'s account has been disabled or deleted.' => 'Maybe the user\'s account has been disabled or deleted.',
+
+    'The results could not be loaded.' => 'The results could not be loaded.',
+
+    'Please delete #t character' => '\'Please delete \' + t + \' character\'',
+
+    'Please enter #t or more characters' => '\'Please enter \' + t + \' or more characters\'',
+
+    'Loading more results…' => 'Loading more results…',
+
+    'You can only select #max item' => '\'You can only select \' + e.maximum + \' item\'',
+
+    'No results found' => 'No results found',
+
+    'Searching…' => 'Searching…',
+
+    'An error occurred while validating the data.' => 'An error occurred while validating the data.',
+
+    'Hide the phone number on the ads.' => 'Die Telefonnummer in den Anzeigen ausblenden.',
+
+    'Hide' => 'Verbergen',
+
+    'Show' => 'Show',
+
+    'Will never be displayed on the website.' => 'Will never be displayed on the website.',
+
+    'No payment has been made.' => 'No payment has been made.',
+
+    'Whoops! Something went wrong!' => 'Whoops! Something went wrong!',
+
+    'Reload to see New Messages' => 'Reload to see New Messages',
+
+    'Reload' => 'Reload',
+
+    'cookie_consent_message' => 'Die Erfahrung auf dieser Webseite wird durch das Zulassen von Cookies verbessert.',
+
+    'cookie_consent_agree_btn_label' => 'Cookies zulassen',
+
+    'Payment' => 'Zahlung',
+
+    'Author\'s Actions' => 'Ersteller Eingriff',
+
+    'Return to the Ad' => 'Zurück zur Anzeige ',
+
+    'Update the Details' => 'Artikel Aktualisieren',
+
+    'Update Photos' => 'Fotos Aktualisieren',
+
+    'Make It Premium' => 'Premium erstellen',
+
+    'Offers' => 'Angebote',
+
+    'Offer Price' => 'Offer Price',
+
+    'Original Price' => 'Original Preis',
+
+    'Low Price' => 'Low Price',
+
+    'Fix Price' => 'Fix Price',
+
+    'Not Negotiation' => 'Not Negotiation',
+
+    'Good Offer' => 'Good Offer',
+
+    'Offer Description' => 'Offer Description',
+
+    'Add Information' => 'Add Information',
+
+    'Active' => 'Active',
+
+    'Not Active' => 'Not Active',
+
+    'Rejected' => 'Abgelehnt',
+
+    'Update Offer' => 'Angebot aktualisieren',
+
+    'Make an Offer' => 'Ein Angebot machen',
+
+    'Buy Now' => 'Jetzt Kaufen',
+
+    'Offers Maker' => 'Bekommene Angebote',
+
+    'Offer Maker' => 'Offers',
+
+    'My Offer Maker' => 'My Offer',
+
+    'My Offers Maker on :app_name' => 'My Offers Maker on :app_name',
+
+    'Add to Favorites' => 'zu Favoriten hinzufügen',
+
+    'Decision' => 'Decision',
+
+    'Offer' => 'Offer',
+
+    'Send Offer' => 'Angebot senden',
+
+    'Add More in Offer' => 'Add More in Offer',
+
+    'Add' => 'Add',
+
+    'Add Post' => 'Artikel hinzufügen',
+
+    'Sign up for Newsletter' => 'Für Neuigkeiten anmelden',
+
+    'Minimize your waste and Maximize the prosperity of your community by giving away your unwanted items !' => 'Überschüssiges minimieren und den Wohlstand maximieren, indem Sie hier ihre unerwünschten <br>Gegenstände loswerden !',
+
+    'No more spam/scam phone calls or emails …. Deal and Bargain online !!!' => 'Kein Spam / Keine Werbeanrufe oder E-Mails. Online günstige Angebote verhandeln !!!',
+
+    'Seller Type' => 'Verkäufertyp',
+
+    'Choose plan' => 'Option auswählen',
+
+    'Show my Email on the Ad' => 'Meine Email Adresse öffentlich zeigen',
+
+    'Show my phone number on the Ad' => 'Meine Telefonnumer öffentlich zeigen',
+
+    'Dob' => 'Geburtsdatum',
+
+    'State' => 'State',
+
+    'ZipCode' => 'Postleitzahl',
+
+    'To' => 'An',
+
+    'Posted by' => 'veröffentlicht von',
+
+    'Add Products' => 'Artikel hinzufügen',
+
+    'To build a deal change the cash value and drag the items you would like to exchange inside the briefcase' => 'Um einen Deal zu machen, ändern Sie den Preis und ziehen Sie die Gegenstände, die Sie gerne tauschen möchten in den Aktenkoffer.',
+
+    'Awaiting Response' => 'Auf eine Antwort warten',
+
+    'Delivery Preference:' => 'Bevorzugte Lieferung',
+
+    'Select Main Category' => 'Kategorie auswählen',
+
+    'Select Subcategory' => 'Unterkategorie auswählen',
+
+    'Select Subcategory in' => 'Unterkategorie auswählen in',
+
+    'Men' => 'Männer',
+
+    'Women' => 'Frauen',
+
+    'Girls' => 'Mädchen',
+
+    'Boys' => 'Jungen',
+
+    'Toddlers and children' => 'Kleinkinder und Kinder',
+
+    'Newborns & Infants' => 'Neugeborene und Säuglinge',
+
+    'Beauty & Care' => 'Schönheit & Pflege',
+
+    'Animals' => 'Tiere',
+
+    'Arts' => 'Kunst',
+
+    'Equipment & Materials' => 'Ausrüstung und Materialien',
+
+    'Events & Coupons' => 'Events & Gutscheine',
+
+    'Books' => 'Bücher',
+
+    'Electronics' => 'Elektronik',
+
+    'Food' => 'Nahrung',
+
+    'Furniture' => 'Möbel',
+
+    'Marine' => 'Marine',
+
+    'Real Estate' => 'Immobilien',
+
+    'Services' => 'Dienstleistungen',
+
+    'Sports' => 'Sportarten',
+
+    'Toys' => 'Spielzeuge',
+
+    'Vehicles' => 'Fahrzeuge',
+
+    'Others' => 'Andere',
+
+    'Offers & Sales' => 'Angebote & Verkauf',
+
+    'Please enter the same value again' => 'Please enter the same value again.',
+
+    'Please enter at least 5 characters' => 'Please enter at least 5 characters',
+
+    'please enter a valid email address' => 'please enter a valid email address.',
+
+    'Your Address' => 'Your Address',
+
+    'Seller Address' => 'Seller Address',
+
+    'Shop' => 'Shop',
+
+    '500 max' => '500 max',
+
+    'Seller' => 'Seller',
+
+    'Get it for Free' => 'Get it for Free',
+
+    'I want to have your item for free. would you please contact me here or on the phone number or the email shown above to discuss to how I can collect it. Thank you for your generosity !!' => 'I want to have your item for free. Would you please contact me here or on the phone number or the email shown above to discuss to how I can collect it. Thank you for your generosity !!',
+
+    'Request a delivery' => 'Request a delivery',
+
+    'Buyer Username' => 'Buyer Username',
+
+    'Seller Username' => 'Seller Username',
+
+    'Date of pick up the item from the seller' => 'Date of pick up the item from the seller',
+
+    'Time of pick up the item from the seller' => 'Time of pick up the item from the seller',
+
+    'Delivery Info' => 'Delivery Info',
+
+    'shipping cost will be split equally between the seller and buyer' => 'shipping cost will be split equally between the seller and buyer',
+
+    'Deal' => 'DEAL!',
+
+    'Not Deal' => 'NOT DEAL!',
+
+    'Message successfully sent' => 'Message successfully sent',
+
+    'Buyer Phone' => 'Buyer Phone',
+
+    'Request Reset Password' => 'Request Reset Password',
+
+    'Toddlers & Children' => 'Toddlers & Children',
+
+];
+

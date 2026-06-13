@@ -101,7 +101,7 @@ class Panel
 	 */
 	private function getSchema()
 	{
-		return \Schema::setConnection($this->getModel()->getConnection());
+		return \Schema::connection($this->getModel()->getConnectionName());
 	}
 
     /**
@@ -190,7 +190,7 @@ class Panel
      */
     public function getFirstOfItsTypeInArray($type, $array)
     {
-        return array_first($array, function ($item) use ($type) {
+        return \Illuminate\Support\Arr::first($array, function ($item) use ($type) {
             return $item['type'] == $type;
         });
     }

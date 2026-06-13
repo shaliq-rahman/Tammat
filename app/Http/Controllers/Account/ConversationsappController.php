@@ -20,12 +20,13 @@ use App\Models\User;
 use App\Models\Message;
 use App\Notifications\ReplySent;
 use Torann\LaravelMetaTags\Facades\MetaTag;
+use App\Http\Controllers\FrontController;
 use Illuminate\Http\Request;
 use DB;
 
-class ConversationsappController extends AccountappBaseController
+class ConversationsappController extends FrontController
 {
-	private $perPage = 10;
+	protected $perPage = 10;
 	
 	public function __construct()
 	{
@@ -41,13 +42,14 @@ class ConversationsappController extends AccountappBaseController
 	 */
 	public function index(Request $request)
 	{
-		$conversations1 = Message::with('latestReply')
-			->with('reply')
+		$conversations1 = Message::byUserId($request->userid)
+		     ->with('latestReply')
+			 ->with('reply')
 // 			->whereHas('post', function($query) {
 // 				$query->currentCountry();
 // 			})
-			->byUserId($request->userid)
-			->where('parent_id', 0)
+			//->byUserId($request->userid)
+			//->where('parent_id', 0)
 			->orderByDesc('id');
 		$count = $conversations1->count();
 		$conversations = $conversations1->get();
@@ -73,6 +75,150 @@ class ConversationsappController extends AccountappBaseController
 		return response()->json(['results'=>$conversations,'num'=>$count]);
 	}
 	
+
+
+
+
+
+	/**
+	 * Conversations List
+	 *
+	 * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+	 */
+	public function MessagePosts(Request $request)
+	{
+		$conversations1 = Message::byUserId($request->userid)->groupby('post_id')->orderByDesc('id');
+		     
+			
+		$count = $conversations1->count();
+		$conversations = $conversations1->get();
+		
+		//return $conversations;
+		
+		
+		if(!empty($conversations))
+		{
+		    
+		foreach ($conversations as $key => $conversation) {
+		$getpostpicture = \DB::table('pictures')->where('post_id', '=', $conversation->post_id)->where('position', '=', 1)->where('active', '=', 1)->first();
+		if(!empty($getpostpicture)) {
+		    $conversation->filenamee = url('storage/'.$getpostpicture->filename);
+		}
+		 
+		 $date = date('d F Y H:i',strtotime($conversation->created_at));
+		 $conversation->created_at_app = $date;
+		}
+		}
+		
+
+		$w=0;
+		$filterConversations=array();
+		foreach($conversations as $conversation){
+			   $filterConversations[$w]['post_id']=$conversation->post_id;		 
+			   $filterConversations[$w]['from_user_id']=$conversation->from_user_id;		 
+			   $filterConversations[$w]['from_name']=$conversation->from_name;		 
+			   $filterConversations[$w]['to_user_id']=$conversation->to_user_id;		
+			   $filterConversations[$w]['to_name']=$conversation->to_name;	 
+			   $filterConversations[$w]['subject']=$conversation->subject;	
+			   $filterConversations[$w]['message']=$conversation->message;
+			   $filterConversations[$w]['filenamee']=$conversation->filenamee;
+			   $filterConversations[$w]['created_at_app']=$conversation->created_at_app;
+			   $w++;
+			}
+
+
+			
+		return response()->json(['results'=>$filterConversations,'num'=>$count]);
+	}
+	
+
+
+
+
+/**
+	 *Show Conversation details
+	 *
+	 * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+	 */
+	public function ConversationDetails(Request $request)
+	{
+		$conversations1 = Message::byUserId($request->userid)
+		     ->with('latestReply')
+			 ->with('reply')
+// 			->whereHas('post', function($query) {
+// 				$query->currentCountry();
+// 			})
+			//->byUserId($request->userid)
+			//->where('parent_id', 0)
+			->where('id', $request->message_id)
+			->orderByDesc('id');
+		$count = $conversations1->count();
+		$conversations = $conversations1->get();
+		
+		//return $conversations;
+		
+		
+		if(!empty($conversations))
+		{
+		    
+		foreach ($conversations as $key => $conversation) {
+		$getpostpicture = \DB::table('pictures')->where('post_id', '=', $conversation->post_id)->where('position', '=', 1)->where('active', '=', 1)->first();
+		if(!empty($getpostpicture)) {
+		    $conversation->filenamee = url('storage/'.$getpostpicture->filename);
+		}
+		 
+		 $date = date('d F Y H:i',strtotime($conversation->created_at));
+		 $conversation->created_at_app = $date;
+		}
+		}
+		
+			
+		return response()->json(['results'=>$conversations]);
+	}
+	
+
+
+
+
+	/**
+	 *Show Conversation details
+	 *
+	 * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+	 */
+	public function AllMessages(Request $request)
+	{
+		$conversations1 = Message::byUserId($request->userid)->where('post_id',$request->post_id)		     
+			              //->where('id', $request->message_id)
+			              ->orderByDesc('id');
+		$count = $conversations1->count();
+		$conversations = $conversations1->get();
+		
+		//return $conversations;
+		
+		
+		if(!empty($conversations))
+		{
+		    
+		foreach ($conversations as $key => $conversation) {
+		$getpostpicture = \DB::table('pictures')->where('post_id', '=', $conversation->post_id)->where('position', '=', 1)->where('active', '=', 1)->first();
+		if(!empty($getpostpicture)) {
+		    $conversation->filenamee = url('storage/'.$getpostpicture->filename);
+		}
+		 
+		 $date = date('d F Y H:i',strtotime($conversation->created_at));
+		 $conversation->created_at_app = $date;
+		}
+		}
+		
+			
+		return response()->json(['results'=>$conversations]);
+	}
+	
+
+
+
+
+
 	/**
 	 * Conversation Messages List
 	 *
@@ -134,7 +280,8 @@ class ConversationsappController extends AccountappBaseController
 			->where('id', $conversationId)
 			->first();
 		if(!empty($msgdata)){
-		$conversation = Message::findOrFail($conversationId);
+		 
+		 $conversation = Message::findOrFail($conversationId);
 		$user = User::findOrFail($request->userid);
 		//print_r($user);
 		// Get Recipient Data
@@ -222,13 +369,12 @@ class ConversationsappController extends AccountappBaseController
 	 */
 	public function destroy($conversationId = null, $messageId = null, Request $request)
 	{
-	
+		//return response()->json(['results'=>"No deletion is done. Please try again.".$request->userid."xxxx".$conversationId."zzz".$messageId]);
 		// Get the type of Entity ID
 		$id = $conversationId;
 		if (!empty($messageId)) {
 			$id = $messageId;
 		}
-		
 		// Get Entries ID
 		$ids = [];
 		if (request()->filled('entries')) {
@@ -240,7 +386,6 @@ class ConversationsappController extends AccountappBaseController
 				$ids[] = $id;
 			}
 		}
-		
 		// Delete
 		$nb = 0;
 		foreach ($ids as $item) {

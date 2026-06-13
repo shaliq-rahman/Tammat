@@ -1,17 +1,4 @@
 <?php
-/**
- * LaraClassified - Geo Classified Ads Software
- * Copyright (c) BedigitCom. All Rights Reserved
- *
- * Website: http://www.bedigit.com
- *
- * LICENSE
- * -------
- * This software is furnished under a license and may be used and copied
- * only in accordance with the terms of such license and with the inclusion
- * of the above copyright notice. If you Purchased from Codecanyon,
- * Please read the full License from here - http://codecanyon.net/licenses/standard
- */
 
 namespace App\Http\Controllers\Account;
 
@@ -19,10 +6,12 @@ use App\Http\Controllers\FrontController;
 use Torann\LaravelMetaTags\Facades\MetaTag;
 use App\Models\Makeanoffer;
 use App\Models\Post;
+use App\Models\Package;
+use App\Models\Payment;
+use App\Models\PaymentMethod;
 use App\Models\Picture;
 use App\Http\Requests\MakeAnOfferEditRequest;
 use App\Http\Requests\MakeAnOfferRequest;
-// use Illuminate\Support\Facades\Request;
 use Illuminate\Http\Request;
 use DB;
 use App\Models\User;
@@ -36,7 +25,7 @@ use App\PushNotification\push;
 
 class MakeanoffersappController extends AccountappBaseController
 {
-	private $perPage = 10;
+	protected $perPage = 10;
 	
 	public function __construct()
 	{
@@ -45,6 +34,81 @@ class MakeanoffersappController extends AccountappBaseController
 		//$this->perPage = (is_numeric(config('settings.listing.items_per_page'))) ? config('settings.listing.items_per_page') : $this->perPage;
 	}
 	
+
+
+
+	
+
+	public function makeOffersNotDeal(Request $request)
+	{
+        
+		$MyPostId=$request->MyPostId;
+		$offerId=$request->offerId;
+		//return $request;
+	    $makeanofferget = Makeanoffer::find($offerId);
+		// return $makeanofferget;
+    	$offer_maker_id = $makeanofferget->offer_maker_id;
+		$offer_seller_id = $makeanofferget->seller_id;
+    	
+    	$offer_maker_name = User::where(['id' => $offer_maker_id])->first();
+		$offer_sender_name = User::where(['id' => $offer_seller_id])->first();
+
+    	$to_name  = $offer_maker_name->username;
+		$from_name = $offer_sender_name->username;
+		
+      
+        $post = Post::unarchived()->find($MyPostId);
+
+        
+        $data['url'] = lurl('/').'/'.slugify($post->title).'/'.$post->id;
+        
+        $data['toname'] = $to_name;
+        $data['fromname'] = $from_name;
+        
+	    $fcmId = $offer_maker_name->fcm_id;
+        error_reporting(-1);
+        ini_set('display_errors', 'On');
+        $firebase = new Firebase();
+        $push = new Push();
+        $payload = array();  
+      
+        array_push($payload, $data);                
+        // notification title
+        $title = 'Offer Rejected';             
+        // notification message
+        $message = "Offer Rejected Data"; 
+        $type = "offerejected";                      
+        // push type - single user / topic
+        $push_type = "individual";     
+        $push->setTitle($title);
+        $push->setType($type);
+        $push->setMessage($message);
+        $push->setIsBackground(FALSE);
+        $push->setPayload($payload);
+        $json = '';
+        $firebaseresponse = '';
+        if ($push_type == 'topic') 
+        {
+            $json = $push->getPush();
+            $firebaseresponse = $firebase->sendToTopic('global', $json);
+        }
+        else if ($push_type == 'individual') 
+        {
+          $json = $push->getPush();
+          $firebaseresponse = $firebase->send($fcmId, $json);
+          //echo $firebaseresponse;
+        }
+        
+	    
+	    
+		$makeanoffer = Makeanoffer::find($offerId);
+		$makeanoffer->approve_seller = 2;
+		$makeanoffer->is_read = 0;
+		$makeanoffer->update();
+		return response()->json(['results'=>'Success','makeanofferid'=>$offerId,'MyPostId'=>$MyPostId, 'firebaseresponse' => $firebaseresponse]);
+	}
+
+
 	/**
 	 * List Transactions
 	 *
@@ -94,12 +158,14 @@ class MakeanoffersappController extends AccountappBaseController
 			}
 			elseif($post->approve_seller==1)
 			{
-			$post->seller_product_status = 'deal';
+			//$post->seller_product_status = 'deal';
+			$post->seller_product_status = 'Accepted';
 			$post->buyer_product_status = 'Accepted';
 			$post->counter_offer = 0;
 			}
 			else{
-			   $post->seller_product_status = 'Counter Offer'; 
+			   //$post->seller_product_status = 'Counter Offer'; 
+			   $post->seller_product_status = 'Rejected'; 
 			   $post->buyer_product_status = 'Rejected';
 			   $post->counter_offer = 1;
 			}
@@ -253,62 +319,309 @@ class MakeanoffersappController extends AccountappBaseController
             return response()->json(['status'=>0,'message'=>'Invalid user','results'=>'','num'=>'']);
         }
 	}
-	public function makeanofferDetail(Request $request) 
+	
+	
+	
+	/**
+	 * List Recieved Offers 
+	 *
+	 *
+	 * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+	 */
+	public function RecievedOffers(Request $request) 
 	{		
- 		$offerId = $request->offerId;
-//         $buyer_id = $request->userid;
+	    \App::setLocale(request()->get('language') ?: 'en');
+ 
+		$seller_id = $request->userid;
+      
+        //$receiverId = $request->receiverId;
+        //$receivers = DB::table('users')->where('id', '=',$receiverId)->get();
+        $users = DB::table('users')->where('id', '=',$seller_id)->get();
+        if(!empty($users)){
+        foreach($users as $user){
+           $title = $user->name.'has send you an offer';
+        }
+        $status = 1;
+		$makeanoffers =  DB::table('makeanoffers')->where(function ($query) use ($seller_id, $status)
+        {
+            $query->where('makeanoffers.seller_id', $seller_id);
+            $query->where('makeanoffers.status', '=', $status);
+        })
+        ->join('posts', 'makeanoffers.post_id', '=', 'posts.id')
+        ->select('makeanoffers.offer_maker_id','makeanoffers.created_at','makeanoffers.id as offer_id', 'makeanoffers.approve_seller', 'makeanoffers.buyer_id', 'makeanoffers.buyer_product_1', 'makeanoffers.buyer_product_2', 'makeanoffers.buyer_product_3', 'posts.country_code' , 'posts.title' , 'makeanoffers.post_id', 'posts.price', 'posts.contact_name')  
+        ->orderByDesc('makeanoffers.id');
+        
+		$num = $makeanoffers->count();
+		$data = $makeanoffers->limit(7)->get();
+		$result = $data->toArray();
+		//print_r($result);
+		$i=0;
+		foreach($result as $key => $post){
+		   
+		    $pId = $post->post_id;
+		    //$postIdData = DB::table('posts')->where('id', $pId);
+		    $postIdData = Post::where(['id' => $pId])->first();
+		    
+		    $post->post_owner_id = $postIdData->user_id;
+			if($post->approve_seller==0)
+			{
+			$post->seller_product_status = "New Offer";			 
+			$post->counter_offer = 0;
+			}
+			elseif($post->approve_seller==1)
+			{
+			//$post->seller_product_status = 'deal';
+			$post->seller_product_status = 'Accepted';			
+			$post->counter_offer = 0;
+			}
+			else{
+			   //$post->seller_product_status = 'Counter Offer'; 
+			   $post->seller_product_status = 'Rejected';
+			  
+			   $post->counter_offer = 1;
+			}
+		    
+			if(!empty($post->buyer_id))
+			{
+			$user2 = User::findorfail($post->buyer_id);			
+			$post->buyer_name = $user2->username;
+			}
+			else
+			{
+			$post->buyer_name = '';
+			}
+		   
+		   $buyer_product_1 = $post->buyer_product_1;
+		   $buyer_product_2 = $post->buyer_product_2;
+		   $buyer_product_3 = $post->buyer_product_3;
+		   
+			 
+			 
+		   $bp1 = Post::where(['id' => $buyer_product_1])->first();
+		   $bp2 = Post::where(['id' => $buyer_product_2])->first();
+		   $bp3 = Post::where(['id' => $buyer_product_3])->first();
+		   
+		   if($bp1['title']!=''){
+		   $post->buyer_product_1_title = $bp1['title'];
+		   }
+		   else{
+		      $post->buyer_product_1_title = ''; 
+		   }
+		   
+		   if($bp2['title']!=''){
+		   $post->buyer_product_2_title = $bp2['title'];
+		   }
+		   else{
+		      $post->buyer_product_2_title = ''; 
+		   }
+		   
+		   if($bp3['title']!=''){
+		   $post->buyer_product_3_title = $bp3['title'];
+		   }
+		   else{
+		      $post->buyer_product_3_title = ''; 
+		   }
+		    
+		    
+										  
+										$i++;
+										}
+		
+		$all_offers=array();
+		$x=0;
+		foreach($result as $offer){
+			
+			if(empty($offer->country_code)) {$country_code='KW';}else{$country_code=$offer->country_code;}
+
+			$getcurrencycountry = \DB::table('countries')
+			->join('currencies', 'currencies.code', '=', 'countries.currency_code')
+			->select('currencies.*')
+			->where('countries.code', '=', $country_code)
+			->first();
+
+
+
+	if ($post->price > 0)
+	{
+		$get_currency = \App\Helpers\Number::money_price_latest($offer->price,$getcurrencycountry->html_entity,$getcurrencycountry->in_left,$getcurrencycountry->decimal_places,$getcurrencycountry->decimal_separator);
+	}
+	else
+	{
+		$get_currency = t('Free');
+	}
+
+ 
+
+           
+			
+			$all_offers[$x]['offer_id']=$offer->offer_id;
+			$all_offers[$x]['current_user_id']=$seller_id;
+			$all_offers[$x]['offer_status']=$offer->seller_product_status;
+			$all_offers[$x]['offer_color']= $this->offer_color($offer->seller_product_status);
+			$all_offers[$x]['from_user']=$offer->buyer_name;
+			$middle = strtotime($offer->created_at);             // returns bool(false)
+			$new_date = date('Y-m-d  H:i', $middle);  
+
+			$all_offers[$x]['created_at']=$new_date;
+			$all_offers[$x]['product']=$offer->title;
+			$all_offers[$x]['price']=$get_currency;
+			$x++;
+			}    
+		
+		return response()->json(['results'=>$all_offers]);
+        }
+        else{
+            return response()->json(['status'=>0,'message'=>'Invalid user','results'=>'','num'=>'']);
+        }
+	}
+	
+	/**
+	 * Return Offer Color 
+	 *
+	 *
+	 * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+	 */
+	
+	public function offer_color($status){
+			
+		if($status=='Rejected'){
+		   $color='#d9000d';//red
+		}
+		elseif($status=='Accepted')
+		{
+		   $color='#67c760';//green
+		}
+		else{
+
+		   $color='#FF000000';//black
+	   }
+
+	   return $color;
+	   }
+
+	
+	
+	/**
+	 * List Recieved Offers 
+	 *
+	 *
+	 * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+	 */
+	public function makeOffersDeal(Request $request) 
+	{
+		 
+    
+		
+		$MyPostId=$request->MyPostId;
+		$offerId=$request->offerId;
+		
+		$makeanofferget = Makeanoffer::find($offerId);
+    	$offer_maker_id = $makeanofferget->offer_maker_id;
+		$offer_seller_id = $makeanofferget->seller_id;
+    	
+    	$offer_maker_name = User::where(['id' => $offer_maker_id])->first();
+		$offer_sender_name = User::where(['id' => $offer_seller_id])->first();
+
+    	$to_name  = $offer_maker_name->username;
+		$from_name = $offer_sender_name->username;
+		
+		
+		
+        
+        $post = Post::unarchived()->findOrFail($MyPostId);
+        
+        $data['url'] = lurl('/').'/'.slugify($post->title).'/'.$post->id;
+        
+        $data['toname'] = $to_name;
+        $data['fromname'] = $from_name;
+        
+        $fcmId = $offer_maker_name->fcm_id;
+        error_reporting(-1);
+        ini_set('display_errors', 'On');
+        $firebase = new Firebase();
+        $push = new Push();
+        $payload = array();  
+      
+        array_push($payload, $data);                
+        // notification title
+        $title = 'Offer accepted';             
+        // notification message
+        $message = "Offer accepted Data"; 
+        $type = "Offeraccepted";                      
+        // push type - single user / topic
+        $push_type = "individual";     
+        $push->setTitle($title);
+        $push->setType($type);
+        $push->setMessage($message);
+        $push->setIsBackground(FALSE);
+        $push->setPayload($payload);
+        $json = '';
+        $firebaseresponse = '';
+        if ($push_type == 'topic') 
+        {
+            $json = $push->getPush();
+            $firebaseresponse = $firebase->sendToTopic('global', $json);
+        }
+        else if ($push_type == 'individual') 
+        {
+          $json = $push->getPush();
+          $firebaseresponse = $firebase->send($fcmId, $json);
+          //echo $firebaseresponse;
+        }
+        
+	    
+	   	$makeanoffer = Makeanoffer::find($offerId);
+		$makeanoffer->approve_seller = 1;
+		$makeanoffer->is_read = 0;
+		$makeanoffer->update();
+		//return redirect('account/makeanoffers/'.$postId.'/edit/'.$offerId);
+		return response()->json(['results'=>'Success','makeanofferid'=>$offerId,'MyPostId'=>$MyPostId, 'firebaseresponse' => $firebaseresponse]);
+		
+	}
+	
+	
+	
+	/**
+	 * List Sent Offers by user_id
+	 *
+	 * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+	 */
+	public function SentOffers(Request $request) 
+	{		
+	    \App::setLocale(request()->get('language') ?: 'en');
+// 	  echo "hello";
+// 	  die();
+		$seller_id = $request->userid;
+        $buyer_id = $request->userid;
         //$receiverId = $request->receiverId;
        // $receivers = DB::table('users')->where('id', '=',$receiverId)->get();
-        // $users = DB::table('users')->where('id', '=',$seller_id)->get();
-        // foreach($users as $user){
-        //   $title = $user->name.'has send you an offer';
-        // }
+        $users = DB::table('users')->where('id', '=',$seller_id)->get();
+        if(!empty($users)){
+        foreach($users as $user){
+           $title = $user->name.'has send you an offer';
+        }
         $status = 1;
-		$makeanoffers =  DB::table('makeanoffers')->where('id','=',$offerId);
+		$makeanoffers =  DB::table('makeanoffers')->where(function ($query) use ($seller_id, $buyer_id, $status)
+        {
+            $query->where('makeanoffers.buyer_id', $seller_id);
+			//->orWhere('makeanoffers.seller_id', $seller_id);
+            $query->where('makeanoffers.status', '=', $status);
+        })
+        ->join('posts', 'makeanoffers.post_id', '=', 'posts.id')
+        ->select('makeanoffers.*','makeanoffers.id as offer_id', 'posts.country_code' , 'posts.user_id', 'posts.category_id', 'posts.post_type_id', 'posts.title', 'posts.description', 'posts.tags', 'posts.price', 'posts.negotiable', 'posts.contact_name', 'posts.email', 'posts.phone', 'posts.phone_hidden', 'posts.address', 'posts.city_id', 'posts.lon', 'posts.lat', 'posts.ip_addr', 'posts.visits', 'posts.email_token', 'posts.phone_token', 'posts.tmp_token', 'posts.verified_email', 'posts.verified_phone', 'posts.reviewed', 'posts.featured', 'posts.archived', 'posts.fb_profile', 'posts.partner')  
+            ->orderByDesc('makeanoffers.id');
+        
 		$num = $makeanoffers->count();
-		$data = $makeanoffers->get();
+		$data = $makeanoffers->limit(7)->get();
 		$result = $data->toArray();
-// 		print_r($result);
+		//print_r($result);
 		$i=0;
-		
 		foreach($result as $key => $post){
 		   $buyer_product_1 = $post->buyer_product_1;
 		    $pId = $post->post_id;
-		    
 		    //$postIdData = DB::table('posts')->where('id', $pId);
-		   $postIdData = Post::where(['id' => $pId])->first();
-		   	$data1 = $postIdData->get();
-		    $resultPost = $data1->toArray();
-		   //print_r($resultPost);
-		   $post->title = $postIdData->title;
-		   $post->description = $postIdData->description;
-		   $post->post_type_id = $postIdData->post_type_id;
-		   $post->tags = $postIdData->tags;
-		   $post->price = $postIdData->price;
-		   $post->negotiable = $postIdData->negotiable;
-		   $post->contact_name = $postIdData->contact_name;
-		   $post->email = $postIdData->email;
-		   $post->phone = $postIdData->phone;
-		   $post->phone_hidden = $postIdData->phone_hidden;
-		   $post->address = $postIdData->address;
-		   $post->city_id = $postIdData->city_id;
-		   $post->lon = $postIdData->lon;
-		   $post->lat = $postIdData->lat;
-		   $post->ip_addr = $postIdData->ip_addr;
-		   $post->visits = $postIdData->visits;
-		   $post->email_token = $postIdData->email_token;
-		   $post->phone_token = $postIdData->phone_token;
-		   $post->tmp_token = $postIdData->tmp_token;
-		   $post->verified_email = $postIdData->verified_email;
-		   $post->verified_phone = $postIdData->verified_phone;
-		   $post->reviewed = $postIdData->reviewed;
-		   $post->featured = $postIdData->featured;
-		   $post->archived = $postIdData->archived;
-		   $post->fb_profile = $postIdData->fb_profile;
-		   $post->partner = $postIdData->partner;
-		   $post->category_id = $postIdData->category_id;
-		   $post->user_id = $postIdData->user_id;
-		   $post->country_code = $postIdData->country_code;
+		    $postIdData = Post::where(['id' => $pId])->first();
+		    
 		    $post->post_owner_id = $postIdData->user_id;
 			if($post->approve_seller==0)
 			{
@@ -318,12 +631,14 @@ class MakeanoffersappController extends AccountappBaseController
 			}
 			elseif($post->approve_seller==1)
 			{
-			$post->seller_product_status = 'deal';
+			//$post->seller_product_status = 'deal';
+			$post->seller_product_status = 'Accepted';
 			$post->buyer_product_status = 'Accepted';
 			$post->counter_offer = 0;
 			}
 			else{
-			   $post->seller_product_status = 'Counter Offer'; 
+			   //$post->seller_product_status = 'Counter Offer'; 
+			   $post->seller_product_status = 'Rejected';
 			   $post->buyer_product_status = 'Rejected';
 			   $post->counter_offer = 1;
 			}
@@ -469,10 +784,366 @@ class MakeanoffersappController extends AccountappBaseController
 										}
 		
 		
-		    
+		$all_offers=array();$x=0;
+  
+		foreach($data as $offer){
+			if(empty($offer->country_code)) {$country_code='KW';}else{$country_code=$offer->country_code;}
+			$getcurrencycountry = \DB::table('countries')
+			->join('currencies', 'currencies.code', '=', 'countries.currency_code')
+			->select('currencies.*')
+			->where('countries.code', '=', $country_code)
+			->first();
+	if ($post->price > 0)
+	{
+		$get_currency = \App\Helpers\Number::money_price_latest($offer->price,$getcurrencycountry->html_entity,$getcurrencycountry->in_left,$getcurrencycountry->decimal_places,$getcurrencycountry->decimal_separator);
+	}
+	else
+	{
+		$get_currency = t('Free');
+	}
+ 
+
+			$all_offers[$x]['offer_id']=$offer->offer_id;
+			$all_offers[$x]['current_user_id']=$seller_id;
+			$all_offers[$x]['offer_status']=$offer->buyer_product_status;
+			$all_offers[$x]['offer_color']= $this->offer_color($offer->buyer_product_status);
+			$all_offers[$x]['from_user']=$offer->seller_name;
+
+			$middle = strtotime($offer->created_at);             // returns bool(false)
+			$new_date = date('Y-m-d  H:i', $middle);  
+
+			$all_offers[$x]['created_at']=$new_date;
+			 
+			$all_offers[$x]['product']=$offer->title;
+			$all_offers[$x]['price']=$get_currency;
+			$x++;
+		}  
+			
 		
-		return response()->json(['status'=>1,'message'=>'success','results'=>$data,'num'=>$num]);
+		return response()->json(['results'=>$all_offers]);
+        }
+        else{
+            return response()->json(['status'=>0,'message'=>'Invalid user','results'=>'','num'=>'']);
+        }
+	}
+	
+	
+	
+	
+	public function makeanofferDetail(Request $request,$old_offer=null,$offer_type=null) 
+	{		
+ 		if(!empty($request->offerId)){$offerId = $request->offerId;}else{$offerId = $old_offer;}
+		if(!empty($request->offer_type)){$offer_type = $request->offer_type;}else{$offer_type = $offer_type;}
+		         
+        
+		$status = 1;
+		$makeanoffers =  DB::table('makeanoffers')->where('id','=',$offerId);
+		$num = $makeanoffers->count();
+		$data = $makeanoffers->get();
+		$result = $data->toArray(); 
+		$i=0;		
+		
+		foreach($result as $key => $post){
+
+		    $buyer_product_1 = $post->buyer_product_1;
+		    $pId = $post->post_id;
+		    $postIdData = Post::where(['id' => $pId])->first();
+		   	$data1 = $postIdData->get();
+		    $resultPost = $data1->toArray();
+			
+			
+
+		   $post->title = $postIdData->title; 
+		   $post->price = $postIdData->price;
+		   $post->negotiable = $postIdData->negotiable;
+		   $post->contact_name = $postIdData->contact_name;
+		   $post->user_id = $postIdData->user_id;
+		   $post->country_code = $postIdData->country_code;
+		   $post->post_owner_id = $postIdData->user_id;
+		   if($post->approve_seller==0)
+			{
+			$post->seller_product_status = "New Offer";
+			$post->buyer_product_status = "Awaiting Response";
+			$post->counter_offer = 0;
+			}
+			elseif($post->approve_seller==1)
+			{
+			//$post->seller_product_status = 'deal';
+			$post->seller_product_status = 'Accepted';
+			$post->buyer_product_status = 'Accepted';
+			$post->counter_offer = 0;
+			}
+			else{
+			   //$post->seller_product_status = 'Counter Offer'; 
+			   $post->seller_product_status = 'Rejected';
+			   $post->buyer_product_status = 'Rejected';
+			   $post->counter_offer = 1;
+			}
+		   if(!empty($post->seller_id))
+			{
+			$user1 = User::findorfail($post->seller_id);			
+			$post->seller_name = $user1->username;
+			}
+			else{$post->seller_name = '';}			
+			if(!empty($post->buyer_id))
+			{
+			$user2 = User::findorfail($post->buyer_id);			
+			$post->buyer_name = $user2->username;
+			}
+			else{$post->buyer_name = '';}
+		  if(!empty($post->buyer_product_1)){
+			$bp1 = Post::where(['id' => $post->buyer_product_1])->first();
+			if($bp1['title']!=''){$post->buyer_product_1_title = $bp1['title'];}else{$post->buyer_product_1_title = '';}
+			if($bp1['price']!=''){$post->buyer_product_1_price = $bp1['price'];}else{$post->buyer_product_1_price = '';}			
+		  } 
+		   if(!empty($post->buyer_product_2)){
+		   $bp2 = Post::where(['id' => $post->buyer_product_2])->first();
+		   if($bp2['title']!=''){$post->buyer_product_2_title = $bp2['title'];}else{$post->buyer_product_2_title = '';}
+		   if($bp2['price']!=''){$post->buyer_product_2_price = $bp2['price'];}else{$post->buyer_product_2_price = '';}
+		   } 
+		   if(!empty($post->buyer_product_3)){
+		   $bp3 = Post::where(['id' => $post->buyer_product_3])->first();
+		   if($bp3['title']!=''){$post->buyer_product_3_title = $bp3['title'];}else{$post->buyer_product_3_title = '';}
+		   if($bp3['price']!=''){$post->buyer_product_3_price = $bp3['price'];}else{$post->buyer_product_3_price = '';}		
+		   } 
+		   if(!empty($post->seller_product_1)){
+		   $sp1 = Post::where(['id' => $post->seller_product_1])->first();
+		   if($sp1['title']!=''){$post->seller_product_1_title = $sp1['title'];}else{$post->seller_product_1_title = '';}
+		   if($sp1['price']!=''){$post->seller_product_1_price = $sp1['price'];}else{$post->seller_product_1_price = '';}	
+		    } 
+		   if(!empty($post->seller_product_2)){
+		   $sp2 = Post::where(['id' => $post->seller_product_2])->first();
+		   if($sp2['title']!=''){$post->seller_product_2_title = $sp2['title'];}else{$post->seller_product_2_title = '';}
+		   if($sp2['price']!=''){$post->seller_product_2_price = $sp2['price'];}else{$post->seller_product_2_price = '';}
+		   } 
+		   
+		   $i++;
+		}
+	    
+	$all_offers=array();$products=array();$price = t('Free');$offer_price = t('Free');$old_offer="";	
+	
+	foreach($data as $offer){
+		if(empty($offer->country_code)) {$country_code='KW';}else{$country_code=$offer->country_code;}
+	$getcurrencycountry = \DB::table('countries')->join('currencies', 'currencies.code', '=', 'countries.currency_code')
+			                     ->select('currencies.*')->where('countries.code', '=', $country_code)->first();
+
+								 
+	if ($post->price > 0){$price = \App\Helpers\Number::money_price_latest($offer->price,$getcurrencycountry->html_entity,$getcurrencycountry->in_left,$getcurrencycountry->decimal_places,$getcurrencycountry->decimal_separator);}
+	if ($post->price > 0){$offer_price = \App\Helpers\Number::money_price_latest($offer->offer_price,$getcurrencycountry->html_entity,$getcurrencycountry->in_left,$getcurrencycountry->decimal_places,$getcurrencycountry->decimal_separator);}
+	 
+	        $all_offers['offer_id']=$offerId; 
+			
+			if($offer_type=="sent"){
+				
+				$makeanoffers =  DB::table('makeanoffers')->where('makeanoffers.seller_id', $offer->post_owner_id)->where('id','<',$offerId)->first();
+                if(!empty($makeanoffers->id)){$old_offer=$makeanoffers->id;}
+				$all_offers['offer_status']=$offer->buyer_product_status;
+				$all_offers['offer_color']= $this->offer_color($offer->buyer_product_status);
+				$all_offers['to_user']=$offer->seller_name;
+				$all_offers['wanted_product']=$offer->title;	
+			    $all_offers['wanted_product_price']=$price;				
+			    $all_offers['my_offer_price']=$offer_price;
+				
+			if(!empty($offer->buyer_product_1_title))
+			{$products[] = (object) array('title' => $offer->buyer_product_1_title, 'price' => $offer->buyer_product_1_price);}
+			if(!empty($offer->buyer_product_2_title))
+			{$products[] = (object) array('title' => $offer->buyer_product_2_title, 'price' => $offer->buyer_product_2_price);}
+			if(!empty($offer->buyer_product_3_title))
+			{$products[] = (object) array('title' => $offer->buyer_product_3_title, 'price' => $offer->buyer_product_3_price);}
+				
+			}
+			else{
+				
+				$makeanoffers =  DB::table('makeanoffers')->where('makeanoffers.buyer_id', $offer->post_owner_id)->where('id','<',$offerId)->first();
+                if(!empty($makeanoffers->id)){$old_offer=$makeanoffers->id;}
+
+				$all_offers['offer_status']=$offer->seller_product_status;
+				$all_offers['offer_color']= $this->offer_color($offer->seller_product_status);
+				$all_offers['from_user']=$offer->buyer_name;	
+				$all_offers['from_user_id']=$offer->offer_maker_id;	
+				$all_offers['post_id']=$offer->post_id;				
+				$all_offers['my_product']=$offer->title;	
+				$all_offers['my_product_price']=$price;
+				$all_offers['recieved_offer_price']=$offer_price;
+				
+				if(!empty($offer->buyer_product_1_title))
+				{$products[] = (object) array('title' => $offer->buyer_product_1_title, 'price' => $offer->buyer_product_1_price);}
+				if(!empty($offer->buyer_product_2_title))
+				{$products[] = (object) array('title' => $offer->buyer_product_2_title, 'price' => $offer->buyer_product_2_price);}
+				if(!empty($offer->buyer_product_3_title))
+				{$products[] = (object) array('title' => $offer->buyer_product_3_title, 'price' => $offer->buyer_product_3_price);}	
+			}
+			 $all_offers['products']=$products;	
+			 $all_offers['created_at']=$offer->created_at;
+			 $all_offers['post_id']=$offer->post_id;
+
+
+
+			}
+             $old_offer_details=null;
+			if($offer_type=="sent"){				
+				 if(!empty($old_offer)){$old_offer_details=$this->makeanofferDetailNext($old_offer,'sent');}			 
+			 }else{
+				 if(!empty($old_offer)){$old_offer_details=$this->makeanofferDetailNext($old_offer,'recieved');}
+				} 
+
+	  return response()->json(['new_offer'=>$all_offers,'old_offer'=>$old_offer_details]);
 	}	
+	
+	
+	
+	
+	
+	
+	
+	public function makeanofferDetailNext($old_offer=null,$offer_type=null) 
+	{		
+ 		$offerId = $old_offer;
+		$offer_type = $offer_type;          
+		$status = 1;
+		$data =  DB::table('makeanoffers')->where('id','=',$offerId)->get();
+		$result = $data->toArray();	  
+	 
+		$i=0;		
+		foreach($result as $key => $post){
+
+
+
+			//return $post;
+		    $buyer_product_1 = $post->buyer_product_1;
+		    $pId = $post->post_id;
+
+			if(empty($pId)){ return NULL;  } 
+
+		    $postIdData = Post::where(['id' => $pId])->first();	
+			if(empty($resultPost)){ return NULL;}
+			$resultPost = $postIdData->toArray();
+
+		   $post->title = $postIdData->title; 
+		   $post->price = $postIdData->price;
+		   $post->negotiable = $postIdData->negotiable;
+		   $post->contact_name = $postIdData->contact_name;
+		   $post->user_id = $postIdData->user_id;
+		   $post->country_code = $postIdData->country_code;
+		   $post->post_owner_id = $postIdData->user_id;
+		   if($post->approve_seller==0)
+			{
+			$post->seller_product_status = "New Offer";
+			$post->buyer_product_status = "Awaiting Response";
+			$post->counter_offer = 0;
+			}
+			elseif($post->approve_seller==1)
+			{
+			 
+			//$post->seller_product_status = 'deal';
+			$post->seller_product_status = 'Accepted';
+			$post->buyer_product_status = 'Accepted';
+			$post->counter_offer = 0;
+			}
+			else{
+			   //$post->seller_product_status = 'Counter Offer'; 
+			   $post->seller_product_status = 'Rejected';
+			   $post->buyer_product_status = 'Rejected';
+			   $post->counter_offer = 1;
+			}
+		   if(!empty($post->seller_id))
+			{
+			$user1 = User::findorfail($post->seller_id);			
+			$post->seller_name = $user1->username;
+			}
+			else{$post->seller_name = '';}			
+			if(!empty($post->buyer_id))
+			{
+			$user2 = User::findorfail($post->buyer_id);			
+			$post->buyer_name = $user2->username;
+			}
+			else{$post->buyer_name = '';}
+		   $bp1 = Post::where(['id' => $post->buyer_product_1])->first();
+		   $bp2 = Post::where(['id' => $post->buyer_product_2])->first();
+		   $bp3 = Post::where(['id' => $post->buyer_product_3])->first();
+		   $sp1 = Post::where(['id' => $post->seller_product_1])->first();
+		   $sp2 = Post::where(['id' => $post->seller_product_2])->first();
+		   if($bp1['title']!=''){$post->buyer_product_1_title = $bp1['title'];}else{$post->buyer_product_1_title = '';}
+           if($bp1['price']!=''){$post->buyer_product_1_price = $bp1['price'];}else{$post->buyer_product_1_price = '';}
+		   if($bp2['title']!=''){$post->buyer_product_2_title = $bp2['title'];}else{$post->buyer_product_2_title = '';}
+		   if($bp2['price']!=''){$post->buyer_product_2_price = $bp2['price'];}else{$post->buyer_product_2_price = '';}
+		   if($bp3['title']!=''){$post->buyer_product_3_title = $bp3['title'];}else{$post->buyer_product_3_title = '';}
+		   if($bp3['price']!=''){$post->buyer_product_3_price = $bp3['price'];}else{$post->buyer_product_3_price = '';}		   
+		   if($sp1['title']!=''){$post->seller_product_1_title = $sp1['title'];}else{$post->seller_product_1_title = '';}
+		   if($sp1['price']!=''){$post->seller_product_1_price = $sp1['price'];}else{$post->seller_product_1_price = '';}		   
+		   if($sp2['title']!=''){$post->seller_product_2_title = $sp2['title'];}else{$post->seller_product_2_title = '';}
+		   if($sp2['price']!=''){$post->seller_product_2_price = $sp2['price'];}else{$post->seller_product_2_price = '';}
+		   $i++;
+		}
+	    
+	$all_offers=array();$products=array();$price = t('Free');$offer_price = t('Free');$old_offer="";	 
+	foreach($data as $offer){
+		if(empty($offer->country_code)) {$country_code='KW';}else{$country_code=$offer->country_code;}
+	$getcurrencycountry = \DB::table('countries')->join('currencies', 'currencies.code', '=', 'countries.currency_code')
+			                     ->select('currencies.*')->where('countries.code', '=', $country_code)->first();
+	if ($post->price > 0){$price = \App\Helpers\Number::money_price_latest($offer->price,$getcurrencycountry->html_entity,$getcurrencycountry->in_left,$getcurrencycountry->decimal_places,$getcurrencycountry->decimal_separator);}
+	if ($post->price > 0){$offer_price = \App\Helpers\Number::money_price_latest($offer->offer_price,$getcurrencycountry->html_entity,$getcurrencycountry->in_left,$getcurrencycountry->decimal_places,$getcurrencycountry->decimal_separator);}
+	 
+	        $all_offers['offer_id']=$offerId; 
+			
+			if($offer_type=="sent"){
+				
+				$makeanoffers =  DB::table('makeanoffers')->where('makeanoffers.seller_id', $offer->post_owner_id)->where('id','<',$offerId)->first();
+                if(!empty($makeanoffers->id)){$old_offer=$makeanoffers->id;}
+				$all_offers['offer_status']=$offer->buyer_product_status;
+				$all_offers['offer_color']= $this->offer_color($offer->buyer_product_status);
+				$all_offers['to_user']=$offer->seller_name;
+				$all_offers['wanted_product']=$offer->title;	
+			    $all_offers['wanted_product_price']=$price;				
+			    $all_offers['my_offer_price']=$offer_price;
+				 
+			if(!empty($offer->buyer_product_1_title))
+			{$products[] = (object) array('title' => $offer->buyer_product_1_title, 'price' => $offer->buyer_product_1_price);}
+			if(!empty($offer->buyer_product_2_title))
+			{$products[] = (object) array('title' => $offer->buyer_product_2_title, 'price' => $offer->buyer_product_2_price);}
+			if(!empty($offer->buyer_product_3_title))
+			{$products[] = (object) array('title' => $offer->buyer_product_3_title, 'price' => $offer->buyer_product_3_price);}
+				
+			}
+			else{
+				
+				$makeanoffers =  DB::table('makeanoffers')->where('makeanoffers.buyer_id', $offer->post_owner_id)->where('id','<',$offerId)->first();
+                if(!empty($makeanoffers->id)){$old_offer=$makeanoffers->id;}
+
+				$all_offers['offer_status']=$offer->seller_product_status;
+				$all_offers['offer_color']= $this->offer_color($offer->seller_product_status);
+				$all_offers['from_user']=$offer->buyer_name;				
+				$all_offers['my_product']=$offer->title;	
+				$all_offers['my_product_price']=$price;
+				$all_offers['recieved_offer_price']=$offer_price;
+			 
+				if(!empty($offer->buyer_product_1_title))
+				{$products[] = (object) array('title' => $offer->buyer_product_1_title, 'price' => $offer->buyer_product_1_price);}
+				if(!empty($offer->buyer_product_2_title))
+				{$products[] = (object) array('title' => $offer->buyer_product_2_title, 'price' => $offer->buyer_product_2_price);}
+				if(!empty($offer->buyer_product_3_title))
+				{$products[] = (object) array('title' => $offer->buyer_product_3_title, 'price' => $offer->buyer_product_3_price);}	
+			}
+			 $all_offers['products']=$products;	
+			 $all_offers['created_at']=$offer->created_at;
+			}
+		return $all_offers;
+	}	
+	
+	
+	
+	
+	public function priceFormatWithCurrency($country_code,$price) 
+	{
+
+		$getcurrencycountry = \DB::table('countries')
+		->join('currencies', 'currencies.code', '=', 'countries.currency_code')				
+		->select('currencies.*')->where('countries.code', '=', $country_code)->first();
+		$formatted_price = \App\Helpers\Number::money_price_latest($price,$getcurrencycountry->html_entity,$getcurrencycountry->in_left,$getcurrencycountry->decimal_places,$getcurrencycountry->decimal_separator);
+	return $formatted_price;
+	}
+	
+	
 	public function getOffer(Request $request) 
 	{		
 		$seller_id = $request->userid;
@@ -1485,6 +2156,7 @@ class MakeanoffersappController extends AccountappBaseController
         return response()->json(['status'=>1,'message'=>'Success','results'=>'Success','firebaseresponse'=>$firebaseresponse]);
 		//return redirect('account/makeanoffers/'.$postId.'/edit/'.$makeanoffer->id);
 	}
+	
 	public function dealseller($postId , $offerId, Request $request)
 	{
 	    
@@ -1688,8 +2360,9 @@ class MakeanoffersappController extends AccountappBaseController
 		return redirect('account/makeanoffers/'.$id.'/edit');
 	}
 
-	public function destroy($id)
+	public function destroy(Request $request)
 	{
+		$id = $request->input('id');
 		$makeanoffer = Makeanoffer::destroy($id);
 		//return redirect('account/makeanoffers/');
 		return response()->json(['results'=>'Deleted']);
@@ -1879,20 +2552,77 @@ class MakeanoffersappController extends AccountappBaseController
     }
     
     
-    public function dealsellerapp($postId , $offerId, Request $request)
+	
+	
+	
+	/**
+	 * rechargePoints List
+	 *
+	 * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+	 */
+	
+	public function rechargePoints(Request $request)
 	{
-	    
-        $makeanofferget = Makeanoffer::find($offerId);
 		
+		$translation_lang=$request->translation_lang;
+
+	/*	$user = User::find($request->user_id);
+		$user->no_points=1000;
+		$user->save();*/
+
+
+		 
+		 $points = \DB::table('points')->where('active','1')
+		 //->where('translation_lang',$translation_lang)
+		 ->get(); 
+		 $w=0;
+		 $filterPionts=array();
+		 foreach($points as $point){
+			 	$filterPionts[$w]['id']=$point->id;		 
+				$filterPionts[$w]['price']=$point->price;		 
+				$filterPionts[$w]['currency_code']=$point->currency_code;		 
+				$filterPionts[$w]['no_photos']=$point->no_photos;		
+				$filterPionts[$w]['duration']=$point->duration;	 
+				$filterPionts[$w]['no_points']=$point->no_points;	
+				$filterPionts[$w]['active']=$point->active;
+			    $w++;
+			 }
+		 $PaymentMethods = PaymentMethod::where('active','1')->get();	
+		  $w=0;
+		 $filterPaymentMethods=array();
+		 foreach($PaymentMethods as $Payment){
+			 	$filterPaymentMethods[$w]['id']=$Payment->id;		 
+				$filterPaymentMethods[$w]['name']=$Payment->name;		 
+				$filterPaymentMethods[$w]['description']=$Payment->description;	
+				$filterPaymentMethods[$w]['image']=url('ProfilePictures/')."/".$Payment->m_image;				 
+			    $w++;
+			 }	 
+		return response()->json(['points'=>$filterPionts,'PaymentMethods'=>$filterPaymentMethods]);
+		
+	 
+	}
+	
+    public function dealsellerapp(Request $request)
+	{
+		 
+		
+		$MyPostId=$request->MyPostId;
+		$offerId=$request->offerId;
+		
+		$makeanofferget = Makeanoffer::find($offerId);
     	$offer_maker_id = $makeanofferget->offer_maker_id;
+		$offer_seller_id = $makeanofferget->seller_id;
     	
     	$offer_maker_name = User::where(['id' => $offer_maker_id])->first();
+		$offer_sender_name = User::where(['id' => $offer_seller_id])->first();
 
     	$to_name  = $offer_maker_name->username;
-
-        $from_name = $request->username;
+		$from_name = $offer_sender_name->username;
+		
+		
+		
         
-        $post = Post::unarchived()->findOrFail($postId);
+        $post = Post::unarchived()->findOrFail($MyPostId);
         
         $data['url'] = lurl('/').'/'.slugify($post->title).'/'.$post->id;
         
@@ -1939,69 +2669,10 @@ class MakeanoffersappController extends AccountappBaseController
 		$makeanoffer->is_read = 0;
 		$makeanoffer->update();
 		//return redirect('account/makeanoffers/'.$postId.'/edit/'.$offerId);
-		return response()->json(['results'=>'Success','makeanofferid'=>$offerId,'postId'=>$postId, 'firebaseresponse' => $firebaseresponse]);
+		return response()->json(['results'=>'Success','makeanofferid'=>$offerId,'MyPostId'=>$MyPostId, 'firebaseresponse' => $firebaseresponse]);
 		
 	}
 	
 	
-	public function notdealsellerapp($postId , $offerId, Request $request)
-	{
-	    $makeanofferget = Makeanoffer::find($offerId);
-    	$offer_maker_id = $makeanofferget->offer_maker_id;
-    	
-    	$offer_maker_name = User::where(['id' => $offer_maker_id])->first();
-
-    	$to_name  = $offer_maker_name->username;
-    	
-        $from_name = $request->username;
-
-        $post = Post::unarchived()->findOrFail($postId);
-        $data['url'] = lurl('/').'/'.slugify($post->title).'/'.$post->id;
-        
-        $data['toname'] = $to_name;
-        $data['fromname'] = $from_name;
-        
-	    $fcmId = $offer_maker_name->fcm_id;
-        error_reporting(-1);
-        ini_set('display_errors', 'On');
-        $firebase = new Firebase();
-        $push = new Push();
-        $payload = array();  
-      
-        array_push($payload, $data);                
-        // notification title
-        $title = 'Offer Rejected';             
-        // notification message
-        $message = "Offer Rejected Data"; 
-        $type = "offerejected";                      
-        // push type - single user / topic
-        $push_type = "individual";     
-        $push->setTitle($title);
-        $push->setType($type);
-        $push->setMessage($message);
-        $push->setIsBackground(FALSE);
-        $push->setPayload($payload);
-        $json = '';
-        $firebaseresponse = '';
-        if ($push_type == 'topic') 
-        {
-            $json = $push->getPush();
-            $firebaseresponse = $firebase->sendToTopic('global', $json);
-        }
-        else if ($push_type == 'individual') 
-        {
-          $json = $push->getPush();
-          $firebaseresponse = $firebase->send($fcmId, $json);
-          //echo $firebaseresponse;
-        }
-        
-	    
-	    
-		$makeanoffer = Makeanoffer::find($offerId);
-		$makeanoffer->approve_seller = 2;
-		$makeanoffer->is_read = 0;
-		$makeanoffer->update();
-		return response()->json(['results'=>'Success','makeanofferid'=>$offerId,'postId'=>$postId, 'firebaseresponse' => $firebaseresponse]);
-	}
 
 }

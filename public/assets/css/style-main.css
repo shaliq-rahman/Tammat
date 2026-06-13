@@ -1240,7 +1240,7 @@ ul.tagit input[type="text"] {
 }
 .tags a.primary {
 	color: #FFF;
-	background-color: #428BCA;
+	background-color: #ff5555;
 	border-color: #357EBD
 }
 .tags a.success {
@@ -1308,7 +1308,7 @@ ul.tagit input[type="text"] {
 	color: #FFF;
 	text-align: center;
 	font-weight: 700;
-	font-size: 40px;
+	font-size: 18px;
 }
 
 /* Homepage Layout */

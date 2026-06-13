@@ -32,7 +32,7 @@ use App\PushNotification\push;
 
 class MakeanoffersController extends AccountBaseController
 {
-	private $perPage = 10;
+	protected $perPage = 10;
 	
 	public function __construct()
 	{
@@ -448,7 +448,7 @@ class MakeanoffersController extends AccountBaseController
 
 	public function store( Request $request)
 	{
-	    
+	    //dd($request);
 		$postId = $request->input('post-id');
 		$offerId = $request->input('makeanoffer-id');
 		// $offerPriceSeller = $request->input('offer_price_seller');

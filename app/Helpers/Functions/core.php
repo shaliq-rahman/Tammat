@@ -111,8 +111,8 @@ function maxUploadSize()
 function maxApplyFileUploadSize()
 {
     $size = maxUploadSize();
-    if ($size >= 5) {
-        return 5;
+    if ($size >= 5000) {
+        return 5000;
     }
 
     return $size;
@@ -208,7 +208,7 @@ function getDomain()
             $itemsToKeep = $itemsToKeep - 1;
         }
         for ($i = 0; $i < $itemsToKeep; $i++) {
-            array_forget($tmp, $i);
+            \Illuminate\Support\Arr::forget($tmp, $i);
         }
         $domain = implode('.', $tmp);
     } else {
@@ -441,7 +441,7 @@ function getSegment($index, $default = null)
     $segment = request()->segment($index, $default);
 
     // Checking with Default Language parameters
-    if (!ends_with(\Request::url(), '.xml')) {
+    if (!str_ends_with(\Request::url(), '.xml')) {
         if (!currentLocaleShouldBeHiddenInUrl()) {
             $segment = request()->segment(($index + 1), $default);
         }
@@ -461,7 +461,7 @@ function fileIsUploaded($value)
     $isUploaded = false;
 
     if (
-        (is_string($value) && starts_with($value, 'data:image'))
+        (is_string($value) && str_starts_with($value, 'data:image'))
         || ($value instanceof \Illuminate\Http\UploadedFile)
     ) {
         $isUploaded = true;
@@ -485,7 +485,7 @@ function getUploadedFileExtension($value)
             $extension = $value->getClientOriginalExtension();
         }
     } else {
-        if (starts_with($value, 'data:image')) {
+        if (str_starts_with($value, 'data:image')) {
             $matches = [];
             preg_match('#data:image/([^;]+);base64#', $value, $matches);
             $extension = (isset($matches[1]) && !empty($matches[1])) ? $matches[1] : 'png';
@@ -616,7 +616,7 @@ function extractEmailAddress($string)
     $tmp = [];
     preg_match_all('|([A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b)|i', $string, $tmp);
     $emails = (isset($tmp[1])) ? $tmp[1] : [];
-    $email = head($emails);
+    $email = reset($emails) ?: '';
     if ($email == '') {
         $tmp = [];
         preg_match("|[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})|i", $string, $tmp);
@@ -818,17 +818,19 @@ function hex2rgba($color, $opacity = false)
  * @param string $encoding
  * @return string
  */
-function mb_ucfirst($string, $encoding = 'utf-8')
-{
-    if (empty($string) || !is_string($string)) {
-        return null;
+if (!function_exists('mb_ucfirst')) {
+    function mb_ucfirst($string, $encoding = 'utf-8')
+    {
+        if (empty($string) || !is_string($string)) {
+            return null;
+        }
+
+        $strLen = mb_strlen($string, $encoding);
+        $firstChar = mb_substr($string, 0, 1, $encoding);
+        $then = mb_substr($string, 1, $strLen - 1, $encoding);
+
+        return mb_strtoupper($firstChar, $encoding) . $then;
     }
-
-    $strLen = mb_strlen($string, $encoding);
-    $firstChar = mb_substr($string, 0, 1, $encoding);
-    $then = mb_substr($string, 1, $strLen - 1, $encoding);
-
-    return mb_strtoupper($firstChar, $encoding) . $then;
 }
 
 /**
@@ -1321,7 +1323,7 @@ function resize($pathFromDb, $type = 'big')
     // Get size dimensions
     $size = config('larapen.core.picture.resize.' . $type, '816x460');
 
-    $filename = last(explode('/', $pathFromDb));
+    $filename = (function($arr) { $v = end($arr); return $v !== false ? $v : null; })(explode('/', $pathFromDb));
     $filepath = str_replace($filename, '', $pathFromDb);
 
     // Thumb file name
@@ -1492,14 +1494,14 @@ function setPhoneSign($phone, $provider = null)
 {
     if ($provider == 'nexmo') {
         // Nexmo doesn't support the sign '+'
-        if (starts_with($phone, '+')) {
+        if (str_starts_with($phone, '+')) {
             $phone = str_replace('+', '', $phone);
         }
     }
 
     if ($provider == 'twilio') {
         // Twilio requires the sign '+'
-        if (!starts_with($phone, '+')) {
+        if (!str_starts_with($phone, '+')) {
             $phone = '+' . $phone;
         }
     }
@@ -1573,10 +1575,11 @@ function getTokenLabel()
 
 function getTokenMessage()
 {
-    if (isEnabledField('email') && isEnabledField('phone')) {
-        $loginLabel = t('Enter the code you received by SMS or Email in the field below');
+    if (isEnabledField('email') && isEnabledField('phone_number')) {
+        // comment by abdelhy to show only mobile sms massage if both exsist $loginLabel = t('Enter the code you received by SMS or Email in the field below');
+		 $loginLabel = t('Enter the code you received by SMS in the field below');
     } else {
-        if (isEnabledField('phone')) {
+        if (isEnabledField('phone_number')) {
             $loginLabel = t('Enter the code you received by SMS in the field below');
         } else {
             $loginLabel = t('Enter the code you received by Email in the field below');
@@ -1734,10 +1737,10 @@ function getRawBaseUrl()
 
     // Get the Current URL
     $currentUrl = ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') ? 'https://' : 'http://') . $httpHost . strtok($requestUri, '?');
-    $currentUrl = head(explode('/' . config('larapen.admin.route_prefix', 'admin'), $currentUrl));
+    $currentUrl = (function($arr) { $v = reset($arr); return $v !== false ? $v : ''; })(explode('/' . config('larapen.admin.route_prefix', 'admin'), $currentUrl));
 
     // Get the Base URL
-    $baseUrl = head(explode('/install', $currentUrl));
+    $baseUrl = (function($arr) { $v = reset($arr); return $v !== false ? $v : ''; })(explode('/install', $currentUrl));
     $baseUrl = rtrim($baseUrl, '/');
 
     return $baseUrl;
@@ -1752,9 +1755,9 @@ function getCurrentVersion()
 {
     // Get the Current Version
     $currentVersion = null;
-    if (\Jackiedo\DotenvEditor\Facades\DotenvEditor::keyExists('APP_VERSION')) {
+    if (\App\Facades\DotenvEditor::keyExists('APP_VERSION')) {
         try {
-            $currentVersion = \Jackiedo\DotenvEditor\Facades\DotenvEditor::getValue('APP_VERSION');
+            $currentVersion = \App\Facades\DotenvEditor::getValue('APP_VERSION');
         } catch (\Exception $e) {
         }
     }
@@ -1764,7 +1767,7 @@ function getCurrentVersion()
         $tmp = explode('.', $currentVersion);
         if (count($tmp) > 1) {
             if (count($tmp) >= 3) {
-                $tmp = array_only($tmp, [0, 1]);
+                $tmp = \Illuminate\Support\Arr::only($tmp, [0, 1]);
             }
             $currentVersion = implode('.', $tmp);
         }

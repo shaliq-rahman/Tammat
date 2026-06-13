@@ -24,7 +24,7 @@
 </style>
 @endif
 
-	<div class="main-container">
+	<div class="main-container"   style="margin-top: 50px;">
 		<div class="container">
 			<div class="row">
 				
@@ -45,7 +45,9 @@
 				
 				<div class="col-sm-9 page-content">
 					<div class="inner-box">
-						<h2 class="title-2"><i class="icon-mail"></i> {{ t('Messages') }} </h2>
+						<div  style="background-color: #ff5555 ; border-radius: 40px;margin:7px;padding:12px 0px 0px 14px;">
+						<h2 class="title-2"  style="color: #fff"><i class="icon-mail"></i> {{ t('Messages') }} </h2>
+                        </div>
 						
 						<div style="clear:both"></div>
 						

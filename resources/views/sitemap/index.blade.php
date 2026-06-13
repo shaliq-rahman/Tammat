@@ -42,25 +42,34 @@
 					@endif
 					
 					@include('home.inc.spacer')
-					<h1 class="text-center title-1"><strong>{{ t('Sitemap') }}</strong></h1>
-					<hr class="center-block small text-hr">
+					<h1 class="text-center"><strong>{{ t('Sitemap') }}</strong></h1>
+				 
 					
 					<div class="container">
 						<div class="col-lg-12 content-box layout-section">
 							<div class="row row-featured row-featured-category">
-								<div class="col-lg-12 box-title no-border">
-									<div class="inner">
-										<h2>
-											<span class="title-3"><span style="font-weight: bold;">{{ t('List of Categories and Sub-categories') }}</span></span>
-										</h2>
-									</div>
-								</div>
+								
+                                
+                                
+					<div class="inner-box category-content">
+                        <div class="col-lg-12 box-title no-border" style="background-color: #ff5555 ; border-radius: 40px;margin:7px">
+                        
+                        <h2 style="color: #fff"><i class="icon-docs"></i> 
+						{{ t('List of Categories and Sub-categories') }}</h2> 
+                        <br />
+                    </div>
+                    
+                                
+                                
+                                
+                                
+                                
 								
 								<div style="clear: both;"></div>
 								
 								<div class="list-categories-children styled">
 									@foreach ($cats as $key => $col)
-										<div class="col-md-4 col-sm-4 {{ (count($cats) == $key+1) ? 'last-column' : '' }}">
+										<div class="col-md-4 col-sm-4 {{ (count($cats) == $key+1) ? 'last-column' : '' }}" style="padding-top: 16px;">
 											@foreach ($col as $iCat)
 												<div class="cat-list">
 													<h3 class="cat-title rounded">

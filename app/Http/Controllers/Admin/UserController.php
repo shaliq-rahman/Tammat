@@ -23,7 +23,7 @@ use Larapen\Admin\app\Http\Controllers\PanelController;
 use App\Models\Gender;
 use App\Models\User;
 use App\Models\Newsletter;
-use Illuminate\Support\Facades\Input;
+
 use App\Http\Requests\Admin\UserRequest as StoreRequest;
 use App\Http\Requests\Admin\UserRequest as UpdateRequest;
 
@@ -68,13 +68,14 @@ class UserController extends PanelController
             'type' => 'dropdown',
             'label' => 'User Type',
         ], [
-            1 =>'Admin',
+            1 =>'Individual',
             2 => 'Shop',
-            3 => 'Individual',
+            3=> 'admin',
+            
         ], function ($value) {
             if ($value == 1) {
                // $this->xPanel->addClause('where', 'user_type_id', '=', 1);
-                $this->xPanel->addClause('Where', 'is_admin', '=', 1);
+                $this->xPanel->addClause('Where', 'user_type_id', '=', 1);
                 
             }
             if ($value == 2) {
@@ -84,10 +85,11 @@ class UserController extends PanelController
             }
             
             if ($value == 3) {
-                 $this->xPanel->addClause('where', 'user_type_id', '=', 3);
+                 $this->xPanel->addClause('where', 'is_admin', '=', 1);
                
                
             }
+            
         });
             
             
@@ -201,11 +203,11 @@ class UserController extends PanelController
 		
 		
 		
-            // $this->xPanel->addColumn([
-            //     'name' => 'created_at',
-            //     'label' => trans("admin::messages.Date"),
-            //     'type' => 'datetime',
-            // ]);
+            $this->xPanel->addColumn([
+                'name' => 'created_at',
+                'label' => trans("admin::messages.Date"),
+                'type' => 'datetime',
+            ]);
             
             /*$this->xPanel->addColumn([
                 'name' => 'name',
@@ -232,6 +234,7 @@ class UserController extends PanelController
                 'name' => 'last_name',
                 'label' => trans('admin::messages.Last_name'),
             ]);
+
             $this->xPanel->addColumn([
                 'name' => 'email',
                 'label' => trans("admin::messages.Email"),
@@ -316,7 +319,9 @@ class UserController extends PanelController
                 'type' => 'email',
                 'attributes' => [
                     'placeholder' => trans('admin::messages.Email'),
+					'readonly' => 'readonly',
                 ],
+				
                 'wrapperAttributes' => [
                     'class' => 'form-group col-md-6',
                 ],
@@ -327,6 +332,7 @@ class UserController extends PanelController
                 'type' => 'text',
                 'attributes' => [
                     'placeholder' => trans('admin::messages.Username'),
+					'readonly' => 'readonly',
                 ],
                 'wrapperAttributes' => [
                     'class' => 'form-group col-md-6',
@@ -425,6 +431,9 @@ class UserController extends PanelController
                 'attributes' => [
                     'placeholder' => trans('admin::messages.Password'),
                 ],
+				'wrapperAttributes' => [
+                    'class' => 'form-group col-md-6',
+                ],
             ], 'create');
 
             /*$this->xPanel->addField([
@@ -445,10 +454,11 @@ class UserController extends PanelController
                 'type' => 'text',
                 'attributes' => [
                     'placeholder' => trans('admin::messages.Phone'),
+					'readonly' => 'readonly',
                 ],
                 'wrapperAttributes' => [
                     'class' => 'form-group col-md-6',
-                    'style' => 'float: left;',
+                    
                 ],
             ]);
 			
@@ -461,11 +471,11 @@ class UserController extends PanelController
                 ],
                 'wrapperAttributes' => [
                     'class' => 'form-group col-md-6',
-                    'style' => 'float: left;',
+                    
                 ],
             ]);
 			
-            $this->xPanel->addField([
+            /*->xPanel->addField([
                 'name' => 'phone_hidden',
                 'label' => trans("admin::messages.Phone hidden"),
                 'type' => 'checkbox',
@@ -473,7 +483,7 @@ class UserController extends PanelController
                     'class' => 'form-group col-md-6',
                     'style' => 'margin-top: 20px;float:right;',
                 ],
-            ]);
+            ]);*/
 
             $this->xPanel->addField([
                 'name' => 'user_type_id',
@@ -536,10 +546,10 @@ class UserController extends PanelController
         }
 
         // Check (Encrypt or Skip) the Password
-        if (Input::filled('password')) {
-            Input::merge(['password' => Hash::make(Input::get('password'))]);
+        if (request()->filled('password')) {
+            request()->merge(['password' => Hash::make(request()->input('password'))]);
         } else {
-            Input::replace(Input::except(['password']));
+            request()->replace(request()->except(['password']));
         }
     }
 
@@ -704,19 +714,13 @@ class UserController extends PanelController
             
               if($row->user_type_id == 1)
             {
-                $utype = "Admin";
+                $utype = "Individual";
             }
             
              if($row->user_type_id == 2)
             {
                 $utype = "Shop";
             }
-            
-             if($row->user_type_id == 3)
-            {
-                $utype = "Individual";
-            }
-            
             
              if($row->is_admin == 1)
             {

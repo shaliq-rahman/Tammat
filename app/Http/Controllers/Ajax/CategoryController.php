@@ -243,26 +243,30 @@ class CategoryController extends FrontController
 		echo json_encode($data3);exit();
 		}
 		if(isset($_GET['subcat3'])){
-		    $url=explode("/",$_GET['url']);
+		    
+			$url=explode("/",$_GET['url']);
 	        $lanurl=$url[3];
 	        if($lanurl!="posts"){
 	            $lang=$lanurl;
 	            $trans = Category::transIn($lang)->where('id', $_GET['subcat3'])->orderBy('lft')->get();
+				
+				
 	            foreach ($trans as $tran) {
 					$data['lang'][]= $tran;
 	            $subEntries4 = Category::transIn($lang)->where('parent_id', $tran->translation_of)->orderBy('lft')->get();
-	            }
+	           
+			    }
 	           
     	        } else {
         	  	    $lang='en';
     		      $subEntries4 = Category::transIn($lang)->where('parent_id', $_GET['subcat3'])->orderBy('lft')->get();
     		  }
-		  
+		//  dd($subEntries4);
 		   
 			if (!empty($subEntries4)) {
 			    $data4 = [];
 		        foreach ($subEntries4 as $subEntrie4) {
-		            $data3['tab4'][]= $subEntrie4;
+		            $data4['tab4'][]= $subEntrie4;
 		       
 				}
 			}
@@ -407,36 +411,602 @@ class CategoryController extends FrontController
 		$parentCatId = $request->input('catId');
 		$catId = $request->input('subCatId');
 		$postId = $request->input('postId');
+		$level3 = $request->input('level3');
+		$level4 = $request->input('level4');
 		
 		// Custom Fields vars
 		$errors   = stripslashes($request->input('errors'));
 		$errors   = collect(json_decode($errors, true));
 		$oldInput = stripslashes($request->input('oldInput'));
 		$oldInput = json_decode($oldInput, true);
+		$arr = array();
+		// Get Category nested IDs
+		$catNestedIds = (object)[
+			'parentId'     => $parentCatId,
+			'id'           => $catId,
+			'level3'       => $level3,
+			'level4'       => $level4,
+		];
 		
+		// Get the Category's Custom Fields buffer
+	 $customFields1 = $this->getCategoryFieldsBufferApp($catNestedIds, $languageCode, $errors, $oldInput, $postId);
+	   //$fields = CategoryField::getFields($catNestedIds, $postId, $languageCode);
+	   
+		foreach($customFields1 as $field){
+		    $arr[] =  $field;
+
+		}
+
+ 
+		
+		
+		$catNestedIds2 = (object)[
+			'parentId'     => $catId,
+			'id'           => $catId,
+			 
+		];
+		$customFields2 = $this->getCategoryFieldsBufferApp($catNestedIds2, $languageCode, $errors, $oldInput, $postId);
+		foreach($customFields2 as $field){
+		    $arr[] =  $field;
+
+		}
+
+
+
+		$catNestedIds3 = (object)[
+			'parentId'     => $level3,
+			'id'           => $level3,
+		 
+		];
+		$customFields3 = $this->getCategoryFieldsBufferApp($catNestedIds3, $languageCode, $errors, $oldInput, $postId);
+		foreach($customFields3 as $field){
+		    $arr[] =  $field;
+
+		}
+
+
+
+		$catNestedIds4 = (object)[
+			'parentId'     => $level4,
+			'id'           => $level4,
+		 
+		];
+		$customFields4 = $this->getCategoryFieldsBufferApp($catNestedIds4, $languageCode, $errors, $oldInput, $postId);
+		foreach($customFields4 as $field){
+		    $arr[] =  $field;
+		}
+
+
+		$data = [
+			'customFields' => $arr,
+		];
+		
+		
+
+
+		$_GET['catid']= $request->input('catId');
+		$_GET['catid2']= $request->input('subCatId');
+		$postId = $request->input('postId');
+		$_GET['catid3']= $request->input('level3');
+		$_GET['catid4']= $request->input('level4');
+		$_GET['catid']= $request->input('level4');
+		
+	//	$customFields1="";$customFields2="";$customFields3="";$customFields4="";$customFields5="";
+			
+			$sql = Category::transIn($languageCode)->where('id', $_GET['catid4'])->orderBy('lft')->get(); 
+			foreach($sql as $parent){
+			  $catId1=$parent->translation_of;
+			  $catNestedIds1 = (object)[
+					  'parentId' =>$catId1,
+					  'id'       =>$catId1,
+				  ];
+				  $customFields1 = $this->getCategoryFieldsBufferApp($catNestedIds1, $languageCode, $errors, $oldInput, $postId);
+				 
+		  }
+		  
+		  
+			 $data = [
+				'customFields_org' => $customFields1,
+				'customFields_org2' => $customFields2,
+				'customFields_org3' => $customFields3,
+				'customFields_org4' => $customFields4,
+				'customFields' => $arr,
+				'xxx' => "22222",
+				 
+				
+			];
+		  
+		  
+
+
+
+
+
+
+
+
+		
+		return response()->json($data, 200, [], JSON_UNESCAPED_UNICODE);
+	}
+	
+
+	 
+	public function getCustomFieldsAPP(Request $request)
+	{
+		 
+		$languageCode = $request->input('languageCode');
+		$parentCatId = $request->input('catId');
+		$catId = $request->input('subCatId');
+		$postId = $request->input('postId');
+		$level3 = $request->input('level3');
+		$level4 = $request->input('level4');
+if(!empty($parentCatId)){$actual_link = 'https://www.tmmat.com/en/posts/create_step3/'.$parentCatId;}
+if(!empty($catId)){$actual_link = 'https://www.tmmat.com/en/posts/create_step3/'.$catId;}
+if(!empty($level3)){$actual_link = 'https://www.tmmat.com/en/posts/create_step3/'.$level3;}
+if(!empty($level4)){$actual_link = 'https://www.tmmat.com/en/posts/create_step3/'.$level4;}
+		 
+		
+		// Custom Fields vars
+		$errors = stripslashes($request->input('errors'));
+		$errors = collect(json_decode($errors, true));
+		$oldInput = stripslashes($request->input('oldInput'));
+		$oldInput = json_decode($oldInput, true);
+		
+		
+		//catid="+$catid+'&catid1='+$catid1+'&catid2='+$catid2+'&catid3='+$catid3+'&catid4='+$catid4+'&postid='+postId+'&url='+$url
+		   if(isset($_GET['postid'])){ $postId=$_GET['postid'];}
+		    if(isset($_GET['posttype'])){ $posttype=$_GET['posttype'];}else{$posttype="";}
+			
+			
 		// Get Category nested IDs
 		$catNestedIds = (object)[
 			'parentId' => $parentCatId,
 			'id'       => $catId,
 		];
-		
 		// Get the Category's Custom Fields buffer
-	$customFields = $this->getCategoryFieldsBufferApp($catNestedIds, $languageCode, $errors, $oldInput, $postId);
-	   //$fields = CategoryField::getFields($catNestedIds, $postId, $languageCode);
-	   $arr = array();
-		foreach($customFields as $field){
-		    $arr[] =  $field;
-
-		}
+		$customFields = $this->getCategoryFieldsBufferApp($catNestedIds, $languageCode, $errors, $oldInput, $postId);
+		 
+        //print_r($customFields);
 		// Get Result's Data
 		$data = [
-			'customFields' => $arr,
+			'customFields' => $customFields,
+			'xxxx' => "111111",
+			'xxxx' => $postId,
+			
 		];
-		
+		if(!empty($postId) && empty($posttype)){
+		//2-7-2020 commented by abdelhay becouse this will return only one level (first catogry) 
 		return response()->json($data, 200, [], JSON_UNESCAPED_UNICODE);
-	}
+		}
+
+
+	    $languageCode = $request->input('languageCode');
+	    if(isset($_GET['catid'])){
+	        $catId=$_GET['catid'];
+	        
+	    } else {
+			//$actual_link = 'https://www.tmmat.com/en/posts/create_step3/43359';
+	          // $actual_link = $_SERVER["HTTP_HOST"] . $_SERVER["HTTP_REFERER"];
+	          $link=explode("/",$actual_link);
+	          if($languageCode=='en'){
+	              $catId=$link[5];
+	          } else {
+	              $catId=$link[6];
+	          }
+	          if($catId=='edit'){
+	       $catId = $request->input('subCatId');
+	          }
+	       //$catId = $request->input('catId');
+	    }
+
+		$test1=0;$test2=0;$test3=0;
+		$parentCatId = $request->input('catId');
+		$postId = $request->input('postId');
+	
+		// Custom Fields vars
+		$errors = stripslashes($request->input('errors'));
+		$errors = collect(json_decode($errors, true));
+		$oldInput = stripslashes($request->input('oldInput'));
+		$oldInput = json_decode($oldInput, true);
+		
+		if($languageCode==""){
+	        if(isset($_GET['url'])){
+    	       $lang=$_GET['url'];
+    	       $langcode=explode("/",$lang);
+    	       if($langcode[3]!="posts"){
+    	           $languageCode=$langcode[3];
+    	       } else {
+    	           $languageCode="en";
+    	       }
+	        } 
+	    }
+	 
+	 // $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
+	//  $actual_link = 'https://www.tmmat.com/en/posts/create_step3/43359';
+	       
+	 $link=explode("/",$actual_link);
 	
 	 
+	    
+		 
+	    // $actual_link = $_SERVER["HTTP_HOST"] . $_SERVER["HTTP_REFERER"];
+	     $link=explode("/",$actual_link);
+	     if($link[3]!="posts"){
+			 
+			 $test2=$link[3];
+			 $test3=$link[6];
+	         $catid=$link[6];
+			 
+	        $sql1 = Category::transIn($languageCode)->where('translation_of', $catid)->orderBy('lft')->get();
+	        foreach($sql1 as $parent1){
+				
+	            if($parent1->parent_id!=0){
+					
+					
+	                $catId1=$parent1->translation_of;
+	                $catNestedIds1 = (object)[
+			        'parentId' => $catId1,
+			        'id'       => $catId1,
+		        ];
+		        $customFields1 = $this->getCategoryFieldsBufferApp($catNestedIds1, $languageCode, $errors, $oldInput, $postId);
+		         $sql2 = Category::transIn($languageCode)->where('translation_of', $parent1->parent_id)->orderBy('lft')->get();
+		         foreach($sql2 as $parent2){
+					 
+					 
+		             if($parent2->parent_id!=0){
+		                 $catId2=$parent2->translation_of;
+		                 $catNestedIds2 = (object)[
+			        'parentId' => $catId2,
+			        'id'       => $catId2,
+		        ];
+		        $customFields2 = $this->getCategoryFieldsBufferApp($catNestedIds2, $languageCode, $errors, $oldInput, $postId);
+		        $sql3 = Category::transIn($languageCode)->where('translation_of', $parent2->parent_id)->orderBy('lft')->get();
+		        foreach($sql3 as $parent3){
+					
+		            if($parent3->parent_id!=0){
+		                $catId3=$parent3->translation_of;
+		                 $catNestedIds3 = (object)[
+			        'parentId' => $catId3,
+			        'id'       => $catId3,
+		        ];
+		        $customFields3 = $this->getCategoryFieldsBufferApp($catNestedIds3, $languageCode, $errors, $oldInput, $postId);
+		        $sql4 = Category::transIn($languageCode)->where('translation_of', $parent3->parent_id)->orderBy('lft')->get();
+				
+		        foreach($sql4 as $parent4){
+					
+		            if($parent4->parent_id!=0){	
+						$catId4=$parent4->translation_of;
+		                 $catNestedIds4 = (object)[
+			        'parentId' => $catId4,
+			        'id'       => $catId4,
+		        ];
+		        $customFields4 = $this->getCategoryFieldsBufferApp($catNestedIds4, $languageCode, $errors, $oldInput, $postId);
+		           $sql5 = Category::transIn($languageCode)->where('translation_of', $parent4->parent_id)->orderBy('lft')->get();
+		        foreach($sql5 as $parent5){
+					
+		            if($parent5->parent_id!=0){
+						$catId5=$parent5->translation_of;
+		                 $catNestedIds5 = (object)[
+			        'parentId' => $catId5,
+			        'id'       => $catId5,
+		        ];
+		        $customFields5 = $this->getCategoryFieldsBufferApp($catNestedIds5, $languageCode, $errors, $oldInput, $postId);
+		           
+				   
+				   
+				    } else {
+		              $catId5=$parent5->translation_of;
+		                 $catNestedIds5 = (object)[
+			        'parentId' => $catId5,
+			        'id'       => $catId5,
+		        ];
+		        $customFields5 = $this->getCategoryFieldsBufferApp($catNestedIds5, $languageCode, $errors, $oldInput, $postId);  
+		            }
+		        }  
+				   
+				   
+				   
+				   
+				    } else {
+		              $catId4=$parent4->translation_of;
+		                 $catNestedIds4 = (object)[
+			        'parentId' => $catId4,
+			        'id'       => $catId4,
+		        ];
+		        $customFields4 = $this->getCategoryFieldsBufferApp($catNestedIds4, $languageCode, $errors, $oldInput, $postId);  
+		            }
+		        }
+		            } else {
+		            $catId3=$parent3->translation_of;
+		                 $catNestedIds3 = (object)[
+			        'parentId' => $catId3,
+			        'id'       => $catId3,
+		        ];
+		        $customFields3 = $this->getCategoryFieldsBufferApp($catNestedIds3, $languageCode, $errors, $oldInput, $postId);    
+		            }
+		        }
+		             } else {
+		                 $catId2=$parent2->translation_of;
+		                 $catNestedIds2 = (object)[
+			        'parentId' => $catId2,
+			        'id'       => $catId2,
+		        ];
+		        $customFields2 = $this->getCategoryFieldsBufferApp($catNestedIds2, $languageCode, $errors, $oldInput, $postId);
+		             }
+		         } 
+				
+				} else {
+	                $catId1=$parent1->translation_of;
+	                $catNestedIds1 = (object)[
+			        'parentId' => $catId1,
+			        'id'       => $catId1,
+		        ];
+		        $customFields1 = $this->getCategoryFieldsBufferApp($catNestedIds1, $languageCode, $errors, $oldInput, $postId);
+	            }
+	        }
+	     }
+	    
+
+		    	$catNestedIds = (object)[
+			'parentId' => $catId,
+			'id'       => $catId,
+		];
+
+		// Get the Category's Custom Fields buffer
+	
+		$customFields = $this->getCategoryFieldsBufferApp($catNestedIds, $languageCode, $errors, $oldInput, $postId);
+      
+		// Get Result's Data
+		if(!isset($customFields1)){ $customFields1=array(); }
+		if(!isset($customFields2)){ $customFields2=array(); }
+		if(!isset($customFields3)){ $customFields3=array(); }
+		if(!isset($customFields4)){ $customFields4=array(); }
+		if(!isset($customFields5)){ $customFields5=array(); }
+		
+		
+		/*$arr = array();
+		//print_r($customFields1);
+		//print_r($customFields2);
+		//print_r($customFields3);
+		// print_r($customFields4);
+		//print_r($customFields5);
+		foreach($customFields1 as $field){ $arr[] =  $field;}
+		foreach($customFields2 as $field){ $arr[] =  $field;}
+		foreach($customFields3 as $field){ $arr[] =  $field;}
+		foreach($customFields4 as $field){ $arr[] =  $field;}
+		foreach($customFields5 as $field){ $arr[] =  $field;}
+
+		$data = [
+			'customFields' => $arr,
+		];*/
+// $all_rec = array_merge($customFields1,$customFields2,$customFields3,$customFields4,$customFields5);	
+$newcst=array();
+foreach($customFields3 as $cst){
+	$newcst[]=$cst;
+
+}	
+		$data = [
+			//'customFields' => $customFields1.$customFields2.$customFields3.$customFields4.$customFields5,
+			'customFields_org1' => $customFields1,
+			'customFields_org2' => $customFields2,
+			'customFields_org3' => $newcst,
+			'customFields_org4' => $customFields4,
+			'customFields_org5' => $customFields5,
+			'languageCode' => $languageCode,
+			 
+		 
+			
+		]; 
+		
+			 
+		  
+		return response()->json($data, 200, [], JSON_UNESCAPED_UNICODE);
+		    
+	 
+		 
+		 
+	}
+	 
+
+
+
+
+
+	 
+	public function getCustomFieldsNewAPP(Request $request)
+	{
+		 
+		$languageCode = $request->input('languageCode');
+		$catId = $request->input('last_category_id');
+		$postId = $request->input('postId');
+		 
+	 
+ 
+	
+		// Custom Fields vars
+		$errors = stripslashes($request->input('errors'));
+		$errors = collect(json_decode($errors, true));
+		$oldInput = stripslashes($request->input('oldInput'));
+		$oldInput = json_decode($oldInput, true);
+		
+	 
+	 
+	    
+		  
+			 
+	        $sql1 = Category::transIn($languageCode)->where('translation_of', $catId)->orderBy('lft')->get();
+	        foreach($sql1 as $parent1){
+				
+	            if($parent1->parent_id!=0){
+					
+					
+	                $catId1=$parent1->translation_of;
+	                $catNestedIds1 = (object)[
+			        'parentId' => $catId1,
+			        'id'       => $catId1,
+		        ];
+		        $customFields1 = $this->getCategoryFieldsBufferApp($catNestedIds1, $languageCode, $errors, $oldInput, $postId);
+		         $sql2 = Category::transIn($languageCode)->where('translation_of', $parent1->parent_id)->orderBy('lft')->get();
+		         foreach($sql2 as $parent2){
+					 
+					 
+		             if($parent2->parent_id!=0){
+		                 $catId2=$parent2->translation_of;
+		                 $catNestedIds2 = (object)[
+			        'parentId' => $catId2,
+			        'id'       => $catId2,
+		        ];
+		        $customFields2 = $this->getCategoryFieldsBufferApp($catNestedIds2, $languageCode, $errors, $oldInput, $postId);
+		        $sql3 = Category::transIn($languageCode)->where('translation_of', $parent2->parent_id)->orderBy('lft')->get();
+		        foreach($sql3 as $parent3){
+					
+		            if($parent3->parent_id!=0){
+		                $catId3=$parent3->translation_of;
+		                 $catNestedIds3 = (object)[
+			        'parentId' => $catId3,
+			        'id'       => $catId3,
+		        ];
+		        $customFields3 = $this->getCategoryFieldsBufferApp($catNestedIds3, $languageCode, $errors, $oldInput, $postId);
+		        $sql4 = Category::transIn($languageCode)->where('translation_of', $parent3->parent_id)->orderBy('lft')->get();
+				
+		        foreach($sql4 as $parent4){
+					
+		            if($parent4->parent_id!=0){	
+						$catId4=$parent4->translation_of;
+		                 $catNestedIds4 = (object)[
+			        'parentId' => $catId4,
+			        'id'       => $catId4,
+		        ];
+		        $customFields4 = $this->getCategoryFieldsBufferApp($catNestedIds4, $languageCode, $errors, $oldInput, $postId);
+		           $sql5 = Category::transIn($languageCode)->where('translation_of', $parent4->parent_id)->orderBy('lft')->get();
+		        foreach($sql5 as $parent5){
+					
+		            if($parent5->parent_id!=0){
+						$catId5=$parent5->translation_of;
+		                 $catNestedIds5 = (object)[
+			        'parentId' => $catId5,
+			        'id'       => $catId5,
+		        ];
+		        $customFields5 = $this->getCategoryFieldsBufferApp($catNestedIds5, $languageCode, $errors, $oldInput, $postId);
+		           
+				   
+				   
+				    } else {
+		              $catId5=$parent5->translation_of;
+		                 $catNestedIds5 = (object)[
+			        'parentId' => $catId5,
+			        'id'       => $catId5,
+		        ];
+		        $customFields5 = $this->getCategoryFieldsBufferApp($catNestedIds5, $languageCode, $errors, $oldInput, $postId);  
+		            }
+		        }  
+				   
+				   
+				   
+				   
+				    } else {
+		              $catId4=$parent4->translation_of;
+		                 $catNestedIds4 = (object)[
+			        'parentId' => $catId4,
+			        'id'       => $catId4,
+		        ];
+		        $customFields4 = $this->getCategoryFieldsBufferApp($catNestedIds4, $languageCode, $errors, $oldInput, $postId);  
+		            }
+		        }
+		            } else {
+		            $catId3=$parent3->translation_of;
+		                 $catNestedIds3 = (object)[
+			        'parentId' => $catId3,
+			        'id'       => $catId3,
+		        ];
+		        $customFields3 = $this->getCategoryFieldsBufferApp($catNestedIds3, $languageCode, $errors, $oldInput, $postId);    
+		            }
+		        }
+		             } else {
+		                 $catId2=$parent2->translation_of;
+		                 $catNestedIds2 = (object)[
+			        'parentId' => $catId2,
+			        'id'       => $catId2,
+		        ];
+		        $customFields2 = $this->getCategoryFieldsBufferApp($catNestedIds2, $languageCode, $errors, $oldInput, $postId);
+		             }
+		         } 
+				
+				} else {
+	                $catId1=$parent1->translation_of;
+	                $catNestedIds1 = (object)[
+			        'parentId' => $catId1,
+			        'id'       => $catId1,
+		        ];
+		        $customFields1 = $this->getCategoryFieldsBufferApp($catNestedIds1, $languageCode, $errors, $oldInput, $postId);
+	            }
+	        }
+	     
+	    
+
+		    	$catNestedIds = (object)[
+			'parentId' => $catId,
+			'id'       => $catId,
+		];
+
+		 
+      
+		// Get Result's Data
+		if(!isset($customFields1)){ $customFields1=array(); }
+		if(!isset($customFields2)){ $customFields2=array(); }
+		if(!isset($customFields3)){ $customFields3=array(); }
+		if(!isset($customFields4)){ $customFields4=array(); }
+		if(!isset($customFields5)){ $customFields5=array(); }
+		
+		$customFields3=array();
+		foreach($customFields3 as $cst){
+			$customFields3[]=$cst;
+		
+		}
+		  $arr = array();
+		//print_r($customFields1);
+		//print_r($customFields2);
+		//print_r($customFields3);
+		// print_r($customFields4);
+		//print_r($customFields5);
+		foreach($customFields1 as $field){ $arr[] =  $field;}
+		foreach($customFields2 as $field){ $arr[] =  $field;}
+		foreach($customFields3 as $field){ $arr[] =  $field;}
+		foreach($customFields4 as $field){ $arr[] =  $field;}
+		foreach($customFields5 as $field){ $arr[] =  $field;}
+		
+		/*$data = [
+			'customFields' => $arr,
+		];	
+		
+        $all_rec = array_merge($customFields1,$customFields2,$customFields3,$customFields4,$customFields5);	
+	     */
+		 
+		$data = [
+			//'customFields' => $customFields1.$customFields2.$customFields3.$customFields4.$customFields5,
+			//'customFields_org1' => $customFields1,
+			//'customFields_org2' => $customFields2,
+			//'customFields_org3' => $newcst,
+			//'customFields_org4' => $customFields4,
+			//'customFields_org5' => $customFields5,
+			//'languageCode' => $languageCode,
+			'customFields' =>  $arr,
+			 
+		 
+			
+		]; 
+		
+			 
+		  
+		return response()->json($data, 200, [], JSON_UNESCAPED_UNICODE);
+		    
+	 
+		 
+		 
+	}
+	 
+
+
 	 
 	public function getCustomFields(Request $request)
 	{
@@ -445,6 +1015,8 @@ class CategoryController extends FrontController
 		$parentCatId = $request->input('catId');
 		$catId = $request->input('subCatId');
 		$postId = $request->input('postId');
+		$level3 = $request->input('level3');
+		$level4 = $request->input('level4');
 		
 		// Custom Fields vars
 		$errors = stripslashes($request->input('errors'));
@@ -452,21 +1024,31 @@ class CategoryController extends FrontController
 		$oldInput = stripslashes($request->input('oldInput'));
 		$oldInput = json_decode($oldInput, true);
 		
+		
+		//catid="+$catid+'&catid1='+$catid1+'&catid2='+$catid2+'&catid3='+$catid3+'&catid4='+$catid4+'&postid='+postId+'&url='+$url
+		   if(isset($_GET['postid'])){ $postId=$_GET['postid'];}
+		    if(isset($_GET['posttype'])){ $posttype=$_GET['posttype'];}else{$posttype="";}
+			
+			
 		// Get Category nested IDs
 		$catNestedIds = (object)[
 			'parentId' => $parentCatId,
 			'id'       => $catId,
 		];
-		
 		// Get the Category's Custom Fields buffer
 		$customFields = $this->getCategoryFieldsBuffer($catNestedIds, $languageCode, $errors, $oldInput, $postId);
-		
+       // console.log($customFields);
 		// Get Result's Data
 		$data = [
 			'customFields' => $customFields,
+			'xxxx' => "111111",
+			'xxxx' => $postId,
+			
 		];
-		
+		if(!empty($postId) && empty($posttype)){
+		//2-7-2020 commented by abdelhay becouse this will return only one level (first catogry) 
 		return response()->json($data, 200, [], JSON_UNESCAPED_UNICODE);
+		}
 
 
 	    $languageCode = $request->input('languageCode');
@@ -487,7 +1069,7 @@ class CategoryController extends FrontController
 	       //$catId = $request->input('catId');
 	    }
 
-		
+		$test1=0;$test2=0;$test3=0;
 		$parentCatId = $request->input('catId');
 		$postId = $request->input('postId');
 	
@@ -513,7 +1095,19 @@ class CategoryController extends FrontController
 	 $link=explode("/",$actual_link);
 	
 	 if(isset($_GET['url'])){
+		 
+		 $test3=3;
+		 
+		 
+		 
 	    if($languageCode=='en'){
+			
+		
+			$_GET['catid2']=$level3;
+			$_GET['catid3']=$level4;
+			
+			
+			
 	        if(isset($_GET['catid'])){
 	    $catNestedIds1 = (object)[
 			        'parentId' => $_GET['catid'],
@@ -546,7 +1140,17 @@ class CategoryController extends FrontController
 		        $customFields4 = $this->getCategoryFieldsBuffer($catNestedIds4, $languageCode, $errors, $oldInput, $postId);
 	        } else { $customFields4=""; }  
 		   
-	    } else {
+	    
+		
+		
+		
+		
+		
+		} else {
+			
+			
+			
+			
 	       if(isset($_GET['catid'])){
 	      $sql = Category::transIn($languageCode)->where('id', $_GET['catid'])->orderBy('lft')->get(); 
 	      foreach($sql as $parent){
@@ -560,6 +1164,7 @@ class CategoryController extends FrontController
 	    }
 	       }
 	       if(isset($_GET['catid1'])){
+			   
 	      $sql = Category::transIn($languageCode)->where('id', $_GET['catid1'])->orderBy('lft')->get(); 
 	      foreach($sql as $parent){
 	        $catId2=$parent->translation_of;
@@ -572,6 +1177,7 @@ class CategoryController extends FrontController
 	    }
 	       }
 	       if(isset($_GET['catid2'])){
+			   
 	      $sql = Category::transIn($languageCode)->where('id', $_GET['catid2'])->orderBy('lft')->get(); 
 	      foreach($sql as $parent){
 	        $catId3=$parent->translation_of;
@@ -608,17 +1214,29 @@ class CategoryController extends FrontController
 	    }
 	       }
 	    
-	    }
+	    
+		
+		
+		
+		
+		
+		}
 	    
 	 } else {
 	    
 	     $actual_link = $_SERVER["HTTP_HOST"] . $_SERVER["HTTP_REFERER"];
 	     $link=explode("/",$actual_link);
 	     if($link[3]!="posts"){
+			 
+			 $test2=$link[3];
+			 $test3=$link[6];
 	         $catid=$link[6];
 	        $sql1 = Category::transIn($languageCode)->where('id', $catid)->orderBy('lft')->get();
 	        foreach($sql1 as $parent1){
+				
 	            if($parent1->parent_id!=0){
+					
+					
 	                $catId1=$parent1->translation_of;
 	                $catNestedIds1 = (object)[
 			        'parentId' => $catId1,
@@ -627,6 +1245,8 @@ class CategoryController extends FrontController
 		        $customFields1 = $this->getCategoryFieldsBuffer($catNestedIds1, $languageCode, $errors, $oldInput, $postId);
 		         $sql2 = Category::transIn($languageCode)->where('translation_of', $parent1->parent_id)->orderBy('lft')->get();
 		         foreach($sql2 as $parent2){
+					 
+					 
 		             if($parent2->parent_id!=0){
 		                 $catId2=$parent2->translation_of;
 		                 $catNestedIds2 = (object)[
@@ -636,6 +1256,7 @@ class CategoryController extends FrontController
 		        $customFields2 = $this->getCategoryFieldsBuffer($catNestedIds2, $languageCode, $errors, $oldInput, $postId);
 		        $sql3 = Category::transIn($languageCode)->where('translation_of', $parent2->parent_id)->orderBy('lft')->get();
 		        foreach($sql3 as $parent3){
+					
 		            if($parent3->parent_id!=0){
 		                $catId3=$parent3->translation_of;
 		                 $catNestedIds3 = (object)[
@@ -645,14 +1266,47 @@ class CategoryController extends FrontController
 		        $customFields3 = $this->getCategoryFieldsBuffer($catNestedIds3, $languageCode, $errors, $oldInput, $postId);
 		        $sql4 = Category::transIn($languageCode)->where('translation_of', $parent3->parent_id)->orderBy('lft')->get();
 		        foreach($sql4 as $parent4){
+					
 		            if($parent4->parent_id!=0){
+						
+						
+						
 		                $catId4=$parent4->translation_of;
 		                 $catNestedIds4 = (object)[
 			        'parentId' => $catId4,
 			        'id'       => $catId4,
 		        ];
 		        $customFields4 = $this->getCategoryFieldsBuffer($catNestedIds4, $languageCode, $errors, $oldInput, $postId);
-		            } else {
+		           $sql5 = Category::transIn($languageCode)->where('translation_of', $parent4->parent_id)->orderBy('lft')->get();
+		        foreach($sql5 as $parent5){
+					
+		            if($parent5->parent_id!=0){
+						
+						
+						
+		                $catId5=$parent5->translation_of;
+		                 $catNestedIds5 = (object)[
+			        'parentId' => $catId5,
+			        'id'       => $catId5,
+		        ];
+		        $customFields5 = $this->getCategoryFieldsBuffer($catNestedIds5, $languageCode, $errors, $oldInput, $postId);
+		           
+				   
+				   
+				    } else {
+		              $catId5=$parent5->translation_of;
+		                 $catNestedIds5 = (object)[
+			        'parentId' => $catId5,
+			        'id'       => $catId5,
+		        ];
+		        $customFields5 = $this->getCategoryFieldsBuffer($catNestedIds5, $languageCode, $errors, $oldInput, $postId);  
+		            }
+		        }  
+				   
+				   
+				   
+				   
+				    } else {
 		              $catId4=$parent4->translation_of;
 		                 $catNestedIds4 = (object)[
 			        'parentId' => $catId4,
@@ -680,7 +1334,12 @@ class CategoryController extends FrontController
 		             }
 		         }
 		        
-	            } else {
+	            
+				
+				
+				
+				
+				} else {
 	                $catId1=$parent1->translation_of;
 	                $catNestedIds1 = (object)[
 			        'parentId' => $catId1,
@@ -691,6 +1350,8 @@ class CategoryController extends FrontController
 	        }
 	     }
 	    else {
+			
+			$test1=1;
 	    $sql1 = Category::trans()->where('id', $catId)->orderBy('lft')->get();
 	    
 	    foreach($sql1 as $parent1){
@@ -700,7 +1361,8 @@ class CategoryController extends FrontController
 			        'parentId' => $catId1,
 			        'id'       => $catId1,
 		        ];
-		        $customFields1 = $this->getCategoryFieldsBuffer($catNestedIds1, $languageCode, $errors, $oldInput, $postId);
+		       
+			    $customFields1 = $this->getCategoryFieldsBuffer($catNestedIds1, $languageCode, $errors, $oldInput, $postId);
 		        
 	            $sql2 = Category::trans()->where('id', $parent1->parent_id)->orderBy('lft')->get();
 	            foreach($sql2 as $parent2){
@@ -710,6 +1372,7 @@ class CategoryController extends FrontController
 			        'parentId' => $catId2,
 			        'id'       => $catId2,
 		        ];
+				
 		        $customFields2 = $this->getCategoryFieldsBuffer($catNestedIds2, $languageCode, $errors, $oldInput, $postId);
 	                    $sql3 = Category::trans()->where('id', $parent2->parent_id)->orderBy('lft')->get();
 	                    foreach($sql3 as $parent3){
@@ -722,13 +1385,45 @@ class CategoryController extends FrontController
 		        $customFields3 = $this->getCategoryFieldsBuffer($catNestedIds3, $languageCode, $errors, $oldInput, $postId);
 	                            $sql4 = Category::trans()->where('id', $parent3->parent_id)->orderBy('lft')->get();
 	                            foreach($sql4 as $parent4){
+									
+									if($parent4->parent_id!=0){
+									
 	                                $catId4=$parent4->id;
 	                                $catNestedIds4 = (object)[
 			        'parentId' => $catId4,
 			        'id'       => $catId4,
 		        ];
 		        $customFields4 = $this->getCategoryFieldsBuffer($catNestedIds4, $languageCode, $errors, $oldInput, $postId);
-	                            }
+	                           
+							   $sql5 = Category::trans()->where('id', $parent4->parent_id)->orderBy('lft')->get();
+	                            foreach($sql5 as $parent5){
+									
+									 
+									
+	                                $catId5=$parent5->id;
+	                                $catNestedIds5 = (object)[
+			        'parentId' => $catId5,
+			        'id'       => $catId5,
+		        ];
+		        $customFields5 = $this->getCategoryFieldsBuffer($catNestedIds5, $languageCode, $errors, $oldInput, $postId);
+	                           
+								}
+							   
+							   
+									}else{
+										
+	                            $catId4=$parent4->id;
+	                            $catNestedIds4 = (object)[
+			        'parentId' => $catId4,
+			        'id'       => $catId4,
+		        ];
+		        $customFields4 = $this->getCategoryFieldsBuffer($catNestedIds4, $languageCode, $errors, $oldInput, $postId);
+	                        
+										
+										}
+							   
+							   
+							    }
 	                        } else {
 	                            $catId3=$parent3->id;
 	                            $catNestedIds3 = (object)[
@@ -737,7 +1432,8 @@ class CategoryController extends FrontController
 		        ];
 		        $customFields3 = $this->getCategoryFieldsBuffer($catNestedIds3, $languageCode, $errors, $oldInput, $postId);
 	                        }
-	                    }
+	                    
+						}
 	                } else {
 	                    $catId2=$parent2->id;
 	                    $catNestedIds2 = (object)[
@@ -774,13 +1470,19 @@ class CategoryController extends FrontController
 		if(!isset($customFields2)){ $customFields2=""; }
 		if(!isset($customFields3)){ $customFields3=""; }
 		if(!isset($customFields4)){ $customFields4=""; }
+		if(!isset($customFields5)){ $customFields5=""; }
 		$data = [
-			'customFields' => $customFields1.$customFields2.$customFields3.$customFields4,
+			'customFields' => $customFields1.$customFields2.$customFields3.$customFields4.$customFields5,
+			'xxx' => "22222",
+			'www' => $test1,
+			'eee' => $test2,
+			'ddd' => $test3,
+			
 		];
 		
-			$data = [
+			/*$data = [
 			'customFields' => $customFields1,
-		];
+		];*/
 	//	print_r($data);exit();
 		if(isset($_GET['catid'])){
 		   

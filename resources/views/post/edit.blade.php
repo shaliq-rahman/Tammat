@@ -18,9 +18,13 @@
 @endsection
 
 <?php
+
+  $is_regular = '';
 // Category
 
 if ($post->category) {
+	
+	
     if ($post->category->parent_id == 0) {
         $postCatParentId = $post->category->id;
         $categoryname = \DB::table('categories')
@@ -35,12 +39,63 @@ if ($post->category) {
                         ->first(); 
                         
 	}
+
+
+
+$id=$post->category->id;
+
+	     $p_id = \DB::table('categories')->where('id', $id)
+	        
+			//abdelhay hash this command becouse make problem when i try to change langaug in same page 
+	      //  ->where('translation_lang', config('app.locale'))
+	        
+	        ->first();
+			
+			if($p_id->parent_id > 0){
+				
+				 $p_id2 = \DB::table('categories')->where('id', $p_id->parent_id)->first();	        
+			    if($p_id2->parent_id > 0){
+					
+					 $p_id3 = \DB::table('categories')->where('id', $p_id2->parent_id)->first();	     
+					
+					     if($p_id3->parent_id > 0){
+							 $cat1=$p_id->parent_id;$cat2=$p_id2->parent_id;$cat3=$p_id3->parent_id;$cat4=$id;
+							 }else{
+						 
+						  $cat1=$p_id->parent_id;$cat2=$p_id2->parent_id;$cat3=$id;$cat4=0;
+						 }
+						 
+					}else{
+					 
+					$cat1=$p_id->parent_id;$cat2=$id;$cat3=0;$cat4=0;
+					}
+	        
+				
+				}else{$cat1=$id;$cat2=0;$cat3=0;$cat4=0;}
+			
+			
+		//	echo "a".$cat1."b".$cat2.'c'.$cat3.'d'.$cat4; 
+			
+			$data['cat1']=$cat1;
+			$data['cat2']=$cat2;
+			$data['cat3']=$cat3;
+			$data['cat4']=$cat4;
+
+
+
+$postCatParentId=$cat2;
+
+
+//echo "qqqqq";
+
+
 } else {
 	$postCatParentId = 0;
 	$categoryname = \DB::table('categories')
                         // ->where('user_id', '=', $post->user_id)
                         ->where('id', '=', $postCatParentId)
                         ->first(); 
+						//echo "xxx";
 }
 
 ?>
@@ -83,29 +138,39 @@ var app = angular.module('myApp', []);
                   $scope.data2 = response.data.CAT;
                   
 	    } else if($scope.SIZE==3){
+			       
 	              $scope.SUBCAT1 = response.data.CAT2;
                   $scope.data1 = response.data.tab3;
                   $scope.data2 = response.data.CAT1;
                   $scope.data3 = response.data.CAT;
 	    } else if($scope.SIZE==1){
-	           
+	            
                   $scope.SUBCAT1 = response.data.CAT;
                   $scope.data1 = response.data.tab2;
 	    }
 	    else if($scope.SIZE==4) {
+			 
                  $scope.SUBCAT1 = response.data.CAT3;
                   $scope.data1 = response.data.tab4;
-                  $scope.data2 = response.data.CAT1;
-                  $scope.data3 = response.data.CAT2;
+                  $scope.data2 = response.data.CAT2;
+                  $scope.data3 = response.data.CAT1;
                   $scope.data4 = response.data.CAT;
 	    
 	    }    else {
-	        $scope.SUBCAT1 = response.data.CAT4;
+			
+			      $scope.SUBCAT1 = response.data.CAT4;
+                  $scope.data1 = response.data.tab5;
+                  $scope.data2 = response.data.CAT3;
+                  $scope.data3 = response.data.CAT2;
+                  $scope.data4 = response.data.CAT1;
+                  $scope.data5 = response.data.CAT;
+			  
+	           /*   $scope.SUBCAT1 = response.data.CAT4;
                   $scope.data1 = response.data.tab5;
                   $scope.data2 = response.data.CAT3;
                   $scope.data3 = response.data.CAT1;
                   $scope.data4 = response.data.CAT2;
-                  $scope.data5 = response.data.CAT;
+                  $scope.data5 = response.data.CAT;*/
 	    }
 					$scope.hastrue=false;
 					
@@ -244,7 +309,7 @@ var app = angular.module('myApp', []);
 			headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'}
 	}).then(function(response) {
                   $scope.data5 = response.data.tab4;
-                  //alert(JSON.stringify($scope.data3));
+                   //alert(JSON.stringify($scope.data5));
                   
 					$scope.hastrue=false;
 					
@@ -254,6 +319,16 @@ var app = angular.module('myApp', []);
 				});
 		
     };
+	
+	    $scope.subcategory4 =function() {
+      $scope.subcat4=(document.getElementById("subcat4").value);
+      //alert($scope.subcat3);
+     
+       $('#bootscatid').attr('value', $scope.subcat4);
+
+		
+    };
+	
   });
 </script>
 @section('content')
@@ -273,7 +348,7 @@ var app = angular.module('myApp', []);
 							<a href="{{ lurl($post->uri, $attr) }}" class="tooltipHere" title="" data-placement="top"
 								data-toggle="tooltip"
 								data-original-title="{!! $post->title !!}">
-								{!! str_limit($post->title, 45) !!}
+								{!! \Illuminate\Support\Str::limit($post->title, 45) !!}
 							</a>
 						</h2>
 						<div class="row">
@@ -281,10 +356,11 @@ var app = angular.module('myApp', []);
 								<form class="form-horizontal" id="postForm" method="POST" action="{{ url()->current() }}" enctype="multipart/form-data">
 									{!! csrf_field() !!}
 									<input name="_method" type="hidden" value="PUT">
+                                    <input type="hidden" id="f_check" name="f_check" value="1">
 									<input type="hidden" name="post_id" value="{{ $post->id }}">
 									<input type="hidden" id="bootscatid" value="{{$post->category->id}}">
-									<input type="hidden" value="{{$post->category_id}}" id="postcatid">
-									<input type="hidden" value="{{$post->category_id}}" name="category_id">
+									<!--<input type="hidden" value="{{$post->category_id}}" id="postcatid">-->
+									<input type="hidden" value="{{$post->category_id}}" id="postcatid" name="category_id">
 									<input name="post_type_id" value="2" type="hidden">
 									
 									<fieldset>
@@ -300,12 +376,9 @@ var app = angular.module('myApp', []);
 											<div class="col-md-8">
 											   
 	<select onchange="angular.element(this).scope().category(this)" id="deecat"    style="width:100%;"
-		class="form-control selectcat"> 
-		
-				<option  ng-repeat="d in data1" value="@{{d.id}}">@{{d.name}}</option>
-				<option  ng-repeat="C in SUBCAT1"  value="@{{C.id}}" selected>@{{C.name}}</option>
-			
-		
+		class="form-control selectcat" @if($categoryname->name=='Free') disabled @endif> 
+        <option  ng-repeat="d in data1" value="@{{d.id}}">@{{d.name}}</option>
+		<option  ng-repeat="C in SUBCAT1"  value="@{{C.id}}" selected>@{{C.name}}</option>		
 	</select>
 
 	
@@ -333,8 +406,8 @@ var app = angular.module('myApp', []);
 										</div>
 
 										<!-- category_id -->
-										<div id="subCatBloc" class="form-group required <?php echo (isset($errors) and $errors->has('category_id')) ? 'has-error' : ''; ?>">
-											<label class="col-md-3 control-label">{{ t('Sub-Category') }} <sup>*</sup></label>
+										<div id="subCatBloc" class="form-group required <?php echo (isset($errors) and $errors->has('category_id')) ? 'has-error' : ''; ?>" style="">
+											<label class="col-md-3 control-label">{{ t('Sub-Category') }}1 <sup>*</sup></label>
 											<div class="col-md-8">
 											    
 	<select onchange="angular.element(this).scope().subcategory(this)" id="deesubcat"    style="width:100%;"
@@ -439,7 +512,20 @@ var app = angular.module('myApp', []);
 
 										<!-- price -->
 										
-										<div id="priceBloc" class="form-group required <?php echo (isset($errors) and $errors->has('price')) ? 'has-error' : ''; ?>">
+													<?php if($categoryname->name=="Free"){?>
+													
+											<div id="priceBloc" class="form-group required <?php echo (isset($errors) and $errors->has('price')) ? 'has-error' : ''; ?>">
+										    <div class="col-md-3 control-label">
+											</div>
+											<!--<label class="col-md-3 control-label" for="price">{{ t('Price') }}<sup>*</sup></label>-->
+											
+											<div class="col-md-8">
+												<div class="input-group">
+													<input style="z-index: 0;" id="price" name="price" class="form-control" placeholder="{{ t('e.i. 15000') }}" type="text" value="{{ old('price', $post->price) }}" hidden>
+													<?php } 
+													else{?> 
+													
+																										<div id="priceBloc" class="form-group required <?php echo (isset($errors) and $errors->has('price')) ? 'has-error' : ''; ?>">
 										   
 										    <div class="col-md-3 control-label">
     											<label class="control-label" for="price">
@@ -452,10 +538,7 @@ var app = angular.module('myApp', []);
 												<div class="input-group">
 													<span class="input-group-addon">{!! config('currency')['symbol'] !!}</span>
 													
-													<?php if($categoryname->name=="Free"){?>
-													<input style="z-index: 0;" id="price" name="price" class="form-control" placeholder="{{ t('e.i. 15000') }}" type="text" value="{{ old('price', $post->price) }}" >
-													<?php } else {?> 
-													<input style="z-index: 0;" id="price" name="price" class="form-control" placeholder="{{ t('e.i. 15000') }}" type="text" value="{{ old('price', $post->price) }}">
+													<input style="z-index: 0;" id="price" name="price" class="form-control" type="number" maxlength="10" placeholder="{{ t('e.i. 15000') }}" type="text" value="{{ old('price', $post->price) }}">
 													<?php } ?>
 													<!--<label class="input-group-addon">
 														<input id="negotiable" name="negotiable" type="checkbox"
@@ -535,8 +618,49 @@ var app = angular.module('myApp', []);
 											<strong>{{ t('Seller information') }}</strong>
 										</div>
 										
+                    						<div class="form-group required ">
+                    							 
+                    								<div style="clear:both"></div>
+                    								<div class="col-md-6" style="padding: 5px;margin-top: 4px;width: 3%;">
+                    								    <input id="EmailCheckbox" @if($post->email_hidden==0) checked @endif type="checkbox">
+                    								    <input id="from_email_checkbox" type="hidden" value="{{ old('from_email', auth()->user()->email) }}">
+                    								</div>
+                    								<div class="col-md-6" style="padding: 0px;" id="ShowEmailusingCheckbox">
+                        								<div class="input-group">
+                        									<span class="input-group-addon"><i class="icon-mail"></i>
+                                                            {{t('Show my Email on the Ad')}}
+                                                            </span>
+                        									<input id="from_email" name="from_email" placeholder="i.e. you@gmail.com" class="form-control" value="@if($post->email_hidden==0) {{ old('from_email', auth()->user()->email) }} @endif" type="hidden" readonly>
+                        								
+															<input   class="form-control" value="{{ old('from_email', auth()->user()->email) }}" type="hidden" readonly>
+														</div>
+                    								</div>
+                    								<div style="clear:both"></div>
+                    						</div>
+                                                                                            
+                                                                               
+                    	                    <div class="form-group required ">
+                    						 	<div style="clear:both"></div>
+                    							<div class="col-md-6"  style="padding: 5px;margin-top: 4px;width: 3%;">
+                    						      <input id="PhoneCheckbox"  @if($post->phone_hidden==0) checked @endif  type="checkbox">
+                    						    	<input id="from_phone_checkbox" type="hidden" value="{{ old('from_phone', (auth()->check()) ? auth()->user()->phone : '') }}">
+                    							</div>
+                    							<div class="col-md-6" id="ShowPhoneusingCheckbox" style="padding: 0px;">
+                    	    						<div class="input-group">
+                    	    							<span class="input-group-addon"><i class="icon-phone-1"></i>
+                                                        {{t('Show my phone number on the Ad')}}
+                                                        </span>
+                    	    							<input id="from_phone" name="from_phone" placeholder="{{t('Phone Number')}}" maxlength="60" class="form-control" value="@if($post->phone_hidden==0) {{ old('from_phone', (auth()->check()) ? auth()->user()->phone : '') }} @endif" type="hidden" readonly>
+														<input class="form-control" value="@if($post->phone_hidden==0) {{ old('from_phone', (auth()->check()) ? auth()->user()->phone : '') }} @endif" type="hidden" readonly>
+                    	    						
+													</div>
+                    							</div>
+                    							<div style="clear:both"></div>
+                    						</div>
+
 										
 										<!-- contact_name -->
+										<div style="display: none;">
 										<div class="form-group required <?php echo (isset($errors) and $errors->has('contact_name')) ? 'has-error' : ''; ?>">
 											<label class="col-md-3 control-label" for="contact_name">{{ t('Your name') }} <sup>*</sup></label>
 											<div class="col-md-8">
@@ -579,22 +703,14 @@ var app = angular.module('myApp', []);
 												</div>
 											</div>
 										</div>
+                                    </div>
 
-
-
-										
-
-
-
-
-										<div class="content-subheading">
+										<div class="content-subheading" style="display:none">
 											<i class="icon-tag"></i>
 											<strong>{{ t('Payment') }}</strong>
 										</div>
 
-	
-
-													 <div class="row">
+													 <div class="row" style="display:none">
                     				<div class="col-sm-12">
 									   <fieldset>
 									         @if (isset($packages) and isset($paymentMethods) and $packages->count() > 0 and $paymentMethods->count() > 0)
@@ -682,39 +798,7 @@ var app = angular.module('myApp', []);
                                                                         <div style="clear:both"></div>
                                                                         
                                                                         
-                        <div class="form-group required ">
-								<label for="from_email" style="margin-bottom: 6px;" class="control-label">{{t('Show my Email to public')}}</label>
-								<div style="clear:both"></div>
-								<div class="col-md-6" style="padding: 0px;margin-top: 9px;width: 3%;">
-								    <input id="EmailCheckbox" checked type="checkbox">
-								    <input id="from_email_checkbox" type="hidden" value="{{ old('from_email', auth()->user()->email) }}">
-								</div>
-								<div class="col-md-6" style="padding: 0px;" id="ShowEmailusingCheckbox">
-    								<div class="input-group">
-    									<span class="input-group-addon"><i class="icon-mail"></i></span>
-    									<input id="from_email" name="from_email" placeholder="i.e. you@gmail.com" class="form-control" value="{{ old('from_email', auth()->user()->email) }}" type="text">
-    								</div>
-								</div>
-								<div style="clear:both"></div>
-						</div>
-                                                                        
-                                                           
-	                    <div class="form-group required ">
-							<label for="phone" style="margin-bottom: 6px;" class="control-label">{{t('Show my Phone to public')}}</label>
-							<div style="clear:both"></div>
-							<div class="col-md-6"  style="padding: 0px;margin-top: 9px;width: 3%;">
-						      <input id="PhoneCheckbox" checked type="checkbox">
-						    	<input id="from_phone_checkbox" type="hidden" value="{{ old('from_phone', (auth()->check()) ? auth()->user()->phone : '') }}">
-							</div>
-							<div class="col-md-6" id="ShowPhoneusingCheckbox" style="padding: 0px;">
-	    						<div class="input-group">
-	    							<span class="input-group-addon"><i class="icon-phone-1"></i></span>
-	    							<input id="from_phone" name="from_phone" placeholder="{{t('Phone Number')}}" maxlength="60" class="form-control" value="{{ old('from_phone', (auth()->check()) ? auth()->user()->phone : '') }}" type="text">
-	    						</div>
-							</div>
-							<div style="clear:both"></div>
-						</div>
-                                                           
+                                                                               
                                                                         
                                                                         
                                                 <div style="clear:both"></div>
@@ -818,7 +902,7 @@ var app = angular.module('myApp', []);
                                                 
                                             <div class="row payment-plugin" id="paypalPaymentKnet" style="display: none;">
                                                     <div class="col-xs-12 col-md-8 box-center center">
-                                                        <img class="img-responsive box-center center" title="Payment with Paypal" style="margin-bottom: 20px;" src="http://dealnotdeal.com/images/knet.png">
+                                                        <img class="img-responsive box-center center" title="Payment with Paypal" style="margin-bottom: 20px;" src="http://tmmat.com/images/knet.png">
                                                     </div>
                                             </div>    
                                                 
@@ -837,11 +921,12 @@ var app = angular.module('myApp', []);
                                             <div class="col-md-12 mt20" style="text-align: center;">
                                                 <!--<a href="{{ lurl('account/my-posts/'.$post->id.'/deletepost') }}" class="btn btn-danger btn-lg"> {{ t('Delete') }} </a>-->
                                                 <!--<button class="btn btn-danger btn-lg" id="deletebtn"> {{ t('Delete') }} </button>-->
-                                                <a  href="{{ lurl('account/my-posts') }}" class="btn btn-danger btn-lg" > {{ t('Cancel') }} </a>
+                                                <a  href="{{ lurl('account/my-posts') }}" class="btn btn-primary btn-lg" > {{ t('Cancel') }} </a>
                                                 <?php $attr = ['slug' => slugify($post->title), 'id' => $post->id]; ?>
-												<a href="{{ lurl($post->uri, $attr) }}" class="btn btn-default btn-lg"> {{ t('Back') }}</a>
+
                                                     <button id="submitPostForm" class="btn btn-success btn-lg submitPostForm btn-pay" @if($is_regular) style="display: none;" @endif> {{ t('Pay') }} </button>
                                                     <button class="btn btn-primary btn-lg submitPostForm btn-finish" @if(!$is_regular) style="display: none;" @endif> {{ t('Update') }} </button>
+                                                    
                                             </div>
                                         </div>
 
@@ -885,6 +970,13 @@ var app = angular.module('myApp', []);
 							@endif
 						@endif
 
+
+
+
+
+
+
+
 						<div class="panel sidebar-panel">
 							<div class="panel-heading uppercase">
 								<small><strong>{{ t('How to sell quickly?') }}</strong></small>
@@ -920,9 +1012,20 @@ var app = angular.module('myApp', []);
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.payment/1.2.3/jquery.payment.min.js"></script>
 
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+
+
+
+
  <script type="text/javascript">
-  jQuery(document).ready(function(){
-  $(".selectcat").change(function() {
+ 
+ setInterval(function(){/*
+	 
+	  $f_check =$('#f_check').val();
+	  //alert($f_check);
+	  if($f_check == 2)
+	  {return false; }
+	 $('#f_check').val(2);
      $catid=$('#deecat').val();
      $catid1=$('#deesubcat').val();
      $catid2=$('#deepost').val();
@@ -931,22 +1034,60 @@ var app = angular.module('myApp', []);
      
    $url      = window.location.href;
    //alert($url);
+   	var postId = '{{ $post->id }}';
       $.ajaxSetup({'cache':true});
     
    $.ajax({
                     type: "POST",
                     //url: "http://192.168.0.200/disha/Safarkaab/phongap_php/selectreviewtableforhotel.php",
-                    url: "{{url('')}}/ajax/category/custom-fields?catid="+$catid+'&catid1='+$catid1+'&catid2='+$catid2+'&catid3='+$catid3+'&catid4='+$catid4+'&url='+$url,
+                    url: "{{url('')}}/ajax/category/custom-fields?catid="+$catid+'&catid1='+$catid1+'&catid2='+$catid2+'&catid3='+$catid3+'&catid4='+$catid4+'&postid='+postId+'&url='+$url,
                     
                     crossDomain: true,
                     cache: false,
                     beforeSend: function() {
-                       // $("#Search_hotel").val('Connecting...');
+                      $("#Search_hotel").val('Connecting...');
                     },
                     success: function($data){
                    //alert($data);
                    $("#customFields").html($data);
-					//console.log(data);
+					//console.log($data);
+                    }
+                    });
+  
+
+ 
+ 
+ 
+ */},5000);  
+ 
+  jQuery(document).ready(function(){
+  $(".selectcat").change(function() {
+     $catid=$('#deecat').val();
+     $catid1=$('#deesubcat').val();
+     $catid2=$('#deepost').val();
+     $catid3=$('#subcat3').val();
+     $catid4=$('#subcat4').val();
+	 var languageCode = '<?php echo config('app.locale'); ?>';
+     
+   $url      = window.location.href;
+   //alert($url);
+   	var postId = '{{ $post->id }}';
+      $.ajaxSetup({'cache':true});
+    
+   $.ajax({
+                    type: "POST",
+                    //url: "http://192.168.0.200/disha/Safarkaab/phongap_php/selectreviewtableforhotel.php",
+                    url: "{{url('')}}/"+languageCode+"/ajax/category/custom-fields?catid="+$catid+'&catid1='+$catid1+'&catid2='+$catid2+'&catid3='+$catid3+'&catid4='+$catid4+'&postid='+postId+'&posttype=edit&url='+$url,
+                    
+                    crossDomain: true,
+                    cache: false,
+                    beforeSend: function() {
+                      $("#Search_hotel").val('Connecting...');
+                    },
+                    success: function($data){
+                   //alert($data);
+                   $("#customFields").html($data);
+					console.log($data);
                     }
                     });
   });
@@ -955,7 +1096,9 @@ var app = angular.module('myApp', []);
   
   
 });
-</script>	
+</script>
+
+	
 <script>
     $(function(){
     $('#deletebtn').click(function() {
@@ -987,12 +1130,12 @@ var app = angular.module('myApp', []);
 	        {
 	            var email = $('#from_email_checkbox').val();
 	            $('#from_email').val(email);
-	            $('#ShowEmailusingCheckbox').show();
+	           // $('#ShowEmailusingCheckbox').show();
 	        }
 	        else
 	        {
 	            $('#from_email').val('');
-	            $('#ShowEmailusingCheckbox').hide();
+	           // $('#ShowEmailusingCheckbox').hide();
 	        }
 	    });
 	    
@@ -1003,12 +1146,12 @@ var app = angular.module('myApp', []);
 	            var phone = $('#from_phone_checkbox').val();
 	            $('#from_phone').val(phone);
 	            
-	            $('#ShowPhoneusingCheckbox').show();
+	          //  $('#ShowPhoneusingCheckbox').show();
 	        }
 	        else
 	        {
 	            $('#from_phone').val('');
-	            $('#ShowPhoneusingCheckbox').hide();
+	           // $('#ShowPhoneusingCheckbox').hide();
 	        }
 	        
 	    });
@@ -1120,7 +1263,7 @@ var app = angular.module('myApp', []);
                 function initialize() {
                     var input = document.getElementById('city_name');
                     var options = {
-                    types: ['(cities)'],
+                    types: ['(regions)'],
                         componentRestrictions: {country: "{{config('country.icode')}}"}
                     };
                     var autocomplete = new google.maps.places.Autocomplete(input, options);
@@ -1129,7 +1272,7 @@ var app = angular.module('myApp', []);
                 }
                 google.maps.event.addDomListener(window, 'load', initialize);
         </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD3HKnsvpSAYaoQQ-wIeqDBTjb69hJ-vMw&libraries=places&callback=initialize"
+    <script src="https://maps.googleapis.com/maps/api/js?key={{ config('services.GoogleMaps.key') }}&libraries=places&callback=initialize"
          async defer></script>
 	
 	<script>
@@ -1201,20 +1344,7 @@ var app = angular.module('myApp', []);
             packageIsEnabled = true;
 		@endif
 		
-		// Begin of the code made by MonTech Team
-		var input = document.getElementById('city_id');
-		var opts = {
-		  types: ['(cities)']
-		};
-		var autocomplete = new google.maps.places.Autocomplete(input,opts);
-		
-		//Auto load city
-		var input = document.getElementById('city_id');
-		var opts = {
-		  types: ['(cities)']
-		};
-		var autocomplete = new google.maps.places.Autocomplete(input,opts);
-		
+
 		// Begin of the code made by MonTech Team
 		var currgeocoder;
 		function get_location(){

@@ -26,8 +26,8 @@ class Search
     public $country;
     public $lang;
     public static $queryLength = 1; // Minimum query characters
-    public static $distance = 100; // km
-    public static $maxDistance = 500; // km
+    public static $distance = 300; // km
+    public static $maxDistance = 50000; // km
     public $perPage = 12;
     public $currentPage = 0;
     protected $table = 'posts';
@@ -62,6 +62,7 @@ class Search
         'select'  => [],
         'join'    => [],
         'where'   => [],
+		'whereIn' => [],
         'groupBy' => [],
         'having'  => [],
         'orderBy' => [],
@@ -72,6 +73,7 @@ class Search
         'from'    => '',
         'join'    => '',
         'where'   => '',
+		'whereIn' => '',
         'groupBy' => '',
         'having'  => '',
         'orderBy' => '',
@@ -100,10 +102,17 @@ class Search
         
         
         
+		//wherein(city_name,$preSearch['cities']);
+		
         // Pre-Search
+		
+		
         if (isset($preSearch['city']) && !empty($preSearch['city'])) {
             $this->city = $preSearch['city'];
         }
+		
+		
+		
         if (isset($preSearch['admin']) && !empty($preSearch['admin'])) {
             $this->admin = $preSearch['admin'];
         }
@@ -115,10 +124,13 @@ class Search
 		{
 			$this->countrycode = config('country.code');
 		}
+		
+		
         
-         if (isset($preSearch['distance']) && !empty($preSearch['distance'])) {
+       /* abdelhay 29-7-2020*/
+	     if (isset($preSearch['distance']) && !empty($preSearch['distance'])) {
            self::$maxDistance = $preSearch['distance'];
-           self::$distance = '10';
+           self::$distance = '300';
         }
         else
         {
@@ -144,6 +156,7 @@ class Search
         $this->sql->from = '';
         $this->sql->join = '';
         $this->sql->where = '';
+		$this->sql->whereIn = '';
         $this->sql->groupBy = '';
         $this->sql->having = '';
         $this->sql->orderBy = '';
@@ -167,7 +180,9 @@ class Search
         
         
         
-        $dis_c_point = 500;
+       /* abdelhay 29-7-2020
+	   
+	   $dis_c_point = 500;
         $serchINC =  " = :countryCode ";
         $cc = $this->countrycode;
         
@@ -299,13 +314,14 @@ class Search
        
         }
 
+        */
         
         
         
         
         
-        
-        
+     /* abdelhay 29-7-2020
+	   
         if(!empty($preSearch['distance']))
         {
             if($preSearch['distance'] <= $dis_c_point )
@@ -334,6 +350,11 @@ class Search
                     $this->bindings['countryCode'] = $this->countrycode;
                     
             }
+			
+			if(!empty($preSearch['cities']))
+        {
+           $this->arrSql->whereIn = "(a.city_name,".$preSearch['cities'].""; 
+        }
             
             else
             {
@@ -362,11 +383,65 @@ class Search
     
         }
         
+		 
+		
+		
+		
+	/*	
+	to work it   */
+		
+		if(!empty($preSearch['cities']))
+        {  
+		//print_r($preSearch['cities']); die;
+		
+		$cities="[".implode(",",$preSearch['cities'])."]";
+		 
+		 $this->arrSql->whereIn = '(a.city_name,'.$cities.')'; 
+		
+		   
+            $IDsListsx = $preSearch['cities'];
+            $IDsListx = '(a.city_name=1';
+            foreach($IDsListsx as $key){
+                $IDsListx .= ' or a.city_name="'.$key.'"';
+            }
+            $IDsListx .= ')';
+            $this->arrSql->where[] = $IDsListx;
+           
+		  }	 
+		  
+		
+			
+		//$this->arrSql->where[]=" (a.city_name=1 or a.city_name='Adan, Kuwait' or a.city_name='Salmiya, Kuwait' or a.city_name='Salwa, Kuwait' or a.city_name='Sulaibikhat, Kuwait') ";
+			
+		/*
+		abdelhay comment 30-7-2020
+		 $this->arrSql->where = [
+            'a.country_code' 	=> " = :countryCode",
+            '(a.verified_email' => " = 1 AND a.verified_phone = 1)",
+            'a.archived'     	=> " = 0",
+          // 'a.deleted_at'   	=> " IS NULL",
+            ];
+			*/
+          
+		   
+		 if(empty($preSearch['cities']))
+        { 
+		   $this->bindings['countryCode'] = $this->countrycode;
+		   $this->arrSql->where['a.country_code'] = " = :countryCode";
+		}
+		    
+			$this->arrSql->where['(a.verified_email'] = "  = 1 AND a.verified_phone = 1)";			 
+			 $this->arrSql->where['a.archived'] = " = 0";
+			 
+		   
+		   
+		   
         
         // Check reviewed ads
         if (config('settings.single.posts_review_activation')) {
             $this->arrSql->where['a.reviewed'] = " = 1";
         }
+		
 
         // Priority setter
         if (request()->filled('distance') && is_numeric(request()->get('distance')) && request()->get('distance') > 0) {
@@ -393,11 +468,11 @@ class Search
     public static function query($sql, $bindings = [])
     {
         // DEBUG
-        // echo 'SQL<hr><pre>' . $sql . '</pre><hr>'; //exit();
+         // echo 'SQL<hr><pre>' . $sql . '</pre><hr>'; //exit();
         // echo 'BINDINGS<hr><pre>'; print_r($bindings); echo '</pre><hr>';
 
         try {
-            $result = DB::select(DB::raw($sql), $bindings);
+            $result = DB::select($sql, $bindings);
         } catch (\Exception $e) {
             $result = null;
     
@@ -495,7 +570,7 @@ class Search
             $this->setLocationByAdminCode($this->admin->code);
         }
         if (request()->has('l') && !empty($this->city)) {
-            $this->setLocationByCityCoordinates($this->city->latitude, $this->city->longitude, $this->city->id);
+           // $this->setLocationByCityCoordinates($this->city->latitude, $this->city->longitude, $this->city->id);
         }
 
         $this->setRequestFilters();
@@ -521,7 +596,7 @@ class Search
             $this->setLocationByAdminCode($this->admin->code);
         }
         if (request()->has('l') && !empty($this->city)) {
-            $this->setLocationByCityCoordinates($this->city->latitude, $this->city->longitude, $this->city->id);
+          //  $this->setLocationByCityCoordinates($this->city->latitude, $this->city->longitude, $this->city->id);
         }
 
         $this->setRequestFilters();

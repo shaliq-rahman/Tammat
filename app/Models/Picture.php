@@ -105,7 +105,7 @@ class Picture extends BaseModel
 			$postUrl = url(config('app.locale') . '/' . $this->post->uri);
 			return '<a href="' . $postUrl . '" target="_blank">' . $this->post->title . '</a>';
 		} else {
-			return 'no-link';
+			return 'no-link This Post is deleted';
 		}
 	}
 	
@@ -280,11 +280,11 @@ class Picture extends BaseModel
 				$this->attributes[$attribute_name] = $destination_path . '/' . $filename;
 			} else {
 				// Retrieve current value without upload a new file.
-				if (starts_with($value, config('larapen.core.picture.default'))) {
+				if (str_starts_with($value, config('larapen.core.picture.default'))) {
 					$value = null;
 				} else {
-					if (!starts_with($value, 'files/')) {
-						$value = $destination_path . last(explode($destination_path, $value));
+					if (!str_starts_with($value, 'files/')) {
+						$value = $destination_path . array_slice(explode($destination_path, $value), -1)[0];
 					}
 				}
 				$this->attributes[$attribute_name] = $value;

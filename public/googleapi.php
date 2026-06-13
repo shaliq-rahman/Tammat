@@ -3,7 +3,7 @@
     header("Cache-Control: private, max-age=86400");
     header("Expires: ".gmdate('r', time()+86400));
     $query = 'surat';
-    $apikey = 'AIzaSyD3HKnsvpSAYaoQQ-wIeqDBTjb69hJ-vMw';
+    $apikey = 'AIzaSyD8GdePwqtn_AUN98KKj8eddsxOwND3Wkg';
     $url = 'https://maps.googleapis.com/maps/api/place/autocomplete/json?key='.$apikey.'&types=geocode&sensor=true&radius=12000&components=country:IN&input='.urlencode($query);
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $url);

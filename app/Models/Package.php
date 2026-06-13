@@ -64,6 +64,8 @@ class Package extends BaseModel
         'ribbon',
         'has_badge',
         'price',
+        'no_photos',
+		'no_points',
         'currency_code',
         'duration',
         'description',

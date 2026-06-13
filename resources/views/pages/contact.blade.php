@@ -20,11 +20,11 @@
 
 @section('content')
 	@include('common.spacer')
-	<div class="main-container">
+	<div class="main-container"  style="margin-top: 80px;">
 		<div class="container">
 			<div class="row clearfix">
 				
-				@if (isset($errors) and $errors->any())
+				@if(isset($errors) and $errors->any())
 					<div class="col-lg-12">
 						<div class="alert alert-danger">
 							<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
@@ -38,7 +38,7 @@
 					</div>
 				@endif
 
-				@if (Session::has('flash_notification'))
+				@if(Session::has('flash_notification'))
 					<div class="container" style="margin-bottom: -10px; margin-top: -10px;">
 						<div class="row">
 							<div class="col-lg-12">
@@ -50,7 +50,7 @@
 				
 				<div class="col-md-12">
 					<div class="contact-form">
-						<h5 class="list-title gray"><strong>{{ t('Contact Us') }}</strong></h5>
+						<h5 class="list-title gray"><strong>{{ t('Contact us') }}</strong></h5>
 
 						<form class="form-horizontal" method="post" action="{{ lurl(trans('routes.contact')) }}">
 							{!! csrf_field() !!}
@@ -132,7 +132,7 @@
 										</div>
 
 										<!-- Captcha -->
-										@if (config('settings.security.recaptcha_activation'))
+										@if(config('settings.security.recaptcha_activation'))
 											<div class="form-group required <?php echo (isset($errors) and $errors->has('g-recaptcha-response')) ? 'has-error' : ''; ?>">
 												<div class="col-md-12 control-label" for="g-recaptcha-response">
 													{!! Recaptcha::render(['lang' => config('app.locale')]) !!}

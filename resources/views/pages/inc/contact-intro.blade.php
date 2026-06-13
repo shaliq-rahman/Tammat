@@ -1,4 +1,4 @@
-@if (config('services.googlemaps.key'))
+@if (config('services.GoogleMaps.key'))
 	<div class="intro-inner">
 		<div class="contact-intro">
 			<div class="w100 map">
@@ -10,12 +10,12 @@
 
 @section('after_scripts')
 	@parent
-	@if (config('services.googlemaps.key'))
-	<script src="https://maps.googleapis.com/maps/api/js?key={{ config('services.googlemaps.key') }}" type="text/javascript"></script>
+	@if (config('services.GoogleMaps.key'))
+	<script src="https://maps.googleapis.com/maps/api/js?key={{ config('services.GoogleMaps.key') }}" type="text/javascript"></script>
 	<script>
 		$(document).ready(function () {
 			getGoogleMaps(
-				'{{ config('services.googlemaps.key') }}',
+				'{{ config('services.GoogleMaps.key') }}',
 				'{{ (isset($city) and !empty($city)) ? addslashes($city->name) . ',' . config('country.name') : config('country.name') }}',
 				'{{ config('app.locale') }}'
 			);

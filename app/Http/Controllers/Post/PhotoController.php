@@ -280,7 +280,7 @@ class PhotoController extends FrontController
                     // Build Bootstrap-Input plugin's parameters
                     $data['initialPreview'][] = resize($picture->filename);
                     $data['initialPreviewConfig'][] = [
-                        'caption' => last(explode('/', $picture->filename)),
+                        'caption' => array_slice(explode('/', $picture->filename), -1)[0],
                         'size'    => (int)File::size(filePath($picture->filename)),
                         'url'     => $initialPreviewConfigUrl,
                         'key'     => $picture->id,
@@ -297,9 +297,187 @@ class PhotoController extends FrontController
 
     }
     
-    
+   
+	public function postForm_app(Request $request)
+    {
+		 
+		
+       // return response()->json($request);
+		  
+		 $post = Post::withoutGlobalScopes([VerifiedScope::class, ReviewedScope::class])
+				->where('user_id', $request->user_id)
+				->where('id', $request->tmpPostId)
+				->first();
+       
+		
+       $checkpaymentpayaccount = \DB::table('payments')->where('post_id', '=', $post->id)->where('active', '=', 1)->count();
+        
+        $checkpicturecount = \DB::table('pictures')->select('id')->where('post_id', '=', $post->id)->count();
+      
+        
+        
+        if (empty($post)) {
+            if ($request->ajax()) {
+                return response()->json(['results' => 'Post not found']);
+            }
+            //abort(404);
+        }
+
+        $files =  $_FILES['pictures'];
+        // return response()->json($files);
+        
+        // Save all pictures
+        $pictures = [];
+        $images = $request->file('pictures');
+       // return response()->json($files);
+
+        if($checkpicturecount < 4)
+        {
+
+
+            $files = $request->file('pictures');
+            if (count($files) > 0) {
+                foreach ($files as $key => $file) {
+                    if (empty($file)) {
+                        continue;
+                    }
+                    
+                    // Delete old file if new file has uploaded
+                    // Check if current Post have a pictures
+                    $picture = Picture::find($key);
+                    if (!empty($picture)) {
+                        // Delete old file
+                        $picture->delete($picture->id);
+                    }
+                    if(!empty($file))
+                    {
+                        // Post Picture in database
+                        $picture = new Picture([
+                            'post_id'  => $post->id,
+                            'filename' => $file,
+                            'position' => (int)$key+1,
+                        ]);
+                        $picture->save();    
+                        $pictures[] = $picture;
+                    }
+                    
+                    
+                    
+                }
+            }
+
+            // $files = $request->file('pictures');
+			
+			
+			 //$file = $files;
+            //if (count($files) > 0) {
+                //foreach ($files as $key => $file) {
+                    /*if (empty($file)) {
+                        continue;
+                    }*/
+                    
+                    // Delete old file if new file has uploaded
+                    // Check if current Post have a pictures
+                    //$picture = Picture::find($key);
+                    /*if (!empty($picture)) {
+                        // Delete old file
+                        $picture->delete($picture->id);
+                    }*/
+                    
+				  
+              /*  foreach ($images as $key => $image) {
+                   
+                    
+                   // $image_name = time().'.'.$image->getClientOriginalExtension();
+                       
+                  //  $destinationPath = 'ProfilePictures';
+                
+                  //  $image->move($destinationPath, $image_name);
+
+                   
+                    if(!empty($image_name))
+                    {
+						
+                       
+
+                    // Post Picture in database
+                        $picture = new Picture([
+                            'post_id'  => $post->id,
+                            'filename' => $image,
+        					'position' => 1,
+                        ]);
+                        $picture->save();
+                        $pictures[] = $picture;
+                    }
+                    
+                }*/
+
+
+
+                 
+                
+                  
+               //}
+            //}
+        }
+        else
+        {
+            if($checkpaymentpayaccount > 0)
+            {   
+                if($checkpicturecount < 20)
+                {
+                    $files = $request->file('pictures');
+                    //if (count($files) > 0) {
+                        //foreach ($files as $key => $file) {
+						$file = $files;
+                            /*if (empty($file)) {
+                                continue;
+                            }*/
+                            
+                            // Delete old file if new file has uploaded
+                            // Check if current Post have a pictures
+                            //$picture = Picture::find($key);
+                            /*if (!empty($picture)) {
+                                // Delete old file
+                                $picture->delete($picture->id);
+                            }*/
+                            if(!empty($file))
+                            {
+                                // Post Picture in database
+                                $picture = new Picture([
+                                  'post_id'  => $post->id,
+                                    'filename' => $file,
+                					'position' => 1,
+                                ]);
+                                $picture->save();
+                                
+                                $pictures[] = $picture;
+                            }
+                        //}
+                    //}
+                    
+                }
+            }
+        }
+		
+
+
+         
+ 
+        
+		$photos = \DB::table('pictures')->where('post_id', '=', $post->id)->get();
+        
+			//print_r($pictures);
+            
+            //return response()->json($photos);
+			return response()->json(['results' => 'Pictures uploaded successfully', 'data'=>$photos]);
+        
 	
-	public function postForm_app($postIdOrToken, PhotoRequest $request)
+	
+		
+	}
+	
+	public function x($postIdOrToken, PhotoRequest $request)
     {
 	
 	
@@ -325,6 +503,7 @@ class PhotoController extends FrontController
 				->first();
         }
         
+        //dd($post);
 		
        $checkpaymentpayaccount = \DB::table('payments')->where('post_id', '=', $post->id)->where('active', '=', 1)->count();
         
@@ -399,7 +578,7 @@ class PhotoController extends FrontController
                             {
                                 // Post Picture in database
                                 $picture = new Picture([
-                                    'post_id'  => $post->id,
+                                  'post_id'  => $post->id,
                                     'filename' => $file,
                 					'position' => 1,
                                 ]);

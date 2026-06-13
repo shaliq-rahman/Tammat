@@ -105,7 +105,12 @@ class DBTool
 	 */
 	public static function getLaravelDatabaseConfig()
 	{
-		return realpath(__DIR__ . '/../../config/database.php');
+		$path = realpath(__DIR__ . '/../../config/database.php');
+		if (file_exists($path)) {
+			return include $path;
+		}
+
+		return [];
 	}
 	
 	/**
@@ -117,8 +122,9 @@ class DBTool
 	public static function rawTable($name)
 	{
 		$config = DBTool::getLaravelDatabaseConfig();
-		$defaultDatabase = $config['connections'][$config['default']];
-		$databasePrefix = $defaultDatabase['prefix'];
+		$default = (isset($config['default'])) ? $config['default'] : 'mysql';
+		$defaultDatabase = (isset($config['connections'][$default])) ? $config['connections'][$default] : [];
+		$databasePrefix = (isset($defaultDatabase['prefix'])) ? $defaultDatabase['prefix'] : '';
 		
 		return $databasePrefix . $name;
 	}
@@ -323,7 +329,7 @@ class DBTool
 			// Check with method #1
 			try {
 				$sql = 'SHOW FUNCTION STATUS;';
-				$entries = \DB::select(\DB::raw($sql));
+				$entries = \DB::select($sql);
 				$entries = collect($entries)->whereStrict('Db', $schema)->whereStrict('Name', $name);
 				$exists = !$entries->isEmpty();
 			} catch (\Exception $e) {
@@ -334,7 +340,7 @@ class DBTool
 			if (!$exists) {
 				try {
 					$sql = 'SELECT ROUTINE_NAME FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE="FUNCTION" AND ROUTINE_SCHEMA="' . $schema . '"';
-					$entries = \DB::select(\DB::raw($sql));
+					$entries = \DB::select($sql);
 					$entries = collect($entries)->whereStrict('ROUTINE_NAME', $name);
 					$exists = !$entries->isEmpty();
 				} catch (\Exception $e) {

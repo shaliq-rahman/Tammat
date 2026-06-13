@@ -69,7 +69,7 @@ class CustomFieldRequest extends Request
 					}
 					
 					$cfRules = (!empty($cfRules)) ? $cfRules . '|' : '';
-					$cfRules = $cfRules . 'mimes:' . getUploadFileTypes('file') . '|max:' . (int)config('settings.upload.max_file_size', 1000);
+					$cfRules = $cfRules . 'mimes:' . getUploadFileTypes('file') . '|max:' . (int)config('settings.upload.max_file_size', 5000);
 				}
 				
 				$rules['cf.' . $field->tid] = $cfRules;
@@ -98,7 +98,7 @@ class CustomFieldRequest extends Request
 					$messages['cf.' . $field->tid . '.mimes'] = t('The file of :field must be in the good format.', ['field' => mb_strtolower($field->name)]);
 					$messages['cf.' . $field->tid . '.max'] = t('The file of :field may not be greater than :max.', [
 						'field' => mb_strtolower($field->name),
-						'max'   => (int)config('settings.upload.max_file_size', 1000),
+						'max'   => (int)config('settings.upload.max_file_size', 5000),
 					]);
 				}
 			}

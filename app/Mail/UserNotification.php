@@ -24,7 +24,7 @@ class UserNotification extends Mailable
     use Queueable, SerializesModels;
 
     public $user;
-
+ 
     /**
      * UserNotification constructor.
      * @param $user
@@ -33,8 +33,13 @@ class UserNotification extends Mailable
     public function __construct($user, $adminUser)
     {
         $this->user = $user;
-
-        $this->to($adminUser->email, $adminUser->name);
+		$fromname = 'Tammat';
+        $from_email = 'admin@tmmat.com'; 
+		$this->from($from_email, $fromname);
+        
+        //$this->to($adminUser->email, $adminUser->name);
+        $this->to('admin@tmmat.com', $adminUser->name);
+        
         $this->subject(trans('mail.user_notification_title'));
     }
 
@@ -46,5 +51,6 @@ class UserNotification extends Mailable
     public function build()
     {
         return $this->view('emails.user.notification');
+        
     }
 }

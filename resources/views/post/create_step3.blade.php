@@ -82,29 +82,20 @@ $cattrid = \DB::table('categories')
 									{!! csrf_field() !!}
 									<fieldset>
 									    
-									 	<input type="hidden" id="pidd" name="parent_id"  value="{{$p_idd}}">
+                                        <input type="hidden" id="cat1" name="cat1"  value="{{$cat1}}">
+                                        <input type="hidden" id="cat2" name="cat2"  value="{{$cat2}}">
+                                        <input type="hidden" id="cat3" name="cat3"  value="{{$cat3}}">
+                                        <input type="hidden" id="cat4" name="cat4"  value="{{$cat4}}">
+                                        <!--<input type="hidden" id="pidd" name="parent_id"  value="{{$p_idd}}">-->
+                                        <input type="hidden" id="pidd" name="parent_id"  value="{{$p_idd}}">
 									 	<!--<input type="hidden" id="catidd" name="category_id"  value="{{$catid}}">-->
                                         <input type="hidden" id="subbb" name="subcategory_id"  value="{{$cattrid->parent_id}}">
                                         <input type="hidden" id="catidd" name="category_id"  value="{{$cattrid->translation_of}}">
-
-										<!-- post_type_id -->
+                                        <!-- post_type_id -->
 										<div style="display: none;">
-										<div id="postTypeBloc" class="form-group required <?php echo (isset($errors) and $errors->has('post_type_id')) ? 'has-error' : ''; ?>">
-											<label class="col-md-3 control-label">{{ t('Seller Type') }} <sup>*</sup></label>
-											<div class="col-md-8">
-												@foreach ($postTypes as $postType)
-													<label class="radio-inline" for="postTypeId-{{ $postType->tid }}">
-														<input name="post_type_id" id="postTypeId-{{ $postType->tid }}" value="{{ $postType->tid }}"
-															   type="radio" {{ (old('post_type_id')==$postType->tid) ? 'checked="checked"' : '' }} checked="checked">
-														{{ $postType->name }}
-													</label> 
-												@endforeach
-											</div>
-										</div>
-										
-										</div>
-
-										<!-- title -->
+										<input type="hidden" value="{{auth()->user()->user_type_id}}" name="post_type_id">
+                                        </div>
+                                        <!-- title -->
 										<div class="form-group required <?php echo (isset($errors) and $errors->has('title')) ? 'has-error' : ''; ?>">
 											<label class="col-md-3 control-label" for="title">{{ t('Ad\'s title') }} <sup>*</sup></label>
 											<div class="col-md-8">
@@ -113,31 +104,28 @@ $cattrid = \DB::table('categories')
 												<span class="help-block">{{ t('A great title needs at least 60 characters.') }} </span>
 											</div>
 										</div>
-
-									
-										
-										<!-- customFields -->
+                                        <!-- customFields -->
 										<div id="customFields"></div>
-
-										<!-- price -->
+                                        <!-- price -->
+										@if($categoryname->name=='Free')
 										<div id="priceBloc" class="form-group <?php echo (isset($errors) and $errors->has('price')) ? 'has-error' : ''; ?>">
-										    
 										    <div class="col-md-3 control-label">
-    											<label class="control-label" for="price">
+											</div>
+											<div class="col-md-8">
+												<div class="input-group">
+												<input style="z-index: 0;"  id="price" value="0" name="price" class="form-control" placeholder="{{ t('price') }}" value="{{ old('price') }}" hidden >
+										@else
+							    		<div id="priceBloc" class="form-group <?php echo (isset($errors) and $errors->has('price')) ? 'has-error' : ''; ?>">
+										    <div class="col-md-3 control-label">
+    										<label class="control-label" for="price">
     											    {{ t('Price') }}
     											</label><sup> *</sup>
 											</div>
-											
 											<div class="col-md-8">
 												<div class="input-group">
-												   
-													<span class="input-group-addon">{!! config('currency')['symbol'] !!}</span>
-											
-												@if($categoryname->name=='Free')
-												<input style="z-index: 0;"  id="price" value="0" name="price" class="form-control" placeholder="{{ t('e.i. 15000') }}" type="text" value="{{ old('price') }}" disabled>
-												@else
-													<input style="z-index: 0;"  id="price" value="0" name="price" class="form-control" placeholder="{{ t('e.i. 15000') }}" type="text" value="{{ old('price') }}">
-												@endif
+												<span class="input-group-addon">{!! config('currency')['symbol'] !!}</span>
+													<input style="z-index: 0;"  id="price" value="0" name="price" class="form-control"  type="number" maxlength="10" placeholder="{{ t('e.i. 15000') }}" type="text" value="{{ old('price') }}">
+										@endif
 												
 													<!--<label class="input-group-addon">
 														<input id="negotiable" name="negotiable" type="checkbox"
@@ -211,10 +199,13 @@ $cattrid = \DB::table('categories')
 										<div class="form-group required <?php echo (isset($errors) and $errors->has('city_name')) ? 'has-error' : ''; ?>">
 											<label class="col-md-3 control-label" for="city_id">{{ t('City') }} <sup>*</sup></label>
 											<div class="col-md-6">
-												<input   id="city_name"  name="city_name" class="form-control" placeholder="{{ t('City Name') }}" type="text" value="{{ old('city_name') }}">
+												<input   id="city_name"  name="city_name" class="form-control" placeholder="{{ t('City Name') }}" type="text"
+                                                 value="@if(old('city_name')){{old('city_name')}} @else{{$user_city}}@endif">
+												<input type="hidden" name="currenct_long" id="currenct_long" value="47.99034">
+												<input type="hidden" name="currenct_lat" id="currenct_lat" value="29.378586">
 											</div>
-											<div class="col-md-2">
-                                                <img src="https://www.dealnotdeal.com/storage/app/logo/Map_icon.png" style="width: 20px;margin-top: 10px;" id="element" class="show-modal"/>
+											<div class="col-md-2" style="display:none;">
+                                                <img src="https://www.tmmat.com/storage/app/logo/Map_icon.png" style="width: 20px;margin-top: 10px;" id="element" class="show-modal"/>
                                             </div>
 										</div>
 										
@@ -227,81 +218,108 @@ $cattrid = \DB::table('categories')
                                                         <h4 class="modal-title" style="margin-top:10px;">Drag City</h4>
                                                     </div>
                                                     <div class="modal-body">
-                                                        <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&key=AIzaSyAG_X_AbkCsqu1YpnGZLzlhC-PiLwcAkL4&libraries=places"></script>
-                                                <!--<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>-->
+                                                        <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&key={{ config('services.GoogleMaps.key') }}&libraries=places"></script>
+                                                <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
                                         <script type="text/javascript">
+                                                    if (navigator.geolocation) {
+                                                        navigator.geolocation.getCurrentPosition(showPosition);
+                                                    }else{
+                                                        
+                                                    }
+                                                    
+                                                    function showPosition(position) {
+                                                        console.log(position.coords.latitude)
+                                                        $("#currenct_long").val(position.coords.longitude);
+                                                        $("#currenct_lat").val(position.coords.latitude);
+                                                    }
                                             function initialize() {
-                                              var map;
-                                              var position = new google.maps.LatLng(50.45, 4.45);    // set your own default location.
-                                              var geocoder = new google.maps.Geocoder();
-                                                    var infowindow = new google.maps.InfoWindow();
-                                              var myOptions = {
-                                                zoom: 15,
-                                                center: position
-                                              };
-                                              var map = new google.maps.Map(document.getElementById("map-canvas"), myOptions);
+                                                    
+                                                    var map;
+                                                    var lat;
+                                                    var lng;
+                                                    var latVal;
+                                                    var lngVal;
+                                                    var marker;
+                                                    var myLatLng;
                                         
-                                              // We send a request to search for the location of the user.  
-                                              // If that location is found, we will zoom/pan to this place, and set a marker
-                                              navigator.geolocation.getCurrentPosition(locationFound, locationNotFound);
+                                                    var geocoder = new google.maps.Geocoder;
+                                                    var infowindow = new google.maps.InfoWindow;
+                                                    
+                                                    
+                                                    latVal = $("#currenct_lat").val();
+                                                    lngVal = $("#currenct_long").val();
+                                                    console.log(latVal)
+                                                    
+                                                    myLatLng = new google.maps.LatLng(latVal, lngVal);
+                                                        createMap(myLatLng);
+                                                    //create map
+                                                    function createMap(myLatLng) {
+                                                        map = new google.maps.Map(document.getElementById('map-canvas'), {
+                                                            center: myLatLng,
+                                                            zoom: 14
+                                                        });
                                         
-                                              function locationFound(position) {
-                                                // we will zoom/pan to this place, and set a marker
-                                                var location = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-                                                // var accuracy = position.coords.accuracy;
-                                             //  console.log(map.address);
-                                        //alert(location);
-                                                map.setCenter(location);
-                                                var marker = new google.maps.Marker({
-                                                    position: location, 
-                                                    map: map, 
-                                                    draggable: true,
-                                                    title: "You are here! Drag the marker to the exact location."
-                                                });
-                                        geocoder.geocode({'latLng': location }, function(results, status) {
-                                                            if (status == google.maps.GeocoderStatus.OK) {
+                                                        marker = new google.maps.Marker({
+                                                            position: myLatLng,
+                                                            map: map,
+                                                            draggable: true,
+                                                        });
+                                                         var lat = marker.getPosition().lat();
+                                                        var lng = marker.getPosition().lng();
+                                                    }
+                                        
+                                                    google.maps.event.addListener(marker , 'dragend' , function () {
+                                                        console.log(marker)
+                                                        lat = marker.getPosition().lat();
+                                                        lng = marker.getPosition().lng();
+                                                        // document.getElementById('long').value = lng;
+                                                        // document.getElementById('lat').value = lat;
+                                                        geocodeLatLng(geocoder, map, infowindow);
+                                                    });
+                                        
+                                        
+                                                    function geocodeLatLng(geocoder, map, infowindow) {
+                                                        var latlng = {lat: parseFloat(lat), lng: parseFloat(lng)};
+                                                        geocoder.geocode({'location': latlng}, function(results, status) {
+                                                            if (status === 'OK') {
                                                                 if (results[0]) {
-                                                                 // console.log(results[0])
-                                                                    $('#city_name').val(results[0].formatted_address);
-                                                                    // $('#latitude').val(marker.getPosition().lat());
-                                                                    // $('#longitude').val(marker.getPosition().lng());
                                                                     infowindow.setContent(results[0].formatted_address);
+                                                                    console.log(results[0].formatted_address)
                                                                     infowindow.open(map, marker);
+                                                                    document.getElementById('city_name').value = results[0].formatted_address;
+                                        
+                                                                } else {
+                                                                    window.alert('No results found');
                                                                 }
+                                                            } else {
+                                                                window.alert('Geocoder failed due to: ' + status);
                                                             }
                                                         });
-                                             
-                                          //       var infowindow = new google.maps.InfoWindow({
-                                          //   content: 'Latitude: ' + location.lat() +
-                                          //   '<br>Longitude: ' + location.lng()
-                                          // });
-                                          // infowindow.open(map,marker);
+                                                    }
+                                                    
+                                                    var marker;
+                                                    function placeMarker(location) {
+                                                        if ( marker ) {
+                                                            marker.setPosition(location);
+                                                        } else {
+                                                            marker = new google.maps.Marker({
+                                                                position: location,
+                                                                map: map
+                                                            });
+                                                        }
                                         
-                                                // set the value an value of the <input>
-                                                updateInput(location.lat(), location.lng());
+                                                        lat = marker.getPosition().lat();
+                                                        lng = marker.getPosition().lng();
+                                                        document.getElementById('long').value = lng;
+                                                        document.getElementById('lat').value = lat;
                                         
-                                                // Add a "drag end" event handler
-                                                google.maps.event.addListener(marker, 'dragend', function() {
-                                                  //var l = document.getElementById('my_location').value;
-                                                  //alert(marker.getPosition());
-                                                  geocoder.geocode({'latLng': marker.getPosition()}, function(results, status) {
-                                                    //alert(google.maps.GeocoderStatus.OK);
-                                                            if (status == google.maps.GeocoderStatus.OK) {
-                                                                if (results[0]) {
-                                                                 // console.log(results[0]);
-                                                                     $('#city_name').val(results[0].formatted_address);
-                                                                    // $('#latitude').val(marker.getPosition().lat());
-                                                                    // $('#longitude').val(marker.getPosition().lng());
-                                                                    infowindow.setContent(results[0].formatted_address);
-                                                                    infowindow.open(map, marker);
-                                                                }
-                                                            }
-                                                        });
-                                                  updateInput(this.position.lat(), this.position.lng());
-                                                });
-                                        
-                                              }
-                                        
+                                                    }
+                                                    google.maps.event.addListener(map, 'click', function(event) {
+                                                        placeMarker(event.latLng);
+                                                    });
+            
+            
+                                              
                                               function locationNotFound() {
                                                 // location not found, you might want to do something here
                                               }
@@ -320,7 +338,7 @@ $cattrid = \DB::table('categories')
                                         }
                                         </style>
                                         <div id="map-canvas"></div>
-                                        <input id="my_location" readonly="readonly" type="hidden">
+                                                    <input id="my_location" readonly="readonly" type="hidden">
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -341,15 +359,15 @@ $cattrid = \DB::table('categories')
                                           })
                                         });
                                         
-                                        $(function() {
-                                                $('#element').on('click', function( e ) {
-                                                    Custombox.open({
-                                                        target: '#testmodal-1',
-                                                        effect: 'fadein'
-                                                    });
-                                                    e.preventDefault();
-                                                });
-                                            });
+                                        // $(function() {
+                                        //         $('#element').on('click', function( e ) {
+                                        //             Custombox.open({
+                                        //                 target: '#testmodal-1',
+                                        //                 effect: 'fadein'
+                                        //             });
+                                        //             e.preventDefault();
+                                        //         });
+                                        //     });
                                         </script>
                                         <!--model end-->
                                         
@@ -374,16 +392,72 @@ $cattrid = \DB::table('categories')
 										<!--		<span class="help-block">{{ t('Enter the tags separated by commas.') }}</span>-->
 										<!--	</div>-->
 										<!--</div>-->
+
 										
-										<div style="display: none;">
-										<!--
+
 										<div class="content-subheading">
 											<i class="icon-user fa"></i>
 											<strong>{{ t('Seller information') }}</strong>
 										</div>
-										-->
+										
+										<div class="form-group required ">
+							
+								<div style="clear:both"></div>
+								<div class="col-md-6" style="padding: 4px;margin-top: 5px;width: 3%;">
+								    <input id="EmailCheckbox" checked type="checkbox">
+								    <input id="from_email_checkbox" type="hidden" value="{{ old('from_email', auth()->user()->email) }}">
+								</div>
+                                
+								<div class="col-md-6" style="padding: 0px;" id="ShowEmailusingCheckbox">
+    								<div class="input-group">
+    									<span class="input-group-addon"><i class="icon-mail"></i>
+                                        <label>{{t('Show my Email on the Ad')}}</label></span>
+    									<input id="from_email" name="from_email" placeholder="i.e. you@gmail.com" class="form-control"
+                                         value="{{ old('from_email', auth()->user()->email) }}" type="hidden" readonly>
+                                       <label class="form-control" style="display:none">{{ old('from_email', auth()->user()->email) }}</label>
+    								</div>
+								</div>
+                                
+								<div style="clear:both"></div>
+						</div>
+                                                                        
+                                                           
+	                    <div class="form-group required ">
+						 
+							<div style="clear:both"></div>
+							<div class="col-md-6"  style="padding: 4px;margin-top: 4px;width: 3%;">
+						      <input id="PhoneCheckbox" checked type="checkbox">
+						      <input id="from_phone_checkbox" type="hidden" value="{{ old('from_phone', (auth()->check()) ? auth()->user()->phone : '') }}">
+							</div>
+                            
+							<div class="col-md-6" id="ShowPhoneusingCheckbox" style="padding: 0px;">
+	    						<div class="input-group">
+	    							<span class="input-group-addon">
+                                    <i class="icon-phone-1"></i><strong>{{t('Show my phone number on the Ad')}}</strong></span>
+	    							<input id="from_phone" name="from_phone" placeholder="{{t('Phone Number')}}" maxlength="60" class="form-control" 
+                                    value="{{ old('from_phone', (auth()->check()) ? auth()->user()->phone : '') }}" type="hidden" readonly>
+                                    <label class="form-control" style="display:none">{{ old('from_phone', (auth()->check()) ? auth()->user()->phone : '') }}</label>                                    
+	    						</div>
+							</div>
+                            
+							<div style="clear:both"></div>
+						</div>
+						
+						
+						
+										<!-- term -->
+										<div class="form-group required <?php echo (isset($errors) and $errors->has('term')) ? 'has-error' : ''; ?>">
+											<label class="col-md-3 control-label"></label>
+											<div class="col-md-8">
+												<label class="checkbox-inline" for="term-0" style="margin-left: -20px;">
+													{!! t('By continuing on this website, you accept our <a :attributes>Terms of Use</a>', ['attributes' => getUrlPageByType('terms')]) !!}
+												</label>
+											</div>
+										</div>
+						
 										
 										<!-- contact_name -->
+										<div style="display: none;">
 										@if (auth()->check())
 											<input id="contact_name" name="contact_name" type="hidden" value="{{ auth()->user()->username }}">
 										@else
@@ -450,51 +524,72 @@ $cattrid = \DB::table('categories')
 										<!--	</div>-->
 										<!--@endif-->
 
-										<!-- term -->
-										<div class="form-group required <?php echo (isset($errors) and $errors->has('term')) ? 'has-error' : ''; ?>">
-											<label class="col-md-3 control-label"></label>
-											<div class="col-md-8">
-												<label class="checkbox-inline" for="term-0" style="margin-left: -20px;">
-													{!! t('By continuing on this website, you accept our <a :attributes>Terms of Use</a>', ['attributes' => getUrlPageByType('terms')]) !!}
-												</label>
-											</div>
-										</div>
 										
 										
 										</div>
-
+                                        
+                        <?php  
+						 $net_free_posts=0;
+						 $free_plan=0;
+						  $free_points = \DB::table('payments')
+						  ->leftjoin('packages','payments.package_id','=','packages.id')
+                         ->where('user_id', '=', auth()->user()->id)
+						 ->where('packages.price', '=', 0)
+						 ->first();
+						 //echo "xxx".$free_points->no_points;
+						 if(!empty($free_points->no_points)){
+						  $free_plan=1;
+						  $count_free_posts = \DB::table('payments')
+						  ->where('user_id', '=', auth()->user()->id)
+						  ->where('package_id', '=', $free_points->package_id)
+						  ->count();
+						 //echo "zzzz".$count_free_posts;
+						 if(!empty($count_free_posts)){
+						 $net_free_posts=$free_points->no_points-$count_free_posts;
+						 }
+						 }
+						 
+				           //echo "zzzz".$net_free_posts;		 
+						 ?>
+                         
+                         
+                                       
+                                        
+								<div class="content-subheading" style="@if($categoryname->name=='Free') display:none @endif ">
+                                            <i class="icon-tag"></i>
+											<strong>{{ t('Payment') }} ( Add More Points )</strong>
+								</div>
 									
-								 <div class="row">
+								 <div class="row"  style="@if($categoryname->name=='Free') display:none @endif ">
                     				<div class="col-sm-12">
 									   <fieldset>
-									         @if (isset($packages) and isset($paymentMethods) and $packages->count() > 0 and $paymentMethods->count() > 0)
+									    @if (isset($packages) and isset($paymentMethods) and $packages->count() > 0 and $paymentMethods->count() > 0)
                                             <div class="well" style="padding-bottom: 0;">
-                                                <h3><i class="icon-certificate icon-color-1"></i> 
+                                                <h3><i  style="display:none;" class="icon-certificate icon-color-1"></i> 
                                                   <?php
                                 		            $chosseplangsting = t('Choose plan'); 
                                 		            ?>
-                        		              {{ $chosseplangsting }} </h3>
-
-   <div class="form-group <?php echo (isset($errors) and $errors->has('package_id')) ? 'has-error' : ''; ?>" style="margin-bottom: 0;">
-   		<table id="packagesTable" class="table table-hover checkboxtable" style="margin-bottom: 0;">
-												<?php
-																
-														$currentPaymentMethodId = 0;
-														$currentPaymentActive = 1;
-															
-                                                        $is_regular = '';
-														?>
-                                                        @foreach ($packages as $package)
+                        		                  {{ $chosseplangsting }}
+                                          (  <span style="font-size: 13px;font-weight: bold;">
+                                            <i class="icon-certificate icon-color-1" style="display:none; color: #5cb85c;"></i>
+                                           {{ t('Your Current Balance') }} 
+                                            <span style="color: #ff5555;">{{ auth()->user()->no_points }}</span> {{ t('Points') }}</span>)
+                                            </h3>
+               <div class="form-group <?php echo (isset($errors) and $errors->has('package_id')) ? 'has-error' : ''; ?>" style="margin-bottom: 0;">
+   		                                   
+                                          
+                                               <table id="packagesTable" class="table table-hover checkboxtable" 
+                                               style="margin-bottom: 0;">
+                                               <?php   $currentPaymentMethodId = 0; $currentPaymentActive = 1; $is_regular = ''; ?>
+                                                          @foreach ($packages as $package)
                                                             <?php
+															//always price must be 0 to not active payment here abdelhay 
+															$package->price = 0;
                                                             if($package->price == 0){
                                                                 $is_regular = '1';
                                                             }
-                                                            $currentPackageId = 0;
-                                                            $currentPackagePrice = 0;
-                                                            $packageStatus = '';
-                                                            $badge = '';
-															
-                                                            // Prevent Package's Downgrading
+                                                            $currentPackageId = 0;$currentPackagePrice = 0;$packageStatus = '';$badge = '';
+															// Prevent Package's Downgrading
                                                             if ($currentPackagePrice > $package->price) {
                                                                 $packageStatus = ' disabled';
                                                                 $badge = ' <span class="label label-danger">'. t('Not available') . '</span>';
@@ -510,17 +605,26 @@ $cattrid = \DB::table('categories')
 																}
                                                             }
                                                             ?>
-                                                            <tr>
+                                                            <tr <?php if($free_plan ==1 && $package->price == 0){ ?> style="display:none;" <?php }?>>   
+                                                            
                                                                 <td>
                                                                     <div class="radio">
                                                                         <label>
-                                                        				<input class="package-selection" type="radio" name="package_id"
+                                   @if($package->no_points <  auth()->user()->no_points || $package->no_points ==  auth()->user()->no_points)
+                                                                        <input class="package-selection" type="radio" name="package_id"
                                                                                    id="packageId-{{ $package->tid }}"
                                                                                    value="{{ $package->tid }}"
 																				   data-name="{{ $package->name }}"
 																				   data-currencysymbol="{{ $package->currency->symbol }}"
 																				   data-currencyinleft="{{ $package->currency->in_left }}"
                                                                                     {{ (old('package_id', $currentPackageId)==$package->tid) ? ' checked' : (($package->price==0) ? ' checked' : '') }} {{ $packageStatus }}>
+                                                                            @else
+                                                                            <a href="{{ lurl('account/recharge_points') }}" target="_blank">
+                                                                            <i class="icon-money"></i>{{ t('Recharge Points First') }}</a>
+                                                                            @endif     
+                                                                                
+                                                                                    
+                                                                                    
                                                                             <strong class="tooltipHere" title="" data-placement="right" data-toggle="tooltip" data-original-title="{!! $package->description !!}">{!! $package->name . $badge !!} </strong>
                                                                         </label>
                                                                     </div>
@@ -537,42 +641,7 @@ $cattrid = \DB::table('categories')
                                                                         { 	?>
                                                                         <br />
                                                                         <div style="clear:both"></div>
-                                                                        
-                                                                        
-                        <div class="form-group required ">
-								<label for="from_email" style="margin-bottom: 6px;" class="control-label">{{t('Show my Email to public')}}</label>
-								<div style="clear:both"></div>
-								<div class="col-md-6" style="padding: 0px;margin-top: 9px;width: 3%;">
-								    <input id="EmailCheckbox" checked type="checkbox">
-								    <input id="from_email_checkbox" type="hidden" value="{{ old('from_email', auth()->user()->email) }}">
-								</div>
-								<div class="col-md-6" style="padding: 0px;" id="ShowEmailusingCheckbox">
-    								<div class="input-group">
-    									<span class="input-group-addon"><i class="icon-mail"></i></span>
-    									<input id="from_email" name="from_email" placeholder="i.e. you@gmail.com" class="form-control" value="{{ old('from_email', auth()->user()->email) }}" type="text" readonly>
-    								</div>
-								</div>
-								<div style="clear:both"></div>
-						</div>
-                                                                        
-                                                           
-	                    <div class="form-group required ">
-							<label for="phone" style="margin-bottom: 6px;" class="control-label">{{t('Show my Phone to public')}}</label>
-							<div style="clear:both"></div>
-							<div class="col-md-6"  style="padding: 0px;margin-top: 9px;width: 3%;">
-						      <input id="PhoneCheckbox" checked type="checkbox">
-						    	<input id="from_phone_checkbox" type="hidden" value="{{ old('from_phone', (auth()->check()) ? auth()->user()->phone : '') }}">
-							</div>
-							<div class="col-md-6" id="ShowPhoneusingCheckbox" style="padding: 0px;">
-	    						<div class="input-group">
-	    							<span class="input-group-addon"><i class="icon-phone-1"></i></span>
-	    							<input id="from_phone" name="from_phone" placeholder="{{t('Phone Number')}}" maxlength="60" class="form-control" value="{{ old('from_phone', (auth()->check()) ? auth()->user()->phone : '') }}" type="text" readonly>
-	    						</div>
-							</div>
-							<div style="clear:both"></div>
-						</div>
-                                                           
-                                                                        
+                                                    
                                                                         
                                                 <div style="clear:both"></div>
                                                                     <?php    }
@@ -583,7 +652,8 @@ $cattrid = \DB::table('categories')
                                                                 <td style="width: 18%;">
                                                                     <p id="price-{{ $package->tid }}">
                                                                         
-                                                                          <span class="price-currency">$ <span class="price-int">{{ $package->price }}</span></span>
+                                 <span class="price-currency" style="display:none">$ <span class="price-int">{{ $package->price }}</span></span>
+                                 <span class="price-currency" >{{ t('Points') }} <span class="price-int">{{ $package->no_points }}</span></span>
                                                    
                                                                         
                                                                     </p>
@@ -666,7 +736,7 @@ $cattrid = \DB::table('categories')
 
                                                 <div class="row payment-plugin" id="paypalPaymentKnet" style="display: none;">
                                                     <div class="col-xs-12 col-md-8 box-center center">
-                                                        <img class="img-responsive box-center center" title="Payment with Paypal" style="margin-bottom: 20px;" src="http://dealnotdeal.com/images/knet.png">
+                                                        <img class="img-responsive box-center center" title="Payment with Paypal" style="margin-bottom: 20px;" src="http://tmmat.com/images/knet.png">
                                                     </div>
                                                 </div>   
                                             
@@ -678,8 +748,10 @@ $cattrid = \DB::table('categories')
 								<!-- Button  -->
                                         <div class="form-group">
                                             <div class="col-md-12 mt20" style="text-align: center;">
+                                              <?php if(empty($is_regular)){$is_regular="";}?>
                                                     <button id="submitPostForm" class="btn btn-success btn-lg submitPostForm btn-pay" @if($is_regular) style="display: none;" @endif> {{ t('Pay') }} </button>
                                                     <button id="submitPostForm" class="btn btn-primary btn-lg submitPostForm btn-finish" @if(!$is_regular) style="display: none;" @endif> {{ t('Next') }} </button>
+                                                    <a  href="{{ lurl('account/my-posts') }}" class="btn btn-primary btn-lg" > {{ t('Cancel') }} </a>
                                                     
                                                     
                                             </div>
@@ -769,7 +841,7 @@ $cattrid = \DB::table('categories')
                     //   new google.maps.places.Autocomplete(input);
                     var input = document.getElementById('city_name');
                     var options = {
-                    types: ['(cities)'],
+                    types: ['(regions)'],
                         componentRestrictions: {country: "{{config('country.icode')}}"}
                     };
                     var autocomplete = new google.maps.places.Autocomplete(input, options);
@@ -778,7 +850,7 @@ $cattrid = \DB::table('categories')
 	        
                 google.maps.event.addDomListener(window, 'load', initialize);
         </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD3HKnsvpSAYaoQQ-wIeqDBTjb69hJ-vMw&libraries=places&callback=initialize"
+    <script src="https://maps.googleapis.com/maps/api/js?key={{ config('services.GoogleMaps.key') }}&libraries=places&callback=initialize"
          async defer></script>
          
 
@@ -800,12 +872,12 @@ $cattrid = \DB::table('categories')
 	        {
 	            var email = $('#from_email_checkbox').val();
 	            $('#from_email').val(email);
-	            $('#ShowEmailusingCheckbox').show();
+	          //  $('#ShowEmailusingCheckbox').show();
 	        }
 	        else
 	        {
 	            $('#from_email').val('');
-	            $('#ShowEmailusingCheckbox').hide();
+	          //  $('#ShowEmailusingCheckbox').hide();
 	        }
 	    });
 	    
@@ -816,12 +888,12 @@ $cattrid = \DB::table('categories')
 	            var phone = $('#from_phone_checkbox').val();
 	            $('#from_phone').val(phone);
 	            
-	            $('#ShowPhoneusingCheckbox').show();
+	           // $('#ShowPhoneusingCheckbox').show();
 	        }
 	        else
 	        {
 	            $('#from_phone').val('');
-	            $('#ShowPhoneusingCheckbox').hide();
+	           // $('#ShowPhoneusingCheckbox').hide();
 	        }
 	        
 	    });
@@ -1048,12 +1120,6 @@ $cattrid = \DB::table('categories')
             packageIsEnabled = true;
         @endif
 		
-		//Auto load city
-		var input = document.getElementById('city_id');
-		var opts = {
-		  types: ['(cities)']
-		};
-		var autocomplete = new google.maps.places.Autocomplete(input,opts);
 		
 		// Begin of the code made by MonTech Team
 		var currgeocoder;
@@ -1133,26 +1199,79 @@ $cattrid = \DB::table('categories')
 	
 	
 	<script>
+	
+	
+	function getCustomFieldsByallcat(siteUrl, languageCode, catId, subCatId,level3,level4) {
+	
+	
+	//alert(level3);
+	//alert(level4);
+	/* Check undefined variables */
+	if (typeof languageCode === 'undefined' || typeof catId === 'undefined') {
+		return false;
+	}
+	
+	/* Don't make ajax request if any category has selected. */
+	if (catId == 0 || catId == '') {
+		return false;
+	}
+	
+	/* Make ajax call */
+	$.ajax({
+		method: 'POST',
+		url: siteUrl + '/ajax/category/custom-fields',
+		data: {
+			'_token': $('input[name=_token]').val(),
+			'languageCode': languageCode,
+			'catId': catId,
+			'subCatId': subCatId,
+			'level3': level3,
+			'level4': level4,
+			'errors': errors,
+			'oldInput': oldInput,
+			'postId': (typeof postId !== 'undefined') ? postId : ''
+		}
+	}).done(function(obj) {
+		/* Load Custom Fields */
+		//alert(obj.customFields);
+		$('#customFields').html(obj.customFields);
+		$(".datepickerdate").datepicker();
+		/* Apply Fields Components */
+		
+// 		getRelocating((typeof postId !== 'undefined') ? postId : '',siteUrl);
+		
+		initSelect2($('#customFields'), languageCode);
+	});
+	
+	return catId;
+}
 	    
 	    	$(document).ready(function() {
 		var category = $('#pidd').val();
 	
 	    var	subCategory = $('#subbb').val();
+		
+		var cat3 = $('#cat3').val();
+		var cat4 = $('#cat4').val();
 
-		getCustomFieldsByCategory(siteUrl, languageCode, category, subCategory);
+		//getCustomFieldsByCategory(siteUrl, languageCode, category, subCategory,level3=0,,level4=0);
+		getCustomFieldsByallcat(siteUrl, languageCode, category, subCategory,cat3,cat4);
 	});
 	
 		$(document).ready(function() {
 		
 		
 		var category = $('#pidd').val();
+		var cat3 = $('#cat3').val();
+		var cat4 = $('#cat4').val();
 		//alert(category);
 	    var	subCategory = $('#subbb').val();
 	   // alert(subCategory);
 		
 		/* Get the category and subcategory's custom fields (merged) */
 		if (category != 0 && subCategory != 0) {
-			getCustomFieldsByCategory(siteUrl, languageCode, category, subCategory);
+			//getCustomFieldsByCategory(siteUrl, languageCode, category, subCategory);
+			getCustomFieldsByallcat(siteUrl, languageCode, category, subCategory,cat3,cat4);
 		}
 		
 	});

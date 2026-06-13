@@ -14,6 +14,7 @@
  */
 
 namespace App\Http\Controllers\Account;
+use Illuminate\Http\Request;
 
 use App\Models\User;
 
@@ -57,4 +58,17 @@ class CloseController extends AccountBaseController
         
         return redirect(config('app.locale') . '/');
     }
+
+
+    /**
+	 * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+	 */
+    public function submit_app()
+    {
+
+       
+       
+    }
+
+
 }

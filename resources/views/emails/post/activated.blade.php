@@ -1,5 +1,5 @@
 @extends('emails.layouts.master')
-@section('title', trans('mail.post_activated_title', ['title' => str_limit($post->title, 50)]))
+@section('title', trans('mail.post_activated_title', ['title' => \Illuminate\Support\Str::limit($post->title, 50)]))
 
 @section('content')
 <table class="body-wrap" bgcolor="#f6f6f6" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6em; width: 100%; margin: 0; padding: 20px;">

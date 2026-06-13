@@ -70,16 +70,16 @@ trait Fields
     {
         switch (strtolower($form)) {
             case 'create':
-                array_forget($this->create_fields, $name);
+                \Illuminate\Support\Arr::forget($this->create_fields, $name);
                 break;
 
             case 'update':
-                array_forget($this->update_fields, $name);
+                \Illuminate\Support\Arr::forget($this->update_fields, $name);
                 break;
 
             default:
-                array_forget($this->create_fields, $name);
-                array_forget($this->update_fields, $name);
+                \Illuminate\Support\Arr::forget($this->create_fields, $name);
+                \Illuminate\Support\Arr::forget($this->update_fields, $name);
                 break;
         }
     }

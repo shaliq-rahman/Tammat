@@ -25,7 +25,7 @@ use App\Models\User;
 use App\Models\Newsletter;
 use App\Models\Country;
 use App\Models\Category;
-use Illuminate\Support\Facades\Input;
+
 use App\Http\Requests\Admin\UserRequest as StoreRequest;
 use App\Http\Requests\Admin\UserRequest as UpdateRequest;
 use App\Http\Requests;
@@ -362,6 +362,7 @@ class AdvertisingBannerController extends PanelController
                 [
                     'banner_type' => $request->banner_type, 
                     'country_code' => $request->country_code, 
+                    'link' => $request->link, 
                     'tracking_code_large' => $tracking_code_large, 
                     'created_date' => date('Y-m-d H:i:s'),
                     'updated_date' => date('Y-m-d H:i:s'),
@@ -484,6 +485,7 @@ class AdvertisingBannerController extends PanelController
                    ->update([
                         'banner_type' => $request->banner_type, 
                         'country_code' => $request->country_code, 
+                        'link' => $request->link, 
                         'tracking_code_large' => $tracking_code_large, 
                         'updated_date' => date('Y-m-d H:i:s'),
                    ]);

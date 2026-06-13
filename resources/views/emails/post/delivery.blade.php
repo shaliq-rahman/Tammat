@@ -39,7 +39,7 @@
 <br />
 <b>
 <p>
-   {{ t('The delivery service is provided by a third party where Deal Not Deal no control over, and assumes no responsibility or liability for, the practices of any third party.') }}
+   {{ t('The delivery service is provided by a third party where Tammat no control over, and assumes no responsibility or liability for, the practices of any third party.') }}
 </p>
 <p>
         {{ t('Please check the item post for to know who will be charged for the delivery cost.') }}

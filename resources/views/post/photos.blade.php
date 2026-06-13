@@ -14,7 +14,7 @@
 @extends('layouts.master')
 
 @section('wizard')
-    @include('post.inc.wizard')
+    @include('post.inc.wizard2')
 @endsection
 
 @section('content')
@@ -22,13 +22,17 @@
 	
 	<?php
 	    $checkpaymentpayaccount = \DB::table('payments')->where('post_id', '=', $post->id)->where('active', '=', 1)->count();
+	    
 	    if(!empty($checkpaymentpayaccount))
 	    {
-	        $picturecount = 12;
+	        $package = \DB::table('packages')->where('id',$checkpaymentpayaccount->package_id)->first();
+	        $picturecount = $package->no_photos;
 	    }
 	    else
 	    {
-	        $picturecount = 3;
+	        $package = \DB::table('packages')->where('price',0)->first();
+	        $picturecount = !is_null($package) ? $package->no_photos : 4;
+	        
 	    }
 	?>
 	
@@ -46,7 +50,7 @@
                             <div class="col-sm-12">
                                 
                                 <?php
-                                $picturesLimit = 12;
+                                    $picturesLimit = 12;
                                 ?>
                                 
                                 <form class="form-horizontal" id="postForm" method="POST" action="{{ url()->current() }}" enctype="multipart/form-data">
@@ -56,7 +60,6 @@
                                         @if (isset($picturesLimit) and is_numeric($picturesLimit) and $picturesLimit > 0)
                                             <!-- Pictures -->
                                             <div id="picturesBloc" class="form-group <?php echo (isset($errors) and $errors->has('pictures')) ? 'has-error' : ''; ?>">
-                                                <label class="col-md-3 control-label" for="pictures"> {{ t('Pictures') }} </label>
                                                 <div class="col-md-8"> </div>
                                                 <div class="col-md-12" style="position: relative; float: {!! (config('lang.direction')=='rtl') ? 'left' : 'right' !!}; padding-top: 10px; text-align: center;">
                                                     <div {!! (config('lang.direction')=='rtl') ? 'dir="rtl"' : '' !!} class="file-loading mb10">
@@ -78,14 +81,6 @@
                                         <div class="form-group">
                                             <div class="col-md-12 mt20" style="text-align: center;">
                                                 <a href="{{ lurl('account/my-posts/'.$post->id.'/deletepost') }}" class="btn btn-danger btn-lg"> {{ t('Cancel') }} </a>
-                                                
-                                                <!--@if (getSegment(2) != 'create')-->
-                                                <!--    <a href="{{ lurl('posts/' . $post->id . '/edit') }}" class="btn btn-default btn-lg">{{ t('Previous') }}</a>-->
-                                                <!--@endif-->
-                                                
-                                                <a href="{{ lurl('posts/' . $post->id . '/edit') }}" class="btn btn-default btn-lg">{{ t('Previous') }}</a>
-                                                <!--<a id="nextStepAction" href="{{ url($nextStepUrl) }}" class="btn btn-default btn-lg">{{ t('Skip') }}</a>-->
-                                                
                                                 <a id="nextStepAction" href="{{ url($nextStepUrl) }}" class="btn btn-success btn-lg btn-finish">{{ t('Finish') }}</a>
                                                 
                                                 
@@ -158,9 +153,9 @@
                 browseOnZoneClick: true,
                 minFileCount: 0,
                 @if(!empty($checkpaymentpayaccount))
-                maxFileCount: 12, 
+                maxFileCount: "{{$picturecount}}", 
                 @else
-                maxFileCount: 4,
+                maxFileCount: "{{$picturecount}}",
                 @endif
                 validateInitialCount: true,
                 uploadClass: 'btn btn-success',
@@ -210,11 +205,7 @@
 		/* Auto-upload added file */
 		$('#pictureField').on('filebatchselected', function(event, data, id, index) {
 			if (typeof data === 'object') {
-				{{--
-					Display the exact error (If it exists (Before making AJAX call))
-					NOTE: The index '0' is available when the first file size is smaller than the maximum size allowed.
-					      This index does not exist in the opposite case.
-				--}}
+				 
 				if (data.hasOwnProperty('0')) {
 					$(this).fileinput('upload');
 					return true;

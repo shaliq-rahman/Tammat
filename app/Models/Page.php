@@ -118,7 +118,7 @@ class Page extends BaseModel
      *
      * @return array
      */
-    public function sluggable()
+    public function sluggable(): array
     {
         return [
             'slug' => [
@@ -253,8 +253,8 @@ class Page extends BaseModel
 				$this->attributes[$attribute_name] = $destination_path . '/' . $filename;
 			} else {
 				// Retrieve current value without upload a new file.
-				if (!starts_with($value, $destination_path)) {
-					$value = $destination_path . last(explode($destination_path, $value));
+				if (!str_starts_with($value, $destination_path)) {
+					$value = $destination_path . array_slice(explode($destination_path, $value), -1)[0];
 				}
 				$this->attributes[$attribute_name] = $value;
 			}
