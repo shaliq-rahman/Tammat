@@ -1,36 +1,35 @@
-FROM dunglas/frankenphp:php8.4-bookworm
+FROM php:8.4-cli-bookworm
 
-# Install system dependencies and PHP extensions
-RUN apt-get update && apt-get install -y \
-    git curl unzip zip libpng-dev libxml2-dev libzip-dev libonig-dev libgd-dev \
-    && docker-php-ext-install \
-        pdo pdo_mysql mbstring xml curl zip gd bcmath intl tokenizer fileinfo opcache \
-    && apt-get clean && rm -rf /var/lib/apt/lists/*
+# Install install-php-extensions helper
+ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
+RUN chmod +x /usr/local/bin/install-php-extensions
+
+# Install PHP extensions
+RUN install-php-extensions \
+    pdo pdo_mysql mbstring xml curl zip gd bcmath intl tokenizer fileinfo opcache
+
+# Install system tools
+RUN apt-get update && apt-get install -y git unzip && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Set working directory
 WORKDIR /app
 
-# Copy composer files first for caching
+# Copy composer files first for layer caching
 COPY composer.json composer.lock ./
 
 # Install PHP dependencies
 RUN composer install --no-dev --optimize-autoloader --no-scripts --no-interaction
 
-# Copy the rest of the application
+# Copy application
 COPY . .
 
-# Run post-install scripts
 RUN composer dump-autoload --optimize
 
 # Set permissions
 RUN mkdir -p storage/logs storage/framework/cache storage/framework/sessions storage/framework/views bootstrap/cache \
     && chmod -R 775 storage bootstrap/cache
-
-# Cache Laravel config for production
-RUN php artisan storage:link || true
 
 EXPOSE 8000
 
