@@ -54,7 +54,6 @@
 			"app/Helpers/Functions/wordpress.php"
 		],
 		"classmap": [
-			"database/seeds",
 			"database/factories",
 			"packages/mcamara/laravel-localization/src/Traits"
 		],
