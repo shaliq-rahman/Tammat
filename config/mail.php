@@ -32,7 +32,7 @@ return [
 
     
 
-    'driver' => 'smtp',
+    'driver' => env('MAIL_DRIVER', 'smtp'),
 
     
 

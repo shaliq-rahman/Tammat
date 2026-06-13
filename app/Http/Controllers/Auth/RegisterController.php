@@ -227,7 +227,10 @@ class RegisterController extends FrontController
         ]);
     
 
-        Mail::send(new WelcomeEmail('abdelhy.reda1@gmail.com', $request->first_name));
+        // Skip mail in local environment (no SMTP available)
+        if (!app()->environment('local')) {
+            try { Mail::send(new WelcomeEmail('abdelhy.reda1@gmail.com', $request->first_name)); } catch (\Exception $e) { logger()->error('WelcomeEmail failed: ' . $e->getMessage()); }
+        }
 
 
         
@@ -238,7 +241,7 @@ class RegisterController extends FrontController
     
         // Conditions to Verify User's Email or Phone
         $emailVerificationRequired = config('settings.mail.email_verification') == 1 && $request->filled('email');
-        $phoneVerificationRequired = $request->filled('phone_number');
+        $phoneVerificationRequired = !app()->environment('local') && $request->filled('phone_number');
     
         // Create New User
         $user = new User();
@@ -246,7 +249,7 @@ class RegisterController extends FrontController
     
         // Additional User Fields
         $user->user_type_id = $request->input('user_type_id');
-        $user->country_code = config('country.code');
+        $user->country_code = config('country.code') ?? config('settings.geo_location.default_country_code') ?? 'KW';
         $user->password = Hash::make($request->input('password'));
         $user->phone = $request->input('phone_number');
         $user->first_name = $request->input('first_name');
@@ -282,14 +285,13 @@ class RegisterController extends FrontController
         }
     
         // Notify Admins of new registration (optional)
-        if (config('settings.mail.admin_email_notification') == 1) {
+        if (!app()->environment('local') && config('settings.mail.admin_email_notification') == 1) {
             try {
                 $admins = User::where('is_admin', 1)->get();
                 foreach ($admins as $admin) {
                     Mail::send(new UserNotification($user, $admin));
                 }
             } catch (\Exception $e) {
-                // Log error for debugging
                 logger()->error("Admin notification failed: " . $e->getMessage());
             }
         }
@@ -361,7 +363,7 @@ class RegisterController extends FrontController
        
         $emailVerificationRequired=0;
 
-            $phoneVerificationRequired = $request->filled('phone_number');
+            $phoneVerificationRequired = !app()->environment('local') && $request->filled('phone_number');
 
 
 
@@ -397,7 +399,7 @@ class RegisterController extends FrontController
 
             
 
-            $user->country_code   = config('country.code');
+            $user->country_code   = config('country.code') ?? config('settings.geo_location.default_country_code') ?? 'KW';
 
             $user->password       = Hash::make($request->input('password'));
 
@@ -477,6 +479,10 @@ class RegisterController extends FrontController
 
                 $user->verified_phone = 0;
 
+        } else {
+
+            $user->verified_phone = 1;
+
         }
 
     //        echo "<pre>";
@@ -501,11 +507,9 @@ class RegisterController extends FrontController
 
             // Send Admin Notification Email
 
-            if (config('settings.mail.admin_email_notification') == 1) {
+            if (!app()->environment('local') && config('settings.mail.admin_email_notification') == 1) {
 
                 try {
-
-                    // Get all admin users
 
                     $admins = User::where('is_admin', 1)->get();
 
@@ -519,9 +523,9 @@ class RegisterController extends FrontController
 
                     }
 
-                } catch (\Exception $e) {
+                } catch (\Throwable $e) {
 
-                    flash($e->getMessage())->error();
+                    logger()->error("Admin notification failed: " . $e->getMessage());
 
                 }
 
@@ -732,7 +736,7 @@ class RegisterController extends FrontController
 
             }
 
-        if(!$user->country_code) {$user->country_code = config('country.code');}
+        if(!$user->country_code) {$user->country_code = config('country.code') ?? config('settings.geo_location.default_country_code') ?? 'KW';}
 
         $user->save();
 

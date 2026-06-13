@@ -282,6 +282,7 @@ class EditController extends AccountBaseController
 
 
          $image = $request->file('profile_image');
+         if (is_array($image)) { $image = reset($image); }
 
 		 
 
@@ -375,17 +376,14 @@ class EditController extends AccountBaseController
 
         $fromname = 'Tammat';
 
-          \Mail::send('emails.user.updatesetting', $data, function($message) use ($from_email, $fromname,$toemail)
-
-          {
-
-              $message->to($toemail);
-
-              $message->subject('Profile Change Notification');
-
-              $message->from($from_email, $fromname);
-
-          });    	
+          if (!app()->environment('local')) {
+              \Mail::send('emails.user.updatesetting', $data, function($message) use ($from_email, $fromname,$toemail)
+              {
+                  $message->to($toemail);
+                  $message->subject('Profile Change Notification');
+                  $message->from($from_email, $fromname);
+              });
+          }
 
 		
 
@@ -514,17 +512,14 @@ class EditController extends AccountBaseController
 
         $fromname = 'Tammat'; 
 
-        \Mail::send('emails.user.updatesetting', $data, function($message) use ($from_email, $fromname,$toemail)
-
-        {
-
-            $message->to($toemail);
-
-            $message->subject('Profile Change Notification');
-
-            $message->from($from_email, $fromname);
-
-        });    
+        if (!app()->environment('local')) {
+            \Mail::send('emails.user.updatesetting', $data, function($message) use ($from_email, $fromname,$toemail)
+            {
+                $message->to($toemail);
+                $message->subject('Profile Change Notification');
+                $message->from($from_email, $fromname);
+            });
+        }
 
         
 

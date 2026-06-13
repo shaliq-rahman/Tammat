@@ -108,6 +108,14 @@ class AppServiceProvider extends ServiceProvider
 		if (config('larapen.core.forceHttps') == true) {
 			URL::forceScheme('https');
 		}
+
+		// In local env, force log mail driver so no SMTP connections are attempted
+		if ($this->app->environment('local')) {
+			config(['mail.driver' => 'log']);
+			$this->app->forgetInstance('mailer');
+			$this->app->forgetInstance('swift.mailer');
+			$this->app->forgetInstance('swift.transport');
+		}
 	}
 	
 	/**

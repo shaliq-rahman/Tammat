@@ -69,6 +69,11 @@ class BaseController extends FrontController
         $this->request = $request;
     }
 
+    public function callAction($method, $parameters)
+    {
+        return call_user_func_array([$this, $method], array_values($parameters));
+    }
+
     /**
      * Common Queries
      */

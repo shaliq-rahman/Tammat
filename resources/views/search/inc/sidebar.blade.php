@@ -1425,7 +1425,7 @@ $superid_ext=$supersubcat_4[$z]->translation_of;
 
 
 
-                    		    <?php $sai[]= "$total,"; ?>
+                    		    <?php $sai[]= (float)$total; ?>
 
 
 
